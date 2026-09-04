@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical Documentation — Hospital Appointment Scheduler &amp; Confirmation Bot</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --surface:#fff; --surface2:#f8fafc; --border:#e2e8f0; --border-strong:#cbd5e1;
+    --text:#1e293b; --muted:#64748b; --brand:#2563eb; --brand-dark:#1d4ed8;
+    --green:#16a34a; --red:#dc2626; --purple:#7c3aed;
+    --code-bg:#0f172a; --code-text:#e2e8f0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+  /* Sidebar */
+  .sidebar{background:var(--surface);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+  .sidebar h2{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:0 20px;margin-bottom:12px}
+  .sidebar .brand{padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .sidebar .brand a{color:var(--text);text-decoration:none;font-weight:700;font-size:15px}
+  .sidebar .brand small{display:block;color:var(--muted);font-weight:400;font-size:11px;margin-top:2px}
+  .sidebar nav a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);text-decoration:none;border-left:3px solid transparent}
+  .sidebar nav a:hover{color:var(--text);background:var(--surface2)}
+  .sidebar nav a.sub{padding-left:36px;font-size:12.5px}
+  /* Main */
+  main{max-width:900px;padding:40px 48px 120px}
+  h1{font-size:30px;margin-bottom:8px}
+  .subtitle{color:var(--muted);font-size:15px;margin-bottom:28px}
+  h2{font-size:22px;margin:44px 0 14px;padding-top:14px;border-top:1px solid var(--border)}
+  h3{font-size:16px;margin:26px 0 10px;color:var(--brand-dark)}
+  p{margin-bottom:12px}
+  ul,ol{margin:0 0 14px 22px}
+  li{margin-bottom:5px}
+  code{background:#eef2f7;border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-family:Consolas,'Courier New',monospace;font-size:13px;color:#0f172a}
+  pre{background:var(--code-bg);color:var(--code-text);border-radius:8px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+  pre code{background:none;border:none;color:inherit;padding:0;font-size:13px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0}
+  th{background:var(--surface2);text-align:left;padding:9px 12px;border-bottom:2px solid var(--border-strong);font-weight:600}
+  td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:hover td{background:var(--surface2)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.3px}
+  .b-green{background:rgba(22,163,74,.12);color:var(--green)}
+  .b-red{background:rgba(220,38,38,.12);color:var(--red)}
+  .b-purple{background:rgba(124,58,237,.12);color:var(--purple)}
+  .b-gray{background:rgba(100,116,139,.12);color:var(--muted)}
+  .b-blue{background:rgba(37,99,235,.1);color:var(--brand)}
+  .callout{border:1px solid var(--border);border-left:4px solid var(--brand);background:var(--surface);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:14px}
+  .callout.warn{border-left-color:var(--red)}
+  .callout.ok{border-left-color:var(--green)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px}
+  .card h4{font-size:14px;margin-bottom:8px;color:var(--brand-dark)}
+  .card p{font-size:13px;color:var(--muted);margin:0}
+  .flow{font-family:Consolas,monospace;font-size:12.5px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;overflow-x:auto;white-space:pre;line-height:1.75;margin:14px 0;color:var(--text)}
+  .top-link{position:fixed;right:24px;bottom:24px;background:var(--brand);color:#fff;text-decoration:none;border-radius:999px;padding:10px 18px;font-size:13px;font-weight:600;box-shadow:0 4px 12px rgba(37,99,235,.3)}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}.main{padding:24px 20px}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <a href="#">Hospital Appointment Scheduler<br>&amp; Confirmation Bot</a>
+      <small>Technical Documentation · v1.0</small>
+    </div>
+    <nav>
+      <a href="#overview">1. Overview</a>
+      <a href="#what">What It Is</a>
+      <a href="#features">Key Features</a>
+      <a href="#stack">Tech Stack</a>
+      <a href="#how">2. How It Works</a>
+      <a href="#pipeline">Processing Pipeline</a>
+      <a class="sub" href="#step-extract">Step 1 — LLM Extraction</a>
+      <a class="sub" href="#step-intent">Step 2 — Intent Routing</a>
+      <a class="sub" href="#step-calendar">Step 3 — Calendar Check</a>
+      <a class="sub" href="#step-sms">Step 4 — SMS Confirmation</a>
+      <a href="#chat-engine">Conversational Chat Engine</a>
+      <a href="#ui">Web Console</a>
+      <a href="#technical">3. Technical Implementation</a>
+      <a class="sub" href="#arch">Architecture</a>
+      <a class="sub" href="#schemas">Pydantic Schemas</a>
+      <a class="sub" href="#lcel">LCEL Chain Design</a>
+      <a class="sub" href="#services">Services Layer</a>
+      <a class="sub" href="#database">SQLite Persistence</a>
+      <a class="sub" href="#proxy">Ollama Cloud Proxy</a>
+      <a class="sub" href="#config">Configuration</a>
+      <a href="#api">4. API Reference</a>
+      <a href="#testing">5. Testing</a>
+      <a href="#setup">6. Setup &amp; Run</a>
+      <a href="#security">7. Security Notes</a>
+    </nav>
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <main>
+
+  <h1>Technical Documentation</h1>
+  <p class="subtitle">Hospital Appointment Scheduler &amp; Confirmation Bot — LangChain LCEL · FastAPI · Ollama Cloud · Twilio SMS</p>
+
+  <!-- ─────────── 1. OVERVIEW ─────────── -->
+  <h2 id="overview">1. Overview</h2>
+
+  <h3 id="what">What It Is</h3>
+  <p>
+    A <strong>production-style scheduling service</strong> for a hospital (or any appointment-based business)
+    that converts <em>free-form natural language</em> — an email, an SMS, or a web-chat message — into a
+    <strong>structured, confirmed appointment</strong>. A patient can write
+    <em>"I need to see a dermatologist next Monday around 2pm, my number is +1-555-123-4567"</em> and the system will:
+  </p>
+  <ol>
+    <li>Understand the request via an LLM and turn it into typed, validated data (Pydantic)</li>
+    <li>Check a business-rules calendar (weekdays, 09:00–17:00, no double-booking)</li>
+    <li>If the exact slot is taken, automatically find the next free slot within 7 days</li>
+    <li>Send the patient an SMS confirmation (real Twilio, or a deterministic mock in dev)</li>
+    <li>Return a machine-readable <code>ExecutionSummary</code> JSON and record everything in SQLite</li>
+  </ol>
+  <p>
+    It ships with a <strong>single-file enterprise web console</strong> (chat + calendar + bookings + SMS audit trail)
+    served directly by FastAPI — no Node, no build step.
+  </p>
+
+  <h3 id="features">Key Features</h3>
+  <table>
+    <tr><th>Feature</th><th>Detail</th></tr>
+    <tr><td>🧠 LLM extraction</td><td>LangChain LCEL pipeline → Pydantic v2 schemas. Deterministic (<code>temperature=0.1</code>), ISO-8601 dates, null for unknowns</td></tr>
+    <tr><td>💬 Multi-turn chat</td><td>Session-aware conversational engine that collects required fields step-by-step before booking</td></tr>
+    <tr><td>📅 Smart calendar</td><td>Weekend + business-hours rules, pre-existing seed bookings, dynamic bookings from SQLite, next-available search (up to 168 h ahead)</td></tr>
+    <tr><td>📱 Real SMS</td><td>Twilio SDK with graceful fallback: trial-account template → custom body → mock; every send is persisted with mode</td></tr>
+    <tr><td>🖥️ Admin console</td><td>Week-view calendar grid, booking table with masked-phone reveal, full SMS audit trail, live health pill</td></tr>
+    <tr><td>🔒 Safe by default</td><td><code>.env</code> secrets never leave the machine; git history contains zero credentials</td></tr>
+  </table>
+
+  <h3 id="stack">Tech Stack</h3>
+  <table>
+    <tr><th>Layer</th><th>Technology</th><th>Why</th></tr>
+    <tr><td>LLM orchestration</td><td>LangChain (LCEL) — <code>prompt | llm | parser</code></td><td>Composable, testable pipelines</td></tr>
+    <tr><td>LLM provider</td><td>Ollama Cloud <code>gpt-oss:120b</code> via local OpenAI-format proxy</td><td>Frontier-class open model, OpenAI-compatible API</td></tr>
+    <tr><td>API framework</td><td>FastAPI + Uvicorn</td><td>Async, typed endpoints, auto OpenAPI docs</td></tr>
+    <tr><td>Validation</td><td>Pydantic v2 + pydantic-settings</td><td>Typed extraction output, env-based config</td></tr>
+    <tr><td>Persistence</td><td>SQLite (WAL mode)</td><td>Zero-ops local storage of bookings &amp; SMS</td></tr>
+    <tr><td>SMS</td><td>Twilio SDK 9.x (mock by default)</td><td>Production SMS with dev-safe fallback</td></tr>
+    <tr><td>Testing</td><td>pytest + pytest-asyncio (LLM mocked)</td><td>Coin-flip-free, fast CI</td></tr>
+  </table>
+
+  <!-- ─────────── 2. HOW IT WORKS ─────────── -->
+  <h2 id="how">2. How It Works</h2>
+
+  <h3 id="pipeline">Processing Pipeline</h3>
+  <p>One request flows through five deterministic stages. Every stage is independently logged and testable:</p>
+  <div class="flow">POST /api/appointment { raw_text, channel }
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────┐
+│ STEP 1 — LLM EXTRACTION            chain.py::_build_chain()   │
+│   ChatPromptTemplate(system+human)                            │
+│        │                                                      │
+│        ▼                                                      │
+│   ChatOpenAI (gpt-oss:120b via Ollama proxy, temp=0.1)        │
+│        │                                                      │
+│        ▼                                                      │
+│   PydanticOutputParser ──► ExtractedAppointment               │
+│     { intent, patient_name, department, preferred_datetime,   │
+│       contact_phone, contact_email, notes }                   │
+└───────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────┐
+│ STEP 2 — INTENT ROUTING                                       │
+│   cancel   ──► status=cancelled, no booking, no SMS           │
+│   inquiry  ──► status=confirmed (informational only)          │
+│   schedule/reschedule ──► continue to Step 3                  │
+└───────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────┐
+│ STEP 3 — CALENDAR CHECK          services.py::CalendarService │
+│   Rules: weekday only · 09:00–17:00 · not in DB               │
+│   available?            ──► scheduled_dt = requested slot     │
+│   unavailable?          ──► find_next_available()             │
+│        (probes hourly, up to 168 h)                           │
+│   nothing free in 7 days ──► status=no_availability           │
+└───────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────┐
+│ STEP 4 — SMS + BOOK                services.py::SMSService    │
+│   Compose confirmation body ──► send_confirmation()           │
+│   mock ──► MOCK_SID_xxxx        (mode='mock')                 │
+│   twilio ──► real SID  (mode='twilio', trial-template aware)  │
+│   no phone ──► SKIPPED_NO_PHONE (mode='skip')                 │
+│   error  ──► ERROR_...          (mode='error', auto-cleaned)  │
+│   Then calendar_service.book_slot() persists the booking      │
+└───────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────┐
+│ STEP 5 — EXECUTION SUMMARY                                    │
+│   { status, extracted, scheduled_datetime,                    │
+│     confirmation_message_sid, message }                       │
+└───────────────────────────────────────────────────────────────┘</div>
+
+  <h3 id="step-extract">Step 1 — LLM Extraction</h3>
+  <p>
+    The system prompt instructs the model to be <em>conservative</em>: only extract what is explicitly stated,
+    resolve relative dates ("next Monday") against the current date, default missing times to 09:00, and emit
+    <code>null</code> for anything unknown. Output is constrained by <code>PydanticOutputParser</code> format
+    instructions injected into the prompt — so malformed LLM output fails loudly at the parser boundary rather
+    than corrupting downstream logic.
+  </p>
+
+  <h3 id="step-intent">Step 2 — Intent Routing</h3>
+  <table>
+    <tr><th>Intent</th><th>Behavior</th><th>Status returned</th></tr>
+    <tr><td><code>schedule</code> / <code>reschedule</code></td><td>Full pipeline (calendar → SMS → booking)</td><td><span class="badge b-green">confirmed</span></td></tr>
+    <tr><td><code>cancel</code></td><td>Acknowledged, no slot touched</td><td><span class="badge b-gray">cancelled</span></td></tr>
+    <tr><td><code>inquiry</code></td><td>Answered from extracted fields only</td><td><span class="badge b-blue">confirmed</span> (informational)</td></tr>
+    <tr><td>Extraction failure</td><td>Short-circuits; nothing is booked or sent</td><td><span class="badge b-red">error</span></td></tr>
+  </table>
+
+  <h3 id="step-calendar">Step 3 — Calendar Check</h3>
+  <p>
+    <code>CalendarService</code> applies hard business rules first (fast, no I/O), then consults two sources of
+    "busy": an in-memory cache of pre-existing seed bookings loaded at startup, and the live
+    <code>bookings</code> table (for bookings made since startup). When the requested slot is taken,
+    <code>find_next_available()</code> probes hour-by-hour (rounded up) for up to 168 iterations — exactly 7 days —
+    returning <code>None</code> if the whole window is full.
+  </p>
+
+  <h3 id="step-sms">Step 4 — SMS Confirmation</h3>
+  <p>
+    <code>SMSService</code> has a strict mode hierarchy so development never requires Twilio:
+  </p>
+  <ul>
+    <li><strong>skip</strong> — no phone in the request → SID <code>SKIPPED_NO_PHONE</code></li>
+    <li><strong>mock</strong> — <code>TWILIO_ACCOUNT_SID == "mock"</code> (default) → deterministic fake SID, no network</li>
+    <li><strong>twilio</strong> — real creds → tries the trial-compliant template body <code>"sms_appointment_reminders"</code> first (Twilio trial accounts restrict message bodies to predefined template names); on failure falls back to the custom composed body (paid accounts)</li>
+    <li><strong>error</strong> — any Twilio exception → recorded with <code>mode='error'</code>; a startup cleanup job deletes leftover error rows</li>
+  </ul>
+  <div class="callout warn">
+    <strong>Trial-account reality check:</strong> Twilio trial accounts can only send to <em>verified</em> destination
+    numbers. A booking to an unverified number will produce a <code>mode='error'</code> SMS record (HTTP 422 from
+    Twilio) — this is expected behavior, not a bug, and the row is auto-purged on next startup.
+  </div>
+
+  <h3 id="chat-engine">Conversational Chat Engine</h3>
+  <p>
+    The <code>/api/chat</code> endpoint runs a <strong>second, session-aware LLM loop</strong> on top of the same
+    building blocks. Each session (keyed by <code>session_id</code>) keeps a <code>ConversationState</code>:
+  </p>
+  <ul>
+    <li>An incremental <strong>field-extraction prompt</strong> merges the user's latest message with everything already collected — so "next" or "make it 3pm instead" resolve correctly</li>
+    <li>Symptom → department inference is built into the extraction prompt (e.g., <em>chest pain → cardiology</em>, <em>rash → dermatology</em>)</li>
+    <li>Booking fires only when the required set is complete: <code>patient_name + department + datetime + phone</code></li>
+    <li>Reschedule flow reuses the stored phone/department — it only needs the patient's name to look up the booking</li>
+    <li>On unavailability, the engine proposes up to 3 alternative slots from <code>find_next_available()</code></li>
+  </ul>
+
+  <h3 id="ui">Web Console</h3>
+  <p>
+    <code>app/static/index.html</code> is a dependency-free single file served at <code>/</code>. Design system:
+  </p>
+  <ul>
+    <li>Light theme tokens (gray surfaces + one brand blue), <strong>collapsible sidebar shell</strong> + top app bar with live health pill</li>
+    <li><strong>Inline SVG sprite</strong> (16 Lucide-style icons via <code>&lt;use href="#i-…"&gt;</code>) — zero emoji, zero icon libraries</li>
+    <li>Views: <em>Chat</em> (bubbles, booking detail cards, typing indicator, quick-action chips), <em>Calendar</em> (7×8 grid with 3px status rails), <em>Bookings</em> &amp; <em>SMS History</em> (sticky-header tables, pill badges, masked phones with click-to-reveal)</li>
+    <li>Accessibility: <code>:focus-visible</code> rings, <code>prefers-reduced-motion</code> support; responsive at 1024 / 900 / 640 px (off-canvas sidebar)</li>
+  </ul>
+
+  <!-- ─────────── 3. TECHNICAL IMPLEMENTATION ─────────── -->
+  <h2 id="technical">3. Technical Implementation</h2>
+
+  <h3 id="arch">Architecture</h3>
+  <div class="flow">┌────────────────────────────── FastAPI app (main.py) ──────────────────────────────┐
+│  GET  /                      → serves static/index.html (web console)             │
+│  POST /api/appointment       → one-shot scheduling (LCEL pipeline)                │
+│  POST /api/chat              → conversational engine (session-aware)              │
+│  POST /api/chat/reset        → clears a chat session                              │
+│  GET  /api/calendar/week     → 7-day × 8-slot availability grid                   │
+│  GET  /api/calendar/bookings → all bookings                                       │
+│  GET  /api/sms/history       → SMS audit trail                                    │
+│  GET  /api/health            → liveness + model + sms-mode                        │
+└──────────┬─────────────────────────────┬──────────────────────────────┬───────────┘
+           ▼                             ▼                              ▼
+   chain.py (LCEL)               services.py                    database.py (SQLite)
+   ├─ _build_chain()             ├─ CalendarService             ├─ bookings table
+   ├─ process_appointment_       │   ├─ check_availability()    ├─ sms_records table
+   │        request()            │   ├─ find_next_available()   ├─ WAL journal mode
+   ├─ ChatSession store          │   ├─ book_slot()             ├─ seed on first run
+   └─ chat engine                └─ SMSService                  └─ error-row cleanup
+              │                        ├─ send_confirmation()
+              │                        └─ get_history()
+              ▼                        ▼
+     ChatOpenAI ──► http://127.0.0.1:11435/v1 ──► ollama_cloud_proxy.py
+     (OpenAI format)        (translated)             └──► https://ollama.com/api/chat
+        config.py: Settings(.env) · pydantic-settings · singleton</div>
+
+  <h3 id="schemas">Pydantic Schemas (<code>app/schemas.py</code>)</h3>
+  <table>
+    <tr><th>Model</th><th>Purpose</th><th>Key fields</th></tr>
+    <tr><td><code>AppointmentRequest</code></td><td>Inbound request</td><td><code>raw_text</code> (min 1 char), <code>channel</code> (default <code>web</code>)</td></tr>
+    <tr><td><code>ExtractedAppointment</code></td><td>LLM output contract</td><td><code>intent</code>, <code>patient_name</code>, <code>department</code>, <code>preferred_datetime</code> (ISO), <code>contact_phone</code>, <code>contact_email</code>, <code>notes</code> — all optional except intent</td></tr>
+    <tr><td><code>ExecutionSummary</code></td><td>Final API response</td><td><code>status</code>, <code>extracted</code>, <code>scheduled_datetime</code>, <code>confirmation_message_sid</code>, <code>message</code></td></tr>
+    <tr><td><code>ChatRequest</code> / <code>ChatResponse</code></td><td>Chat API envelope</td><td><code>message</code>, <code>session_id</code> / <code>reply</code>, booking data</td></tr>
+  </table>
+  <p>
+    Enums <code>AppointmentIntent</code> (schedule/reschedule/cancel/inquiry) and <code>ExecutionStatus</code>
+    (confirmed/no_availability/cancelled/error) make invalid states unrepresentable — the router is a plain
+    <code>if/elif</code> on enum members, not string matching.
+  </p>
+
+  <h3 id="lcel">LCEL Chain Design (<code>app/chain.py</code>)</h3>
+  <pre><code>def _build_chain():
+    llm = ChatOpenAI(
+        model=settings.ollama_model,          # openai/gpt-oss:120b
+        api_key=settings.openai_api_key,      # dummy — proxy substitutes real key
+        base_url=settings.openai_api_base,    # http://127.0.0.1:11435/v1
+        temperature=0.1,                      # deterministic extraction
+        max_tokens=1024,
+    )
+    parser = PydanticOutputParser(pydantic_object=ExtractedAppointment)
+    prompt = ChatPromptTemplate.from_messages([...]).partial(
+        format_instructions=parser.get_format_instructions()
+    )
+    return prompt | llm | parser, parser</code></pre>
+  <ul>
+    <li><strong>Determinism</strong> — <code>temperature=0.1</code>: the same input yields the same extraction, critical for testing and auditing</li>
+    <li><strong>Format enforcement</strong> — the parser's JSON schema is injected into the system prompt; the parser then validates/types the response. A malformed response raises inside the chain and is caught in the orchestrator → <code>status=error</code>, no partial bookings</li>
+    <li><strong>No LangGraph</strong> — deliberately linear LCEL per the original spec; the chat engine layers state management on top without a graph runtime</li>
+  </ul>
+
+  <h3 id="services">Services Layer (<code>app/services.py</code>)</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>CalendarService</h4>
+      <p>Rule engine + booking façade. <code>check_availability()</code> = weekend guard → business-hours guard → seed-slot cache → DB lookup. <code>find_next_available()</code> = 168-hour probe. Mutations: <code>book_slot</code>, <code>reschedule_booking</code>, <code>cancel_booking</code>.</p>
+    </div>
+    <div class="card">
+      <h4>SMSService</h4>
+      <p>Strategy pattern across skip/mock/twilio/error. Twilio client is constructed once at startup (only in real mode) with graceful fallback to mock if the SDK import/init fails. Every outcome — including errors — is persisted via <code>db.add_sms_record()</code>.</p>
+    </div>
+  </div>
+
+  <h3 id="database">SQLite Persistence (<code>app/database.py</code>)</h3>
+  <pre><code>CREATE TABLE IF NOT EXISTS bookings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    datetime TEXT NOT NULL,          -- ISO-8601, hour-truncated
+    patient_name TEXT NOT NULL,
+    department TEXT NOT NULL,
+    contact_phone TEXT DEFAULT '',
+    sms_sid TEXT DEFAULT '',
+    booked_at TEXT NOT NULL,
+    is_pre_existing INTEGER DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS sms_records (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sid TEXT NOT NULL, to_number TEXT DEFAULT '',
+    body TEXT NOT NULL, mode TEXT DEFAULT 'mock',
+    sent_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_bookings_datetime ON bookings(datetime);
+CREATE INDEX IF NOT EXISTS idx_sms_sent_at ON sms_records(sent_at);</code></pre>
+  <ul>
+    <li><strong>WAL journal mode</strong> (<code>PRAGMA journal_mode=WAL</code>) for safe concurrent reads during API serving</li>
+    <li><strong>Self-seeding</strong> — 10 pre-existing bookings inserted on first run so the calendar grid is demo-ready</li>
+    <li><strong>Self-healing</strong> — <code>init_db()</code> purges <code>ERROR_</code> rows from failed Twilio sends at startup</li>
+    <li><strong>Hour truncation</strong> — bookings are stored as <code>YYYY-MM-DDTHH:00:00</code>, making slot math exact and index-friendly</li>
+  </ul>
+
+  <h3 id="proxy">Ollama Cloud Proxy (<code>ollama_cloud_proxy.py</code>)</h3>
+  <p>
+    Ollama's cloud API speaks <strong>native Ollama format</strong>, but LangChain's <code>ChatOpenAI</code> speaks
+    <strong>OpenAI format</strong>. The proxy is a small FastAPI app at <code>http://127.0.0.1:11435/v1</code> that
+    translates both directions:
+  </p>
+  <table>
+    <tr><th>Direction</th><th>Translation</th></tr>
+    <tr><td>Request in</td><td><code>/v1/chat/completions</code> → <code>/api/chat</code>; strips the <code>openai/</code> model prefix; converts OpenAI <code>tool_calls</code> → Ollama format; flattens array content blocks to plain strings</td></tr>
+    <tr><td>Response out</td><td>Ollama chunks → OpenAI-style JSON; upstream auth uses <code>OLLAMA_API_KEY</code> (Bearer)</td></tr>
+  </table>
+  <div class="callout ok">
+    <strong>Why a proxy?</strong> It decouples the app from provider quirks: the app code stays 100% OpenAI-format
+    (portable to any provider), while the proxy owns all Ollama-specific translation. Swapping to real OpenAI,
+    Azure OpenAI, or a paid Ollama endpoint is a one-line <code>.env</code> change.
+  </div>
+
+  <h3 id="config">Configuration (<code>app/config.py</code>)</h3>
+  <p>Single <code>Settings</code> singleton via pydantic-settings; every value is an environment variable with a safe default:</p>
+  <table>
+    <tr><th>Variable</th><th>Default</th><th>Effect</th></tr>
+    <tr><td><code>OLLAMA_API_KEY</code></td><td>—</td><td>Real key; read by the <em>proxy</em>, not the app</td></tr>
+    <tr><td><code>OPENAI_API_KEY</code></td><td><code>ollama-cloud-proxy</code></td><td>Dummy value required by langchain-openai</td></tr>
+    <tr><td><code>OPENAI_API_BASE</code></td><td><code>http://127.0.0.1:11435/v1</code></td><td>Where ChatOpenAI sends requests</td></tr>
+    <tr><td><code>OLLAMA_MODEL</code></td><td><code>openai/gpt-oss:120b</code></td><td>Any cloud model works (gpt-oss:20b, glm-5.2, kimi-k2.6…)</td></tr>
+    <tr><td><code>TWILIO_ACCOUNT_SID</code></td><td><code>mock</code></td><td><code>"mock"</code> ⇒ mock SMS mode</td></tr>
+    <tr><td><code>TWILIO_AUTH_TOKEN</code> / <code>TWILIO_FROM_NUMBER</code></td><td><code>mock</code> / <code>+10000000000</code></td><td>Real values enable production SMS</td></tr>
+    <tr><td><code>APP_HOST</code> / <code>APP_PORT</code></td><td><code>127.0.0.1</code> / <code>8000</code></td><td>Server bind</td></tr>
+  </table>
+
+  <!-- ─────────── 4. API ─────────── -->
+  <h2 id="api">4. API Reference</h2>
+  <table>
+    <tr><th>Method &amp; Path</th><th>Body / Params</th><th>Returns</th></tr>
+    <tr><td><code>POST /api/appointment</code></td><td><code>{ raw_text, channel? }</code></td><td><code>ExecutionSummary</code></td></tr>
+    <tr><td><code>POST /api/chat</code></td><td><code>{ message, session_id }</code></td><td><code>ChatResponse</code> (+ booking data when a booking was made)</td></tr>
+    <tr><td><code>POST /api/chat/reset</code></td><td><code>?session_id=…</code></td><td><code>204</code> — session cleared</td></tr>
+    <tr><td><code>GET /api/calendar/week</code></td><td>—</td><td>7 day objects × 8 slots with status: <code>available | booked | weekend</code></td></tr>
+    <tr><td><code>GET /api/calendar/bookings</code></td><td>—</td><td><code>{ bookings: [...] }</code></td></tr>
+    <tr><td><code>GET /api/sms/history</code></td><td>—</td><td><code>{ messages: [...] }</code></td></tr>
+    <tr><td><code>GET /api/health</code></td><td>—</td><td><code>{ status, llm_model, llm_endpoint, sms_mode }</code></td></tr>
+    <tr><td><code>GET /docs</code></td><td>—</td><td>Interactive OpenAPI (Swagger) UI</td></tr>
+  </table>
+  <pre><code>curl -X POST http://127.0.0.1:8000/api/appointment \
+  -H "Content-Type: application/json" \
+  -d '{
+    "raw_text": "I need to book a cardiology appointment for John Doe
+                 on 2026-09-07 at 14:00. My phone is +15551234567.",
+    "channel": "web"
+  }'</code></pre>
+  <pre><code>{
+  "status": "confirmed",
+  "extracted": {
+    "intent": "schedule",
+    "patient_name": "John Doe",
+    "department": "cardiology",
+    "preferred_datetime": "2026-09-07T14:00:00",
+    "contact_phone": "+15551234567",
+    "contact_email": null,
+    "notes": null
+  },
+  "scheduled_datetime": "2026-09-07T14:00:00",
+  "confirmation_message_sid": "MOCK_SID_abc123",
+  "message": "Appointment confirmed for 2026-09-07 at 14:00. SMS sent (SID: MOCK_SID_abc123)."
+}</code></pre>
+
+  <!-- ─────────── 5. TESTING ─────────── -->
+  <h2 id="testing">5. Testing</h2>
+  <table>
+    <tr><th>File</th><th>Covers</th><th>LLM required?</th></tr>
+    <tr><td><code>tests/test_chain.py</code></td><td>Extraction &amp; orchestrator logic (LLM mocked)</td><td>No</td></tr>
+    <tr><td><code>tests/test_api.py</code></td><td>FastAPI endpoints, health, UI serving (<code>"Appointment Scheduler"</code> present in HTML)</td><td>No</td></tr>
+  </table>
+  <ul>
+    <li>Unit tests stub the LLM chain — full coverage of the deterministic layers (routing, calendar math, booking, persistence) runs in milliseconds with zero network</li>
+    <li>Integration runs (real LLM + Twilio) are exercised manually or via the running server; the trial-account SMS behavior is documented in Step 4 above</li>
+  </ul>
+
+  <!-- ─────────── 6. SETUP ─────────── -->
+  <h2 id="setup">6. Setup &amp; Run</h2>
+  <pre><code># 1 — environment
+cd hospital-appointment-scheduler
+python -m venv .venv && .venv\Scripts\activate      # Windows
+pip install -r requirements.txt
+
+# 2 — config
+copy .env.example .env                              # then set OLLAMA_API_KEY
+
+# 3 — start proxy (required before the app)
+.venv\Scripts\python.exe ollama_cloud_proxy.py      # listens on 127.0.0.1:11435
+
+# 4 — start API + web console
+uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+
+# 5 — test
+pytest tests/ -v</code></pre>
+  <p><strong>Web console:</strong> <code>http://127.0.0.1:8000/</code> · <strong>API docs:</strong> <code>http://127.0.0.1:8000/docs</code></p>
+
+  <!-- ─────────── 7. SECURITY ─────────── -->
+  <h2 id="security">7. Security Notes</h2>
+  <ul>
+    <li><strong>Secrets</strong> — all credentials live in <code>.env</code> (gitignored); the repo contains only <code>.env.example</code> with placeholders. Verified: no <code>.env</code>, no <code>.venv</code>, no <code>data/</code> in git history; secret-pattern scan of all committed content = zero matches</li>
+    <li><strong>Git auth</strong> — pushes use Git Credential Manager's scoped OAuth token stored in Windows Credential Manager; tokens never touch the repo</li>
+    <li><strong>PII handling</strong> — patient phone numbers are shown masked (<code>+15xxxxxxxxx</code>) in the UI with click-to-reveal; the SQLite DB stays local and is excluded from version control</li>
+    <li><strong>CORS</strong> — wide-open (<code>allow_origins=["*"]</code>) for local development; tighten before any shared deployment</li>
+  </ul>
+
+  <div class="callout" style="margin-top:48px">
+    📄 <strong>Quick start &amp; screenshots:</strong> see <a href="https://github.com/git4rajmohan/AI_Projects/tree/main/hospital-appointment-scheduler/README.md">hospital-appointment-scheduler/README.md</a> ·
+    🧠 Part of the <a href="https://github.com/git4rajmohan/AI_Projects">AI_Projects</a> showcase
+  </div>
+
+  </main>
+
+  <a class="top-link" href="#overview">↑ Top</a>
+</div>
+</body>
+</html>
