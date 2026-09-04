@@ -32,7 +32,7 @@ A production-style backend service + enterprise web console that processes natur
 - 🗄️ SQLite persistence · 🧪 pytest suite (LLM mocked in unit tests)
 
 > 📄 **Full docs, setup guide, API reference, and screenshots:** [`hospital-appointment-scheduler/README.md`](./hospital-appointment-scheduler/README.md) ·
-> 📚 **In-depth technical documentation (HTML):** [`docs/documentation.html`](./hospital-appointment-scheduler/docs/documentation.html)
+> 📚 **In-depth technical documentation (HTML):** [`Documents/documentation.html`](./Documents/documentation.html)
 
 | Chat Console | Calendar View |
 |:---:|:---:|
