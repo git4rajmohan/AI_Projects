@@ -31,7 +31,8 @@ A production-style backend service + enterprise web console that processes natur
 - 📱 Real Twilio SMS integration with mock/seed/twilio modes
 - 🗄️ SQLite persistence · 🧪 pytest suite (LLM mocked in unit tests)
 
-> 📄 **Full docs, setup guide, API reference, and screenshots:** [`hospital-appointment-scheduler/README.md`](./hospital-appointment-scheduler/README.md)
+> 📄 **Full docs, setup guide, API reference, and screenshots:** [`hospital-appointment-scheduler/README.md`](./hospital-appointment-scheduler/README.md) ·
+> 📚 **In-depth technical documentation (HTML):** [`docs/documentation.html`](./hospital-appointment-scheduler/docs/documentation.html)
 
 | Chat Console | Calendar View |
 |:---:|:---:|
