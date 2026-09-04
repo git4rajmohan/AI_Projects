@@ -1,0 +1,1 @@
+"""Appointment Scheduler & Confirmation Bot — LangChain + FastAPI backend."""
