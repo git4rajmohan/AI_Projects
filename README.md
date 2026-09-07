@@ -8,6 +8,7 @@
 ![LangChain](https://img.shields.io/badge/🦜%20LangChain-LCEL-green)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Web_APIs-009688?logo=fastapi&logoColor=white)
 ![Ollama](https://img.shields.io/badge/LLM-Ollama%20Cloud-white?logo=ollama)
+![NeMo Guardrails](https://img.shields.io/badge/NVIDIA-NeMo%20Guardrails-76B900?logo=nvidia&logoColor=white)
 
 </div>
 
@@ -19,6 +20,7 @@
 |---|---------|-------|--------|
 | 1 | **[Hospital Appointment Scheduler & Confirmation Bot](./hospital-appointment-scheduler/)** | LangChain LCEL · FastAPI · Ollama Cloud (`gpt-oss:120b`) · Twilio SMS | ✅ Complete |
 | 2 | **[Automated Order Returns & Fraud Prevention Agent](./langgraph-return-fraud-agent/)** | LangGraph · FastAPI · Streamlit · Ollama Cloud (`gpt-oss:120b`) · SQLite checkpointing | ✅ Complete |
+| 3 | **[AI Guardrails Demo](./ai-guardrails-demo/)** | NeMo Guardrails · Streamlit · Groq Llama 3.x · BYOK | ✅ Complete |
 
 ### 1️⃣ Hospital Appointment Scheduler & Confirmation Bot
 
@@ -69,17 +71,40 @@ refunds — all checkpointed to SQLite so runs survive server restarts.
 
 ---
 
+### 3️⃣ AI Guardrails Demo
+
+An interactive Streamlit teaching app for **NVIDIA NeMo Guardrails**: 7 progressive experiments that layer safety rails onto a raw LLM — from zero protection to a production-grade guarded Enterprise IT Assistant (Kubernetes · Intel hardware · enterprise networking). Users bring their own Groq API key (BYOK) and watch each rail block a different class of abuse.
+
+**Highlights**
+
+- 🛡️ 7 cumulative experiments — Topic Guard, Jailbreak Shield, Sensitive Topic Block, Dialog Rails, Custom Actions, Output Sanitizer
+- 📝 Colang DSL in action — `define user / define bot / define flow` with semantic intent matching via FastEmbed + guard LLM
+- 🐍 Custom `@action` Python rails — PII regex scanner, urgency classifier, credential sanitizer, prompt-injection detector
+- 🟠 Bonus prompt-injection lab — hidden-in-data attacks with a Without-Rails vs With-Rails comparison
+- 📊 Token & latency tracking per LLM call, plus optional Logfire (OpenTelemetry) tracing
+- 🔐 BYOK security — keys entered at runtime as password fields, never stored, logged, or committed
+
+> 📄 **Full docs, theory reference, setup guide, and screenshots:** [`ai-guardrails-demo/README.md`](./ai-guardrails-demo/README.md)
+
+| Landing & experiment map | Input Rails — Topic Guard |
+|:---:|:---:|
+| ![Landing](./ai-guardrails-demo/docs/screenshots/02-landing-expanded.png) | ![Input Rails](./ai-guardrails-demo/docs/screenshots/04-input-rails.png) |
+| **Custom Python Actions** | **Prompt Injection lab** |
+| ![Custom Actions](./ai-guardrails-demo/docs/screenshots/05-custom-actions.png) | ![Prompt Injection](./ai-guardrails-demo/docs/screenshots/07-prompt-injection.png) |
+
+---
+
 ## 🗺️ Roadmap
 
-- [ ] 3️⃣ RAG Knowledge Base — document Q&A with local embeddings + Neo4j GraphRAG
-- [ ] 4️⃣ Model Evaluation Harness — automated LLM benchmarking & regression testing
-- [ ] 5️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns
+- [ ] 4️⃣ RAG Knowledge Base — document Q&A with local embeddings + Neo4j GraphRAG
+- [ ] 5️⃣ Model Evaluation Harness — automated LLM benchmarking & regression testing
+- [ ] 6️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns
 
 ## 🛠️ Common Tech
 
 | Layer | Tools |
 |-------|-------|
-| LLM Orchestration | LangChain (LCEL), LangGraph, Google ADK |
+| LLM Orchestration | LangChain (LCEL), LangGraph, Google ADK, NVIDIA NeMo Guardrails |
 | LLM Providers | Ollama Cloud (gpt-oss:120b, glm-5.2, kimi-k2.6), local Ollama |
 | APIs & UI | FastAPI, Uvicorn, Streamlit, vanilla-JS enterprise consoles |
 | Data & Validation | Pydantic v2, SQLite |

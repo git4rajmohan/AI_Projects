@@ -1,0 +1,16 @@
+# Core
+streamlit>=1.35.0
+
+# NeMo Guardrails
+nemoguardrails>=0.9.0
+fastembed>=0.2.0
+
+# LLM backend
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-groq>=0.1.9
+
+# Optional — load .env file for local dev
+python-dotenv>=1.0.0
+
+logfire>=3.0.0
