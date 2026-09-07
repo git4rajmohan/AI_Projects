@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Metrics Guide</title>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --panel: #121a2f;
+            --panel-soft: #16213b;
+            --text: #e8edf7;
+            --muted: #a8b3c7;
+            --line: rgba(255, 255, 255, 0.09);
+            --accent: #f4c95d;
+            --good: #7dd3a4;
+            --warn: #f7c873;
+            --bad: #f29b9b;
+            --retrieval: #74c0fc;
+            --augmentation: #c4b5fd;
+            --generation: #86efac;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at top right, rgba(116, 192, 252, 0.12), transparent 28%),
+                radial-gradient(circle at bottom left, rgba(196, 181, 253, 0.10), transparent 32%),
+                var(--bg);
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .page {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 40px 24px 56px;
+        }
+
+        .hero {
+            margin-bottom: 28px;
+            padding: 28px;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(18, 26, 47, 0.98), rgba(22, 33, 59, 0.96));
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 10px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(244, 201, 93, 0.12);
+            color: var(--accent);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 2.4rem;
+            line-height: 1.1;
+        }
+
+        .hero p,
+        .note,
+        .summary td,
+        .summary th,
+        .detail,
+        li {
+            color: var(--muted);
+        }
+
+        .note {
+            margin-top: 14px;
+            font-size: 0.95rem;
+        }
+
+        .summary-wrap {
+            overflow-x: auto;
+            margin-bottom: 28px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: rgba(18, 26, 47, 0.88);
+        }
+
+        .summary {
+            width: 100%;
+            min-width: 1100px;
+            border-collapse: collapse;
+        }
+
+        .summary th,
+        .summary td {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--line);
+            border-right: 1px solid var(--line);
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .summary th {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.02);
+            font-size: 0.9rem;
+        }
+
+        .summary tr:last-child td {
+            border-bottom: none;
+        }
+
+        .summary th:last-child,
+        .summary td:last-child {
+            border-right: none;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: linear-gradient(180deg, rgba(18, 26, 47, 0.98), rgba(14, 21, 38, 0.98));
+            padding: 22px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .tag {
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .retrieval {
+            background: rgba(116, 192, 252, 0.14);
+            color: var(--retrieval);
+        }
+
+        .augmentation {
+            background: rgba(196, 181, 253, 0.14);
+            color: var(--augmentation);
+        }
+
+        .generation {
+            background: rgba(134, 239, 172, 0.14);
+            color: var(--generation);
+        }
+
+        .section {
+            margin: 14px 0;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text);
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .formula {
+            padding: 12px 14px;
+            border: 1px solid rgba(244, 201, 93, 0.18);
+            border-radius: 14px;
+            background: rgba(244, 201, 93, 0.06);
+            color: #fff2c5;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.95rem;
+        }
+
+        .example {
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--line);
+        }
+
+        .example-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .good,
+        .bad {
+            padding: 10px 12px;
+            border-radius: 12px;
+        }
+
+        .good {
+            background: rgba(125, 211, 164, 0.08);
+            border: 1px solid rgba(125, 211, 164, 0.18);
+        }
+
+        .bad {
+            background: rgba(242, 155, 155, 0.08);
+            border: 1px solid rgba(242, 155, 155, 0.18);
+        }
+
+        .good strong {
+            color: var(--good);
+        }
+
+        .bad strong {
+            color: var(--bad);
+        }
+
+        ul {
+            margin: 8px 0 0 18px;
+            padding: 0;
+        }
+
+        code {
+            color: #fff2c5;
+            font-family: Consolas, "Courier New", monospace;
+        }
+
+        .divider {
+            margin: 18px 0 14px;
+            border: none;
+            border-top: 1px solid var(--line);
+        }
+
+        .failure-block {
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: rgba(242, 155, 155, 0.05);
+            border: 1px solid rgba(242, 155, 155, 0.16);
+        }
+
+        .fix-block {
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: rgba(125, 211, 164, 0.05);
+            border: 1px solid rgba(125, 211, 164, 0.16);
+        }
+
+        .block-title {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .failure-block .block-title { color: var(--bad); }
+        .fix-block .block-title     { color: var(--good); }
+
+        .failure-block li,
+        .fix-block li {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin-bottom: 4px;
+            color: var(--muted);
+        }
+
+        .failure-block ul,
+        .fix-block ul {
+            margin: 0 0 0 16px;
+            padding: 0;
+        }
+
+        .root-cause {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.55;
+            color: var(--muted);
+        }
+
+        @media (max-width: 720px) {
+            .page {
+                padding: 24px 14px 40px;
+            }
+
+            h1 {
+                font-size: 1.9rem;
+            }
+
+            .hero,
+            .card {
+                padding: 18px;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <section class="hero">
+            <span class="eyebrow">RAG Evaluation Reference</span>
+            <h1>Metrics Guide</h1>
+            <p>This guide summarizes the six RAG metrics used in this project, the RAG stage each belongs to, the inputs each metric consumes, a conceptual formula, and a simple example showing what a low-score and high-score case looks like.</p>
+            <p class="note">Note: these formulas are conceptual. Ragas uses LLM-based judging under the hood, so the exact score is not a strict arithmetic count, but these formulas are a good mental model for understanding what the metric is trying to measure.</p>
+        </section>
+
+        <div class="summary-wrap">
+            <table class="summary">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>RAG Stage</th>
+                        <th>Inputs</th>
+                        <th>Recommended Range</th>
+                        <th>Conceptual Formula</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Context relevance</td>
+                        <td>Retrieval</td>
+                        <td>Query + Retrieved contexts</td>
+                        <td>0.80-1.00</td>
+                        <td><code>relevant retrieved contexts / total retrieved contexts</code></td>
+                    </tr>
+                    <tr>
+                        <td>Context precision with reference</td>
+                        <td>Retrieval</td>
+                        <td>Query + Reference + Retrieved contexts</td>
+                        <td>0.80-1.00</td>
+                        <td><code>contexts supporting reference / total retrieved contexts</code></td>
+                    </tr>
+                    <tr>
+                        <td>Context recall</td>
+                        <td>Retrieval</td>
+                        <td>Query + Reference + Retrieved contexts</td>
+                        <td>0.80-1.00</td>
+                        <td><code>reference claims supported by contexts / total reference claims</code></td>
+                    </tr>
+                    <tr>
+                        <td>Response groundedness</td>
+                        <td>Augmentation</td>
+                        <td>Response + Retrieved contexts</td>
+                        <td>0.80-1.00</td>
+                        <td><code>response claims supported by contexts / total response claims</code></td>
+                    </tr>
+                    <tr>
+                        <td>Faithfulness</td>
+                        <td>Augmentation</td>
+                        <td>Query + Response + Retrieved contexts</td>
+                        <td>0.85-1.00</td>
+                        <td><code>response claims consistent with contexts / total response claims</code></td>
+                    </tr>
+                    <tr>
+                        <td>Factual correctness</td>
+                        <td>Generation</td>
+                        <td>Response + Reference</td>
+                        <td>0.70-1.00</td>
+                        <td><code>response claims matching reference / total evaluated claims</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <section class="cards">
+            <article class="card">
+                <div class="card-header">
+                    <h2>Context Relevance</h2>
+                    <span class="tag retrieval">Retrieval</span>
+                </div>
+                <div class="section">
+                    <span class="label">What it checks</span>
+                    <div class="detail">Whether the retrieved contexts are on-topic for the user query.</div>
+                </div>
+                <div class="section">
+                    <span class="label">Inputs</span>
+                    <div class="detail">Query + Retrieved contexts</div>
+                </div>
+                <div class="section">
+                    <span class="label">Formula</span>
+                    <div class="formula">relevant retrieved contexts / total retrieved contexts</div>
+                </div>
+                <div class="section example">
+                    <span class="label">Example</span>
+                    <div class="example-grid">
+                        <div class="detail"><strong>Query:</strong> What is the capital of France?</div>
+                        <div class="detail"><strong>Retrieved contexts:</strong> 1 chunk says Paris is the capital of France, 1 chunk discusses France in Europe, and 2 chunks talk about Germany and Italy.</div>
+                        <div class="bad"><strong>Low score case:</strong> much of the retrieved context is about other countries and not the capital of France.</div>
+                        <div class="good"><strong>High score case:</strong> nearly every retrieved chunk directly talks about France and explicitly mentions Paris as the capital.</div>
+                    </div>
+                </div>
+                <hr class="divider">
+                <div class="section">
+                    <div class="failure-block">
+                        <span class="block-title">Root Cause</span>
+                        <p class="root-cause">Your search engine is fetching junk. It is pulling documents that share keyword overlap with the query but are contextually useless.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="fix-block">
+                        <span class="block-title">What to Fix</span>
+                        <ul>
+                            <li><strong>Tune Chunking Strategy:</strong> Your data chunks might be too large (mixing topics) or too small (losing context). Try switching to semantic chunking or a parent-child retriever pattern.</li>
+                            <li><strong>Adjust Hybrid Search Weights:</strong> If you use BM25 + Vector embeddings, your keyword match might be overpowering your semantic match. Adjust the weight ratios.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <h2>Context Precision With Reference</h2>
+                    <span class="tag retrieval">Retrieval</span>
+                </div>
+                <div class="section">
+                    <span class="label">What it checks</span>
+                    <div class="detail">Whether the retrieved contexts are specifically useful for supporting the expected answer.</div>
+                </div>
+                <div class="section">
+                    <span class="label">Inputs</span>
+                    <div class="detail">Query + Reference + Retrieved contexts</div>
+                </div>
+                <div class="section">
+                    <span class="label">Formula</span>
+                    <div class="formula">contexts supporting reference / total retrieved contexts</div>
+                </div>
+                <div class="section example">
+                    <span class="label">Example</span>
+                    <div class="example-grid">
+                        <div class="detail"><strong>Reference:</strong> The capital of France is Paris.</div>
+                        <div class="detail"><strong>Retrieved contexts:</strong> 1 chunk states Paris is the capital of France, while 3 other chunks discuss French food, tourism, and the Eiffel Tower.</div>
+                        <div class="bad"><strong>Low score case:</strong> only one retrieved chunk directly supports the reference and the rest are extra information.</div>
+                        <div class="good"><strong>High score case:</strong> most retrieved chunks directly support the reference that Paris is the capital of France.</div>
+                    </div>
+                </div>
+                <hr class="divider">
+                <div class="section">
+                    <div class="failure-block">
+                        <span class="block-title">Root Cause</span>
+                        <p class="root-cause">The correct document <em>is</em> being found, but it is buried at the bottom of the pile (e.g., position #5 instead of position #1). The most useful chunk is not ranked first.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="fix-block">
+                        <span class="block-title">What to Fix</span>
+                        <ul>
+                            <li><strong>Implement a Re-ranker:</strong> Introduce a Cross-Encoder re-ranking step (like Cohere or BGE-Reranker) right after initial retrieval to force the most relevant chunks to the top before they reach the LLM.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <h2>Context Recall</h2>
+                    <span class="tag retrieval">Retrieval</span>
+                </div>
+                <div class="section">
+                    <span class="label">What it checks</span>
+                    <div class="detail">Whether retrieval brought back enough information to cover the facts in the reference answer.</div>
+                </div>
+                <div class="section">
+                    <span class="label">Inputs</span>
+                    <div class="detail">Query + Reference + Retrieved contexts</div>
+                </div>
+                <div class="section">
+                    <span class="label">Formula</span>
+                    <div class="formula">reference claims supported by contexts / total reference claims</div>
+                </div>
+                <div class="section example">
+                    <span class="label">Example</span>
+                    <div class="example-grid">
+                        <div class="detail"><strong>Reference:</strong> The capital of France is Paris.</div>
+                        <div class="detail"><strong>Retrieved contexts:</strong> one chunk says France is a country in Europe, and another chunk describes Paris as a famous tourist city, but no chunk explicitly says Paris is the capital of France.</div>
+                        <div class="bad"><strong>Low score case:</strong> retrieval brings related information but misses the key fact needed to fully support the reference.</div>
+                        <div class="good"><strong>High score case:</strong> retrieval explicitly includes the sentence that Paris is the capital of France.</div>
+                    </div>
+                </div>
+                <hr class="divider">
+                <div class="section">
+                    <div class="failure-block">
+                        <span class="block-title">Root Cause</span>
+                        <p class="root-cause">Your search engine missed the answer entirely. The necessary information is completely missing from the retrieved context.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="fix-block">
+                        <span class="block-title">What to Fix</span>
+                        <ul>
+                            <li><strong>Increase K:</strong> Bump up the number of retrieved chunks (e.g., from Top-3 to Top-5 or Top-7).</li>
+                            <li><strong>Fix the Vector Store Index:</strong> Ensure your document ingestion pipeline did not fail, skip files, or corrupt text during parsing (check PDF/OCR extraction quality).</li>
+                            <li><strong>Query Rewriting:</strong> Add an LLM step to rewrite or expand the user's query into multiple variations before executing the search.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <h2>Response Groundedness</h2>
+                    <span class="tag augmentation">Augmentation</span>
+                </div>
+                <div class="section">
+                    <span class="label">What it checks</span>
+                    <div class="detail">Whether the generated response is backed by the retrieved context.</div>
+                </div>
+                <div class="section">
+                    <span class="label">Inputs</span>
+                    <div class="detail">Response + Retrieved contexts</div>
+                </div>
+                <div class="section">
+                    <span class="label">Formula</span>
+                    <div class="formula">response claims supported by contexts / total response claims</div>
+                </div>
+                <div class="section example">
+                    <span class="label">Example</span>
+                    <div class="example-grid">
+                        <div class="detail"><strong>Response:</strong> The capital of France is Paris, and France has 80 states.</div>
+                        <div class="detail"><strong>Retrieved contexts:</strong> the contexts say Paris is the capital of France, but they do not mention anything about 80 states.</div>
+                        <div class="bad"><strong>Low score case:</strong> part of the response is unsupported by the retrieved evidence.</div>
+                        <div class="good"><strong>High score case:</strong> the response only says that the capital of France is Paris, and that statement is clearly supported by the contexts.</div>
+                    </div>
+                </div>
+                <hr class="divider">
+                <div class="section">
+                    <div class="failure-block">
+                        <span class="block-title">Root Cause</span>
+                        <p class="root-cause">The LLM is hallucinating or relying on its own pre-trained weights rather than restricting itself to the provided context.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="fix-block">
+                        <span class="block-title">What to Fix</span>
+                        <ul>
+                            <li><strong>Tighten System Prompt Constraints:</strong> Use explicit, defensive framing: <em>"Base your answer strictly on the provided context. If the context does not contain the answer, state 'I do not know.' Do not use any outside knowledge."</em></li>
+                            <li><strong>Lower Temperature:</strong> Drop the LLM's temperature configuration to 0.0 or 0.1 to force deterministic text generation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <h2>Faithfulness</h2>
+                    <span class="tag augmentation">Augmentation</span>
+                </div>
+                <div class="section">
+                    <span class="label">What it checks</span>
+                    <div class="detail">Whether the response stays consistent with the retrieved context and avoids hallucination.</div>
+                </div>
+                <div class="section">
+                    <span class="label">Inputs</span>
+                    <div class="detail">Query + Response + Retrieved contexts</div>
+                </div>
+                <div class="section">
+                    <span class="label">Formula</span>
+                    <div class="formula">response claims consistent with contexts / total response claims</div>
+                </div>
+                <div class="section example">
+                    <span class="label">Example</span>
+                    <div class="example-grid">
+                        <div class="detail"><strong>Retrieved context:</strong> Paris is the capital of France.</div>
+                        <div class="detail"><strong>Response:</strong> The capital of France is Lyon.</div>
+                        <div class="bad"><strong>Low score case:</strong> the response contradicts the retrieved context, so it is not faithful.</div>
+                        <div class="good"><strong>High score case:</strong> the response says the capital of France is Paris, which matches the retrieved context exactly.</div>
+                    </div>
+                </div>
+                <hr class="divider">
+                <div class="section">
+                    <div class="failure-block">
+                        <span class="block-title">Root Cause</span>
+                        <p class="root-cause">The LLM is hallucinating or relying on its own pre-trained weights rather than restricting itself to the provided context.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="fix-block">
+                        <span class="block-title">What to Fix</span>
+                        <ul>
+                            <li><strong>Tighten System Prompt Constraints:</strong> Use explicit, defensive framing: <em>"Base your answer strictly on the provided context. If the context does not contain the answer, state 'I do not know.' Do not use any outside knowledge."</em></li>
+                            <li><strong>Lower Temperature:</strong> Drop the LLM's temperature configuration to 0.0 or 0.1 to force deterministic text generation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-header">
+                    <h2>Factual Correctness</h2>
+                    <span class="tag generation">Generation</span>
+                </div>
+                <div class="section">
+                    <span class="label">What it checks</span>
+                    <div class="detail">Whether the response matches the expected ground-truth reference.</div>
+                </div>
+                <div class="section">
+                    <span class="label">Inputs</span>
+                    <div class="detail">Response + Reference</div>
+                </div>
+                <div class="section">
+                    <span class="label">Formula</span>
+                    <div class="formula">response claims matching reference / total evaluated claims</div>
+                </div>
+                <div class="section example">
+                    <span class="label">Example</span>
+                    <div class="example-grid">
+                        <div class="detail"><strong>Reference:</strong> The capital of France is Paris.</div>
+                        <div class="detail"><strong>Response:</strong> The capital of France is Lyon.</div>
+                        <div class="bad"><strong>Low score case:</strong> the response contradicts the reference on the key fact.</div>
+                        <div class="good"><strong>High score case:</strong> the response says the capital of France is Paris, matching the reference.</div>
+                    </div>
+                </div>
+                <hr class="divider">
+                <div class="section">
+                    <div class="failure-block">
+                        <span class="block-title">Root Cause</span>
+                        <p class="root-cause">The final answer contradicts your gold-standard Ground Truth reference data.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="fix-block">
+                        <span class="block-title">What to Fix</span>
+                        <ul>
+                            <li><strong>Verify the Reference Data First:</strong> Always double-check if the Ground Truth itself is still accurate, updated, and free of typos before blaming the model.</li>
+                            <li><strong>Trace the Retrieval Link:</strong> Look at Context Recall. If Recall is low, Factual Correctness will almost always be low because the model did not have the facts to begin with. Fix the retrieval step first.</li>
+                            <li><strong>Upgrade the Model Size:</strong> Small, open-source models often struggle to accurately synthesize reasoning across multiple facts. Consider testing against a larger parameter model (e.g., upgrading from an 8B to a 70B parameter model) to see if reasoning accuracy improves.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+question,reference
+How do I sign out of Viva Engage in the Collaboration Center?,"To log out from Viva Engage in the Collaboration Center, follow this procedure:
+
+1. Open the Collaboration Center in your web browser.
+2. In the left menu, select Viva Engage (if it is not already selected).
+3. In the bottom-right corner of the Viva Engage page, click Sign Out.
+4. In the new browser window, on the Microsoft Sign Out page, select the account you want to sign out from.
+5. Complete the sign-out process when prompted.
+
+After these steps, you are logged out of Viva Engage in the Collaboration Center and returned to the Collaboration Center page, where the Sign In button is displayed."
+How do I find the Change Flow and Migrate options in AgilePoint NX?,"You can find the Change Flow and Migrate options in Manage Center in the AgilePoint NX platform.
+
+Procedure
+1. Click Manage.
+2. In Manage Center, click Runtime Management > Processes.
+3. On the Processes screen, click Expand to expand the desired process.
+4. Select the target process instance.
+5. To move a process instance backward or forward to a specific activity, click Change Flow.
+6. To migrate a process instance, click Migrate."

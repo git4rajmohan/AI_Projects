@@ -21,6 +21,7 @@
 | 1 | **[Hospital Appointment Scheduler & Confirmation Bot](./hospital-appointment-scheduler/)** | LangChain LCEL · FastAPI · Ollama Cloud (`gpt-oss:120b`) · Twilio SMS | ✅ Complete |
 | 2 | **[Automated Order Returns & Fraud Prevention Agent](./langgraph-return-fraud-agent/)** | LangGraph · FastAPI · Streamlit · Ollama Cloud (`gpt-oss:120b`) · SQLite checkpointing | ✅ Complete |
 | 3 | **[AI Guardrails Demo](./ai-guardrails-demo/)** | NeMo Guardrails · Streamlit · Groq Llama 3.x · BYOK | ✅ Complete |
+| 4 | **[RAG Evaluation Harness](./rag-evaluation-harness/)** | RAGAS · Streamlit · OpenAI-compatible judge LLMs · pytest | ✅ Complete |
 
 ### 1️⃣ Hospital Appointment Scheduler & Confirmation Bot
 
@@ -94,17 +95,40 @@ An interactive Streamlit teaching app for **NVIDIA NeMo Guardrails**: 7 progress
 
 ---
 
+### 4️⃣ RAG Evaluation Harness
+
+A Streamlit evaluation workbench for RAG systems built on **RAGAS**: point it at any RAG endpoint plus any OpenAI-compatible judge LLM and step through a two-phase workflow — query the RAG, review the retrieved contexts, then score quality with 7 LLM-judged (no-embedding) metrics, complete with pass/fail thresholds, per-metric reasoning, and JSON run history.
+
+**Highlights**
+
+- 🧑‍⚖️ 7 no-embedding RAGAS metrics — context relevance/precision/recall, groundedness, faithfulness, factual correctness, rubrics score
+- 🔁 Two-phase human-in-the-loop workflow — review retrieved contexts *before* scoring so bad retrievals never silently skew results
+- 🖥️ Streamlit workbench — editable data grid, metric multi-select, gauge dashboard with recommended ranges
+- 💬 Multi-turn evaluation — Topic Adherence & Faithfulness across a full conversation, editable turn-by-turn
+- 💾 Run history as timestamped JSON files — save/reload/delete evaluations with zero database overhead
+- 🌐 Endpoint-agnostic — local Ollama, Baseten, OpenAI, or Azure OpenAI judge LLMs
+- 🧪 pytest suite (`Test1`–`Test7`) doubles as a CI regression gate for every metric
+
+> 📄 **Full docs, setup guide, and screenshots:** [`rag-evaluation-harness/README.md`](./rag-evaluation-harness/README.md)
+
+| Config — pick metrics & judge LLM | Multi-turn conversation evaluation |
+|:---:|:---:|
+| ![Config](./rag-evaluation-harness/docs/screenshots/01-config.png) | ![Multi-turn](./rag-evaluation-harness/docs/screenshots/02-multiturn.png) |
+
+---
+
 ## 🗺️ Roadmap
 
-- [ ] 4️⃣ RAG Knowledge Base — document Q&A with local embeddings + Neo4j GraphRAG
-- [ ] 5️⃣ Model Evaluation Harness — automated LLM benchmarking & regression testing
-- [ ] 6️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns
+- [ ] 5️⃣ RAG Knowledge Base — document Q&A with local embeddings + Neo4j GraphRAG
+- [x] 6️⃣ Model Evaluation Harness — automated LLM benchmarking & regression testing → **[rag-evaluation-harness](./rag-evaluation-harness/)**
+- [ ] 7️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns
 
 ## 🛠️ Common Tech
 
 | Layer | Tools |
 |-------|-------|
 | LLM Orchestration | LangChain (LCEL), LangGraph, Google ADK, NVIDIA NeMo Guardrails |
+| Evaluation | RAGAS (LLM-judged metrics), pytest, Streamlit dashboards |
 | LLM Providers | Ollama Cloud (gpt-oss:120b, glm-5.2, kimi-k2.6), local Ollama |
 | APIs & UI | FastAPI, Uvicorn, Streamlit, vanilla-JS enterprise consoles |
 | Data & Validation | Pydantic v2, SQLite |

@@ -1,0 +1,34 @@
+# Local baseline snapshots (contain secrets - do not commit)
+_baseline/
+
+# Virtual environment
+.venv/
+venv/
+
+# Secrets & local config
+1.env
+.env
+*.key
+*.pem
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local evaluation output
+runs/*.json
+*.log

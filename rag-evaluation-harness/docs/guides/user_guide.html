@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI_RAGAS User Guide</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --ink: #1b2430;
+      --muted: #5e6a78;
+      --line: #d9dee7;
+      --accent: #0f766e;
+      --accent-soft: #e7f4f2;
+      --code-bg: #111827;
+      --code-ink: #f9fafb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      padding: 40px 24px 28px;
+    }
+
+    header .inner,
+    .layout {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 36px;
+      line-height: 1.15;
+    }
+
+    h2 {
+      margin: 36px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+      font-size: 24px;
+    }
+
+    h3 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 28px;
+      padding: 28px 24px 56px;
+      align-items: start;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    .summary {
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .note {
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      padding: 14px 16px;
+      margin: 18px 0;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.95em;
+      background: #eef1f5;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    pre {
+      overflow-x: auto;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      padding: 16px;
+      border-radius: 8px;
+      margin: 12px 0 18px;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      margin: 16px 0 24px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef1f5;
+    }
+
+    ul,
+    ol {
+      padding-left: 24px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    .toc {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px 18px;
+      position: sticky;
+      top: 20px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+    }
+
+    .toc a {
+      display: block;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 6px 0;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    .toc ol {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    .toc li {
+      margin: 0;
+    }
+
+    @media (max-width: 860px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        position: static;
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner">
+      <h1>AI_RAGAS User Guide</h1>
+      <p class="summary">
+        This guide explains what the AI_RAGAS project does, how the evaluation workflow works,
+        how to configure it, and how to run both the Streamlit app and command-line metric tests.
+      </p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Table of contents">
+      <strong>Contents</strong>
+      <ol>
+        <li><a href="#what-it-is">What This App Is</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#project-files">Project Files</a></li>
+        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#run-ui">Run The Streamlit UI</a></li>
+        <li><a href="#run-tests">Run Metric Tests</a></li>
+        <li><a href="#using-ui">Using The UI</a></li>
+        <li><a href="#metrics">Metrics Explained</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ol>
+    </nav>
+
+    <main>
+    <section id="what-it-is">
+      <h2>What This App Is</h2>
+      <p>
+        AI_RAGAS is a small Python project for evaluating a RAG system with RAGAS metrics.
+        It sends one or more questions to a configured RAG endpoint, collects the generated
+        answer and retrieved context documents, and scores the result with an OpenAI-compatible
+        LLM endpoint.
+      </p>
+      <p>
+        The project can be used in two ways: through a Streamlit web interface for interactive
+        review, or through pytest/script files for automated metric checks.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>RAG Endpoint</h3>
+          <p>
+            The app sends a question to <code>RAG_ENDPOINT</code>. The endpoint is expected to
+            return an answer plus retrieved documents.
+          </p>
+        </div>
+        <div class="card">
+          <h3>RAGAS Metrics</h3>
+          <p>
+            The app evaluates retrieval, augmentation, and generation quality using RAGAS
+            no-embedding metrics.
+          </p>
+        </div>
+        <div class="card">
+          <h3>LLM Judge</h3>
+          <p>
+            The scoring step uses an OpenAI-compatible model configured through
+            <code>LLM_API_ENDPOINT</code>, <code>LLM_MODEL</code>, and <code>OPENAI_API_KEY</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works">
+      <h2>How It Works</h2>
+      <ol>
+        <li>You provide a question and a ground-truth reference answer.</li>
+        <li>The app calls the configured RAG endpoint with the question.</li>
+        <li>The RAG endpoint returns a generated answer and retrieved documents.</li>
+        <li>The app converts that data into a RAGAS <code>SingleTurnSample</code>.</li>
+        <li>Selected RAGAS metrics ask the configured LLM judge to score the sample.</li>
+        <li>The app displays metric scores, the answer, reference, and retrieved contexts.</li>
+      </ol>
+
+      <div class="note">
+        <strong>Important:</strong> The quality of the score depends on the question, the reference
+        answer, the retrieved contexts, and the LLM judge configuration.
+      </div>
+    </section>
+
+    <section id="project-files">
+      <h2>Project Files</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Test5_allwithUI.py</code></td>
+            <td>Main Streamlit UI. Use this for interactive evaluation.</td>
+          </tr>
+          <tr>
+            <td><code>Test5_all.py</code></td>
+            <td>Runs multiple RAGAS metrics from pytest/command line.</td>
+          </tr>
+          <tr>
+            <td><code>Test2_contextrecall.py</code></td>
+            <td>Runs the context recall metric for a single configured question.</td>
+          </tr>
+          <tr>
+            <td><code>Test4_faithfullness.py</code></td>
+            <td>Runs the faithfulness metric.</td>
+          </tr>
+          <tr>
+            <td><code>Test5_factualcorrectness.py</code></td>
+            <td>Runs the factual correctness metric.</td>
+          </tr>
+          <tr>
+            <td><code>utils.py</code></td>
+            <td>Shared helpers for loading test data and calling the RAG endpoint.</td>
+          </tr>
+          <tr>
+            <td><code>testdata/Test5.json</code></td>
+            <td>Default question and ground-truth rows loaded by the UI.</td>
+          </tr>
+          <tr>
+            <td><code>1.env</code></td>
+            <td>Local environment configuration for API keys, model, endpoints, and defaults.</td>
+          </tr>
+          <tr>
+            <td><code>requirements.txt</code></td>
+            <td>Python package dependencies.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="configuration">
+      <h2>Configuration</h2>
+      <p>
+        The app loads configuration from <code>1.env</code> in the project root. Create or update
+        that file before running the app.
+      </p>
+
+      <pre><code>OPENAI_API_KEY=your-llm-api-key
+LLM_API_ENDPOINT=https://your-openai-compatible-endpoint/v1
+LLM_MODEL=your-model-name
+LLM_TEMPERATURE=0
+LLM_MAX_TOKENS=8192
+RAG_ENDPOINT=https://your-rag-service/ask
+
+QUESTION=How many articles are there in the Selenium webdriver python course?
+REFERENCE_ANSWER=There are 23 articles in the Selenium WebDriver Python course.</code></pre>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>OPENAI_API_KEY</code></td>
+            <td>API key for the LLM judge endpoint.</td>
+          </tr>
+          <tr>
+            <td><code>LLM_API_ENDPOINT</code></td>
+            <td>OpenAI-compatible base URL or completion URL. The code normalizes common completion suffixes.</td>
+          </tr>
+          <tr>
+            <td><code>LLM_MODEL</code></td>
+            <td>Model name passed to RAGAS through the OpenAI-compatible client.</td>
+          </tr>
+          <tr>
+            <td><code>LLM_TEMPERATURE</code></td>
+            <td>Judge model temperature. Use <code>0</code> for more repeatable scores.</td>
+          </tr>
+          <tr>
+            <td><code>LLM_MAX_TOKENS</code></td>
+            <td>Maximum judge-model output tokens. The UI defaults to <code>8192</code> if omitted.</td>
+          </tr>
+          <tr>
+            <td><code>RAG_ENDPOINT</code></td>
+            <td>Endpoint that receives the question and returns the RAG answer and retrieved documents.</td>
+          </tr>
+          <tr>
+            <td><code>QUESTION</code></td>
+            <td>Default single-question value used by some standalone scripts.</td>
+          </tr>
+          <tr>
+            <td><code>REFERENCE_ANSWER</code></td>
+            <td>Default ground-truth answer used by some standalone scripts.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        Do not commit real API keys to source control. Treat <code>1.env</code> as a local secrets file.
+      </div>
+    </section>
+
+    <section id="run-ui">
+      <h2>Run The Streamlit UI</h2>
+      <h3>1. Open PowerShell In The Project Folder</h3>
+      <pre><code>cd D:\RMFolder\RMPythonProjects\AI_Training\AI_RAGAS</code></pre>
+
+      <h3>2. Create A Virtual Environment If Needed</h3>
+      <pre><code>py -m venv .venv</code></pre>
+
+      <h3>3. Install Dependencies</h3>
+      <pre><code>&amp; .\.venv\Scripts\python.exe -m pip install -r .\requirements.txt</code></pre>
+
+      <h3>4. Start The UI</h3>
+      <pre><code>&amp; .\.venv\Scripts\streamlit.exe run .\Test5_allwithUI.py</code></pre>
+
+      <h3>5. Open The Browser</h3>
+      <p>
+        Streamlit normally opens automatically. If it does not, open:
+      </p>
+      <pre><code>http://localhost:8501</code></pre>
+    </section>
+
+    <section id="run-tests">
+      <h2>Run Metric Tests</h2>
+      <p>
+        Use these commands from the project root after installing dependencies.
+      </p>
+
+      <h3>Run All Main Metrics</h3>
+      <pre><code>&amp; .\.venv\Scripts\python.exe -m pytest -q .\Test5_all.py -s</code></pre>
+
+      <h3>Run Context Recall</h3>
+      <pre><code>&amp; .\.venv\Scripts\python.exe -m pytest -q .\Test2_contextrecall.py -s</code></pre>
+
+      <h3>Run Faithfulness</h3>
+      <pre><code>&amp; .\.venv\Scripts\python.exe -m pytest -q .\Test4_faithfullness.py -s</code></pre>
+
+      <h3>Run Factual Correctness</h3>
+      <pre><code>&amp; .\.venv\Scripts\python.exe -m pytest -q .\Test5_factualcorrectness.py -s</code></pre>
+
+      <p>
+        Several scripts can also be run directly with Python, for example:
+      </p>
+      <pre><code>&amp; .\.venv\Scripts\python.exe .\Test2_contextrecall.py</code></pre>
+    </section>
+
+    <section id="using-ui">
+      <h2>Using The UI</h2>
+      <h3>Config Tab</h3>
+      <ul>
+        <li>Confirm the LLM model, API endpoint, temperature, and max tokens.</li>
+        <li>Select the metrics you want to run.</li>
+        <li>Add or edit rows in the question and ground-truth table.</li>
+        <li>Click <strong>Step 1: Query RAG and Review</strong>.</li>
+      </ul>
+
+      <h3>Step 1 Review</h3>
+      <p>
+        The app calls the RAG endpoint and shows the query, generated response, reference answer,
+        and retrieved contexts. Review these values before scoring. You can edit the fields if
+        the endpoint returned noisy text or if you want to test a corrected sample.
+      </p>
+      <p>
+        After reviewing the data, click <strong>Step 2: Run Metrics</strong>.
+      </p>
+
+      <h3>Results Tab</h3>
+      <p>
+        The results tab shows a summary table, score cards, and row-level details. Expand a row
+        to inspect the exact query, answer, ground truth, and retrieved contexts used for scoring.
+      </p>
+
+      <h3>Metric Tab</h3>
+      <p>
+        The metric tab explains each selected metric, required inputs, scoring idea, and how to
+        interpret low or high values.
+      </p>
+    </section>
+
+    <section id="metrics">
+      <h2>Metrics Explained</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Area</th>
+            <th>What It Checks</th>
+            <th>Recommended Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Context relevance</td>
+            <td>Retrieval</td>
+            <td>Whether retrieved contexts are relevant to the user query.</td>
+            <td>0.80 to 1.00</td>
+          </tr>
+          <tr>
+            <td>Context precision with reference</td>
+            <td>Retrieval</td>
+            <td>Whether retrieved contexts are useful for supporting the reference answer.</td>
+            <td>0.80 to 1.00</td>
+          </tr>
+          <tr>
+            <td>Context recall</td>
+            <td>Retrieval</td>
+            <td>Whether retrieved contexts contain the facts needed by the reference answer.</td>
+            <td>0.80 to 1.00</td>
+          </tr>
+          <tr>
+            <td>Response groundedness</td>
+            <td>Augmentation</td>
+            <td>Whether the generated response is supported by retrieved contexts.</td>
+            <td>0.80 to 1.00</td>
+          </tr>
+          <tr>
+            <td>Faithfulness</td>
+            <td>Augmentation</td>
+            <td>Whether response claims are consistent with retrieved contexts.</td>
+            <td>0.85 to 1.00</td>
+          </tr>
+          <tr>
+            <td>Factual correctness</td>
+            <td>Generation</td>
+            <td>Whether the generated response matches the ground-truth reference.</td>
+            <td>0.70 to 1.00</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <h3>Missing Required Setting</h3>
+      <p>
+        If you see <code>Missing required setting</code>, check that <code>1.env</code> exists in
+        the project root and contains the required variable.
+      </p>
+
+      <h3>RAG Endpoint Failure</h3>
+      <p>
+        If Step 1 fails, verify <code>RAG_ENDPOINT</code>, confirm the service is online, and check
+        that it accepts JSON shaped like this:
+      </p>
+      <pre><code>{
+  "question": "your question",
+  "chat_history": []
+}</code></pre>
+
+      <h3>LLM Scoring Failure</h3>
+      <p>
+        If Step 2 fails, verify <code>OPENAI_API_KEY</code>, <code>LLM_API_ENDPOINT</code>, and
+        <code>LLM_MODEL</code>. If the error mentions output length, increase
+        <code>LLM_MAX_TOKENS</code> or shorten the reference/context text.
+      </p>
+
+      <h3>Low Scores</h3>
+      <p>
+        Low retrieval scores usually mean the RAG system retrieved missing or irrelevant context.
+        Low faithfulness or groundedness scores usually mean the answer contains unsupported claims.
+        Low factual correctness usually means the answer does not match the ground truth.
+      </p>
+    </section>
+    </main>
+  </div>
+</body>
+</html>

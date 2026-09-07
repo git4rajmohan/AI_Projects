@@ -1,0 +1,8 @@
+pytest
+requests
+python-dotenv
+openai
+ragas
+streamlit
+langchain-community
+plotly
