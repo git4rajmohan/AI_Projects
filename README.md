@@ -2,7 +2,7 @@
 
 # 🧠 AI_Projects
 
-**A curated showcase of AI and Machine Learning projects featuring local LLM workflows, RAG systems, model evaluation, and automated AI testing frameworks.**
+**A curated showcase of AI and Machine Learning projects featuring local LLM workflows, RAG systems, model evaluation, automated AI testing frameworks, and classic NLP/ML text classification.**
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)
 ![LangChain](https://img.shields.io/badge/🦜%20LangChain-LCEL-green)
@@ -23,6 +23,7 @@
 | 3 | **[AI Guardrails Demo](./ai-guardrails-demo/)** | NeMo Guardrails · Streamlit · Groq Llama 3.x · BYOK | ✅ Complete |
 | 4 | **[RAG Evaluation Harness](./rag-evaluation-harness/)** | RAGAS · Streamlit · OpenAI-compatible judge LLMs · pytest | ✅ Complete |
 | 5 | **[Knowledge Graph Builder](./KnowledgegraphUIapp/)** | Google ADK · FastAPI · Neo4j · Ollama Cloud (`gpt-oss:120b`) · Vanilla JS | ✅ Complete |
+| 6 | **[NLP Machine Learning Sentiment Analysis](./NLP_MachineLearning_SentimentAnalysis/)** | scikit-learn (TF-IDF · LR · NB · SVM) · NLTK · spaCy · Jupyter | ✅ Complete |
 
 ### 1️⃣ Hospital Appointment Scheduler & Confirmation Bot
 
@@ -142,11 +143,38 @@ A web application that automates the creation of knowledge graphs from structure
 
 ---
 
+### 6️⃣ NLP Machine Learning Sentiment Analysis
+
+A complete, educational Jupyter notebook that walks through the **full NLP pipeline** for 3-class sentiment analysis (Positive / Neutral / Negative) on a custom ~2,000-review dataset — every step visualized and explained, from raw noisy text cleaning to a trained, explained, and saved ML model.
+
+**Highlights**
+
+- 🧹 12-function preprocessing pipeline (URL/emoji/HTML removal, tokenization, stop words with **negation retention**, POS-aware lemmatization via spaCy)
+- 📐 TF-IDF feature extraction with n-gram vocabulary and top-feature inspection
+- 🤖 Three models compared head-to-head — Logistic Regression (99.75%), Naive Bayes (99.25%), Linear SVM (**100%**)
+- ⚖️ Rule-based baselines benchmarked against ML — TextBlob (59.1%) and VADER (84.0%)
+- 🔍 Prediction explainability via LR feature coefficients
+- 📊 Word clouds, sentiment distribution, and confusion matrix visualizations
+- 🏗️ FastAPI-ready — `preprocessing.py` + saved `.pkl` artifacts drop straight into a web backend
+- 📖 Self-contained interactive **user guide** (`userguide.html`, 22 pages) in plain language for non-technical readers
+
+> 📄 **Full docs, setup guide, and results:** [`NLP_MachineLearning_SentimentAnalysis/README.md`](./NLP_MachineLearning_SentimentAnalysis/README.md) ·
+> 📚 **Interactive user guide (HTML, 22 pages):** [`NLP_MachineLearning_SentimentAnalysis/userguide.html`](./NLP_MachineLearning_SentimentAnalysis/userguide.html)
+
+| Sentiment Distribution | Confusion Matrix (Linear SVM) |
+|:---:|:---:|
+| ![Distribution](./NLP_MachineLearning_SentimentAnalysis/outputs/sentiment_distribution.png) | ![Confusion Matrix](./NLP_MachineLearning_SentimentAnalysis/outputs/confusion_matrix.png) |
+| **User Guide — Overview** | **User Guide — Word Clouds** |
+| ![Guide Overview](./NLP_MachineLearning_SentimentAnalysis/images/userguide-overview.png) | ![Guide Word Clouds](./NLP_MachineLearning_SentimentAnalysis/images/userguide-wordclouds.png) |
+
+---
+
 ## 🗺️ Roadmap
 
 - [x] 5️⃣ Knowledge Graph Builder — ADK agents + Neo4j + natural language Q&A → **[KnowledgegraphUIapp](./KnowledgegraphUIapp/)**
 - [x] 6️⃣ Model Evaluation Harness — automated LLM benchmarking & regression testing → **[rag-evaluation-harness](./rag-evaluation-harness/)**
-- [ ] 7️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns
+- [x] 7️⃣ Classic NLP / ML Sentiment Analysis — end-to-end text classification teaching notebook → **[NLP_MachineLearning_SentimentAnalysis](./NLP_MachineLearning_SentimentAnalysis/)**
+- [ ] 8️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns
 
 ## 🛠️ Common Tech
 
@@ -159,6 +187,7 @@ A web application that automates the creation of knowledge graphs from structure
 | Data & Validation | Pydantic v2, SQLite |
 | Testing | pytest, pytest-asyncio |
 | Integrations | Twilio (SMS), Neo4j (graph data) |
+| Classic NLP / ML | scikit-learn (TF-IDF, LR, NB, SVM), NLTK, spaCy, TextBlob, VADER |
 
 ---
 
