@@ -1,0 +1,47 @@
+# ── Secrets & credentials ──────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.json
+credentials.json
+
+# ── Python ─────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Virtual environments ───────────────────────────
+venv/
+.venv/
+.venv-1/
+env/
+ENV/
+
+# ── IDE / Editor ───────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Neo4j local data ───────────────────────────────
+neo4j/
+neo4j/data/
+neo4j/logs/
+
+# ── OS / Misc ──────────────────────────────────────
+*.log
+*.tmp
+*.bak
+.cache/

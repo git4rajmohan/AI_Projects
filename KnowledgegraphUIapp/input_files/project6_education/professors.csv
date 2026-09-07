@@ -1,0 +1,16 @@
+professor_id,professor_name,department,university_id,title,years_teaching,research_area,email
+PF-001,Dr. Andrew Ng,Computer Science,U-001,Professor,25,Machine Learning,ang@mit.edu
+PF-002,Dr. Fei-Fei Li,Computer Science,U-002,Professor,18,Computer Vision,feifei@stanford.edu
+PF-003,Dr. Geoffrey Hinton,Computer Science,U-004,Professor Emeritus,40,Deep Learning,hinton@harvard.edu
+PF-004,Dr. Yoshua Bengio,Computer Science,U-003,Visiting Professor,30,Neural Networks,bengio@berkeley.edu
+PF-005,Dr. Ian Goodfellow,Computer Science,U-008,Associate Professor,12,Generative Models,goodfellow@cmu.edu
+PF-006,Dr. Daphne Koller,Statistics,U-002,Professor,22,Probabilistic Models,koller@stanford.edu
+PF-007,Dr. Michael Jordan,Statistics,U-003,Professor,28,Bayesian Methods,jordan@berkeley.edu
+PF-008,Dr. Yann LeCun,Computer Science,U-004,Adjunct Professor,35,Convolutional Networks,lecun@harvard.edu
+PF-009,Dr. Sebastian Thrun,Robotics,U-002,Professor,20,Autonomous Vehicles,thrun@stanford.edu
+PF-010,Dr. Cynthia Breazeal,Robotics,U-001,Professor,18,Social Robotics,breazeal@mit.edu
+PF-011,Dr. Daniela Rus,Robotics,U-001,Professor,22,Distributed Robotics,rus@mit.edu
+PF-012,Dr. Jure Leskovec,Computer Science,U-002,Associate Professor,15,Graph Neural Networks,jure@stanford.edu
+PF-013,Dr. Pieter Abbeel,Robotics,U-003,Professor,17,Reinforcement Learning,abbeel@berkeley.edu
+PF-014,Dr. Chelsea Finn,Computer Science,U-002,Assistant Professor,10,Meta-Learning,cfinn@stanford.edu
+PF-015,Dr. Ruslan Salakhutdinov,Machine Learning,U-008,Professor,16,Deep Learning,rsalakhu@cmu.edu

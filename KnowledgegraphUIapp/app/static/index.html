@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph Builder</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f1117; color: #e0e0e0; min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593); padding: 20px 40px;
+            display: flex; align-items: center; gap: 16px;
+        }
+        .header h1 { color: #fff; font-size: 22px; }
+        .header .subtitle { color: #90caf9; font-size: 13px; margin-left: 8px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+        /* Stepper */
+        .stepper { display: flex; gap: 4px; margin-bottom: 24px; }
+        .step {
+            flex: 1; padding: 12px 16px; background: #1e1e2e; border-radius: 8px;
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
+            transition: all 0.2s; border: 2px solid transparent;
+        }
+        .step.active { border-color: #5c6bc0; background: #283593; }
+        .step.done { border-color: #4caf50; }
+        .step .num {
+            width: 28px; height: 28px; border-radius: 50%; background: #3949ab;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 14px; color: #fff; flex-shrink: 0;
+        }
+        .step.done .num { background: #4caf50; }
+        .step .label { font-size: 13px; color: #b0bec5; }
+        .step.active .label { color: #fff; }
+
+        /* Panels */
+        .panel {
+            background: #1a1a2e; border-radius: 12px; padding: 24px;
+            margin-bottom: 20px; border: 1px solid #2a2a3e;
+        }
+        .panel h2 { font-size: 16px; margin-bottom: 16px; color: #90caf9; }
+        .panel h3 { font-size: 14px; margin-bottom: 12px; color: #80cbc4; }
+
+        /* File list */
+        .file-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+        .file-card {
+            background: #16213e; border: 2px solid #2a2a3e; border-radius: 8px;
+            padding: 12px; cursor: pointer; transition: all 0.15s;
+        }
+        .file-card:hover { border-color: #5c6bc0; }
+        .file-card.selected { border-color: #5c6bc0; background: #1a237e; }
+        .file-card .fname { font-weight: 600; color: #fff; font-size: 13px; margin-bottom: 4px; }
+        .file-card .fmeta { font-size: 11px; color: #78909c; }
+        .file-card .fcols { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
+        .file-card .col-chip {
+            background: #283593; padding: 2px 8px; border-radius: 10px;
+            font-size: 10px; color: #90caf9;
+        }
+        .file-card .fpreview {
+            margin-top: 8px; font-size: 10px; color: #78909c;
+            background: #0d1117; padding: 6px; border-radius: 4px;
+            max-height: 60px; overflow: hidden;
+            font-family: 'Consolas', monospace; white-space: pre;
+        }
+
+        /* File browser */
+        .browser-panel {
+            background: #0d1117; border: 1px solid #3a3a4e; border-radius: 8px;
+            padding: 12px; margin-bottom: 12px;
+        }
+        .browser-item {
+            padding: 8px 12px; cursor: pointer; border-radius: 6px;
+            transition: all 0.15s; font-size: 13px; color: #e0e0e0;
+        }
+        .browser-item:hover { background: #1e1e2e; }
+        .browser-item.selected { background: #1a237e; border-left: 3px solid #5c6bc0; }
+        .browser-item .fmeta { color: #78909c; font-size: 10px; margin-left: 8px; }
+        .selected-file-item {
+            display: flex; align-items: center; gap: 8px;
+            background: #16213e; border: 1px solid #2a2a3e; border-radius: 6px;
+            padding: 8px 12px; margin-bottom: 6px; font-size: 13px;
+        }
+        .selected-file-item .remove-btn {
+            margin-left: auto; cursor: pointer; color: #ef5350; font-size: 16px;
+            border: none; background: none; padding: 0 4px;
+        }
+        .selected-file-item .remove-btn:hover { color: #ef9a9a; }
+        .browser-header {
+            display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+        }
+        .browser-header #browser-current-path {
+            color: #78909c; font-size: 12px; font-family: 'Consolas', monospace;
+            flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        #browser-content { max-height: 300px; overflow-y: auto; }
+
+        /* Inputs */
+        textarea, input[type="text"] {
+            width: 100%; background: #0d1117; color: #e0e0e0; border: 1px solid #3a3a4e;
+            border-radius: 6px; padding: 10px 14px; font-size: 14px; font-family: inherit;
+        }
+        textarea:focus, input:focus { outline: none; border-color: #5c6bc0; }
+
+        /* Buttons */
+        .btn {
+            background: #3949ab; color: #fff; border: none; padding: 10px 24px;
+            border-radius: 6px; font-size: 14px; cursor: pointer; transition: all 0.15s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn:hover { background: #5c6bc0; }
+        .btn:disabled { background: #3949ab40; cursor: not-allowed; opacity: 0.5; }
+        .btn.green { background: #2e7d32; }
+        .btn.green:hover { background: #43a047; }
+        .btn.orange { background: #e65100; }
+        .btn.orange:hover { background: #ef6c00; }
+
+        /* Schema display */
+        .schema-box {
+            background: #0d1117; border: 1px solid #3a3a4e; border-radius: 6px;
+            padding: 16px; margin-top: 12px; font-family: 'Consolas', monospace;
+            font-size: 12px; color: #a5d6a7; max-height: 300px; overflow-y: auto;
+            white-space: pre-wrap; word-break: break-word;
+        }
+
+        /* Progress log */
+        .log-box {
+            background: #0d1117; border: 1px solid #3a3a4e; border-radius: 6px;
+            padding: 12px; margin-top: 12px; font-family: 'Consolas', monospace;
+            font-size: 12px; color: #80cbc4; max-height: 250px; overflow-y: auto;
+        }
+        .log-box .entry { margin-bottom: 2px; }
+
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+        .stat-card {
+            background: #16213e; border-radius: 8px; padding: 12px 16px;
+            border: 1px solid #2a2a3e;
+        }
+        .stat-card .stat-label { font-size: 11px; color: #78909c; text-transform: uppercase; }
+        .stat-card .stat-value { font-size: 24px; font-weight: bold; color: #fff; }
+
+        /* Schema pattern view */
+        .schema-section { margin-bottom: 16px; }
+        .schema-section h4 {
+            font-size: 13px; color: #90caf9; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .agent-tag {
+            background: #1b5e20; color: #a5d6a7; padding: 3px 12px;
+            border-radius: 10px; font-size: 11px; font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Agent live progress log */
+        .agent-log-box {
+            background: #0d1117; border: 1px solid #2a2a3e; border-radius: 8px;
+            padding: 12px; margin-top: 12px; max-height: 350px; overflow-y: auto;
+            font-family: 'Consolas', 'Courier New', monospace; font-size: 12px;
+            line-height: 1.6; display: none;
+        }
+        .agent-log-box.visible { display: block; }
+        .agent-log-entry {
+            padding: 2px 0; color: #b0bec5; border-bottom: 1px solid rgba(42,42,62,0.3);
+        }
+        .agent-log-entry.agent-start { color: #90caf9; font-weight: 600; }
+        .agent-log-entry.agent-done { color: #81c784; }
+        .agent-log-entry.agent-iter { color: #ce93d8; font-weight: 600; }
+        .agent-log-entry.agent-error { color: #ef9a9a; }
+        .agent-log-entry.agent-tool { color: #80cbc4; }
+        .agent-log-entry .timestamp { color: #546e7a; font-size: 10px; margin-right: 8px; }
+        .agent-progress-bar {
+            height: 4px; background: #1e1e2e; border-radius: 2px; margin-top: 8px; overflow: hidden;
+        }
+        .agent-progress-fill {
+            height: 100%; background: linear-gradient(90deg, #5c6bc0, #42a5f5);
+            width: 0%; transition: width 0.5s ease; border-radius: 2px;
+        }
+        .agent-tag.deterministic {
+            background: #37474f; color: #b0bec5;
+        }
+        .pattern-row {
+            display: flex; align-items: center; gap: 10px;
+            background: #0d1117; border: 1px solid #2a2a3e; border-radius: 6px;
+            padding: 10px 14px; margin-bottom: 6px; font-family: 'Consolas', monospace;
+            font-size: 13px; flex-wrap: wrap;
+        }
+        .pattern-row .node-badge {
+            background: #283593; color: #90caf9; padding: 4px 14px;
+            border-radius: 6px; font-weight: 600; border: 1px solid #3949ab;
+        }
+        .pattern-row .rel-badge {
+            background: #1b5e20; color: #a5d6a7; padding: 3px 12px;
+            border-radius: 10px; font-size: 11px; font-weight: 600;
+        }
+        .pattern-row .arrow { color: #78909c; font-size: 18px; font-weight: bold; }
+        .pattern-row .pattern-count {
+            margin-left: auto; color: #78909c; font-size: 11px;
+        }
+        .node-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .node-chip {
+            background: #16213e; border: 1px solid #3949ab; border-radius: 6px;
+            padding: 8px 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .node-chip .chip-icon { font-size: 16px; }
+        .node-chip .chip-label { color: #90caf9; font-weight: 600; font-size: 13px; }
+        .node-chip .chip-count { color: #fff; font-weight: bold; font-size: 16px; }
+
+        /* Query */
+        .query-result {
+            background: #0d1117; border: 1px solid #3a3a4e; border-radius: 6px;
+            padding: 16px; margin-top: 12px; font-size: 13px; line-height: 1.6;
+            color: #e0e0e0; max-height: 400px; overflow-y: auto;
+        }
+        .query-result table {
+            border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 12px;
+        }
+        .query-result th {
+            background: #283593; color: #90caf9; padding: 6px 10px; text-align: left;
+            border: 1px solid #3949ab; font-weight: 600;
+        }
+        .query-result td {
+            padding: 4px 10px; border: 1px solid #2a2a3e; color: #e0e0e0;
+        }
+        .query-result tr:nth-child(even) td { background: #16213e; }
+        .query-result tr:hover td { background: #1a237e; }
+        .query-result b, .query-result strong { color: #90caf9; }
+        .query-result code { background: #1a1a2e; padding: 2px 6px; border-radius: 3px; font-size: 11px; }
+        .query-result ul, .query-result ol { margin: 8px 0; padding-left: 20px; }
+        .query-result li { margin: 4px 0; }
+        .query-cypher {
+            background: #1a1a2e; border: 1px solid #3a3a4e; border-radius: 6px;
+            padding: 10px; margin-top: 8px; font-family: 'Consolas', monospace;
+            font-size: 11px; color: #80cbc4; white-space: pre-wrap;
+        }
+
+        /* Graph viz */
+        #graph-container {
+            background: #0d1117; border: 1px solid #3a3a4e; border-radius: 6px;
+            height: 500px; position: relative; overflow: hidden;
+        }
+        .graph-controls {
+            position: absolute; top: 8px; right: 8px; z-index: 10;
+            display: flex; gap: 6px;
+        }
+        .graph-controls .btn { padding: 4px 12px; font-size: 11px; }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block; width: 16px; height: 16px;
+            border: 2px solid #ffffff40; border-top-color: #fff;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Status */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;
+        }
+        .status-badge.ok { background: #1b5e20; color: #a5d6a7; }
+        .status-badge.err { background: #b71c1c; color: #ef9a9a; }
+        .status-badge.waiting { background: #e65100; color: #ffcc80; }
+
+        .hidden { display: none !important; }
+
+        /* Database selector */
+        .db-selector {
+            margin-left: auto; display: flex; align-items: center; gap: 8px;
+        }
+        .db-selector label { color: #90caf9; font-size: 12px; }
+        .db-selector select {
+            background: #1e1e2e; color: #e0e0e0; border: 1px solid #3a3a4e;
+            border-radius: 6px; padding: 6px 10px; font-size: 13px; cursor: pointer;
+            font-family: inherit;
+        }
+        .db-selector select:focus { outline: none; border-color: #5c6bc0; }
+        .db-selector .db-badge {
+            background: #2e7d32; color: #a5d6a7; padding: 2px 8px; border-radius: 10px;
+            font-size: 10px; font-weight: 600;
+        }
+
+        /* Layout */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔗 Knowledge Graph Builder</h1>
+        <span class="subtitle">— Select files → Propose schema → Build graph → Query</span>
+    </div>
+
+    <div class="container">
+        <!-- Stepper -->
+        <div class="stepper">
+            <div class="step active" id="step1" onclick="showPanel(1)">
+                <div class="num">1</div><div class="label">Select Files & Goals</div>
+            </div>
+            <div class="step" id="step2" onclick="showPanel(2)">
+                <div class="num">2</div><div class="label">Review Schema</div>
+            </div>
+            <div class="step" id="step3" onclick="showPanel(3)">
+                <div class="num">3</div><div class="label">Build Graph</div>
+            </div>
+            <div class="step" id="step4" onclick="showPanel(4)">
+                <div class="num">4</div><div class="label">Query & Explore</div>
+            </div>
+        </div>
+
+        <!-- Step 1: File Selection + Goals -->
+        <div class="panel" id="panel1">
+            <h2>📁 Step 1: Select Structured Documents, Database &amp; Goals</h2>
+            <p style="color:#78909c; font-size:13px; margin-bottom:8px;">
+                Select one or more structured data files from the input_files folder, then describe
+                what you want the knowledge graph to capture (entities, relationships, use case).
+            </p>
+            <div style="background:#0d1117; border:1px solid #2a2a3e; border-radius:6px; padding:10px 14px; margin-bottom:16px; font-size:12px; color:#80cbc4;">
+                <b style="color:#90caf9;">Supported Document Types:</b>
+                <span style="margin-left:8px;">
+                    <span class="col-chip">CSV</span>
+                    <span class="col-chip">MD (Markdown)</span>
+                    <span class="col-chip">JSON</span>
+                </span>
+                <span style="display:block; margin-top:6px; color:#78909c;">
+                    CSV files are loaded as structured tabular data (nodes + relationships via Cypher LOAD CSV).
+                    Markdown (.md) and JSON files can be processed for entity extraction.
+                </span>
+            </div>
+
+            <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+                <button class="btn" onclick="openBrowser()">📁 Browse Files</button>
+                <span id="browse-path" style="color:#78909c;font-size:12px;font-family:Consolas,monospace;">No folder selected</span>
+                <button class="btn orange" onclick="clearSelectedFiles()" id="clear-files-btn" style="display:none;">Clear All</button>
+            </div>
+
+            <!-- Browser panel -->
+            <div id="browser-panel" class="browser-panel hidden">
+                <div class="browser-header">
+                    <button class="btn" onclick="browseUp()" style="padding:4px 12px;font-size:12px;">⬆ Up</button>
+                    <span id="browser-current-path"></span>
+                </div>
+                <div id="browser-content"></div>
+            </div>
+
+            <!-- Selected files -->
+            <h3 style="margin-top:16px;">Selected Files</h3>
+            <div id="selected-files-container" style="margin-top:8px;">
+                <div style="color:#78909c;padding:8px;">No files selected. Click "Browse Files" to choose.</div>
+            </div>
+
+            <h3 style="margin-top:20px;">🗄️ Neo4j Database Name</h3>
+            <p style="color:#78909c; font-size:12px; margin:4px 0 8px 0;">
+                Enter a name for the Neo4j database where the knowledge graph will be created.
+                This database will be created in Neo4j if it doesn't exist.
+            </p>
+            <input type="text" id="db-name-input" placeholder="e.g., my_project_graph" style="margin-bottom:16px;"
+                oninput="onDbNameInput()">
+            <span id="db-name-status" style="font-size:12px; color:#78909c; margin-left:8px;"></span>
+
+            <h3 style="margin-top:20px;">🎯 Your Goals</h3>
+            <textarea id="goals" rows="3" style="margin-top:8px;"
+                placeholder="e.g., Build a product knowledge graph with suppliers, assemblies, and parts. I want to query which suppliers supply which parts for each product."></textarea>
+
+            <!-- Agent pipeline info -->
+            <div style="background:#0d1117; border:1px solid #2a2a3e; border-radius:6px; padding:14px; margin-top:20px;">
+                <h3 style="color:#90caf9; font-size:13px; margin-bottom:10px;">🤖 ADK Agent Pipeline (Schema Proposal)</h3>
+                <p style="color:#78909c; font-size:11px; margin-bottom:10px;">
+                    The schema is proposed by a <b style="color:#80cbc4;">Google ADK LoopAgent</b> — a refinement loop of 3 agents that iteratively propose, critique, and validate the schema.
+                </p>
+                <div id="agent-list" style="display:flex; flex-direction:column; gap:6px;">
+                    <div class="pattern-row" style="font-size:12px;">
+                        <span class="node-badge">schema_proposal_agent</span>
+                        <span style="color:#78909c;font-size:10px;">LlmAgent — samples files, proposes node & relationship rules</span>
+                    </div>
+                    <div class="pattern-row" style="font-size:12px;">
+                        <span class="node-badge">schema_critic_agent</span>
+                        <span style="color:#78909c;font-size:10px;">LlmAgent — validates proposal, returns 'valid' or 'retry' with feedback</span>
+                    </div>
+                    <div class="pattern-row" style="font-size:12px;">
+                        <span class="node-badge">StopChecker</span>
+                        <span style="color:#78909c;font-size:10px;">BaseAgent — stops loop when critic says 'valid'</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:16px; display:flex; gap:12px; align-items:center;">
+                <button class="btn" id="propose-btn" onclick="proposeSchema()">
+                    🤖 Run Agent Pipeline
+                </button>
+                <span id="propose-status"></span>
+            </div>
+
+            <!-- Live agent progress log -->
+            <div id="agent-progress-log" class="agent-log-box">
+                <div style="color:#90caf9; font-weight:600; margin-bottom:8px; font-size:13px;">
+                    🤖 Agent Pipeline Activity
+                </div>
+                <div id="agent-log-entries"></div>
+                <div class="agent-progress-bar">
+                    <div class="agent-progress-fill" id="agent-progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Review Schema -->
+        <div class="panel hidden" id="panel2">
+            <h2>📋 Step 2: Review the Proposed Construction Plan</h2>
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px;">
+                <span class="agent-tag">🤖 schema_refinement_loop</span>
+                <span style="color:#78909c; font-size:11px;">(LoopAgent: proposal → critic → StopChecker)</span>
+            </div>
+            <p style="color:#78909c; font-size:13px; margin-bottom:8px;">
+                The ADK agent pipeline analyzed your files and goals. Review the schema below. You can edit it
+                in the JSON box before building the graph.
+            </p>
+            <button class="btn" style="margin-bottom:12px;" onclick="showPanel(1)">← Back to Files</button>
+
+            <h3>Proposed Schema (JSON):</h3>
+            <textarea id="schema-json" rows="18" style="font-family:Consolas,monospace; font-size:12px;"></textarea>
+
+            <div style="margin-top:16px; display:flex; gap:12px;">
+                <button class="btn green" onclick="goToBuild()">✅ Approve & Build Graph →</button>
+                <button class="btn orange" onclick="proposeSchema()">🔄 Re-run Agents</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Build Graph -->
+        <div class="panel hidden" id="panel3">
+            <h2>🏗️ Step 3: Build the Knowledge Graph</h2>
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px;">
+                <span class="agent-tag deterministic">⚙️ build_domain_graph()</span>
+                <span style="color:#78909c; font-size:11px;">(deterministic — no agent, executes Cypher LOAD CSV directly)</span>
+            </div>
+            <p style="color:#78909c; font-size:13px; margin-bottom:8px;">
+                Click "Build Graph" to execute the construction plan. This creates nodes and
+                relationships in Neo4j from your CSV files.
+            </p>
+
+            <button class="btn green" id="build-btn" onclick="buildGraph()">
+                🏗️ Build Graph
+            </button>
+            <span id="build-status"></span>
+
+            <div class="log-box hidden" id="build-log"></div>
+
+            <div style="margin-top:16px;" id="build-summary" class="hidden">
+                <h3>Graph Statistics:</h3>
+                <div id="stats-grid" class="stats-grid"></div>
+            </div>
+        </div>
+
+        <!-- Step 4: Query & Explore -->
+        <div class="panel hidden" id="panel4">
+            <h2>🔍 Step 4: Query & Explore the Knowledge Graph</h2>
+
+            <!-- Database selector -->
+            <div style="display:flex; gap:12px; align-items:center; margin-bottom:16px; padding:12px; background:#0d1117; border:1px solid #2a2a3e; border-radius:8px;">
+                <label style="color:#90caf9; font-size:13px; font-weight:600; white-space:nowrap;">🗄️ Select Database:</label>
+                <select id="db-select" onchange="onDbSelectChange()" style="background:#1e1e2e; color:#e0e0e0; border:1px solid #3a3a4e; border-radius:6px; padding:6px 12px; font-size:13px; cursor:pointer; font-family:inherit; flex:1; max-width:350px;">
+                    <option value="">-- Loading databases... --</option>
+                </select>
+                <button class="btn" onclick="loadDatabases()" style="padding:6px 12px; font-size:12px;">🔄 Refresh</button>
+                <button class="btn green" onclick="loadSelectedDb()" style="padding:6px 12px; font-size:12px;">Load DB</button>
+                <span id="db-load-status" style="font-size:12px; color:#78909c;"></span>
+            </div>
+
+            <div class="two-col">
+                <!-- Query section -->
+                <div>
+                    <h3>Ask a Question</h3>
+                    <div style="background:#0d1117; border:1px solid #2a2a3e; border-radius:6px; padding:8px 12px; margin-bottom:8px; font-size:11px; color:#80cbc4;">
+                        🤖 <b style="color:#90caf9;">query_agent</b> (ADK LlmAgent) — gets schema, generates Cypher, executes, and summarizes
+                    </div>
+                    <textarea id="question" rows="2" style="margin-top:4px;"
+                        placeholder="e.g., Which suppliers provide parts for the Stockholm Chair?"></textarea>
+                    <div style="margin-top:8px; display:flex; gap:8px;">
+                        <button class="btn" onclick="askQuestion()">🔍 Ask Agent</button>
+                        <button class="btn orange" onclick="loadGraph()">🔄 Refresh Graph</button>
+                    </div>
+
+                    <div id="query-answer" class="query-result hidden"></div>
+                    <div id="query-cypher" class="query-cypher hidden"></div>
+                </div>
+
+                <!-- Graph viz -->
+                <div>
+                    <h3>Graph Visualization</h3>
+                    <div id="graph-container">
+                        <div class="graph-controls">
+                            <button class="btn" onclick="zoomGraph(1.2)">+</button>
+                            <button class="btn" onclick="zoomGraph(0.8)">−</button>
+                            <button class="btn" onclick="resetGraph()">Reset</button>
+                        </div>
+                        <canvas id="graph-canvas"></canvas>
+                        <div id="graph-legend" style="position:absolute;bottom:8px;left:8px;display:flex;gap:12px;flex-wrap:wrap;font-size:10px;z-index:10;"></div>
+                        <div id="graph-info" style="position:absolute;top:8px;left:8px;font-size:11px;color:#78909c;z-index:10;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:20px;">
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+                    <span class="agent-tag deterministic">⚙️ get_graph_stats()</span>
+                    <span style="color:#78909c; font-size:11px;">(deterministic — queries Neo4j schema directly)</span>
+                </div>
+                <h3>Graph Statistics</h3>
+                <div id="stats-grid-2" class="stats-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── JavaScript ─────────────────────────────────────────────── -->
+    <script>
+    let selectedFiles = [];
+    let currentPlan = null;
+    let graphNodes = [];
+    let graphEdges = [];
+    let canvas, ctx;
+    let zoom = 1.0;
+    let panX = 0, panY = 0;
+    let dragging = false;
+    let dragNode = null;
+    let lastMouseX = 0, lastMouseY = 0;
+    let selectedDB = null; // Neo4j database name (set from Tab 1 input)
+
+    // ── API helpers ──────────────────────────────────────────────
+    async function api(url, opts = {}) {
+        const r = await fetch(url, {
+            ...opts,
+            headers: { 'Content-Type': 'application/json', ...opts.headers },
+        });
+        if (!r.ok) {
+            const err = await r.json().catch(() => ({ detail: r.statusText }));
+            throw new Error(err.detail || `HTTP ${r.status}`);
+        }
+        return r.json();
+    }
+
+    // ── Stepper ───────────────────────────────────────────────────
+    function showPanel(n) {
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById(`panel${i}`).classList.toggle('hidden', i !== n);
+            const step = document.getElementById(`step${i}`);
+            step.classList.toggle('active', i === n);
+        }
+        // When switching to Step 4, re-measure canvas (panel was hidden before → dimensions were 0)
+        if (n === 4 && canvas) {
+            const container = document.getElementById('graph-container');
+            canvas.width = Math.max(container.clientWidth, 500);
+            canvas.height = Math.max(container.clientHeight, 400);
+            drawGraph();
+            // Load the list of databases for the selector
+            loadDatabases();
+            // If we already have a selectedDB, auto-load its stats + graph
+            if (selectedDB) {
+                loadStats('stats-grid-2');
+                loadGraph();
+            }
+        }
+    }
+
+    function markStepDone(n) {
+        document.getElementById(`step${n}`).classList.add('done');
+    }
+
+    function setStatus(elId, text, type = 'ok') {
+        const el = document.getElementById(elId);
+        el.innerHTML = `<span class="status-badge ${type}">${text}</span>`;
+    }
+
+    // ── Step 1: File browser ──────────────────────────────────────
+    let currentBrowseParent = null;
+
+    async function openBrowser() {
+        const panel = document.getElementById('browser-panel');
+        if (panel.classList.contains('hidden')) {
+            panel.classList.remove('hidden');
+            await browseTo('');
+        } else {
+            panel.classList.add('hidden');
+        }
+    }
+
+    async function browseTo(path) {
+        try {
+            const url = '/api/browse' + (path ? `?path=${encodeURIComponent(path)}` : '');
+            const data = await api(url);
+            currentBrowseParent = data.parent || null;
+            const content = document.getElementById('browser-content');
+            document.getElementById('browser-current-path').textContent = data.path;
+            document.getElementById('browse-path').textContent = data.path;
+            content.innerHTML = '';
+
+            if (data.error) {
+                content.innerHTML = `<div style="color:#ef9a9a;padding:12px;">${data.error}</div>`;
+                return;
+            }
+
+            // Up navigation
+            if (data.parent) {
+                const up = document.createElement('div');
+                up.className = 'browser-item';
+                up.innerHTML = '⬆ .. (parent)';
+                up.onclick = () => browseTo(data.parent);
+                content.appendChild(up);
+            }
+
+            // Directories
+            (data.dirs || []).forEach(d => {
+                const item = document.createElement('div');
+                item.className = 'browser-item';
+                item.innerHTML = `📁 ${d.name}`;
+                item.onclick = () => browseTo(d.path);
+                content.appendChild(item);
+            });
+
+            // Files
+            (data.files || []).forEach(f => {
+                const item = document.createElement('div');
+                const isSel = selectedFiles.some(sf => sf.path === f.path);
+                item.className = 'browser-item' + (isSel ? ' selected' : '');
+                item.innerHTML = `📄 ${f.name} <span class="fmeta">${(f.size / 1024).toFixed(1)} KB</span>`;
+                item.onclick = (e) => toggleFileSelection(f.name, f.path, e.currentTarget);
+                content.appendChild(item);
+            });
+
+            if (!(data.dirs || []).length && !(data.files || []).length) {
+                const empty = document.createElement('div');
+                empty.style.cssText = 'color:#78909c;padding:12px;';
+                empty.textContent = 'No CSV/MD/JSON files in this folder.';
+                content.appendChild(empty);
+            }
+        } catch (e) {
+            document.getElementById('browser-content').innerHTML =
+                `<div style="color:#ef9a9a;padding:12px;">Error: ${e.message}</div>`;
+        }
+    }
+
+    function browseUp() {
+        if (currentBrowseParent) browseTo(currentBrowseParent);
+    }
+
+    function toggleFileSelection(name, path, element) {
+        const idx = selectedFiles.findIndex(sf => sf.path === path);
+        if (idx >= 0) {
+            selectedFiles.splice(idx, 1);
+            if (element) element.classList.remove('selected');
+        } else {
+            selectedFiles.push({ name, path });
+            if (element) element.classList.add('selected');
+        }
+        renderSelectedFiles();
+    }
+
+    function removeSelectedFile(path) {
+        selectedFiles = selectedFiles.filter(sf => sf.path !== path);
+        renderSelectedFiles();
+    }
+
+    function clearSelectedFiles() {
+        selectedFiles = [];
+        renderSelectedFiles();
+    }
+
+    function renderSelectedFiles() {
+        const container = document.getElementById('selected-files-container');
+        const clearBtn = document.getElementById('clear-files-btn');
+        if (selectedFiles.length === 0) {
+            container.innerHTML = '<div style="color:#78909c;padding:8px;">No files selected. Click "Browse Files" to choose.</div>';
+            if (clearBtn) clearBtn.style.display = 'none';
+            return;
+        }
+        if (clearBtn) clearBtn.style.display = 'inline-flex';
+        container.innerHTML = '';
+        selectedFiles.forEach(f => {
+            const item = document.createElement('div');
+            item.className = 'selected-file-item';
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = '📄 ' + f.name;
+            const pathSpan = document.createElement('span');
+            pathSpan.className = 'fmeta';
+            pathSpan.style.marginLeft = '8px';
+            pathSpan.style.overflow = 'hidden';
+            pathSpan.style.textOverflow = 'ellipsis';
+            pathSpan.style.whiteSpace = 'nowrap';
+            pathSpan.style.flex = '1';
+            pathSpan.textContent = f.path;
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-btn';
+            removeBtn.textContent = '✕';
+            removeBtn.onclick = () => removeSelectedFile(f.path);
+            item.appendChild(nameSpan);
+            item.appendChild(pathSpan);
+            item.appendChild(removeBtn);
+            container.appendChild(item);
+        });
+    }
+
+    // ── Step 1→2: Propose schema via ADK agents (SSE streaming) ──────
+    async function proposeSchema() {
+        if (selectedFiles.length === 0) {
+            alert('Please select at least one file. Click "Browse Files" to choose.');
+            return;
+        }
+        const dbName = document.getElementById('db-name-input').value.trim();
+        if (!dbName) {
+            alert('Please enter a Neo4j database name.');
+            document.getElementById('db-name-input').focus();
+            return;
+        }
+        const goals = document.getElementById('goals').value.trim();
+        if (!goals) {
+            alert('Please describe your goals.');
+            return;
+        }
+
+        const btn = document.getElementById('propose-btn');
+        const logBox = document.getElementById('agent-progress-log');
+        const logEntries = document.getElementById('agent-log-entries');
+        const progressFill = document.getElementById('agent-progress-fill');
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Running Agent Pipeline...';
+        setStatus('propose-status', '🤖 schema_refinement_loop working...', 'waiting');
+
+        // Show the live log
+        logBox.classList.add('visible');
+        logEntries.innerHTML = '';
+        progressFill.style.width = '0%';
+
+        // Helper to add a log entry
+        function addLogEntry(text, cssClass = '') {
+            const entry = document.createElement('div');
+            entry.className = 'agent-log-entry ' + cssClass;
+            const now = new Date().toLocaleTimeString('en-US', { hour12: false });
+            entry.innerHTML = `<span class="timestamp">${now}</span>${text}`;
+            logEntries.appendChild(entry);
+            logBox.scrollTop = logBox.scrollHeight;
+            return entry;
+        }
+
+        // Helper to classify a log message
+        function classifyMsg(msg) {
+            if (msg.includes('Starting Schema') || msg.includes('Running schema')) return 'agent-start';
+            if (msg.includes('Agent finished') || msg.includes('Schema proposal complete')) return 'agent-done';
+            if (msg.includes('Loop iteration')) return 'agent-iter';
+            if (msg.includes('error') || msg.includes('Error') || msg.includes('✗')) return 'agent-error';
+            return '';
+        }
+
+        addLogEntry('🚀 Connecting to agent pipeline...', 'agent-start');
+
+        try {
+            // Use fetch with streaming response (SSE)
+            const response = await fetch('/api/propose/stream', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    selected_files: selectedFiles.map(f => f.path),
+                    goals,
+                    database: selectedDB,
+                }),
+            });
+
+            if (!response.ok) {
+                const err = await response.json().catch(() => ({ detail: response.statusText }));
+                throw new Error(err.detail || `HTTP ${response.status}`);
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+            let eventCount = 0;
+            const maxEvents = 30; // Rough estimate for progress bar
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+
+                // Process complete SSE events (separated by \n\n)
+                const events = buffer.split('\n\n');
+                buffer = events.pop(); // Keep incomplete chunk
+
+                for (const eventData of events) {
+                    const dataLine = eventData.replace(/^data: /, '').trim();
+                    if (!dataLine) continue;
+
+                    try {
+                        const msg = JSON.parse(dataLine);
+
+                        if (msg.type === 'progress') {
+                            eventCount++;
+                            const cls = classifyMsg(msg.message);
+                            addLogEntry(msg.message, cls);
+                            // Update progress bar (rough estimate)
+                            const pct = Math.min((eventCount / maxEvents) * 100, 95);
+                            progressFill.style.width = pct + '%';
+
+                        } else if (msg.type === 'result') {
+                            progressFill.style.width = '100%';
+                            addLogEntry('✅ Pipeline complete!', 'agent-done');
+
+                            currentPlan = msg.plan;
+                            document.getElementById('schema-json').value = JSON.stringify(msg.plan, null, 2);
+                            markStepDone(1);
+                            setStatus('propose-status', '✓ schema_refinement_loop: schema proposed', 'ok');
+
+                            // Wait a moment so user can see the final log
+                            await new Promise(r => setTimeout(r, 800));
+                            showPanel(2);
+
+                        } else if (msg.type === 'error') {
+                            addLogEntry(`❌ ${msg.message}`, 'agent-error');
+                            setStatus('propose-status', `✗ ${msg.message}`, 'err');
+                        }
+                        // heartbeat events are ignored
+                    } catch (e) {
+                        // Ignore JSON parse errors for incomplete chunks
+                    }
+                }
+            }
+        } catch (e) {
+            addLogEntry(`❌ ${e.message}`, 'agent-error');
+            setStatus('propose-status', `✗ ${e.message}`, 'err');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '🤖 Run Agent Pipeline';
+        }
+    }
+
+    // ── Step 2→3: Approve schema ──────────────────────────────────
+    function goToBuild() {
+        // Parse the (possibly edited) JSON
+        try {
+            currentPlan = JSON.parse(document.getElementById('schema-json').value);
+        } catch (e) {
+            alert('Invalid JSON in schema box. Please fix or re-propose.');
+            return;
+        }
+        markStepDone(2);
+        showPanel(3);
+    }
+
+    // ── Step 3: Build graph ──────────────────────────────────────
+    async function buildGraph() {
+        const btn = document.getElementById('build-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Building...';
+        setStatus('build-status', 'Building...', 'waiting');
+
+        const logBox = document.getElementById('build-log');
+        logBox.classList.remove('hidden');
+        logBox.innerHTML = '<div class="entry" style="color:#80cbc4;margin-bottom:6px;">⚙️ build_domain_graph() — executing construction plan...</div>';
+
+        try {
+            const data = await api('/api/build', {
+                method: 'POST',
+                body: JSON.stringify({ plan: currentPlan, database: selectedDB }),
+            });
+
+            // Show progress
+            if (data.progress) {
+                data.progress.forEach(msg => {
+                    const entry = document.createElement('div');
+                    entry.className = 'entry';
+                    entry.textContent = msg;
+                    logBox.appendChild(entry);
+                });
+            }
+
+            // Show stats
+            const summary = data.summary;
+            document.getElementById('build-summary').classList.remove('hidden');
+            const statsGrid = document.getElementById('stats-grid');
+            statsGrid.innerHTML = `
+                <div class="stat-card"><div class="stat-label">Nodes Created</div><div class="stat-value">${summary.nodes_created}</div></div>
+                <div class="stat-card"><div class="stat-label">Relationships Created</div><div class="stat-value">${summary.relationships_created}</div></div>
+                <div class="stat-card"><div class="stat-label">Errors</div><div class="stat-value">${summary.errors.length}</div></div>
+            `;
+            if (summary.errors.length > 0) {
+                summary.errors.forEach(err => {
+                    const entry = document.createElement('div');
+                    entry.className = 'entry';
+                    entry.style.color = '#ef9a9a';
+                    entry.textContent = `✗ ${err}`;
+                    logBox.appendChild(entry);
+                });
+            }
+
+            markStepDone(3);
+            setStatus('build-status', '✓ Graph built', 'ok');
+            loadStats('stats-grid-2');
+            loadGraph();
+        } catch (e) {
+            setStatus('build-status', `✗ ${e.message}`, 'err');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '🏗️ Build Graph';
+        }
+    }
+
+    // ── Step 4: Load stats ────────────────────────────────────────
+    async function loadStats(containerId) {
+        try {
+            const stats = await api('/api/stats' + dbParam());
+            const container = document.getElementById(containerId);
+            let html = '<div style="margin-bottom:10px;font-size:11px;color:#78909c;"><span class="agent-tag deterministic">⚙️ get_graph_stats()</span> <span style="margin-left:4px;">queried Neo4j schema directly</span></div>';
+
+            if (stats.error) {
+                container.innerHTML = `<div style="color:#ef9a9a;">⚠️ ${stats.error}</div>`;
+                return;
+            }
+
+            // Node labels as chips
+            if (stats.nodes && Object.keys(stats.nodes).length > 0) {
+                html += '<div class="schema-section"><h4>🏷️ Node Labels</h4><div class="node-chips">';
+                Object.entries(stats.nodes).forEach(([label, count]) => {
+                    html += `<div class="node-chip"><span class="chip-icon">●</span><span class="chip-label">${label}</span><span class="chip-count">${count}</span></div>`;
+                });
+                html += '</div></div>';
+            }
+
+            // Relationship patterns as (Label)-[:TYPE]->(Label)
+            if (stats.patterns && stats.patterns.length > 0) {
+                html += '<div class="schema-section"><h4>🔗 Relationship Patterns</h4>';
+                stats.patterns.forEach(p => {
+                    html += `<div class="pattern-row">
+                        <span class="node-badge">${p.from}</span>
+                        <span class="arrow">─[</span>
+                        <span class="rel-badge">${p.type}</span>
+                        <span class="arrow">]→</span>
+                        <span class="node-badge">${p.to}</span>
+                        <span class="pattern-count">${p.count} relationship${p.count !== 1 ? 's' : ''}</span>
+                    </div>`;
+                });
+                html += '</div>';
+            }
+
+            // Relationship summary counts (if no patterns available)
+            if (stats.relationships && Object.keys(stats.relationships).length > 0 && (!stats.patterns || stats.patterns.length === 0)) {
+                html += '<div class="schema-section"><h4>🔗 Relationships</h4><div class="node-chips">';
+                Object.entries(stats.relationships).forEach(([type, count]) => {
+                    html += `<div class="node-chip"><span class="chip-icon">↔</span><span class="chip-label">-${type}-</span><span class="chip-count">${count}</span></div>`;
+                });
+                html += '</div></div>';
+            }
+
+            container.innerHTML = html || '<div style="color:#78909c;">No data in graph.</div>';
+        } catch (e) {
+            console.error('Stats error:', e);
+            const container = document.getElementById(containerId);
+            if (container) container.innerHTML = `<div style="color:#ef9a9a;">⚠️ ${e.message}</div>`;
+        }
+    }
+
+    // ── Step 4: Ask question ──────────────────────────────────────
+    async function askQuestion() {
+        const q = document.getElementById('question').value.trim();
+        if (!q) return;
+
+        const answerDiv = document.getElementById('query-answer');
+        const cypherDiv = document.getElementById('query-cypher');
+        answerDiv.classList.remove('hidden');
+        cypherDiv.classList.remove('hidden');
+        answerDiv.innerHTML = '<div style="margin-bottom:8px;"><span class="agent-tag">🤖 query_agent</span> <span style="color:#78909c;font-size:11px;margin-left:4px;">thinking...</span></div><span class="spinner"></span>';
+
+        try {
+            const data = await api('/api/query', {
+                method: 'POST',
+                body: JSON.stringify({ question: q, database: selectedDB }),
+            });
+
+            if (data.error) {
+                answerDiv.innerHTML = `<div style="margin-bottom:8px;"><span class="agent-tag">🤖 query_agent</span></div>⚠️ <b>Error:</b> ${data.error}`;
+            } else {
+                answerDiv.innerHTML = `<div style="margin-bottom:8px;"><span class="agent-tag">🤖 query_agent</span></div><b>Answer:</b><br>${renderMarkdown(data.answer)}`;
+                if (data.cypher) {
+                    cypherDiv.innerHTML = `<div style="margin-bottom:4px;"><span class="agent-tag">🤖 query_agent</span> <span style="color:#78909c;font-size:10px;">generated Cypher:</span></div><b>Cypher:</b>\n${data.cypher}`;
+                }
+            }
+        } catch (e) {
+            answerDiv.innerHTML = `⚠️ <b>Error:</b> ${e.message}`;
+        }
+    }
+
+    // ── Simple Markdown-to-HTML renderer ────────────────────────
+    function renderMarkdown(text) {
+        if (!text) return '';
+        let html = text;
+        // Escape HTML first
+        html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        // Tables: detect lines starting with | and convert
+        const lines = html.split('\n');
+        const out = [];
+        let inTable = false;
+        let tableRows = [];
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (line.trim().startsWith('|')) {
+                // Check if next line is a separator row (|---|---|)
+                const nextLine = lines[i + 1] || '';
+                const isSeparator = /^\|[-:\s|]+\|$/.test(nextLine.trim());
+                if (!inTable && isSeparator) {
+                    // Start table — this line is the header
+                    inTable = true;
+                    const headerCells = line.split('|').slice(1, -1).map(c => c.trim());
+                    tableRows.push({type: 'header', cells: headerCells});
+                    i++; // skip separator line
+                    continue;
+                } else if (inTable) {
+                    // Body row
+                    const cells = line.split('|').slice(1, -1).map(c => c.trim());
+                    tableRows.push({type: 'body', cells: cells});
+                    continue;
+                }
+            }
+            // Not a table line — flush any pending table
+            if (inTable) {
+                let tableHtml = '<table><thead><tr>';
+                tableRows.filter(r => r.type === 'header').forEach(r => {
+                    tableHtml += r.cells.map(c => `<th>${c}</th>`).join('');
+                });
+                tableHtml += '</tr></thead><tbody>';
+                tableRows.filter(r => r.type === 'body').forEach(r => {
+                    tableHtml += '<tr>' + r.cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
+                });
+                tableHtml += '</tbody></table>';
+                out.push(tableHtml);
+                tableRows = [];
+                inTable = false;
+            }
+            // Process inline markdown for non-table lines
+            out.push(renderInline(line));
+        }
+        // Flush remaining table
+        if (inTable) {
+            let tableHtml = '<table><thead><tr>';
+            tableRows.filter(r => r.type === 'header').forEach(r => {
+                tableHtml += r.cells.map(c => `<th>${c}</th>`).join('');
+            });
+            tableHtml += '</tr></thead><tbody>';
+            tableRows.filter(r => r.type === 'body').forEach(r => {
+                tableHtml += '<tr>' + r.cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
+            });
+            tableHtml += '</tbody></table>';
+            out.push(tableHtml);
+        }
+        return out.join('<br>\n');
+    }
+
+    function renderInline(text) {
+        let html = text;
+        // Bold: **text**
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        // Italic: *text* (but not **)
+        html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+        // Inline code: `text`
+        html = html.replace(/`(.+?)`/g, '<code>$1</code>');
+        // Unordered lists
+        if (/^\s*[-*]\s/.test(html)) {
+            html = '<li>' + html.replace(/^\s*[-*]\s+/, '') + '</li>';
+        }
+        // Numbered list items
+        if (/^\s*\d+\.\s/.test(html)) {
+            html = '<li>' + html.replace(/^\s*\d+\.\s+/, '') + '</li>';
+        }
+        return html;
+    }
+
+    // ── Graph visualization ──────────────────────────────────────
+    async function loadGraph() {
+        try {
+            // Re-measure canvas now that the Step 4 panel is visible
+            const container = document.getElementById('graph-container');
+            if (canvas && container) {
+                canvas.width = Math.max(container.clientWidth, 500);
+                canvas.height = Math.max(container.clientHeight, 400);
+            }
+
+            const data = await api('/api/graph' + dbParamWith('limit=200'));
+            if (data.error) {
+                console.error('Graph error:', data.error);
+                return;
+            }
+            graphNodes = data.nodes || [];
+            graphEdges = data.edges || [];
+
+            // Build legend from node types
+            const typeCounts = {};
+            graphNodes.forEach(n => { typeCounts[n.type] = (typeCounts[n.type]||0) + 1; });
+            const legendEl = document.getElementById('graph-legend');
+            legendEl.innerHTML = '';
+            Object.entries(typeCounts).forEach(([type, count]) => {
+                const color = LABEL_COLORS[type] || '#90caf9';
+                legendEl.innerHTML += `<span style="display:flex;align-items:center;gap:4px;background:#1a1a2ecc;padding:2px 8px;border-radius:8px;color:#e0e0e0;"><span style="width:10px;height:10px;border-radius:50%;background:${color};display:inline-block;"></span>${type} (${count})</span>`;
+            });
+
+            // Show node/edge count
+            document.getElementById('graph-info').textContent = `${graphNodes.length} nodes, ${graphEdges.length} edges`;
+
+            // Assign random positions — start near center, small spread
+            const cx = canvas.width / 2, cy = canvas.height / 2;
+            graphNodes.forEach(n => {
+                n.x = cx + (Math.random() - 0.5) * 200;
+                n.y = cy + (Math.random() - 0.5) * 200;
+                n.vx = 0; n.vy = 0;
+            });
+
+            stopForceLayout();
+            drawGraph();
+            startForceLayout();
+        } catch (e) {
+            console.error('Graph load error:', e);
+        }
+    }
+
+    function initCanvas() {
+        canvas = document.getElementById('graph-canvas');
+        ctx = canvas.getContext('2d');
+        const container = document.getElementById('graph-container');
+        // Re-measure — if panel is hidden (display:none), clientWidth/Height are 0.
+        // We fix up dimensions in loadGraph() when the panel becomes visible.
+        canvas.width = Math.max(container.clientWidth, 500);
+        canvas.height = Math.max(container.clientHeight, 400);
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+
+        canvas.addEventListener('mousedown', onMouseDown);
+        canvas.addEventListener('mousemove', onMouseMove);
+        canvas.addEventListener('mouseup', onMouseUp);
+        canvas.addEventListener('wheel', e => { e.preventDefault(); zoom *= e.deltaY > 0 ? 0.9 : 1.1; drawGraph(); });
+    }
+
+    let forceRunning = false;
+    let forceAnimId = null;
+
+    function startForceLayout() {
+        if (forceRunning) return; // already running
+        forceRunning = true;
+        const k = 50; // optimal distance
+        const repulsion = 1500;
+        const attraction = 0.02;
+        const damping = 0.80;
+        const centerForce = 0.02; // pull toward center
+
+        // Build a Map for O(1) node lookup in edge loop
+        const nodeMap = new Map(graphNodes.map(n => [n.id, n]));
+
+        function tick() {
+            if (!forceRunning) return;
+
+            const cx = canvas.width / 2, cy = canvas.height / 2;
+
+            // Repulsion (node-node) — O(n²)
+            for (let i = 0; i < graphNodes.length; i++) {
+                for (let j = i + 1; j < graphNodes.length; j++) {
+                    let dx = graphNodes[i].x - graphNodes[j].x;
+                    let dy = graphNodes[i].y - graphNodes[j].y;
+                    let distSq = dx*dx + dy*dy;
+                    if (distSq < 1) { distSq = 1; dx = Math.random(); dy = Math.random(); }
+                    let dist = Math.sqrt(distSq);
+                    let force = repulsion / distSq;
+                    let fx = (dx / dist) * force;
+                    let fy = (dy / dist) * force;
+                    graphNodes[i].vx += fx; graphNodes[i].vy += fy;
+                    graphNodes[j].vx -= fx; graphNodes[j].vy -= fy;
+                }
+            }
+
+            // Attraction (edges) — O(E) with Map lookup
+            graphEdges.forEach(e => {
+                const a = nodeMap.get(e.source);
+                const b = nodeMap.get(e.target);
+                if (!a || !b) return;
+                let dx = b.x - a.x;
+                let dy = b.y - a.y;
+                let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+                let force = attraction * (dist - k);
+                let fx = (dx / dist) * force;
+                let fy = (dy / dist) * force;
+                a.vx += fx; a.vy += fy;
+                b.vx -= fx; b.vy -= fy;
+            });
+
+            // Centering force + apply velocity
+            graphNodes.forEach(n => {
+                if (n === dragNode) return;
+                // Gentle pull toward canvas center
+                n.vx += (cx - n.x) * centerForce;
+                n.vy += (cy - n.y) * centerForce;
+                n.x += n.vx * 0.1;
+                n.y += n.vy * 0.1;
+                n.vx *= damping;
+                n.vy *= damping;
+            });
+
+            drawGraph();
+            forceAnimId = requestAnimationFrame(tick);
+        }
+        tick();
+    }
+
+    function stopForceLayout() {
+        forceRunning = false;
+        if (forceAnimId) cancelAnimationFrame(forceAnimId);
+    }
+
+    const LABEL_COLORS = {
+        'Product': '#42a5f5', 'Supplier': '#66bb6a', 'Assembly': '#ffa726',
+        'Part': '#ef5350', 'Component': '#ab47bc', 'Issue': '#ec407a',
+        'Feature': '#26c6da', 'Location': '#7e57c2',
+    };
+
+    function drawGraph() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(panX, panY);
+        ctx.scale(zoom, zoom);
+
+        // Draw edges
+        ctx.strokeStyle = '#3949ab60'; ctx.lineWidth = 1.5;
+        const drawNodeMap = new Map(graphNodes.map(n => [n.id, n]));
+        graphEdges.forEach(e => {
+            const a = drawNodeMap.get(e.source);
+            const b = drawNodeMap.get(e.target);
+            if (!a || !b) return;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+
+            // Edge label
+            const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+            ctx.fillStyle = '#78909c'; ctx.font = '8px sans-serif';
+            ctx.fillText(e.type, mx, my);
+        });
+
+        // Draw nodes — size by degree (connected nodes are bigger)
+        const degreeMap = {};
+        graphEdges.forEach(e => {
+            degreeMap[e.source] = (degreeMap[e.source] || 0) + 1;
+            degreeMap[e.target] = (degreeMap[e.target] || 0) + 1;
+        });
+        graphNodes.forEach(n => {
+            const color = LABEL_COLORS[n.type] || '#90caf9';
+            const degree = degreeMap[n.id] || 0;
+            const radius = Math.max(6, Math.min(16, 6 + degree * 0.8));
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Label — only show for high-degree nodes to reduce clutter
+            if (degree >= 3 || n.type === 'Product') {
+                ctx.fillStyle = '#e0e0e0'; ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(n.label, n.x, n.y + radius + 12);
+            }
+        });
+
+        ctx.restore();
+    }
+
+    function zoomGraph(factor) { zoom *= factor; drawGraph(); }
+    function resetGraph() { zoom = 1; panX = 0; panY = 0; drawGraph(); }
+
+    function onMouseDown(e) {
+        const rect = canvas.getBoundingClientRect();
+        const mx = (e.clientX - rect.left - panX) / zoom;
+        const my = (e.clientY - rect.top - panY) / zoom;
+        dragNode = graphNodes.find(n => Math.hypot(n.x - mx, n.y - my) < 15);
+        if (dragNode) {
+            dragging = true;
+            // Restart force layout so connected nodes follow the drag
+            if (!forceRunning) startForceLayout();
+        } else {
+            dragging = true;
+            lastMouseX = e.clientX; lastMouseY = e.clientY;
+        }
+    }
+    function onMouseMove(e) {
+        if (!dragging) return;
+        const rect = canvas.getBoundingClientRect();
+        const mx = (e.clientX - rect.left - panX) / zoom;
+        const my = (e.clientY - rect.top - panY) / zoom;
+        if (dragNode) {
+            dragNode.x = mx; dragNode.y = my;
+            drawGraph();
+        } else {
+            panX += e.clientX - lastMouseX;
+            panY += e.clientY - lastMouseY;
+            lastMouseX = e.clientX; lastMouseY = e.clientY;
+            drawGraph();
+        }
+    }
+    function onMouseUp() { dragging = false; dragNode = null; }
+
+    function onDbNameInput() {
+        const val = document.getElementById('db-name-input').value.trim();
+        selectedDB = val || null;
+        const statusEl = document.getElementById('db-name-status');
+        if (val) {
+            statusEl.textContent = `Graph will be created in: ${val}`;
+            statusEl.style.color = '#a5d6a7';
+        } else {
+            statusEl.textContent = '';
+        }
+    }
+
+    function dbParam() {
+        return selectedDB ? `?database=${encodeURIComponent(selectedDB)}` : '';
+    }
+
+    function dbParamWith(other) {
+        // other = e.g. "limit=200" — prepend database param
+        const db = selectedDB ? `database=${encodeURIComponent(selectedDB)}` : '';
+        if (db && other) return `?${db}&${other}`;
+        if (db) return `?${db}`;
+        if (other) return `?${other}`;
+        return '';
+    }
+
+    // ── Step 4: Database selector ────────────────────────────────
+    async function loadDatabases() {
+        const select = document.getElementById('db-select');
+        if (!select) return;
+        select.innerHTML = '<option value="">-- Loading... --</option>';
+        try {
+            const data = await api('/api/databases');
+            const dbs = data.databases || [];
+            if (dbs.length === 0) {
+                select.innerHTML = '<option value="">-- No databases found --</option>';
+                return;
+            }
+            let html = '<option value="">-- Select a database --</option>';
+            dbs.forEach(db => {
+                const statusIcon = db.status === 'online' ? '🟢' : '🔴';
+                html += `<option value="${db.name}">${statusIcon} ${db.name} (${db.status})</option>`;
+            });
+            select.innerHTML = html;
+            // If selectedDB is set, pre-select it
+            if (selectedDB) select.value = selectedDB;
+        } catch (e) {
+            select.innerHTML = `<option value="">-- Error: ${e.message} --</option>`;
+        }
+    }
+
+    function onDbSelectChange() {
+        const select = document.getElementById('db-select');
+        const statusEl = document.getElementById('db-load-status');
+        const val = select.value;
+        if (val) {
+            statusEl.textContent = `Selected: ${val}. Click "Load DB" to load.`;
+            statusEl.style.color = '#ffcc80';
+        } else {
+            statusEl.textContent = '';
+        }
+    }
+
+    async function loadSelectedDb() {
+        const select = document.getElementById('db-select');
+        const statusEl = document.getElementById('db-load-status');
+        const val = select.value;
+        if (!val) {
+            statusEl.textContent = 'Please select a database first.';
+            statusEl.style.color = '#ef9a9a';
+            return;
+        }
+        selectedDB = val;
+        statusEl.innerHTML = '<span class="spinner"></span> Loading...';
+        try {
+            await loadStats('stats-grid-2');
+            await loadGraph();
+            statusEl.innerHTML = `<span class="status-badge ok">✓ ${val} loaded</span>`;
+        } catch (e) {
+            statusEl.innerHTML = `<span class="status-badge err">✗ ${e.message}</span>`;
+        }
+    }
+
+    // ── Init ──────────────────────────────────────────────────────
+    window.addEventListener('load', () => {
+        renderSelectedFiles();
+        initCanvas();
+    });
+    window.addEventListener('resize', () => {
+        if (canvas) {
+            const container = document.getElementById('graph-container');
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            drawGraph();
+        }
+    });
+    </script>
+</body>
+</html>

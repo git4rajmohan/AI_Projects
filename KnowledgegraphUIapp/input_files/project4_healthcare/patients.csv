@@ -1,0 +1,16 @@
+patient_id,patient_name,age,gender,blood_type,city,state,insurance_provider
+PT-001,John Thompson,45,M,O+,Newark,NJ,Blue Cross
+PT-002,Mary Johnson,32,F,A+,Boston,MA,Aetna
+PT-003,Robert Williams,67,M,B-,Chicago,IL,Medicare
+PT-004,Patricia Davis,28,F,AB+,Austin,TX,UnitedHealth
+PT-005,James Brown,54,M,O-,Seattle,WA,Kaiser Permanente
+PT-006,Linda Miller,39,F,A-,Miami,FL,Cigna
+PT-007,Michael Wilson,71,M,B+,Denver,CO,Medicare
+PT-008,Barbara Moore,15,F,O+,Portland,OR,Blue Cross
+PT-009,William Taylor,60,M,A+,Phoenix,AZ,Aetna
+PT-010,Susan Anderson,44,F,B-,Houston,TX,UnitedHealth
+PT-011,Christopher Thomas,33,M,O+,New York,NY,Blue Cross
+PT-012,Jennifer Jackson,52,F,A+,Boston,MA,Cigna
+PT-013,Charles White,78,M,B+,Chicago,IL,Medicare
+PT-014,Susan Harris,19,F,AB-,Seattle,WA,Kaiser Permanente
+PT-015,Joseph Martin,41,M,O-,Miami,FL,UnitedHealth

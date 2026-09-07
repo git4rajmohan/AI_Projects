@@ -1,0 +1,21 @@
+product_id,product_name,category,seller_id,price,stock_quantity,brand,average_rating
+PR-001,Wireless Bluetooth Earbuds,Electronics,S-001,79.99,350,SoundMax,4.5
+PR-002,Smart Watch Series 5,Electronics,S-001,199.99,120,TechWear,4.7
+PR-003,USB-C Hub 7-in-1,Electronics,S-001,34.99,500,ConnectPro,4.3
+PR-004,Ergonomic Office Chair,Home & Garden,S-002,249.99,80,ComfortFirst,4.6
+PR-005,LED Desk Lamp,Home & Garden,S-002,45.99,200,BrightHome,4.4
+PR-006,Cotton T-Shirt Pack,Apparel,S-003,29.99,1000,CottonCo,4.2
+PR-007,Designer Jeans,Apparel,S-003,89.99,300,DenimStyle,4.5
+PR-008,Running Shoes Pro,Sports & Outdoors,S-005,129.99,250,RunFast,4.8
+PR-009,Yoga Mat Premium,Sports & Outdoors,S-005,39.99,400,ZenFit,4.6
+PR-010,The Great Novel,Books,S-004,14.99,800,Penguin Press,4.9
+PR-011,Cookbook Collection,Books,S-004,24.99,300,Culinary Arts,4.7
+PR-012,Vitamin C Serum,Health & Beauty,S-006,28.99,600,GlowSkin,4.4
+PR-013,Hair Dryer Pro,Health & Beauty,S-006,59.99,150,StyleHair,4.3
+PR-014,Gourmet Coffee Beans,Food & Beverage,S-007,18.99,500,RoastMaster,4.8
+PR-015,Organic Tea Collection,Food & Beverage,S-007,22.99,400,TeaGarden,4.6
+PR-016,Building Blocks Set,Toys & Games,S-008,49.99,200,BuildIt,4.7
+PR-017,Board Game Night,Toys & Games,S-008,34.99,180,GameOn,4.8
+PR-018,Car Phone Mount,Automotive,S-009,19.99,400,DriveSafe,4.2
+PR-019,Dog Bed Deluxe,Pet Supplies,S-010,44.99,250,PetComfort,4.6
+PR-020,Cat Tree Tower,Pet Supplies,S-010,89.99,120,PetComfort,4.5

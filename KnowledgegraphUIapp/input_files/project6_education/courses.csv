@@ -1,0 +1,16 @@
+course_id,course_name,department,university_id,credits,professor_id,semester,year
+C-001,Introduction to Machine Learning,Computer Science,U-001,6,PF-001,Fall,2023
+C-002,Computer Vision Foundations,Computer Science,U-002,4,PF-002,Spring,2023
+C-003,Deep Learning Special Topics,Computer Science,U-004,3,PF-003,Fall,2023
+C-004,Neural Networks and Optimization,Computer Science,U-003,4,PF-004,Spring,2023
+C-005,Generative AI and GANs,Computer Science,U-008,3,PF-005,Fall,2023
+C-006,Probabilistic Graphical Models,Statistics,U-002,4,PF-006,Spring,2023
+C-007,Bayesian Inference Methods,Statistics,U-003,3,PF-007,Fall,2023
+C-008,Convolutional Neural Networks,Computer Science,U-004,3,PF-008,Spring,2023
+C-009,Autonomous Vehicle Systems,Robotics,U-002,4,PF-009,Fall,2023
+C-010,Human-Robot Interaction,Robotics,U-001,3,PF-010,Spring,2023
+C-011,Distributed Robotics Systems,Robotics,U-001,4,PF-011,Fall,2023
+C-012,Graph Representation Learning,Computer Science,U-002,3,PF-012,Spring,2023
+C-013,Reinforcement Learning Applications,Robotics,U-003,4,PF-013,Fall,2023
+C-014,Few-Shot Learning and Meta-Learning,Computer Science,U-002,3,PF-014,Spring,2023
+C-015,Unsupervised Representation Learning,Machine Learning,U-008,4,PF-015,Fall,2023

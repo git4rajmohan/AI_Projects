@@ -1,0 +1,11 @@
+company_id,company_name,founded_year,industry,headquarters,employee_count,revenue_billion
+C-001,TechFlow Solutions,2015,Cloud Computing,San Francisco,1200,2.5
+C-002,DataNexus Inc,2012,Data Analytics,Austin,800,1.8
+C-003,AIForge Labs,2018,Artificial Intelligence,Seattle,350,0.9
+C-004,CloudVerse Systems,2010,Cloud Computing,New York,5000,8.2
+C-005,QuantumBit Technologies,2019,Quantum Computing,Boston,150,0.3
+C-006,SecureShield Corp,2014,Cybersecurity,Washington DC,2200,4.1
+C-007,BioData Health,2016,Healthcare Tech,San Diego,600,1.2
+C-008,RoboTech Industries,2011,Robotics,Detroit,1800,3.5
+C-009,GreenEnergy Tech,2017,Clean Energy,Denver,900,1.5
+C-010,FinTech Bridge,2013,Fintech,Chicago,1100,2.8

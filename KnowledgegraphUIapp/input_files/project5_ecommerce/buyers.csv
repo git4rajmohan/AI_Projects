@@ -1,0 +1,11 @@
+buyer_id,buyer_name,buyer_type,city,state,country,total_orders,member_since
+B-001,Alice Cooper,Individual,Brooklyn,NY,USA,47,2019-03-20
+B-002,Bob's Electronics Store,Business,Austin,TX,USA,230,2018-01-15
+B-003,Charlie Davis,Individual,Seattle,WA,USA,89,2020-07-08
+B-004,Diana Prince,Individual,Chicago,IL,USA,156,2019-11-30
+B-005,Eve's Boutique,Business,Miami,FL,USA,412,2017-05-22
+B-006,Frank Miller,Individual,Denver,CO,USA,34,2021-02-14
+B-007,Grace Lee,Individual,Boston,MA,USA,78,2020-09-05
+B-008,Henry's Hardware,Business,Portland,OR,USA,189,2018-08-18
+B-009,Ivy Chen,Individual,Houston,TX,USA,62,2021-10-01
+B-010,Jack Wilson,Individual,Phoenix,AZ,USA,95,2019-06-25

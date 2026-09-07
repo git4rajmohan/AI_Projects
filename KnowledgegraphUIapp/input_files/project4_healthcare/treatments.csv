@@ -1,0 +1,19 @@
+treatment_id,patient_id,doctor_id,hospital_id,treatment_type,diagnosis,treatment_date,cost,outcome
+TR-001,PT-001,D-001,H-001,Surgery,Coronary Artery Disease,2023-03-15,45000,Improved
+TR-002,PT-002,D-002,H-002,Vaccination,Routine Checkup,2023-06-20,350,Recovered
+TR-003,PT-003,D-006,H-001,Medication,Hypertension,2023-01-10,1200,Ongoing
+TR-004,PT-004,D-007,H-002,Therapy,Anxiety Disorder,2023-04-05,2800,Improved
+TR-005,PT-005,D-003,H-003,Surgery,Heart Valve Replacement,2023-02-18,89000,Recovered
+TR-006,PT-006,D-009,H-008,Emergency,Fractured Femur,2023-07-22,32000,Recovering
+TR-007,PT-007,D-008,H-007,Surgery,Knee Replacement,2023-05-14,55000,Improved
+TR-008,PT-008,D-011,H-009,Procedure,Normal Delivery,2023-08-01,15000,Recovered
+TR-009,PT-009,D-010,H-005,Chemotherapy,Lung Cancer,2023-03-30,120000,Ongoing
+TR-010,PT-010,D-005,H-005,Radiation,Breast Cancer,2023-06-12,95000,Improving
+TR-011,PT-011,D-013,H-001,Medication,Arrhythmia,2023-04-18,2200,Ongoing
+TR-012,PT-012,D-004,H-004,Therapy,Depression,2023-05-09,3600,Improved
+TR-013,PT-013,D-014,H-004,Medication,Dementia,2023-01-25,5400,Ongoing
+TR-014,PT-014,D-002,H-002,Vaccination,Flu Prevention,2023-09-15,120,Recovered
+TR-015,PT-015,D-012,H-010,Therapy,Sports Injury,2023-07-03,4200,Recovered
+TR-016,PT-001,D-006,H-001,Checkup,Post Surgery Followup,2023-04-20,800,Stable
+TR-017,PT-005,D-001,H-001,Checkup,Cardiac Followup,2023-06-01,950,Stable
+TR-018,PT-009,D-010,H-005,Chemotherapy,Lung Cancer,2023-05-15,120000,Ongoing

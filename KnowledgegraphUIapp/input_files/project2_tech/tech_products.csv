@@ -1,0 +1,19 @@
+product_id,product_name,product_category,company_id,price,launch_year,status
+P-001,FlowCloud Platform,Cloud Infrastructure,C-001,4999,2019,Active
+P-002,FlowCloud Analytics,Business Intelligence,C-001,2999,2020,Active
+P-003,NexusData Pipeline,Data Integration,C-002,1500,2013,Active
+P-004,NexusData Insight,Data Visualization,C-002,3500,2015,Active
+P-005,ForgeAI Assistant,AI Chatbot,C-003,199,2021,Active
+P-006,ForgeAI Vision,Computer Vision,C-003,899,2022,Active
+P-007,VerseCloud Storage,Cloud Storage,C-004,0.023,2011,Active
+P-008,VerseCloud Compute,Cloud Computing,C-004,0.098,2012,Active
+P-009,QuantumSim Pro,Quantum Simulator,C-005,50000,2020,Beta
+P-010,ShieldGuard Pro,Security Suite,C-006,1999,2015,Active
+P-011,ShieldGuard Endpoint,Endpoint Security,C-006,899,2017,Active
+P-012,BioData Monitor,Health Monitoring,C-007,299,2018,Active
+P-013,BioData Analytics,Health Analytics,C-007,599,2019,Active
+P-014,RoboArm X1,Industrial Robot,C-008,45000,2012,Active
+P-015,RoboArm X2,Industrial Robot,C-008,52000,2015,Active
+P-016,GreenGrid Manager,Energy Management,C-009,1200,2018,Active
+P-017,BridgePay API,Payment Gateway,C-010,499,2014,Active
+P-018,BridgePay Wallet,Digital Wallet,C-010,0,2016,Active

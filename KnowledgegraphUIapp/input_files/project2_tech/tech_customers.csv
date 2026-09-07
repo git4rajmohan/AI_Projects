@@ -1,0 +1,11 @@
+customer_id,customer_name,industry,country,annual_revenue_million,contract_start
+CU-001,Global Retail Group,Retail,USA,4500,2019-03-15
+CU-002,EuroBank Financial,Banking,Germany,8200,2018-07-01
+CU-003,Asia Logistics Co,Logistics,Japan,3200,2020-01-20
+CU-004,MediCare Health Systems,Healthcare,UK,2100,2019-11-05
+CU-005,TechUniversity Research,Education,Australia,450,2021-06-10
+CU-006,SkyAirlines Intl,Aviation,UAE,6800,2017-09-12
+CU-007,AgriCorp Farms,Agriculture,Brazil,1500,2020-04-22
+CU-008,SmartCity Government,Public Sector,Singapore,3200,2018-02-28
+CU-009,MediaStream Entertainment,Media,USA,2800,2019-08-14
+CU-010,AutoDrive Motors,Automotive,Germany,9500,2016-05-03

@@ -1,0 +1,16 @@
+medication_id,medication_name,manufacturer,category,side_effects,price_per_unit
+M-001,Aspirin,Bayer,Analgesic,Nausea;Stomach upset,0.15
+M-002,Metformin,Merck,Antidiabetic,Diarrhea;Metallic taste,0.32
+M-003,Lisinopril,AstraZeneca,ACE Inhibitor,Dry cough;Dizziness,0.45
+M-004,Atorvastatin,Pfizer,Statin,Muscle pain;Liver enzyme changes,0.78
+M-005,Sertraline,Pfizer,SSRI,Nausea;Insomnia;Drowsiness,0.55
+M-006,Amoxicillin,GlaxoSmithKline,Antibiotic,Diarrhea;Rash,0.25
+M-007,Omeprazole,AstraZeneca,Proton Pump Inhibitor,Headache;Constipation,0.40
+M-008,Insulin Glargine,Sanofi,Insulin,Hypoglycemia;Weight gain,12.50
+M-009,Levothyroxine,Abbott,Thyroid Hormone,Weight changes;Anxiety,0.30
+M-010,Albuterol,Teva,Bronchodilator,Tremor;Palpitations,0.85
+M-011,Doxorubicin,Pfizer,Chemotherapy,Hair loss;Nausea;Heart damage,15.00
+M-012,Cisplatin,Bristol-Myers Squibb,Chemotherapy,Kidney damage;Hearing loss,22.00
+M-013,Ibuprofen,Johnson & Johnson,NSAID,Stomach pain;Heartburn,0.12
+M-014,Warfarin,Bristol-Myers Squibb,Anticoagulant,Bleeding;Bruising,0.35
+M-015,Citalopram,Lundbeck,SSRI,Dry mouth;Sweating,0.48

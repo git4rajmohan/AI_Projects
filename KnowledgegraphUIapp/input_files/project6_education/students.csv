@@ -1,0 +1,16 @@
+student_id,student_name,degree_level,university_id,major,enrollment_year,gpa,email
+ST-001,Alice Johnson,Undergraduate,U-001,Computer Science,2021,3.8,alice.j@mit.edu
+ST-002,Bob Smith,Graduate,U-002,Computer Science,2020,3.9,bob.s@stanford.edu
+ST-003,Carol Williams,Undergraduate,U-003,Data Science,2022,3.7,carol.w@berkeley.edu
+ST-004,David Brown,PhD,U-004,Statistics,2019,3.85,david.b@harvard.edu
+ST-005,Eve Davis,Undergraduate,U-005,Computer Engineering,2021,3.6,eve.d@umich.edu
+ST-006,Frank Miller,Graduate,U-006,Aerospace Engineering,2020,3.75,frank.m@gatech.edu
+ST-007,Grace Lee,Undergraduate,U-007,Electrical Engineering,2022,3.9,grace.l@utexas.edu
+ST-008,Henry Wilson,PhD,U-008,Robotics,2018,3.95,henry.w@cmu.edu
+ST-009,Ivy Chen,Undergraduate,U-009,Bioengineering,2021,3.8,ivy.c@uw.edu
+ST-010,Jack Taylor,Graduate,U-010,Mathematics,2020,3.85,jack.t@princeton.edu
+ST-011,Karen Moore,Undergraduate,U-001,Electrical Engineering,2022,3.7,karen.m@mit.edu
+ST-012,Liam Anderson,Graduate,U-002,Aeronautics,2019,3.8,liam.a@stanford.edu
+ST-013,Mia Garcia,Undergraduate,U-003,Cognitive Science,2021,3.65,mia.g@berkeley.edu
+ST-014,Noah Martinez,PhD,U-004,Applied Mathematics,2017,3.9,noah.m@harvard.edu
+ST-015,Olivia Wilson,Undergraduate,U-005,Robotics,2022,3.85,olivia.w@umich.edu

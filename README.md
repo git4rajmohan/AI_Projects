@@ -22,6 +22,7 @@
 | 2 | **[Automated Order Returns & Fraud Prevention Agent](./langgraph-return-fraud-agent/)** | LangGraph · FastAPI · Streamlit · Ollama Cloud (`gpt-oss:120b`) · SQLite checkpointing | ✅ Complete |
 | 3 | **[AI Guardrails Demo](./ai-guardrails-demo/)** | NeMo Guardrails · Streamlit · Groq Llama 3.x · BYOK | ✅ Complete |
 | 4 | **[RAG Evaluation Harness](./rag-evaluation-harness/)** | RAGAS · Streamlit · OpenAI-compatible judge LLMs · pytest | ✅ Complete |
+| 5 | **[Knowledge Graph Builder](./KnowledgegraphUIapp/)** | Google ADK · FastAPI · Neo4j · Ollama Cloud (`gpt-oss:120b`) · Vanilla JS | ✅ Complete |
 
 ### 1️⃣ Hospital Appointment Scheduler & Confirmation Bot
 
@@ -117,9 +118,33 @@ A Streamlit evaluation workbench for RAG systems built on **RAGAS**: point it at
 
 ---
 
+### 5️⃣ Knowledge Graph Builder
+
+A web application that automates the creation of knowledge graphs from structured data files (CSV) and unstructured text (Markdown). A team of AI agents (Google ADK `LoopAgent`) iteratively proposes, critiques, and validates a graph schema, then constructs the graph in Neo4j, and finally lets you query it using natural language — all through a clean web UI with live agent progress streaming.
+
+**Highlights**
+
+- 🤖 3-agent refinement loop (Proposer → Critic → Checker, max 3 iterations) for schema proposal via Google ADK
+- 📁 File browser — select CSV, Markdown, or JSON files from any folder
+- 🏗️ One-click graph building — auto-creates Neo4j DB, copies CSVs via `docker cp`, runs Cypher `LOAD CSV` + `MERGE`
+- 🔍 Natural language Q&A — AI agent translates questions to Cypher, executes, and summarizes results
+- 📊 Interactive Canvas graph visualization with zoom/pan/drag
+- 📡 SSE streaming for real-time agent activity during schema proposal
+- 🗄️ Multi-database isolation — each project gets its own Neo4j database
+- 📋 6 sample datasets — Furniture, Tech, Reviews, Healthcare, E-commerce, Education
+
+> 📄 **Full docs, setup guide, architecture, and screenshots:** [`KnowledgegraphUIapp/README.md`](./KnowledgegraphUIapp/README.md) ·
+> 📚 **Interactive user guide (HTML, 2 tabs):** [`KnowledgegraphUIapp/userguide.html`](./KnowledgegraphUIapp/userguide.html)
+
+| User Guide — How It Works | User Guide — Technical Details |
+|:---:|:---:|
+| ![Tab 1](./KnowledgegraphUIapp/images/userguide-tab1-full.png) | ![Tab 2](./KnowledgegraphUIapp/images/userguide-tab2-full.png) |
+
+---
+
 ## 🗺️ Roadmap
 
-- [ ] 5️⃣ RAG Knowledge Base — document Q&A with local embeddings + Neo4j GraphRAG
+- [x] 5️⃣ Knowledge Graph Builder — ADK agents + Neo4j + natural language Q&A → **[KnowledgegraphUIapp](./KnowledgegraphUIapp/)**
 - [x] 6️⃣ Model Evaluation Harness — automated LLM benchmarking & regression testing → **[rag-evaluation-harness](./rag-evaluation-harness/)**
 - [ ] 7️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns
 

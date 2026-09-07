@@ -1,0 +1,11 @@
+review_id,order_id,buyer_id,product_id,rating,review_title,review_text,review_date,helpful_votes
+RV-001,ORD-001,B-001,PR-001,5,Great sound quality,These earbuds have amazing bass and clear audio. Battery lasts all day.,2023-06-22,45
+RV-002,ORD-002,B-001,PR-010,4,Good read,Engaging story but the ending felt rushed. Overall enjoyable.,2023-06-25,12
+RV-003,ORD-005,B-003,PR-008,5,Best running shoes,Super comfortable and lightweight. Perfect for marathon training.,2023-07-05,38
+RV-004,ORD-007,B-004,PR-004,4,Comfortable chair,Great lumbar support but assembly took a while. Worth the price.,2023-04-25,22
+RV-005,ORD-010,B-005,PR-006,3,Shrunk after wash,Good quality cotton but they shrank slightly after first wash. Size up.,2023-03-20,67
+RV-006,ORD-013,B-007,PR-011,5,Excellent recipes,Beautiful photos and easy-to-follow recipes. A must-have for foodies.,2023-06-30,15
+RV-007,ORD-015,B-008,PR-003,4,Works as expected,Good hub with all the ports I need. A bit bulky but reliable.,2023-02-20,8
+RV-008,ORD-019,B-010,PR-016,5,Kids love it,High quality building blocks. My kids spend hours creating things.,2023-07-25,31
+RV-009,ORD-021,B-001,PR-003,3,Decent but overpriced,Works fine but similar products cost less. Good build quality though.,2023-08-10,5
+RV-010,ORD-024,B-008,PR-004,5,Perfect for office,Best office chair I have owned. The ergonomic design saved my back.,2023-03-15,52

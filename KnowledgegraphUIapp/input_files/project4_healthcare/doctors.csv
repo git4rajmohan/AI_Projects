@@ -1,0 +1,16 @@
+doctor_id,doctor_name,specialization,hospital_id,years_experience,medical_school,license_state
+D-001,Dr. Sarah Chen,Cardiology,H-001,18,Johns Hopkins University,NY
+D-002,Dr. Michael Rodriguez,Pediatrics,H-002,12,Harvard Medical School,MA
+D-003,Dr. Emily Watson,Cardiology,H-003,22,Stanford University,CA
+D-004,Dr. James Park,Psychiatry,H-004,15,Yale University,IL
+D-005,Dr. Priya Sharma,Oncology,H-005,20,Mayo Clinic College,MN
+D-006,Dr. Robert Kim,Internal Medicine,H-001,10,Columbia University,NY
+D-007,Dr. Anna Volkov,Pediatrics,H-002,8,University of Washington,WA
+D-008,Dr. David Okafor,Orthopedic Surgery,H-007,16,Johns Hopkins University,CO
+D-009,Dr. Lisa Anderson,Trauma Surgery,H-008,14,UCSF School of Medicine,FL
+D-010,Dr. Carlos Mendez,Oncology,H-005,25,Harvard Medical School,TX
+D-011,Dr. Rachel Green,Obstetrics,H-009,11,University of Michigan,OR
+D-012,Dr. Thomas Wright,Physical Medicine,H-010,9,Duke University,AZ
+D-013,Dr. Jennifer Lee,Cardiology,H-001,7,NYU School of Medicine,NY
+D-014,Dr. Ahmed Hassan,Psychiatry,H-004,19,Johns Hopkins University,IL
+D-015,Dr. Maria Santos,Pediatrics,H-002,13,Stanford University,MA

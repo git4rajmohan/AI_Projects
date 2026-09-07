@@ -1,0 +1,11 @@
+fastapi==0.115.0
+uvicorn==0.30.6
+neo4j==5.28.1
+neo4j-graphrag==1.8.0
+python-dotenv==1.0.1
+openai==1.51.0
+rapidfuzz==3.13.0
+pydantic==2.9.0
+aiofiles==23.2.1
+google-adk==1.5.0
+litellm==1.73.6

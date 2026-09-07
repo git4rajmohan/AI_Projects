@@ -1,0 +1,11 @@
+seller_id,seller_name,seller_type,rating,total_sales,join_date,city,country
+S-001,TechGadgets Pro,Electronics,4.8,12500,2018-03-15,San Francisco,USA
+S-002,HomeComfort Store,Home & Garden,4.6,8200,2019-01-20,Chicago,USA
+S-003,FashionVault,Apparel,4.5,15000,2017-07-10,New York,USA
+S-004,BookWorld Online,Books,4.9,5400,2020-05-18,Boston,USA
+S-005,SportsZone HQ,Sports & Outdoors,4.7,9800,2018-11-22,Denver,USA
+S-006,BeautyEssentials,Health & Beauty,4.3,7200,2019-09-05,Miami,USA
+S-007,GourmetFoods Direct,Food & Beverage,4.8,3200,2021-02-14,Portland,USA
+S-008,ToyUniverse,Toys & Games,4.6,6100,2019-04-30,Seattle,USA
+S-009,AutoParts Express,Automotive,4.4,4500,2020-08-25,Houston,USA
+S-010,PetParadise Store,Pet Supplies,4.7,3800,2021-06-12,Phoenix,USA

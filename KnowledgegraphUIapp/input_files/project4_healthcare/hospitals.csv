@@ -1,0 +1,11 @@
+hospital_id,hospital_name,hospital_type,city,state,country,bed_capacity,established_year
+H-001,St. Mary's General Hospital,General,New York,NY,USA,850,1965
+H-002,Riverside Children's Hospital,Children's,Boston,MA,USA,420,1980
+H-003,Westside Cardiac Center,Specialty,Los Angeles,CA,USA,310,1995
+H-004,Northside Mental Health Institute,Psychiatric,Chicago,IL,USA,280,1972
+H-005,Sunrise Cancer Institute,Oncology,Houston,TX,USA,520,2001
+H-006,Lakeside Community Hospital,General,Seattle,WA,USA,410,1988
+H-007,Mountain View Orthopedic Hospital,Orthopedic,Denver,CO,USA,190,2005
+H-008,Harborview Trauma Center,Trauma,Miami,FL,USA,680,1990
+H-009,Greenfield Maternity Hospital,Maternity,Portland,OR,USA,150,2010
+H-010,Crossroads Rehabilitation Center,Rehabilitation,Phoenix,AZ,USA,220,2015

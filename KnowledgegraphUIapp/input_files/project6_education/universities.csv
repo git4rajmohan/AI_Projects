@@ -1,0 +1,11 @@
+university_id,university_name,university_type,city,state,country,established_year,total_students,world_rank
+U-001,Massachusetts Institute of Technology,Private,Cambridge,MA,USA,1861,11500,3
+U-002,Stanford University,Private,Stanford,CA,USA,1885,17000,6
+U-003,University of California Berkeley,Public,Berkeley,CA,USA,1868,45000,14
+U-004,Harvard University,Private,Cambridge,MA,USA,1636,23000,5
+U-005,University of Michigan,Public,Ann Arbor,MI,USA,1817,48000,23
+U-006,Georgia Institute of Technology,Public,Atlanta,GA,USA,1885,33000,38
+U-007,University of Texas at Austin,Public,Austin,TX,USA,1883,51000,44
+U-008,Carnegie Mellon University,Private,Pittsburgh,PA,USA,1900,15000,28
+U-009,University of Washington,Public,Seattle,WA,USA,1861,56000,52
+U-010,Princeton University,Private,Princeton,NJ,USA,1746,8500,16

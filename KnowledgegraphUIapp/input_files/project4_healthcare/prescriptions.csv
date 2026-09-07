@@ -1,0 +1,19 @@
+prescription_id,treatment_id,medication_id,dosage,frequency,duration_days,prescribed_by_doctor_id
+RX-001,TR-001,M-001,81mg,Daily,30,D-001
+RX-002,TR-001,M-003,10mg,Daily,90,D-001
+RX-003,TR-003,M-002,500mg,Twice daily,180,D-006
+RX-004,TR-003,M-003,20mg,Daily,180,D-006
+RX-005,TR-004,M-005,50mg,Daily,60,D-007
+RX-006,TR-005,M-001,325mg,Daily,30,D-003
+RX-007,TR-005,M-004,40mg,Daily,90,D-003
+RX-008,TR-006,M-006,500mg,Three times daily,10,D-009
+RX-009,TR-007,M-013,600mg,As needed,14,D-008
+RX-010,TR-009,M-011,75mg,Every 3 weeks,180,D-010
+RX-011,TR-010,M-012,100mg,Every 3 weeks,120,D-005
+RX-012,TR-011,M-001,81mg,Daily,30,D-013
+RX-013,TR-012,M-005,100mg,Daily,90,D-004
+RX-014,TR-013,M-009,75mcg,Daily,365,D-014
+RX-015,TR-015,M-013,400mg,As needed,7,D-012
+RX-016,TR-016,M-001,81mg,Daily,30,D-006
+RX-017,TR-017,M-004,20mg,Daily,60,D-001
+RX-018,TR-018,M-011,75mg,Every 3 weeks,180,D-010

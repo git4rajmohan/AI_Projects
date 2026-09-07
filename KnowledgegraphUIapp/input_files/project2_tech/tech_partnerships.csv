@@ -1,0 +1,11 @@
+partnership_id,company_id,partner_company_id,partnership_type,start_year,status
+PS-001,C-001,C-004,Technology Integration,2019,Active
+PS-002,C-002,C-003,Data Sharing,2020,Active
+PS-003,C-003,C-001,API Integration,2021,Active
+PS-004,C-005,C-003,Research Collaboration,2020,Active
+PS-005,C-006,C-004,Security Compliance,2018,Active
+PS-006,C-007,C-002,Data Analytics,2019,Active
+PS-007,C-008,C-006,Hardware Security,2017,Active
+PS-008,C-009,C-004,Cloud Infrastructure,2019,Active
+PS-009,C-010,C-001,Cloud Services,2018,Active
+PS-010,C-001,C-002,Platform Integration,2020,Active
