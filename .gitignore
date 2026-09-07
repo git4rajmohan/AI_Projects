@@ -29,3 +29,5 @@ Thumbs.db
 # Local data (SQLite DB with test/seed data)
 data/*.db
 data/*.db-journal
+checkpoints.sqlite*
+data/*.db-journal

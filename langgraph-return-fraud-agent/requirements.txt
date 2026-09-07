@@ -1,0 +1,13 @@
+langgraph
+langgraph-checkpoint-sqlite
+langchain-core
+langchain-ollama
+fastapi
+uvicorn
+pydantic>=2
+pydantic-settings
+python-dotenv
+pytest
+pytest-asyncio
+httpx
+streamlit
