@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI E-Commerce Assistant — User Guide</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --brand: #4f46e5;
+    --brand-soft: #eef2ff;
+    --accent: #0ea5e9;
+    --green: #059669;
+    --amber: #d97706;
+    --border: #e5e7eb;
+    --code-bg: #0f172a;
+    --code-ink: #e2e8f0;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 16px 64px;
+  }
+  .wrap { width: 100%; max-width: 1080px; }
+
+  /* ---------- Header ---------- */
+  header.hero {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #0ea5e9 100%);
+    color: #fff;
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 30px rgba(79,70,229,.25);
+  }
+  header.hero h1 { font-size: 1.9rem; margin-bottom: 8px; }
+  header.hero p { opacity: .92; max-width: 720px; font-size: 1.02rem; }
+  .hero-badges { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge {
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.35);
+    padding: 4px 12px; border-radius: 999px; font-size: .8rem;
+  }
+
+  /* ---------- Tabs ---------- */
+  .tabs {
+    display: flex; gap: 8px; margin-bottom: -1px; padding: 0 8px; position: relative; z-index: 2;
+  }
+  .tab-btn {
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: #e8ebf3;
+    color: var(--muted);
+    padding: 12px 26px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    transition: background .15s, color .15s;
+  }
+  .tab-btn .num {
+    background: var(--brand); color: #fff; border-radius: 50%;
+    width: 22px; height: 22px; display: inline-flex; align-items: center;
+    justify-content: center; font-size: .78rem;
+  }
+  .tab-btn.active { background: var(--card); color: var(--ink); box-shadow: 0 -3px 0 var(--brand) inset; }
+  .tab-panel {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0 var(--radius) var(--radius) var(--radius);
+    padding: 32px 36px;
+    box-shadow: 0 6px 24px rgba(15,23,42,.06);
+  }
+  .tab-panel.active { display: block; }
+
+  /* ---------- Content typography ---------- */
+  h2.section {
+    font-size: 1.35rem; margin: 34px 0 14px; display: flex; align-items: center; gap: 10px;
+  }
+  h2.section:first-child { margin-top: 0; }
+  h2.section .ico {
+    width: 34px; height: 34px; border-radius: 9px; background: var(--brand-soft);
+    display: inline-flex; align-items: center; justify-content: center; font-size: 1.05rem;
+  }
+  h3 { font-size: 1.05rem; margin: 20px 0 8px; color: #374151; }
+  p { margin-bottom: 10px; }
+  ul, ol { margin: 8px 0 14px 24px; }
+  li { margin-bottom: 6px; }
+  code.inline {
+    background: #eef2ff; color: #4338ca; padding: 2px 7px; border-radius: 6px;
+    font-family: Consolas, "Courier New", monospace; font-size: .88em;
+  }
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: #f0f9ff;
+    padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: .95rem;
+  }
+  .callout.warn { border-color: var(--amber); background: #fffbeb; }
+  .callout.ok { border-color: var(--green); background: #ecfdf5; }
+  .callout b.tag { display: block; margin-bottom: 4px; font-size: .8rem; text-transform: uppercase; letter-spacing: .5px; }
+  .callout b.tag.info { color: var(--accent); }
+  .callout b.tag.warn { color: var(--amber); }
+  .callout b.tag.ok { color: var(--green); }
+
+  /* ---------- Steps ---------- */
+  .step {
+    display: flex; gap: 16px; margin: 18px 0; align-items: flex-start;
+  }
+  .step .n {
+    flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: var(--brand); color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; margin-top: 2px;
+  }
+  .step .body { flex: 1; }
+  .step .body b.t { display: block; margin-bottom: 4px; }
+
+  /* ---------- Code blocks ---------- */
+  pre.code {
+    background: var(--code-bg); color: var(--code-ink);
+    padding: 16px 18px; border-radius: 10px; overflow-x: auto;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: .87rem; line-height: 1.55; margin: 10px 0 16px;
+    border: 1px solid #1e293b;
+  }
+  pre.code .c { color: #64748b; font-style: italic; }
+  pre.code .k { color: #93c5fd; }
+  pre.code .s { color: #86efac; }
+  pre.code .f { color: #fbbf24; }
+
+  /* ---------- Cards / grid ---------- */
+  .grid { display: grid; gap: 16px; margin: 14px 0; }
+  .grid.two { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .grid.three { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card {
+    border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; background: #fafbfe;
+  }
+  .card h4 { margin-bottom: 8px; font-size: .98rem; color: var(--brand); }
+  .card p, .card li { font-size: .93rem; color: #374151; }
+
+  /* ---------- Chat mock ---------- */
+  .chat { max-width: 620px; margin: 14px 0; }
+  .msg { display: flex; margin-bottom: 10px; }
+  .msg .bubble {
+    padding: 10px 14px; border-radius: 14px; font-size: .92rem; max-width: 78%;
+  }
+  .msg.user { justify-content: flex-end; }
+  .msg.user .bubble { background: var(--brand); color: #fff; border-bottom-right-radius: 4px; }
+  .msg.bot .bubble { background: #eef2ff; color: #1e1b4b; border-bottom-left-radius: 4px; }
+  .msg .who { font-size: .7rem; color: var(--muted); margin-bottom: 2px; }
+  .msg.user .who { text-align: right; }
+
+  /* ---------- Tables ---------- */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; font-size: .92rem; }
+  th, td { border: 1px solid var(--border); padding: 9px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--brand-soft); color: #3730a3; font-weight: 600; }
+  tr:nth-child(even) td { background: #fafbff; }
+
+  /* ---------- Diagrams ---------- */
+  .diagram {
+    background: #fff; border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px; margin: 16px 0; overflow-x: auto;
+  }
+  .diagram .cap { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 8px; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+
+  /* ---------- File tree ---------- */
+  .tree {
+    background: var(--code-bg); color: var(--code-ink); border-radius: 10px;
+    padding: 18px 22px; font-family: Consolas, monospace; font-size: .88rem;
+    line-height: 1.7; overflow-x: auto; margin: 12px 0 18px;
+  }
+  .tree .d { color: #7dd3fc; font-weight: 600; }
+  .tree .note { color: #94a3b8; }
+
+  footer { margin-top: 28px; color: var(--muted); font-size: .85rem; text-align: center; }
+
+  @media (max-width: 640px) {
+    .tab-panel { padding: 22px 18px; }
+    header.hero { padding: 26px 22px; }
+  }
+  @media print {
+    body { padding: 0; background: #fff; }
+    .tabs { display: none; }
+    .tab-panel { display: block !important; border: none; box-shadow: none; padding: 0; }
+    .tab-panel + .tab-panel { margin-top: 30px; page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>🛒 AI E-Commerce Assistant — User Guide</h1>
+    <p>A conversational shopping assistant built with Google ADK multi-agent architecture. Browse a catalog, add items to your cart, provide your details, and get a complete order summary — all through natural chat.</p>
+    <div class="hero-badges">
+      <span class="badge">Google ADK</span>
+      <span class="badge">4 Agents</span>
+      <span class="badge">Ollama Cloud · gpt-oss:120b</span>
+      <span class="badge">LiteLLM</span>
+      <span class="badge">Python</span>
+    </div>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" id="btn-tab1" onclick="showTab('tab1')" role="tab"><span class="num">1</span> 👤 Non-Technical Guide</button>
+    <button class="tab-btn" id="btn-tab2" onclick="showTab('tab2')" role="tab"><span class="num">2</span> ⚙️ Technical Guide</button>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- TAB 1 : NON-TECHNICAL                                            -->
+  <!-- ================================================================ -->
+  <section class="tab-panel active" id="panel-tab1" role="tabpanel">
+
+    <h2 class="section"><span class="ico">💡</span> What Is This App?</h2>
+    <p>This is an <b>AI shopping assistant</b> you talk to in plain English — like a helpful store employee inside a chat window. You can:</p>
+    <ul>
+      <li>🔎 <b>Browse products</b> — see what's available in Smartphones, Laptops, and Headphones with prices.</li>
+      <li>🛍️ <b>Add items to your cart</b> — just say which product and how many.</li>
+      <li>📦 <b>Check out</b> — give your name, email, mobile and shipping address.</li>
+      <li>🧾 <b>Get an order summary</b> — a clean, Amazon-style recap of your complete order.</li>
+    </ul>
+    <div class="callout">
+      <b class="tag info">Good to know</b>
+      Behind the scenes this is not one big program — it is a <b>team of 4 small AI agents</b>, each an expert in one step of your shopping journey, working together. You just chat; they coordinate.
+    </div>
+
+    <h2 class="section"><span class="ico">🔄</span> How It Works (Plain Language)</h2>
+    <p>Think of it like visiting a store with four friendly staff members:</p>
+    <div class="grid two">
+      <div class="card"><h4>🧑‍💼 1. The Store Manager <span style="font-weight:400;color:#6b7280">(Ecommerce Agent)</span></h4>
+        <p>Greets you, notes down your name, email and mobile, then hands you to the right specialist depending on what you want to do.</p></div>
+      <div class="card"><h4>🛒 2. The Catalog Expert <span style="font-weight:400;color:#6b7280">(Catalog Agent)</span></h4>
+        <p>Shows you products in 3 categories — Smartphones, Laptops, Headphones — with prices, and adds your picks to the cart.</p></div>
+      <div class="card"><h4>🚚 3. The Checkout Expert <span style="font-weight:400;color:#6b7280">(Checkout Agent)</span></h4>
+        <p>Takes your shipping address so the order knows where to go.</p></div>
+      <div class="card"><h4>🧾 4. The Bill Desk <span style="font-weight:400;color:#6b7280">(Order Summary Agent)</span></h4>
+        <p>Prints your final order summary — your details, items, quantity, price and address — just like Amazon or Flipkart.</p></div>
+    </div>
+
+    <h3>Your shopping journey</h3>
+    <div class="diagram">
+      <svg viewBox="0 0 920 150" width="920" height="150" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial">
+        <defs>
+          <marker id="arr1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#4f46e5"/></marker>
+        </defs>
+        <g font-size="13" text-anchor="middle">
+          <rect x="10"  y="40" width="150" height="60" rx="12" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.5"/>
+          <text x="85"  y="65" fill="#3730a3" font-weight="600">👋 Greet &amp;</text><text x="85" y="83" fill="#3730a3" font-weight="600">collect details</text>
+          <rect x="200" y="40" width="150" height="60" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+          <text x="275" y="65" fill="#065f46" font-weight="600">🛒 Browse &amp;</text><text x="275" y="83" fill="#065f46" font-weight="600">add to cart</text>
+          <rect x="390" y="40" width="150" height="60" rx="12" fill="#fff7ed" stroke="#d97706" stroke-width="1.5"/>
+          <text x="465" y="65" fill="#92400e" font-weight="600">🚚 Give shipping</text><text x="465" y="83" fill="#92400e" font-weight="600">address</text>
+          <rect x="580" y="40" width="150" height="60" rx="12" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="655" y="65" fill="#075985" font-weight="600">🧾 Get order</text><text x="655" y="83" fill="#075985" font-weight="600">summary</text>
+          <rect x="770" y="40" width="140" height="60" rx="12" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5"/>
+          <text x="840" y="65" fill="#5b21b6" font-weight="600">✅ Done!</text><text x="840" y="83" fill="#5b21b6" font-weight="600">Start new chat</text>
+          <line x1="160" y1="70" x2="196" y2="70" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr1)"/>
+          <line x1="350" y1="70" x2="386" y2="70" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr1)"/>
+          <line x1="540" y1="70" x2="576" y2="70" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr1)"/>
+          <line x1="730" y1="70" x2="766" y2="70" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr1)"/>
+        </g>
+      </svg>
+      <div class="cap">Figure 1 — The end-to-end shopping flow</div>
+    </div>
+
+    <h2 class="section"><span class="ico">🚀</span> How To Run The App (End-to-End)</h2>
+
+    <h3>What you need before starting</h3>
+    <ul>
+      <li><b>Python 3.9 or newer</b> installed on your computer.</li>
+      <li>An <b>Ollama Cloud account</b> (ollama.com) with an <b>API key</b> — the "brain" (AI model) runs in Ollama's cloud.</li>
+      <li>Internet connection (the AI model is called over the internet).</li>
+    </ul>
+
+    <div class="step"><div class="n">1</div><div class="body">
+      <b class="t">Open a terminal in the project folder</b>
+      <p>Navigate to the project directory <code class="inline">AI_ADK02</code> in Command Prompt / Terminal / PowerShell.</p>
+    </div></div>
+
+    <div class="step"><div class="n">2</div><div class="body">
+      <b class="t">Create &amp; activate a virtual environment</b>
+      <p>This keeps the app's dependencies separate from the rest of your machine.</p>
+<pre class="code"><span class="c"># Windows</span>
+python -m venv .venv
+.venv\Scripts\activate
+
+<span class="c"># Mac / Linux</span>
+python3 -m venv .venv
+source .venv/bin/activate</pre>
+    </div></div>
+
+    <div class="step"><div class="n">3</div><div class="body">
+      <b class="t">Install the dependencies</b>
+<pre class="code">pip install -r requirements.txt</pre>
+      <p>This installs <code class="inline">google-adk</code> (the agent framework), <code class="inline">litellm</code> (model connectivity) and <code class="inline">python-dotenv</code> (reads your secret keys).</p>
+    </div></div>
+
+    <div class="step"><div class="n">4</div><div class="body">
+      <b class="t">Add your API keys</b>
+      <p>Create a file named <code class="inline">.env</code> in the project root (same folder as <code class="inline">requirements.txt</code>) containing:</p>
+<pre class="code">OLLAMA_API_KEY=your-ollama-cloud-key-here
+SERPER_API_KEY=dummy-value</pre>
+      <div class="callout warn">
+        <b class="tag warn">Important</b>
+        Get your Ollama key from <b>ollama.com → Settings → API Keys</b>. The <code class="inline">SERPER_API_KEY</code> line must exist (any value) — one of the agents reads it at startup even though it isn't used yet. <b>Never share or commit the .env file.</b>
+      </div>
+    </div></div>
+
+    <div class="step"><div class="n">5</div><div class="body">
+      <b class="t">Launch the app</b>
+<pre class="code">adk web</pre>
+      <p>This starts a local web server. You will see something like <i>"Uvicorn running on http://localhost:8000"</i>. Keep this terminal window open — closing it stops the app.</p>
+    </div></div>
+
+    <div class="step"><div class="n">6</div><div class="body">
+      <b class="t">Open the chat UI in your browser</b>
+      <p>Go to <code class="inline">http://localhost:8000</code> (or <code class="inline">http://127.0.0.1:8000</code>). On the left panel, select the agent: <b>ecommerce_agent</b>. A chat window opens.</p>
+    </div></div>
+
+    <div class="step"><div class="n">7</div><div class="body">
+      <b class="t">Start chatting!</b>
+      <p>Follow the sample conversation below. When finished, press <code class="inline">Ctrl + C</code> in the terminal to stop the app.</p>
+      <div class="callout ok"><b class="tag ok">Terminal alternative</b>No browser? Run <code class="inline">adk run ecommerce_agent</code> instead — the same conversation happens right in the terminal.</div>
+    </div></div>
+
+    <h2 class="section"><span class="ico">💬</span> Sample Conversation Walkthrough</h2>
+    <div class="chat">
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">Hi</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">Hello! I'm your e-commerce assistant. I can help you browse products, check out, or track orders. What would you like to do today?</div></div></div>
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">I'd like to buy a phone</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">Great! Before we proceed, may I have your name?</div></div></div>
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">Ravi</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">Thanks Ravi! And your email address?</div></div></div>
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">ravi@example.com</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">And your mobile number, please?</div></div></div>
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">9876543210</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">✅ Saved your details (Ravi · ravi@example.com · 9876543210). Now — you wanted a phone. We have 3 categories: Smartphones, Laptops, Headphones. Which would you like to browse?</div></div></div>
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">Smartphones please</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">📱 Smartphones available:<br>• Pixel 9 — Rs.70,000<br>• iPhone 16 — Rs.90,000<br>• Galaxy S25 — Rs.75,000<br>Would you like to add any to your cart?</div></div></div>
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">Add 1 Pixel 9</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">Added 1 × Pixel 9 (Rs.70,000) to your cart. Would you like to check out?</div></div></div>
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">Yes, checkout</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">Handing you over to checkout. What is your shipping address?</div></div></div>
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">12 MG Road, Bengaluru 560001</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">Address saved! Want to view your order summary?</div></div></div>
+      <div class="msg user"><div><div class="who">You</div><div class="bubble">Yes</div></div></div>
+      <div class="msg bot"><div><div class="who">Assistant</div><div class="bubble">🧾 <b>Order Summary</b><br>────────────────<br>👤 Ravi · ravi@example.com · 9876543210<br>🛍️ Pixel 9 × 1 — Rs.70,000<br>🚚 12 MG Road, Bengaluru 560001<br>────────────────<br>Thank you for shopping with us!</div></div></div>
+    </div>
+
+    <h2 class="section"><span class="ico">❓</span> FAQ &amp; Troubleshooting</h2>
+    <table>
+      <tr><th style="width:38%">Problem</th><th>What to do</th></tr>
+      <tr><td><code class="inline">KeyError: 'OLLAMA_API_KEY'</code> on startup</td><td>The <code class="inline">.env</code> file is missing or doesn't contain the key. Re-check step 4.</td></tr>
+      <tr><td><code class="inline">KeyError: 'SERPER_API_KEY'</code></td><td>Add a <code class="inline">SERPER_API_KEY=dummy-value</code> line to <code class="inline">.env</code>.</td></tr>
+      <tr><td>Agent replies with an error about the model / connection</td><td>Check your internet and that the Ollama API key is valid. Free-tier keys may hit rate limits — wait a moment and retry.</td></tr>
+      <tr><td><code class="inline">adk</code> command not found</td><td>Your virtual environment isn't activated (step 2), or dependencies weren't installed (step 3).</td></tr>
+      <tr><td>Port 8000 already in use</td><td>Another app is using the port. Stop it, or run <code class="inline">adk web --port 8001</code>.</td></tr>
+      <tr><td>Agent gives weird / off-topic answers</td><td>AI models can be imperfect. Start a fresh session (refresh the page) and try rephrasing.</td></tr>
+    </table>
+
+    <h2 class="section"><span class="ico">⚠️</span> Current Limitations</h2>
+    <ul>
+      <li>The <b>product catalog is fictional</b> (built into the agent for demo purposes) — no real inventory.</li>
+      <li>No <b>real payment</b> is processed; checkout only collects a shipping address.</li>
+      <li><b>Order tracking</b> is mentioned in conversation but not implemented yet.</li>
+      <li>Session data lives <b>in memory</b> — closing the app resets everything.</li>
+    </ul>
+
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- TAB 2 : TECHNICAL                                                -->
+  <!-- ================================================================ -->
+  <section class="tab-panel" id="panel-tab2" role="tabpanel">
+
+    <h2 class="section"><span class="ico">🏗️</span> Architecture Overview</h2>
+    <p>The application is a <b>hierarchical multi-agent system</b> built with <b>Google ADK (Agent Development Kit)</b>. A root orchestrator agent owns a chain of specialized sub-agents, connected by <b>agent-to-agent delegation</b> (each parent lists its child as a tool). All agents share one <b>session state</b> dictionary — this is how data flows across the whole workflow without any database.</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 960 560" width="960" height="560" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial">
+        <defs>
+          <marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/></marker>
+          <marker id="arr3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#4f46e5"/></marker>
+        </defs>
+
+        <!-- LLM layer -->
+        <rect x="330" y="20" width="300" height="66" rx="12" fill="#0f172a" stroke="#334155"/>
+        <text x="480" y="47" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">Ollama Cloud — gpt-oss:120b</text>
+        <text x="480" y="67" text-anchor="middle" fill="#94a3b8" font-size="12">via LiteLLM · OpenAI-compatible endpoint /v1</text>
+
+        <!-- arrows from each agent to LLM -->
+        <line x1="480" y1="120" x2="480" y2="90" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line x1="480" y1="230" x2="480" y2="130" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 4" opacity=".0"/>
+        <line x1="300" y1="205" x2="400" y2="92" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arr2)"/>
+        <line x1="700" y1="205" x2="570" y2="92" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arr2)"/>
+        <line x1="820" y1="330" x2="600" y2="95" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arr2)"/>
+
+        <!-- Root agent -->
+        <rect x="350" y="120" width="260" height="88" rx="12" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+        <text x="480" y="148" text-anchor="middle" fill="#3730a3" font-size="15" font-weight="700">🧑‍💼 ecommerce_agent</text>
+        <text x="480" y="167" text-anchor="middle" fill="#4338ca" font-size="11.5">ROOT · LlmAgent</text>
+        <text x="480" y="185" text-anchor="middle" fill="#4338ca" font-size="11.5">tool: save_user_info()</text>
+        <text x="480" y="200" text-anchor="middle" fill="#4338ca" font-size="11.5">greeting · user info · routing</text>
+
+        <!-- delegation root -> catalog -->
+        <path d="M 440 208 L 300 260" fill="none" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr3)"/>
+        <text x="350" y="230" fill="#4f46e5" font-size="11" font-weight="600">sub_agents →</text>
+        <text x="350" y="243" fill="#6b7280" font-size="10">AgentTool delegation</text>
+
+        <!-- Catalog agent -->
+        <rect x="150" y="262" width="300" height="88" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+        <text x="300" y="290" text-anchor="middle" fill="#065f46" font-size="14.5" font-weight="700">🛒 catalog_agent</text>
+        <text x="300" y="309" text-anchor="middle" fill="#047857" font-size="11.5">LlmAgent</text>
+        <text x="300" y="327" text-anchor="middle" fill="#047857" font-size="11.5">tool: save_cart()</text>
+        <text x="300" y="342" text-anchor="middle" fill="#047857" font-size="11.5">products · pricing · add-to-cart</text>
+
+        <!-- delegation catalog -> checkout -->
+        <path d="M 340 350 L 430 400" fill="none" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr3)"/>
+        <text x="300" y="392" fill="#4f46e5" font-size="11" font-weight="600">sub_agents →</text>
+
+        <!-- Checkout agent -->
+        <rect x="430" y="402" width="270" height="88" rx="12" fill="#fff7ed" stroke="#d97706" stroke-width="2"/>
+        <text x="565" y="430" text-anchor="middle" fill="#92400e" font-size="14.5" font-weight="700">🚚 checkout_agent</text>
+        <text x="565" y="449" text-anchor="middle" fill="#b45309" font-size="11.5">LlmAgent</text>
+        <text x="565" y="467" text-anchor="middle" fill="#b45309" font-size="11.5">tool: save_shipping_address()</text>
+        <text x="565" y="482" text-anchor="middle" fill="#b45309" font-size="11.5">collect shipping address</text>
+
+        <!-- delegation checkout -> order summary -->
+        <path d="M 700 435 L 760 435" fill="none" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr3)"/>
+        <text x="712" y="425" fill="#4f46e5" font-size="11" font-weight="600">sub_agents →</text>
+
+        <!-- Order summary agent -->
+        <rect x="762" y="392" width="188" height="108" rx="12" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2"/>
+        <text x="856" y="420" text-anchor="middle" fill="#075985" font-size="13.5" font-weight="700">🧾 order_summary_agent</text>
+        <text x="856" y="439" text-anchor="middle" fill="#0369a1" font-size="11.5">LlmAgent</text>
+        <text x="856" y="457" text-anchor="middle" fill="#0369a1" font-size="11">no tools — reads state</text>
+        <text x="856" y="472" text-anchor="middle" fill="#0369a1" font-size="11">templates: {name} {item}</text>
+        <text x="856" y="487" text-anchor="middle" fill="#0369a1" font-size="11">{quantity} {price} …</text>
+
+        <!-- Shared state box -->
+        <rect x="40" y="440" width="200" height="106" rx="12" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+        <text x="140" y="464" text-anchor="middle" fill="#5b21b6" font-size="13" font-weight="700">🗂️ Shared Session State</text>
+        <text x="140" y="482" text-anchor="middle" fill="#6d28d9" font-size="10.5">tool_context.state[ ]</text>
+        <text x="140" y="499" text-anchor="middle" fill="#6d28d9" font-size="10.5">name · email · mobile</text>
+        <text x="140" y="515" text-anchor="middle" fill="#6d28d9" font-size="10.5">cart · item · quantity · price</text>
+        <text x="140" y="531" text-anchor="middle" fill="#6d28d9" font-size="10.5">shipping_address</text>
+        <line x1="240" y1="493" x2="330" y2="315" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr2)"/>
+        <line x1="428" y1="470" x2="240" y2="500" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr2)"/>
+      </svg>
+      <div class="cap">Figure 2 — Agent hierarchy, delegation chain, tools and shared state</div>
+    </div>
+
+    <h2 class="section"><span class="ico">🎬</span> End-to-End Sequence</h2>
+    <div class="diagram">
+      <svg viewBox="0 0 960 430" width="960" height="430" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial" font-size="11.5">
+        <defs><marker id="arr4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#475569"/></marker></defs>
+        <g text-anchor="middle" font-weight="600">
+          <text x="90"  y="24" fill="#334155">User</text>
+          <text x="300" y="24" fill="#3730a3">ecommerce_agent</text>
+          <text x="510" y="24" fill="#065f46">catalog_agent</text>
+          <text x="700" y="24" fill="#92400e">checkout_agent</text>
+          <text x="880" y="24" fill="#075985">order_summary_agent</text>
+        </g>
+        <g stroke="#cbd5e1" stroke-width="1.5">
+          <line x1="90"  y1="32" x2="90"  y2="410"/>
+          <line x1="300" y1="32" x2="300" y2="410"/>
+          <line x1="510" y1="32" x2="510" y2="410"/>
+          <line x1="700" y1="32" x2="700" y2="410"/>
+          <line x1="880" y1="32" x2="880" y2="410"/>
+        </g>
+        <g fill="#334155">
+          <line x1="90" y1="55" x2="295" y2="55" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <text x="192" y="49">"Hi, I want to buy a phone"</text>
+          <text x="300" y="76" font-size="10.5" fill="#6b7280">ask name / email / mobile (one at a time)</text>
+          <line x1="90" y1="100" x2="295" y2="100" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <text x="192" y="94">provides all 3 details</text>
+          <text x="300" y="121" font-size="10.5" fill="#6b7280">calls save_user_info() → state</text>
+          <line x1="295" y1="145" x2="505" y2="145" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arr4)"/>
+          <text x="400" y="139" fill="#4f46e5">delegate: purchase intent</text>
+          <line x1="505" y1="168" x2="295" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <text x="400" y="162">shows 3 categories</text>
+          <line x1="90" y1="192" x2="505" y2="192" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <text x="297" y="186">"1 × Pixel 9"</text>
+          <text x="510" y="213" font-size="10.5" fill="#6b7280">calls save_cart() → state (item, qty, price)</text>
+          <line x1="505" y1="237" x2="695" y2="237" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arr4)"/>
+          <text x="600" y="231" fill="#4f46e5">delegate: checkout</text>
+          <line x1="695" y1="260" x2="90" y2="260" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <text x="392" y="254">asks for shipping address (via root)</text>
+          <line x1="90" y1="284" x2="695" y2="284" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <text x="392" y="278">"12 MG Road, Bengaluru"</text>
+          <text x="700" y="305" font-size="10.5" fill="#6b7280">calls save_shipping_address() → state</text>
+          <line x1="695" y1="328" x2="875" y2="328" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arr4)"/>
+          <text x="785" y="322" fill="#4f46e5">delegate: show summary</text>
+          <text x="880" y="349" font-size="10.5" fill="#6b7280">reads state, formats summary</text>
+          <line x1="875" y1="372" x2="95" y2="372" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <text x="485" y="366">🧾 full order summary</text>
+          <line x1="90" y1="395" x2="295" y2="395" stroke="#475569" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <text x="192" y="389">"Thanks!" ✅</text>
+        </g>
+      </svg>
+      <div class="cap">Figure 3 — Message / delegation sequence for a complete purchase</div>
+    </div>
+
+    <h2 class="section"><span class="ico">🧱</span> Tech Stack</h2>
+    <table>
+      <tr><th style="width:24%">Layer</th><th style="width:30%">Technology</th><th>Purpose</th></tr>
+      <tr><td>Agent framework</td><td><code class="inline">google-adk</code></td><td><code class="inline">LlmAgent</code>, sub-agent hierarchy, <code class="inline">adk web</code> dev UI, session/state management, event stream</td></tr>
+      <tr><td>Model gateway</td><td><code class="inline">litellm</code> (via <code class="inline">LiteLlm</code> wrapper)</td><td>Normalizes provider calls so ADK can talk to any LLM through one interface</td></tr>
+      <tr><td>LLM</td><td>Ollama Cloud · <code class="inline">gpt-oss:120b</code></td><td>The reasoning engine for all 4 agents, called at <code class="inline">https://ollama.com/v1</code></td></tr>
+      <tr><td>Config</td><td><code class="inline">python-dotenv</code></td><td>Loads <code class="inline">OLLAMA_API_KEY</code> / <code class="inline">SERPER_API_KEY</code> from <code class="inline">.env</code></td></tr>
+      <tr><td>Runtime / UI</td><td>ADK Dev Web UI (FastAPI + Uvicorn)</td><td>Chat interface, session inspector, event/state viewer at <code class="inline">localhost:8000</code></td></tr>
+      <tr><td>State</td><td>ADK in-memory session state</td><td>Shared key–value store written by tools, read by agents via instruction templates</td></tr>
+    </table>
+
+    <h2 class="section"><span class="ico">📁</span> Project Structure</h2>
+    <div class="tree">
+<span class="d">AI_ADK02/</span>
+├── requirements.txt          <span class="note"># google-adk, python-dotenv, litellm==1.74.1</span>
+├── .env                      <span class="note"># OLLAMA_API_KEY, SERPER_API_KEY (secrets — not committed)</span>
+├── userguide.html            <span class="note"># this guide</span>
+├── <span class="d">ecommerce_agent/</span>          <span class="note"># ROOT agent package</span>
+│   ├── __init__.py           <span class="note"># from . import agent</span>
+│   └── agent.py              <span class="note"># root_agent + save_user_info() tool</span>
+├── <span class="d">catalog_agent/</span>
+│   ├── __init__.py
+│   └── agent.py              <span class="note"># catalog_agent + save_cart() tool</span>
+├── <span class="d">checkout_agent/</span>
+│   ├── __init__.py
+│   └── agent.py              <span class="note"># checkout_agent + save_shipping_address() tool</span>
+└── <span class="d">order_summary_agent/</span>
+    ├── __init__.py
+    └── agent.py              <span class="note"># order_summary_agent (no tools)</span>
+    </div>
+    <div class="callout">
+      <b class="tag info">Why the odd nesting?</b>
+      Sub-agents are declared bottom-up: <code class="inline">checkout_agent</code> imports <code class="inline">order_summary_agent</code>, <code class="inline">catalog_agent</code> imports <code class="inline">checkout_agent</code>, and the root imports <code class="inline">catalog_agent</code>. ADK discovers the tree from <code class="inline">root_agent</code> when it scans the project folder.
+    </div>
+
+    <h2 class="section"><span class="ico">🔗</span> Shared Session State — The Data Bus</h2>
+    <p>All four agents run inside one ADK <b>session</b>. Every tool receives a <code class="inline">ToolContext</code> whose <code class="inline">state</code> dict is persisted by ADK. State is the <i>only</i> mechanism that carries data across agent boundaries.</p>
+    <table>
+      <tr><th>Key</th><th style="width:24%">Written by</th><th>Consumed by</th><th>Example value</th></tr>
+      <tr><td><code class="inline">name</code>, <code class="inline">email</code>, <code class="inline">mobile</code></td><td><code class="inline">save_user_info()</code> (root)</td><td>order_summary_agent</td><td><code class="inline">"Ravi"</code>, <code class="inline">"ravi@example.com"</code>, <code class="inline">"9876543210"</code></td></tr>
+      <tr><td><code class="inline">cart</code></td><td><code class="inline">save_cart()</code> (catalog)</td><td>debugging / future agents</td><td><code class="inline">{category, product, quantity, price}</code></td></tr>
+      <tr><td><code class="inline">item</code>, <code class="inline">quantity</code>, <code class="inline">price</code></td><td><code class="inline">save_cart()</code> (catalog)</td><td>order_summary_agent</td><td><code class="inline">"Pixel 9"</code>, <code class="inline">1</code>, <code class="inline">"Rs.70,000"</code></td></tr>
+      <tr><td><code class="inline">shipping_address</code></td><td><code class="inline">save_shipping_address()</code> (checkout)</td><td>order_summary_agent</td><td><code class="inline">"12 MG Road, Bengaluru 560001"</code></td></tr>
+    </table>
+    <p>Top-level duplicates of the cart keys are stored on purpose — ADK resolves <code class="inline">{item}</code>-style placeholders in an agent's <b>instruction</b> from top-level state keys, so the order_summary_agent's template renders automatically before the LLM sees it.</p>
+
+    <h2 class="section"><span class="ico">🛠️</span> How It Was Created — Code Walkthrough</h2>
+
+    <h3>1 · Root agent — greeting, identity collection, routing</h3>
+    <p><code class="inline">ecommerce_agent/agent.py</code>. A <code class="inline">FunctionTool</code> writes user identity into state; strict <b>rules in the instruction</b> enforce the guardrail "never route to checkout before <code class="inline">save_user_info()</code> has been called" and "never answer yourself — always delegate".</p>
+<pre class="code"><span class="k">def</span> <span class="f">save_user_info</span>(tool_context: ToolContext, name: <span class="k">str</span>, email: <span class="k">str</span>, mobile: <span class="k">str</span>):
+    tool_context.state[<span class="s">"name"</span>]   = name
+    tool_context.state[<span class="s">"email"</span>]  = email
+    tool_context.state[<span class="s">"mobile"</span>] = mobile
+
+root_agent = <span class="f">LlmAgent</span>(
+    name=<span class="s">"ecommerce_agent"</span>,
+    model=<span class="f">LiteLlm</span>(model=<span class="s">"openai/gpt-oss:120b"</span>, api_base=<span class="s">"https://ollama.com/v1"</span>, ...),
+    instruction=<span class="s">"""Workflow:
+      - Greet; collect name, email, mobile (one at a time)
+      - Once ALL THREE known → call save_user_info()  [mandatory]
+      - Route to exactly ONE sub-agent: catalog (purchase) / checkout / tracking
+      Rules: NEVER answer yourself; NEVER route to checkout before save_user_info()"""</span>,
+    tools=[save_user_info],
+    sub_agents=[catalog_agent],
+)</pre>
+
+    <h3>2 · Catalog agent — product browse + cart writing</h3>
+    <p><code class="inline">catalog_agent/agent.py</code>. The (fictional) catalog lives in the instruction prompt. When the user picks a product, the LLM must call <code class="inline">save_cart()</code> with the <i>exact price string it showed the user</i>, keeping displayed and stored prices consistent. It also writes both a nested <code class="inline">cart</code> dict and flattened top-level keys for the summary template:</p>
+<pre class="code"><span class="k">def</span> <span class="f">save_cart</span>(tool_context: ToolContext, category: <span class="k">str</span>, product: <span class="k">str</span>,
+             quantity: <span class="k">int</span>, price: <span class="k">str</span>):
+    cart = {<span class="s">"category"</span>: category, <span class="s">"product"</span>: product,
+            <span class="s">"quantity"</span>: quantity, <span class="s">"price"</span>: price}
+    tool_context.state[<span class="s">"cart"</span>] = cart
+    tool_context.state[<span class="s">"item"</span>]     = product   <span class="c"># flattened for {item} template</span>
+    tool_context.state[<span class="s">"quantity"</span>] = quantity
+    tool_context.state[<span class="s">"price"</span>]    = price
+    <span class="k">return</span> {<span class="s">"status"</span>: <span class="s">"saved"</span>, <span class="s">"cart"</span>: cart}</pre>
+
+    <h3>3 · Checkout agent — address capture</h3>
+    <p><code class="inline">checkout_agent/agent.py</code>. A minimal <code class="inline">LlmAgent</code>: collect the shipping address, call <code class="inline">save_shipping_address()</code> to persist it, then offer to hand off to the order summary agent.</p>
+
+    <h3>4 · Order summary agent — state → formatted receipt</h3>
+    <p><code class="inline">order_summary_agent/agent.py</code>. It has <b>no tools and no sub-agents</b>. Its instruction embeds ADK template variables that ADK substitutes from session state before inference, so the LLM simply renders the receipt. A rule forbids inventing data not present in state.</p>
+<pre class="code">instruction = <span class="s">"""
+Use the following from the state object and generate an order summary
+(amazon / flipkart style). Read ONLY from state; do NOT invent info.
+
+{name} {email} {mobile}
+{item} {quantity} {price} {shipping_address}
+"""</span></pre>
+
+    <h3>5 · Model wiring — the Ollama Cloud gotcha</h3>
+    <p>Every agent uses the same <code class="inline">LiteLlm</span> configuration, and the choice of the <code class="inline">openai/</code> provider prefix (instead of Ollama's native <code class="inline">ollama/</code>) is deliberate:</p>
+    <ul>
+      <li>Ollama Cloud exposes an <b>OpenAI-compatible endpoint</b> at <code class="inline">https://ollama.com/v1</code> — used here with native function calling, which <code class="inline">gpt-oss:120b</code> handles correctly.</li>
+      <li>The native Ollama API forces <code class="inline">format: json</code> whenever tools are attached, which makes this model return <b>empty content</b> → <code class="inline">JSONDecodeError</code> in LiteLLM. Using the OpenAI-compatible surface avoids that entirely.</li>
+      <li><code class="inline">extra_headers={"Authorization": f"Bearer {key}"}</code> satisfies Ollama Cloud's auth for both body and header paths.</li>
+    </ul>
+
+    <h3>6 · How a turn is processed (ADK mechanics)</h3>
+    <ol>
+      <li><code class="inline">adk web</code> receives the user message and starts a <b>Runner</b> over the session.</li>
+      <li>Active agent's instruction + template-substituted state + conversation history → <b>LiteLLM → Ollama Cloud</b>.</li>
+      <li>LLM returns either text or a <b>function call</b>; ADK executes the Python tool, commits <code class="inline">tool_context.state</code> writes, and feeds the result back for the next model turn.</li>
+      <li>For delegation, ADK transfers control to the sub-agent (an <code class="inline">AgentTool</code>), which repeats steps 2–3 within the same session.</li>
+      <li>Every step is emitted as a session <b>event</b> — visible in the dev UI's event/state inspector.</li>
+    </ol>
+
+    <h2 class="section"><span class="ico">🧪</span> Testing Checklist (Manual)</h2>
+    <table>
+      <tr><th>Scenario</th><th>Expected behavior</th></tr>
+      <tr><td>Greeting only ("hi")</td><td>Root introduces itself; does <b>not</b> ask for details immediately</td></tr>
+      <tr><td>Ask to buy before giving details</td><td>Root collects name → email → mobile <b>one at a time</b>, then calls <code class="inline">save_user_info()</code></td></tr>
+      <tr><td>Jump straight to checkout</td><td>Root refuses to route until identity is saved (guardrail rule)</td></tr>
+      <tr><td>Ask tracking without purchase</td><td>Root attempts routing; tracking agent isn't implemented → clarifying response (known gap)</td></tr>
+      <tr><td>Add to cart with quantity</td><td>catalog calls <code class="inline">save_cart()</code>; price matches the displayed price string exactly</td></tr>
+      <tr><td>Full happy path</td><td>Summary shows all 7 state values, nothing invented</td></tr>
+      <tr><td>Out-of-scope ask (e.g., "place order" to catalog)</td><td>Catalog deflects per guideline #3 and hands back</td></tr>
+    </table>
+
+    <h2 class="section"><span class="ico">🧭</span> Known Gaps &amp; Extension Ideas</h2>
+    <ul>
+      <li><b>tracking_agent is referenced but not implemented</b> — the root instruction lists it as a routing target, yet no module exists. Create <code class="inline">tracking_agent/</code> mirroring <code class="inline">checkout_agent/</code> and add it to the root's <code class="inline">sub_agents</code>.</li>
+      <li><b>Single item cart</b> — <code class="inline">save_cart()</code> overwrites; make <code class="inline">cart</code> a list to support multi-item orders.</li>
+      <li><b>No persistence</b> — swap ADK's in-memory session service for <code class="inline">DatabaseSessionService</code> (SQLite) to survive restarts.</li>
+      <li><b>Hardcoded model config</b> — extract <code class="inline">model/api_base/api_key</code> into a shared helper reading <code class="inline">.env</code> to avoid repeating it in 4 files.</li>
+      <li><b>SERPER_API_KEY</b> is loaded in <code class="inline">catalog_agent</code> but unused — wire a real web-search tool for live product lookup, or remove it.</li>
+      <li><b>Evaluation</b> — add <code class="inline">adk eval</code> test datasets to automate the checklist above.</li>
+    </ul>
+
+    <div class="callout ok">
+      <b class="tag ok">Reproduce from scratch in 6 steps</b>
+      1) Create 4 packages, each with <code class="inline">__init__.py</code> + <code class="inline">agent.py</code> · 2) Build leaf agent first (order_summary), then wire upward via <code class="inline">sub_agents</code> · 3) Give each agent one focused instruction + one tool · 4) Route through <code class="inline">LiteLlm("openai/gpt-oss:120b")</code> pointing at Ollama Cloud · 5) Keep all shared data in <code class="inline">tool_context.state</code> · 6) Run <code class="inline">adk web</code> from the project root and iterate.
+    </div>
+
+  </section>
+
+  <footer>
+    AI E-Commerce Assistant · Google ADK + Ollama Cloud · Generated September 2026 · Print-friendly (Tab 1 and Tab 2 each start on a new page)
+  </footer>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    document.getElementById('btn-' + id).classList.add('active');
+  }
+  // Deep-link support: userguide.html#tab2 opens the technical tab
+  if (location.hash === '#tab2') showTab('tab2');
+</script>
+</body>
+</html>

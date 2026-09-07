@@ -2,13 +2,14 @@
 
 # 🧠 AI_Projects
 
-**A curated showcase of AI and Machine Learning projects featuring local LLM workflows, RAG systems, model evaluation, automated AI testing frameworks, and classic NLP/ML text classification.**
+**A curated showcase of AI and Machine Learning projects featuring local LLM workflows, multi-agent orchestration, RAG systems, model evaluation, automated AI testing frameworks, and classic NLP/ML text classification.**
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)
 ![LangChain](https://img.shields.io/badge/🦜%20LangChain-LCEL-green)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Web_APIs-009688?logo=fastapi&logoColor=white)
 ![Ollama](https://img.shields.io/badge/LLM-Ollama%20Cloud-white?logo=ollama)
 ![NeMo Guardrails](https://img.shields.io/badge/NVIDIA-NeMo%20Guardrails-76B900?logo=nvidia&logoColor=white)
+![Google ADK](https://img.shields.io/badge/Google%20ADK-Multi--Agent%20Orchestration-4285F4?logo=google&logoColor=white)
 
 </div>
 
@@ -24,6 +25,7 @@
 | 4 | **[RAG Evaluation Harness](./rag-evaluation-harness/)** | RAGAS · Streamlit · OpenAI-compatible judge LLMs · pytest | ✅ Complete |
 | 5 | **[Knowledge Graph Builder](./KnowledgegraphUIapp/)** | Google ADK · FastAPI · Neo4j · Ollama Cloud (`gpt-oss:120b`) · Vanilla JS | ✅ Complete |
 | 6 | **[NLP Machine Learning Sentiment Analysis](./NLP_MachineLearning_SentimentAnalysis/)** | scikit-learn (TF-IDF · LR · NB · SVM) · NLTK · spaCy · Jupyter | ✅ Complete |
+| 7 | **[Agentic AI Multi-Agent E-Commerce Orchestrator](./Agentic-AI-Ecommerce-Orchestrator/)** | Google ADK (4-agent hierarchy) · LiteLLM · Ollama Cloud (`gpt-oss:120b`) · `adk web` dev UI | ✅ Complete |
 
 ### 1️⃣ Hospital Appointment Scheduler & Confirmation Bot
 
@@ -169,12 +171,37 @@ A complete, educational Jupyter notebook that walks through the **full NLP pipel
 
 ---
 
+### 7️⃣ Agentic AI Multi-Agent E-Commerce Orchestrator
+
+A multi-agent e-commerce assistant built on **Google ADK**: a root orchestrator collects the shopper's profile and delegates to three specialist agents — catalog (browse & cart), checkout (shipping address), and order summary — which coordinate the full purchase flow through **shared session state**, ending in an Amazon-style order summary. Runs entirely on Ollama Cloud (`gpt-oss:120b`) via LiteLLM.
+
+**Highlights**
+
+- 🤖 4-agent hierarchy — `ecommerce_agent` (root) → `catalog_agent` → `checkout_agent` → `order_summary_agent` with `transfer_to_agent` delegation
+- 🔐 Workflow gating — checkout is blocked until user profile (name/email/mobile) is saved to session state
+- 🚌 Session state as the data bus — tools write `tool_context.state`; downstream agents read `{item} {quantity} {price} {shipping_address}` template variables
+- 🛠️ Function tools — `save_user_info`, `save_cart`, `save_shipping_address` persist workflow data across agents
+- 🧠 Tool-calling on open models — LiteLLM `openai/` provider against Ollama Cloud (native `format: json` breaks tool calling)
+- 🔍 Full observability — `adk web` dev UI with event traces, agent-transfer graph, and live state inspector
+- 📖 Self-contained interactive **user guide** (`userguide.html`) in plain language
+
+> 📄 **Full docs, setup guide, and architecture:** [`Agentic-AI-Ecommerce-Orchestrator/README.md`](./Agentic-AI-Ecommerce-Orchestrator/README.md) ·
+> 📚 **Interactive user guide (HTML):** [`Agentic-AI-Ecommerce-Orchestrator/userguide.html`](./Agentic-AI-Ecommerce-Orchestrator/userguide.html)
+
+| Order summary (end-to-end result) | Session state — the data bus |
+|:---:|:---:|
+| ![Order Summary](./Agentic-AI-Ecommerce-Orchestrator/docs/screenshots/06-order-summary.png) | ![Session State](./Agentic-AI-Ecommerce-Orchestrator/docs/screenshots/07-session-state.png) |
+| **Catalog browsing** | **Cart saved + checkout handoff** |
+| ![Catalog](./Agentic-AI-Ecommerce-Orchestrator/docs/screenshots/03-catalog-agent.png) | ![Cart](./Agentic-AI-Ecommerce-Orchestrator/docs/screenshots/05-cart-saved.png) |
+
+---
+
 ## 🗺️ Roadmap
 
 - [x] 5️⃣ Knowledge Graph Builder — ADK agents + Neo4j + natural language Q&A → **[KnowledgegraphUIapp](./KnowledgegraphUIapp/)**
 - [x] 6️⃣ Model Evaluation Harness — automated LLM benchmarking & regression testing → **[rag-evaluation-harness](./rag-evaluation-harness/)**
 - [x] 7️⃣ Classic NLP / ML Sentiment Analysis — end-to-end text classification teaching notebook → **[NLP_MachineLearning_SentimentAnalysis](./NLP_MachineLearning_SentimentAnalysis/)**
-- [ ] 8️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns
+- [x] 8️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns → **[Agentic-AI-Ecommerce-Orchestrator](./Agentic-AI-Ecommerce-Orchestrator/)**
 
 ## 🛠️ Common Tech
 
