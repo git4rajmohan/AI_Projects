@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mindmap</title>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    #toolbar {
+      position: fixed; top: 10px; left: 10px; z-index: 100;
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    #toolbar button {
+      padding: 6px 14px; border: 1px solid #d0d5dd; border-radius: 6px;
+      background: #fff; color: #333; font-size: 13px; cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.15s;
+    }
+    #toolbar button:hover { background: #f0f4ff; border-color: #6366f1; }
+    #toolbar button:active { transform: scale(0.96); }
+    #hint {
+      position: fixed; bottom: 10px; left: 10px; z-index: 100;
+      font-size: 12px; color: #888; background: rgba(255,255,255,0.85);
+      padding: 4px 10px; border-radius: 4px;
+    }
+    #mindmap { width: 100%; height: 100vh; }
+
+    /* ─── Color-coded levels ──────────────────────────────────── */
+    /* Level 0 = root (#), Level 1 = branches (##), etc. */
+    .markmap-node foreignObject div { font-weight: 600; }
+    .markmap-node--0 foreignObject div { font-size: 20px; color: #1e293b; font-weight: 700; }
+    .markmap-node--1 foreignObject div { font-size: 16px; color: #2563eb; }  /* blue */
+    .markmap-node--2 foreignObject div { font-size: 14px; color: #059669; }  /* green */
+    .markmap-node--3 foreignObject div { font-size: 13px; color: #d97706; }  /* orange */
+    .markmap-node--4 foreignObject div { font-size: 12px; color: #7c3aed; }  /* purple */
+    .markmap-node--5 foreignObject div { font-size: 12px; color: #64748b; }  /* slate */
+
+    /* Hover highlight */
+    .markmap-node foreignObject div:hover { color: #ef4444; cursor: pointer; }
+
+    /* ─── Tooltip ──────────────────────────────────────────────── */
+    #tooltip {
+      position: fixed; display: none; z-index: 200;
+      max-width: 320px; padding: 10px 14px;
+      background: #1e293b; color: #f1f5f9;
+      font-size: 13px; line-height: 1.5;
+      border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+    #tooltip .tt-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; color: #93c5fd; }
+    #tooltip .tt-desc { color: #cbd5e1; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
+</head>
+<body>
+  <div id="toolbar">
+    <button onclick="expandAll()">⊕ Expand All</button>
+    <button onclick="collapseAll()">⊖ Collapse All</button>
+    <button onclick="fitToScreen()">⤢ Fit to Screen</button>
+  </div>
+  <div id="hint">💡 Click any node to expand/collapse • Hover for details</div>
+  <div id="tooltip"></div>
+  <svg id="mindmap"></svg>
+  <script>
+    const markdown = {{MARKDOWN_JSON}};
+
+    const { Transformer } = window.markmap;
+    const transformer = new Transformer();
+    const { root } = transformer.transform(markdown);
+
+    const { Markmap } = window.markmap;
+    const mm = Markmap.create('#mindmap', {
+      maxWidth: 300,
+      initialExpandLevel: -1,
+      spacingHorizontal: 80,
+      spacingVertical: 10,
+      paddingX: 8,
+      duration: 300,
+    }, root);
+
+    // ─── Build tooltip data from node text ────────────────────
+    // Descriptions are embedded as HTML comments in the markdown:
+    //   ## Branch Title <!-- Description here -->
+    // We extract them and map node text → description
+    const tooltipData = {};
+    function decodeHtml(text) {
+      const txt = document.createElement('textarea');
+      txt.innerHTML = text;
+      return txt.value;
+    }
+    function extractDescriptions(node) {
+      if (!node) return;
+      const raw = node.content || '';
+      const match = raw.match(/<!--\s*(.+?)\s*-->/);
+      if (match) {
+        // Strip the comment from the content
+        node.content = raw.replace(/<!--\s*.+?\s*-->/, '').trim();
+        // Store tooltip data keyed by plain text (matching what DOM will show)
+        const plainText = decodeHtml(node.content.replace(/<[^>]+>/g, '').trim());
+        tooltipData[plainText] = decodeHtml(match[1]);
+      }
+      if (node.children) node.children.forEach(extractDescriptions);
+    }
+    extractDescriptions(root);
+
+    // ─── Add level classes for color-coding ────────────────────
+    // markmap doesn't add depth classes, so we compute them from the tree data
+    // and match DOM nodes by their text content (inside foreignObject)
+    function assignLevels() {
+      const svg = document.getElementById('mindmap');
+      const nodes = svg.querySelectorAll('.markmap-node');
+
+      // Build a map of text content → depth from the root tree
+      const textToDepth = new Map();
+      function walk(node, depth) {
+        const text = decodeHtml((node.content || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
+        if (text) textToDepth.set(text, depth);
+        if (node.children) node.children.forEach(c => walk(c, depth + 1));
+      }
+      walk(root, 0);
+
+      // Assign classes by matching foreignObject text content
+      nodes.forEach(node => {
+        const fo = node.querySelector('foreignObject');
+        if (!fo) return;
+        const text = fo.textContent.replace(/\s+/g, ' ').trim();
+        const depth = textToDepth.get(text);
+        if (depth !== undefined) {
+          let cls = node.getAttribute('class') || '';
+          cls = cls.replace(/markmap-node--\d+/g, '').trim();
+          cls = (cls + ' markmap-node--' + depth).trim();
+          node.setAttribute('class', cls);
+        }
+      });
+    }
+
+    // Override setData to re-assign levels after any data update
+    const origSetData = mm.setData.bind(mm);
+    mm.setData = function(...args) {
+      origSetData(...args);
+      setTimeout(assignLevels, 400);
+      setTimeout(assignLevels, 800);
+    };
+
+    // Now set the data (this goes through the override, which will schedule assignLevels)
+    mm.setData(root);
+    // Extra fallback calls
+    setTimeout(assignLevels, 300);
+    setTimeout(assignLevels, 1500);
+
+    // ─── Tooltip hover behavior ───────────────────────────────
+    const tooltip = document.getElementById('tooltip');
+    const svgEl = document.getElementById('mindmap');
+
+    svgEl.addEventListener('mouseover', function(e) {
+      // Find the closest <g> with class markmap-node
+      const nodeEl = e.target.closest('.markmap-node');
+      if (!nodeEl) return;
+      const fo = nodeEl.querySelector('foreignObject');
+      if (!fo) return;
+      const nodeText = fo.textContent.replace(/\s+/g, ' ').trim();
+      if (tooltipData[nodeText]) {
+        tooltip.innerHTML = '<div class="tt-title">' + nodeText + '</div><div class="tt-desc">' + tooltipData[nodeText] + '</div>';
+        tooltip.style.display = 'block';
+      }
+    });
+
+    svgEl.addEventListener('mousemove', function(e) {
+      if (tooltip.style.display === 'block') {
+        let x = e.clientX + 14;
+        let y = e.clientY + 14;
+        // Keep tooltip within viewport
+        const rect = tooltip.getBoundingClientRect();
+        if (x + rect.width > window.innerWidth) x = e.clientX - rect.width - 14;
+        if (y + rect.height > window.innerHeight) y = e.clientY - rect.height - 14;
+        tooltip.style.left = x + 'px';
+        tooltip.style.top = y + 'px';
+      }
+    });
+
+    svgEl.addEventListener('mouseout', function(e) {
+      const nodeEl = e.target.closest('.markmap-node');
+      if (nodeEl) tooltip.style.display = 'none';
+    });
+
+    // ─── Toolbar actions ─────────────────────────────────────
+    function expandAll() {
+      function walk(node) {
+        node.payload = node.payload || {};
+        node.payload.fold = 0;
+        if (node.children) node.children.forEach(walk);
+      }
+      walk(root);
+      mm.setData(root);
+      mm.fit();
+    }
+
+    function collapseAll() {
+      function walk(node, depth) {
+        node.payload = node.payload || {};
+        node.payload.fold = depth >= 1 ? 1 : 0;
+        if (node.children) node.children.forEach(c => walk(c, depth + 1));
+      }
+      walk(root, 0);
+      mm.setData(root);
+      mm.fit();
+    }
+
+    function fitToScreen() {
+      mm.fit();
+    }
+  </script>
+</body>
+</html>

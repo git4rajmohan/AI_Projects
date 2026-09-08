@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 AI Mindmap Creator — User Guide</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1420;
+    --panel: #171e2e;
+    --panel2: #1e2740;
+    --border: #2c3a5c;
+    --text: #e6ecf7;
+    --muted: #9db0d0;
+    --accent: #6ea8fe;
+    --accent2: #38d39f;
+    --accent3: #f7b955;
+    --danger: #ff7a7a;
+    --code-bg: #0b101b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* ── Header ── */
+  header.hero {
+    text-align: center;
+    padding: 40px 20px 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  header.hero h1 { font-size: 2.2rem; letter-spacing: -0.5px; }
+  header.hero p.sub { color: var(--muted); margin-top: 8px; font-size: 1.05rem; }
+  .badge-row { margin-top: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 12px 26px;
+    font-size: 1rem;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+  }
+  .tab-btn:hover { color: var(--text); border-color: var(--accent); }
+  .tab-btn.active {
+    background: linear-gradient(180deg, #23304e, var(--panel));
+    color: var(--accent);
+    border-color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+  }
+  .tab-panel { display: none; animation: fadein 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ── Cards & sections ── */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 28px;
+    margin-bottom: 22px;
+  }
+  .card h2 {
+    font-size: 1.35rem;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card h3 { font-size: 1.05rem; color: var(--accent2); margin: 18px 0 8px; }
+  .card p, .card li { color: var(--text); }
+  .card p { margin-bottom: 10px; }
+  .muted { color: var(--muted); font-size: 0.92rem; }
+
+  ul.plain { list-style: none; }
+  ul.plain li { padding-left: 26px; position: relative; margin-bottom: 8px; }
+  ul.plain li::before { content: "▸"; position: absolute; left: 4px; color: var(--accent2); }
+  ol.steps { padding-left: 0; list-style: none; counter-reset: step; }
+  ol.steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 44px;
+    margin-bottom: 14px;
+  }
+  ol.steps li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 2px;
+    width: 28px; height: 28px;
+    background: var(--accent);
+    color: #0b101b;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  code {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 1px 7px;
+    border-radius: 6px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.88em;
+    color: #ffd479;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    overflow-x: auto;
+    margin: 10px 0 16px;
+    font-size: 0.88rem;
+  }
+  pre code { background: none; border: none; padding: 0; color: #cfe3ff; }
+  .cmd-label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92rem; }
+  th, td { border: 1px solid var(--border); padding: 9px 12px; text-align: left; }
+  th { background: var(--panel2); color: var(--accent); font-weight: 600; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* ── Flow diagram (pure CSS) ── */
+  .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; justify-content: center; margin: 18px 0; }
+  .flow .node {
+    background: var(--panel2);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-align: center;
+    min-width: 130px;
+    font-size: 0.85rem;
+  }
+  .flow .node .t { font-weight: 700; color: var(--accent); display: block; margin-bottom: 3px; }
+  .flow .node .d { color: var(--muted); font-size: 0.76rem; }
+  .flow .arrow {
+    display: flex; align-items: center;
+    color: var(--accent2);
+    font-size: 1.3rem;
+    padding: 0 6px;
+  }
+
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .pnode {
+    background: linear-gradient(160deg, var(--panel2), var(--panel));
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent2);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .pnode.creator { border-top-color: var(--accent); }
+  .pnode.reviewer { border-top-color: var(--accent3); }
+  .pnode.mapper { border-top-color: var(--danger); }
+  .pnode .num {
+    display: inline-block;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    color: var(--accent2);
+    font-size: 0.7rem;
+    padding: 2px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .pnode h4 { font-size: 1rem; margin-bottom: 6px; }
+  .pnode p { color: var(--muted); font-size: 0.85rem; margin: 0; }
+
+  .tip, .warn {
+    border-left: 4px solid var(--accent2);
+    background: rgba(56, 211, 159, 0.07);
+    padding: 10px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 12px 0;
+    font-size: 0.92rem;
+  }
+  .warn { border-left-color: var(--accent3); background: rgba(247, 185, 85, 0.07); }
+
+  .mermaid {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    margin: 14px 0;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+  }
+
+  .legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 0 12px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .legend span { display: flex; align-items: center; gap: 7px; }
+  .legend .dot { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+  .mode-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .mode-card { border-radius: 12px; padding: 18px; border: 1px solid var(--border); background: var(--panel2); }
+  .mode-card.fast { border-left: 4px solid var(--accent2); }
+  .mode-card.agent { border-left: 4px solid var(--accent3); }
+  .mode-card h4 { margin-bottom: 8px; font-size: 1.05rem; }
+  .mode-card p { font-size: 0.9rem; color: var(--muted); }
+
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+  code.inline-k { color: #9fd0ff; }
+
+  footer {
+    text-align: center; color: var(--muted);
+    font-size: 0.82rem; margin-top: 40px;
+    border-top: 1px solid var(--border); padding-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>🧠 AI Mindmap Creator — User Guide</h1>
+  <p class="sub">Turn any text, document, or YouTube video into an interactive mindmap — powered by a local LLM.</p>
+  <div class="badge-row">
+    <span class="badge">🐍 Python 3.10+</span>
+    <span class="badge">🦙 Ollama (local, private)</span>
+    <span class="badge">📊 markmap.js</span>
+    <span class="badge">🖥️ Streamlit UI</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ═══════════════ TAB BUTTONS ═══════════════ -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="nontech">👤 Non-Technical Guide</button>
+    <button class="tab-btn" data-tab="tech">🛠️ Technical Details</button>
+  </div>
+
+  <!-- ═══════════════ TAB 1: NON-TECHNICAL ═══════════════ -->
+  <section class="tab-panel active" id="nontech">
+
+    <div class="card">
+      <h2>💡 What is this app?</h2>
+      <p>
+        <strong>AI Mindmap Creator</strong> takes any piece of content — a text file, a YouTube video,
+        or text you simply paste in — and turns it into a beautiful <strong>interactive mindmap</strong>
+        that you can explore, collapse, expand, edit, and download.
+      </p>
+      <p>
+        Everything runs <strong>on your own computer</strong>. Your text is sent to a local AI model
+        (Ollama), so nothing leaves your machine and nothing is shared with any cloud service.
+      </p>
+      <ul class="plain">
+        <li><strong>No sign-ups, no API keys, no cloud costs</strong> — the AI runs locally.</li>
+        <li><strong>Three ways to give input</strong>: upload a file, paste a YouTube link, or paste text.</li>
+        <li><strong>Two output formats</strong>: a standalone HTML mindmap, or the raw Markdown source.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>🔄 How it works (in plain English)</h2>
+      <p>Think of the app as a four-step assembly line:</p>
+      <div class="flow">
+        <div class="node"><span class="t">1️⃣ You give content</span><span class="d">file, YouTube link, or pasted text</span></div>
+        <div class="arrow">➜</div>
+        <div class="node"><span class="t">2️⃣ App reads it</span><span class="d">extracts clean plain text</span></div>
+        <div class="arrow">➜</div>
+        <div class="node"><span class="t">3️⃣ Local AI organizes it</span><span class="d">picks main topic, branches, details</span></div>
+        <div class="arrow">➜</div>
+        <div class="node"><span class="t">4️⃣ You see a mindmap</span><span class="d">interactive & downloadable</span></div>
+      </div>
+      <p>
+        The AI reads your text like a skilled note-taker: it finds the <em>central theme</em>, breaks it into
+        <em>3–7 major branches</em>, and nests details underneath. Hovering over any node shows a short
+        description of what it covers.
+      </p>
+
+      <h3>⚡ Two modes to choose from</h3>
+      <div class="mode-cards">
+        <div class="mode-card fast">
+          <h4>⚡ Fast Mode — one shot</h4>
+          <p>The AI reads your text <strong>once</strong> and produces the mindmap in about
+          <strong>30–60 seconds</strong>. Great for articles, notes, and simple content.
+          Best when you want a quick result.</p>
+        </div>
+        <div class="mode-card agent">
+          <h4>🤖 Agent Mode — with a quality check</h4>
+          <p>Three AI "workers" team up: one builds the outline, a second <strong>reviews and criticizes it</strong>,
+          the first revises it, and this back-and-forth repeats until the outline is approved
+          (up to your chosen number of rounds). Takes <strong>2–5 minutes</strong>, but produces noticeably
+          better-organized mindmaps for complex or long content.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🚀 End-to-end walkthrough</h2>
+
+      <h3>Step 1 — Install Ollama (the local AI engine)</h3>
+      <p>Download and install <a href="https://ollama.com/" style="color:var(--accent)">Ollama</a> from ollama.com.
+      After installing, open a terminal and pull a model (this is a one-time download, a few GB):</p>
+      <div class="cmd-label">terminal</div>
+      <pre><code>ollama serve          :: starts the AI engine (usually auto-starts)
+ollama pull gpt-oss:120b    :: downloads a good default model
+ollama list                  :: verify the model is installed</code></pre>
+      <div class="tip">💡 <strong>Bigger models give better mindmaps but are slower.</strong> If things feel slow,
+      try a smaller model like <code>gpt-oss:20b</code> — you can switch models anytime in the app's sidebar.</div>
+
+      <h3>Step 2 — Set up and start the app</h3>
+      <div class="cmd-label">terminal</div>
+      <pre><code>python -m venv venv          :: create an isolated Python environment
+venv\Scripts\activate        :: activate it (Windows)
+pip install -r requirements.txt
+streamlit run app.py</code></pre>
+      <p>Your browser opens automatically at <code>http://localhost:8501</code>.
+      The sidebar shows a green ✅ <strong>Ollama is running</strong> if everything is connected.</p>
+
+      <h3>Step 3 — Give it something to map</h3>
+      <ol class="steps">
+        <li><strong>Upload a file</strong> — drag in a <code>.txt</code> or <code>.md</code> file (a report, lecture notes, an article).</li>
+        <li><strong>YouTube link</strong> — paste any video URL; the app fetches the video's transcript automatically.</li>
+        <li><strong>Paste text</strong> — copy anything (an email, meeting notes, a chapter) into the text box.</li>
+      </ol>
+
+      <h3>Step 4 — Generate the mindmap</h3>
+      <p>Click the big <strong>🚀 Generate Mindmap</strong> button (Fast Mode) or
+      <strong>🤖 Run Agent Pipeline</strong> (Agent Mode) and wait. A spinner shows progress.
+      In Agent Mode, you'll see a live log of the review loop as it happens.</p>
+
+      <h3>Step 5 — Review, tweak, and save</h3>
+      <ul class="plain">
+        <li><strong>Explore</strong> — click any node to collapse/expand its branches; drag to pan; scroll to zoom.</li>
+        <li><strong>Edit</strong> — open <em>"📝 View / Edit Markdown"</em>, change any heading, and the mindmap re-renders instantly.</li>
+        <li><strong>Download HTML</strong> — saves a self-contained file that opens in any browser with no internet needed. Perfect for sharing.</li>
+        <li><strong>Download Markdown</strong> — saves the raw text version, ideal for docs, Notion, or Obsidian.</li>
+      </ul>
+
+      <div class="tip">✅ <strong>That's the whole loop:</strong> content in → mindmap out → edit if needed → download and share.</div>
+    </div>
+
+    <div class="card">
+      <h2>🧭 Which mode should I use?</h2>
+      <table>
+        <tr><th>Situation</th><th>Recommended</th><th>Why</th></tr>
+        <tr><td>Short article, notes, quick summary</td><td>⚡ Fast Mode</td><td>One pass is plenty; result in under a minute.</td></tr>
+        <tr><td>Long lecture transcript, dense report</td><td>🤖 Agent Mode</td><td>The review loop reorganizes messy content into balanced branches.</td></tr>
+        <tr><td>You're iterating/experimenting</td><td>⚡ Fast Mode</td><td>Fast feedback while you find the right input.</td></tr>
+        <tr><td>Output will be shared / presented</td><td>🤖 Agent Mode</td><td>Higher quality structure is worth the extra minutes.</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>🩺 Common problems & fixes</h2>
+      <table>
+        <tr><th>Problem</th><th>Fix</th></tr>
+        <tr><td>"❌ Ollama is not reachable" in the sidebar</td><td>Run <code>ollama serve</code> in a terminal, then refresh the page.</td></tr>
+        <tr><td>"Could not fetch transcript" for a YouTube video</td><td>That video likely has captions disabled — try a different video or paste your own text.</td></tr>
+        <tr><td>Mindmap looks too shallow or messy</td><td>Switch to Agent Mode, or try a larger model (e.g. <code>gpt-oss:120b</code>).</td></tr>
+        <tr><td>Generation is slow</td><td>Large inputs take longer. Use a smaller/faster model, or shorten the input text.</td></tr>
+        <tr><td>No models appear in the sidebar dropdown</td><td>Pull one: <code>ollama pull gpt-oss:120b</code>, then refresh.</td></tr>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════ TAB 2: TECHNICAL ═══════════════ -->
+  <section class="tab-panel" id="tech">
+
+    <div class="card">
+      <h2>🧱 Technical Stack</h2>
+      <table>
+        <tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr>
+        <tr><td>UI / Web server</td><td><code>Streamlit</code> ≥ 1.45</td><td>Tabbed interface, file upload, live progress, download buttons; serves the app on port 8501.</td></tr>
+        <tr><td>LLM runtime</td><td><code>Ollama</code> (local)</td><td>Hosts open-weight models (e.g. <code>gpt-oss:120b</code>); exposes an OpenAI-compatible REST API at <code>/v1</code>.</td></tr>
+        <tr><td>LLM client</td><td><code>openai</code> Python SDK</td><td>Called with <code>base_url=http://localhost:11434/v1</code> + dummy API key — the SDK works transparently against Ollama.</td></tr>
+        <tr><td>Transcripts</td><td><code>youtube-transcript-api</code></td><td>Fetches caption tracks for a video ID and formats them as plain text.</td></tr>
+        <tr><td>Visualization</td><td><code>markmap</code> (JS, via CDN)</td><td>Parses Markdown headings client-side into a collapsible interactive SVG mindmap.</td></tr>
+        <tr><td>Config</td><td><code>python-dotenv</code></td><td>Loads <code>.env</code> for <code>OLLAMA_BASE_URL</code> and <code>OLLAMA_MODEL</code> defaults.</td></tr>
+        <tr><td>HTTP (health checks)</td><td><code>requests</code></td><td>Pings Ollama's <code>/api/tags</code> for status + model listing (cached 30s).</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>🏗️ System Architecture</h2>
+      <div class="mermaid">
+flowchart LR
+    %% ── Stage 1 · User input ──────────────────────────────
+    subgraph ST1["1 · INPUT UI — Streamlit :8501"]
+        UI["🖥️ app.py<br/>⚡ Fast Mode · 🤖 Agent Mode<br/>📁 Upload · ▶️ YouTube · ✏️ Paste"]
+    end
+
+    %% ── Stage 2 · Text extraction ─────────────────────────
+    subgraph ST2["2 · EXTRACTION"]
+        IH["📄 input_handler.py<br/>utf-8 → latin-1 decode chain<br/>video-ID regex · transcript fetch"]
+    end
+
+    %% ── Stage 3 · Mindmap generation ───────────────────────
+    subgraph ST3["3 · GENERATION"]
+        direction TB
+        MG["⚡ mindmap_generator.py<br/>single-pass LLM prompt"]
+        AP["🤖 agent_pipeline.py<br/>schema ⇄ review ⇄ revise"]
+    end
+
+    %% ── Stage 4 · Rendering ────────────────────────────────
+    subgraph ST4["4 · RENDERING"]
+        RD["renderer.py<br/>json-inject → HTML"] --> T["markmap_template.html<br/>{{MARKDOWN_JSON}} slot"]
+    end
+
+    %% ── Stage 5 · Output ───────────────────────────────────
+    subgraph ST5["5 · OUTPUT"]
+        DONE["🗺️ Interactive mindmap<br/>in-browser iframe<br/>⬇️ export .html / .md"]
+    end
+
+    %% ── External LLM runtime (dashed = network calls) ──────
+    OL[("🦙 Ollama<br/>gpt-oss:120b<br/>localhost:11434/v1")]
+
+    UI -->|"raw input"| IH
+    IH -->|"clean text"| ST3
+    ST3 -.->|"OpenAI-compatible chat API"| OL
+    ST3 -->|"markdown"| RD
+    T -->|"standalone HTML"| DONE
+
+    classDef ui fill:#23304e,stroke:#6ea8fe,stroke-width:2px,color:#e6ecf7
+    classDef proc fill:#1e2740,stroke:#38d39f,stroke-width:1.5px,color:#e6ecf7
+    classDef ext fill:#20161c,stroke:#ff7a7a,stroke-width:1.5px,color:#e6ecf7,stroke-dasharray:6 3
+    classDef asset fill:#262013,stroke:#f7b955,stroke-width:1.5px,color:#e6ecf7
+    classDef outp fill:#14251d,stroke:#38d39f,stroke-width:2px,color:#e6ecf7
+
+    class UI ui
+    class IH,MG,AP,RD proc
+    class OL ext
+    class T asset
+    class DONE outp
+
+    style ST1 fill:#131a2a,stroke:#6ea8fe,color:#9db0d0
+    style ST2 fill:#131a2a,stroke:#38d39f,color:#9db0d0
+    style ST3 fill:#131a2a,stroke:#38d39f,color:#9db0d0
+    style ST4 fill:#131a2a,stroke:#f7b955,color:#9db0d0
+    style ST5 fill:#131a2a,stroke:#9db0d0,color:#9db0d0
+      </div>
+      <div class="legend">
+        <span><i class="dot" style="background:#38d39f"></i> Python module (src/)</span>
+        <span><i class="dot" style="background:#6ea8fe"></i> Streamlit UI</span>
+        <span><i class="dot" style="background:#ff7a7a"></i> External LLM runtime</span>
+        <span><i class="dot" style="background:#f7b955"></i> Static asset (templates/)</span>
+        <span><i class="dot" style="background:#9db0d0"></i> Final output</span>
+        <span style="opacity:.75">⌁ dashed edge = network call to Ollama</span>
+      </div>
+      <p class="muted">The mindmap rendering is fully client-side: the generated HTML embeds the Markdown as a JSON string;
+      markmap.js (loaded from CDN) parses it in the browser into an interactive SVG. The downloaded file works offline in any browser.</p>
+    </div>
+
+    <div class="card">
+      <h2>🔀 Data Flow — Fast Mode (single pass)</h2>
+      <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant S as Streamlit (app.py)
+    participant I as input_handler
+    participant G as mindmap_generator
+    participant O as Ollama LLM
+    participant R as renderer
+
+    U->>S: upload file / paste URL / paste text
+    S->>I: extract_from_file / extract_from_youtube
+    I-->>S: clean text (utf-8 → utf-8-sig → latin-1 decode)
+    S->>G: generate_mindmap(text, model, base_url)
+    G->>O: POST /v1/chat/completions (SYSTEM_PROMPT + text, temp=0.3)
+    O-->>G: Markdown headings (# ## ### …)
+    Note over G: strip code fences if present
+    G-->>S: markdown string
+    S->>R: render_to_html(markdown)
+    R->>R: json.dumps(markdown) → inject into template
+    R-->>S: standalone HTML
+    S-->>U: interactive mindmap (iframe) + download buttons
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🤖 Agent Pipeline — Implementation Detail</h2>
+      <p>Implemented in <code>src/agent_pipeline.py</code>. Three cooperating roles, each a separate LLM call
+      with its own system prompt:</p>
+      <div class="pipeline">
+        <div class="pnode creator">
+          <span class="num">AGENT 1 · temperature 0.3</span>
+          <h4>Schema Creator</h4>
+          <p><code>SCHEMA_CREATOR_PROMPT</code> — analyzes raw text, outputs a strict JSON tree:
+          <code>{ "topic", "description", "branches": [ { "title", "description", "subtopics": [...] } ] }</code>.
+          Rules enforced by prompt: 3–7 branches, ≥2–3 subtopics each, 2–3 nesting levels, ≤8-word labels,
+          <code>**bold**</code> key terms, description field per node.</p>
+        </div>
+        <div class="pnode reviewer">
+          <span class="num">AGENT 2 · temperature 0.2</span>
+          <h4>Schema Reviewer</h4>
+          <p><code>SCHEMA_REVIEWER_PROMPT</code> — receives the JSON schema + the source text (truncated to
+          8,000 chars) and grades it on 6 criteria: <em>coverage, balance, conciseness, hierarchy depth,
+          accuracy, JSON validity</em>. Returns <code>{ "approved": bool, "feedback": string }</code>.</p>
+        </div>
+        <div class="pnode creator">
+          <span class="num">AGENT 1 (revised) · temperature 0.3</span>
+          <h4>Schema Reviser</h4>
+          <p><code>SCHEMA_REVISER_PROMPT</code> — receives the previous schema + reviewer feedback and outputs
+          the revised JSON. Loops back to Agent 2 for re-review.</p>
+        </div>
+        <div class="pnode mapper">
+          <span class="num">AGENT 3 · deterministic</span>
+          <h4>Mindmap Creator</h4>
+          <p>Implemented as the pure-Python <code>schema_to_markdown()</code> function rather than an LLM call —
+          <strong>deterministic and reliable</strong>. Maps schema depth to heading levels:
+          <code>topic→#</code>, <code>branches→##</code>, <code>subtopics→###/####/…</code>, and appends each
+          node's description as an HTML comment <code>&lt;!-- … --&gt;</code> (markmap renders these as hover tooltips).</p>
+        </div>
+      </div>
+
+      <h3>Review loop pseudocode</h3>
+      <pre><code>schema  = LLM(SCHEMA_CREATOR_PROMPT, text)              # Agent 1
+history, approved = [], False
+
+for i in 1..max_iterations:                             # default 3 (slider 1–5)
+    review = LLM(SCHEMA_REVIEWER_PROMPT, schema, text)  # Agent 2
+    history.append(review.feedback)
+    approved = review.approved
+    if approved: break
+    if i < max_iterations:
+        schema = LLM(SCHEMA_REVISER_PROMPT, schema, review.feedback)  # revise
+    else: log("⚠️ max iterations reached — using last schema")
+
+markdown = schema_to_markdown(schema)                   # Agent 3 (deterministic)
+return { markdown, schema, iterations, review_history, approved }</code></pre>
+
+      <div class="mermaid">
+sequenceDiagram
+    participant P as run_agent_pipeline()<br/>orchestrator
+    participant C as Agent 1<br/>Schema Creator
+    participant V as Agent 2<br/>Schema Reviewer
+    participant M as Agent 3<br/>Mindmap Creator
+    participant O as Ollama LLM
+
+    P->>C: source text
+    C->>O: create schema (JSON)
+    O-->>C: schema v1
+    loop until approved OR max_iterations (default 3)
+        P->>V: schema + source text
+        V->>O: grade on 6 criteria
+        O-->>V: {approved, feedback}
+        alt not approved
+            V-->>P: feedback
+            P->>C: revise schema w/ feedback
+            C->>O: revised schema (JSON)
+            O-->>C: schema v(n+1)
+        end
+    end
+    V-->>P: approved
+    P->>M: approved schema
+    Note over M: schema_to_markdown()<br/>deterministic · no LLM call
+    M-->>P: # ## ### markdown
+    P-->>P: return result dict
+      </div>
+      <div class="tip">💡 <strong>Failure mode:</strong> if the reviewer never approves within the max iterations,
+      the pipeline proceeds with the last schema (marked ⚠️ in the UI's Pipeline Summary) — it degrades gracefully
+      rather than erroring out.</div>
+    </div>
+
+    <div class="card">
+      <h2>📁 Module Map</h2>
+      <pre><code>Mindmapcreator/
+├── app.py                     # Streamlit entry point
+│     ├── sidebar: Ollama health check + model selectbox (fetch_ollama_models, cached 30s)
+│     ├── tab_fast  → generate_mindmap()          (single LLM call)
+│     ├── tab_agent → run_agent_pipeline()        (review loop, progress_callback → live log)
+│     ├── render_input_section()  : shared upload / YouTube / paste widgets (key-prefixed per tab)
+│     └── render_results()        : iframe preview + edit expander + 2 download buttons
+├── src/
+│   ├── input_handler.py
+│   │     ├── extract_from_file()     : utf-8 → utf-8-sig → latin-1 decode chain
+│   │     ├── extract_from_text()     : passthrough (strip)
+│   │     ├── _extract_video_id()     : regex for watch?v=, youtu.be/, /shorts/, /embed/, bare ID
+│   │     └── extract_from_youtube()  : YouTubeTranscriptApi().fetch(id) + TextFormatter
+│   ├── mindmap_generator.py
+│   │     ├── SYSTEM_PROMPT           : heading rules, ≤8 words, **bold**, <!--desc--> tooltips
+│   │     └── generate_mindmap()      : openai client → base_url, temp=0.3, fence-stripping
+│   ├── agent_pipeline.py
+│   │     ├── 4 prompt constants (creator / reviser / reviewer / markdown rules)
+│   │     ├── _call_llm()             : thin chat.completions wrapper
+│   │     ├── _strip_code_fences() / _parse_json()
+│   │     ├── schema_to_markdown()    : recursive JSON → heading levels + comments
+│   │     └── run_agent_pipeline()    : review loop, returns dict result
+│   └── renderer.py
+│         ├── TEMPLATE_PATH           : ../templates/markmap_template.html
+│         ├── render_to_html()        : json.dumps(md) replaces {{MARKDOWN_JSON}}
+│         └── save_html()             : writes standalone .html to disk
+├── templates/markmap_template.html   # markmap CDN bundle + {{MARKDOWN_JSON}} slot
+└── requirements.txt                  # streamlit, youtube-transcript-api, openai, python-dotenv</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>🔑 Key Implementation Notes</h2>
+      <div class="grid2">
+        <div>
+          <h3>OpenAI-SDK ↔ Ollama bridge</h3>
+          <p class="muted">The <code>openai</code> client is instantiated with
+          <code>base_url="http://localhost:11434/v1"</code> and a dummy <code>api_key="ollama"</code>.
+          Ollama natively implements the OpenAI chat-completions schema, so no adapter code is needed.
+          All LLM access (Fast Mode, Agent 1–3) funnels through <code>client.chat.completions.create()</code>.</p>
+        </div>
+        <div>
+          <h3>LLM output hardening</h3>
+          <p class="muted">Both generation paths defensively strip markdown code fences
+          (<code>```json … ```</code>) before <code>json.loads()</code>, since models occasionally wrap
+          structured output in fences despite "output only raw JSON" instructions. Prompts use
+          low temperature (0.2–0.3) to reduce hallucination and keep structure stable.</p>
+        </div>
+        <div>
+          <h3>Hover tooltips via HTML comments</h3>
+          <p class="muted">Node descriptions travel as trailing HTML comments in the Markdown
+          (<code>## **Branch** <!-- Protects personal data --></code>). markmap renders these as
+          hover tooltips — a zero-extra-dependency way to attach metadata to nodes.</p>
+        </div>
+        <div>
+          <h3>Streamlit state management</h3>
+          <p class="muted">Results persist via <code>st.session_state</code> keys
+          (<code>markdown_output</code>, <code>agent_schema</code>, <code>agent_review_history</code>, …).
+          Widget keys are prefixed (<code>fast_</code>/<code>agent_</code>) so identical input widgets can
+          coexist across tabs. The live pipeline log streams through a
+          <code>progress_callback</code> that appends to a <code>st.empty()</code> container.</p>
+        </div>
+        <div>
+          <h3>Why Agent 3 isn't an LLM call</h3>
+          <p class="muted">Although a <code>MINDMAP_CREATOR_PROMPT</code> exists, the pipeline deliberately
+          uses the programmatic <code>schema_to_markdown()</code> converter — an LLM rewrite step could
+          drop or mutate approved content, and a pure string transform is deterministic and instant.</p>
+        </div>
+        <div>
+          <h3>Standalone export</h3>
+          <p class="muted">The template inlines the markmap JS bundle + rendered Markdown JSON into one HTML
+          file. The download button serves that exact string, so the exported file is a portable,
+          offline-openable artifact — no server, no build step.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>⚙️ Configuration Reference</h2>
+      <table>
+        <tr><th>Setting</th><th>Env var</th><th>Default</th><th>Notes</th></tr>
+        <tr><td>Ollama endpoint</td><td><code>OLLAMA_BASE_URL</code></td><td><code>http://localhost:11434/v1</code></td><td>Health check pings <code>&lt;base&gt;/api/tags</code> (the <code>/v1</code> suffix is stripped for that call).</td></tr>
+        <tr><td>Default model</td><td><code>OLLAMA_MODEL</code></td><td><code>gpt-oss:120b</code></td><td>Preselected in the sidebar dropdown if present; overridable per-run.</td></tr>
+        <tr><td>Review iterations</td><td>— (UI slider)</td><td>3 (range 1–5)</td><td>Passed as <code>max_iterations</code> to <code>run_agent_pipeline()</code>.</td></tr>
+        <tr><td>LLM temperature</td><td>— (hardcoded)</td><td>0.3 (creator) / 0.2 (reviewer)</td><td>Low values favor structural stability.</td></tr>
+        <tr><td>Source truncation</td><td>— (hardcoded)</td><td>8,000 chars</td><td>Reviewer only sees first 8k chars of the source text.</td></tr>
+      </table>
+    </div>
+
+  </section>
+
+  <footer>
+    AI Mindmap Creator · Local-first mindmapping with Ollama + markmap · Generated guide
+  </footer>
+</div>
+
+<script>
+  // ── Tab switching ─────────────────────────────────────────
+  const buttons = document.querySelectorAll(".tab-btn");
+  const panels  = document.querySelectorAll(".tab-panel");
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons.forEach(b => b.classList.remove("active"));
+      panels.forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(btn.dataset.tab).classList.add("active");
+      // Re-render mermaid diagrams inside the newly shown tab (hidden SVGs render at 0 width)
+      if (window.mermaid) window.mermaid.run({ querySelector: `#${btn.dataset.tab} .mermaid` });
+    });
+  });
+
+  // ── Mermaid init ─────────────────────────────────────────
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: "dark",
+    securityLevel: "loose",
+    fontFamily: '"Segoe UI", sans-serif',
+    themeVariables: {
+      primaryColor: "#23304e",
+      primaryTextColor: "#e6ecf7",
+      primaryBorderColor: "#6ea8fe",
+      lineColor: "#38d39f",
+      secondaryColor: "#1e2740",
+      tertiaryColor: "#171e2e",
+      fontSize: "14px"
+    },
+    flowchart: { curve: "basis", padding: 12 },
+    sequence: { actorMargin: 40, wrap: false }
+  });
+  // Render diagrams in the initially-visible tab
+  window.addEventListener("load", () => {
+    mermaid.run({ querySelector: "#nontech .mermaid" });
+  });
+</script>
+
+</body>
+</html>
