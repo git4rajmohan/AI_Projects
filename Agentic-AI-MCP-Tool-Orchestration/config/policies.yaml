@@ -1,0 +1,20 @@
+global_denied_tools: []
+#  - "dangerous_server.rm_rf"
+
+global_allowed_tools: []   # empty = allow all (minus denied)
+
+dangerous_tools_require_approval: true
+
+redact_keys:
+  - token
+  - password
+  - secret
+  - api_key
+  - apikey
+  - access_key
+  - private_key
+  - auth
+  - authorization
+  - bearer
+  - credential
+  - passphrase

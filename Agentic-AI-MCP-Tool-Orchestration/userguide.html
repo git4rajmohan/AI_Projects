@@ -1,0 +1,911 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MCP App 窶・User Guide</title>
+  <style>
+    :root {
+      --bg: #0e1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --accent: #ff6b35;
+      --accent2: #4f8ef7;
+      --green: #2ecc71;
+      --yellow: #f1c40f;
+      --red: #e74c3c;
+      --text: #e8eaf0;
+      --muted: #8892b0;
+      --code-bg: #141820;
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* 笏笏 Top bar + Tabs 笏笏 */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(14,17,23,0.95);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 2.5rem;
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .logo { font-size: 1.05rem; font-weight: 700; color: var(--accent); white-space: nowrap; }
+    .tabs { display: flex; gap: 0.5rem; }
+    .tab-btn {
+      appearance: none; border: 1px solid var(--border); background: var(--surface);
+      color: var(--muted); font: inherit; font-weight: 600; font-size: 0.88rem;
+      padding: 0.45rem 1.2rem; border-radius: 20px; cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    main { max-width: 1000px; margin: 0 auto; padding: 2.2rem 2.5rem 3rem; }
+    .tab-page { display: none; }
+    .tab-page.active { display: block; }
+
+    /* 笏笏 Section TOC chips 笏笏 */
+    .toc { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0 2rem; }
+    .toc a {
+      font-size: 0.75rem; font-weight: 600; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 20px; padding: 0.2rem 0.7rem;
+    }
+    .toc a:hover { color: var(--text); background: var(--surface2); text-decoration: none; }
+
+    /* 笏笏 Headings 笏笏 */
+    h1 { font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 0.4rem; }
+    h2 { font-size: 1.4rem; font-weight: 700; color: var(--text); margin: 2.5rem 0 0.8rem;
+         padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 1.05rem; font-weight: 600; color: var(--accent2); margin: 1.5rem 0 0.5rem; }
+    h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin: 1rem 0 0.3rem; }
+    p { margin-bottom: 0.8rem; }
+    ul { padding-left: 1.5rem; margin-bottom: 0.8rem; }
+
+    /* 笏笏 Hero 笏笏 */
+    .hero {
+      background: linear-gradient(135deg, #1a1d27 0%, #1e2236 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .hero-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.8rem; }
+    .badge {
+      font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem;
+      border-radius: 20px; border: 1px solid;
+    }
+    .badge-green  { color: var(--green);  border-color: var(--green);  background: rgba(46,204,113,0.08); }
+    .badge-orange { color: var(--accent); border-color: var(--accent); background: rgba(255,107,53,0.08); }
+    .badge-blue   { color: var(--accent2);border-color: var(--accent2);background: rgba(79,142,247,0.08); }
+
+    /* 笏笏 Code 笏笏 */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
+      overflow-x: auto;
+      font-size: 0.82rem;
+      margin: 0.8rem 0 1rem;
+      line-height: 1.6;
+    }
+    code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+    p code, li code, td code {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.1em 0.4em;
+      font-size: 0.85em;
+      color: #cdd9f5;
+    }
+    .comment { color: #5a6a8a; }
+    .cmd { color: #7fffaa; }
+    .str { color: #f8c89a; }
+    .kw  { color: #bb85fc; }
+
+    /* 笏笏 Cards 笏笏 */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .card-title { font-weight: 700; color: var(--text); margin-bottom: 0.3rem; font-size: 0.95rem; }
+    .card-meta  { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; font-family: monospace; }
+
+    /* 笏笏 Step list 笏笏 */
+    .steps { counter-reset: step; list-style: none; }
+    .steps li {
+      counter-increment: step;
+      display: flex; gap: 1rem; margin-bottom: 1.2rem; align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(step);
+      min-width: 28px; height: 28px;
+      background: var(--accent); color: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.8rem; flex-shrink: 0; margin-top: 0.1rem;
+    }
+
+    /* 笏笏 Table 笏笏 */
+    table { width: 100%; border-collapse: collapse; margin: 0.8rem 0 1rem; font-size: 0.87rem; }
+    th {
+      background: var(--surface2); color: var(--muted); font-weight: 600; text-align: left;
+      padding: 0.6rem 0.9rem; font-size: 0.75rem; text-transform: uppercase;
+      letter-spacing: 0.05em; border-bottom: 1px solid var(--border);
+    }
+    td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* 笏笏 Callout 笏笏 */
+    .callout {
+      border-left: 3px solid; padding: 0.8rem 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 1rem 0; font-size: 0.88rem;
+    }
+    .callout-tip    { border-color: var(--green);  background: rgba(46,204,113,0.06); }
+    .callout-warn   { border-color: var(--yellow); background: rgba(241,196,15,0.06); }
+    .callout-info   { border-color: var(--accent2);background: rgba(79,142,247,0.06); }
+    .callout-title  { font-weight: 700; margin-bottom: 0.3rem; font-size: 0.8rem;
+                      text-transform: uppercase; letter-spacing: 0.05em; }
+    .callout-tip  .callout-title  { color: var(--green); }
+    .callout-warn .callout-title  { color: var(--yellow); }
+    .callout-info .callout-title  { color: var(--accent2); }
+
+    /* 笏笏 ASCII diagrams 笏笏 */
+    .arch {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      line-height: 1.9;
+      white-space: pre;
+      overflow-x: auto;
+      color: #cdd9f5;
+    }
+
+    /* 笏笏 Pills 笏笏 */
+    .pill { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 600; }
+    .pill-green  { background: rgba(46,204,113,0.15); color: var(--green); }
+    .pill-orange { background: rgba(255,107,53,0.15);  color: var(--accent); }
+    .pill-blue   { background: rgba(79,142,247,0.15); color: var(--accent2); }
+
+    /* 笏笏 Test recipe blocks 笏笏 */
+    .testblock {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.1rem 1.4rem; margin-bottom: 1rem;
+    }
+    .testblock .prompt {
+      background: var(--code-bg); border: 1px dashed var(--accent);
+      border-radius: 6px; padding: 0.5rem 0.8rem; margin: 0.5rem 0;
+      font-family: monospace; font-size: 0.84rem; color: #ffd9c4;
+    }
+    .testblock .expect { color: var(--green); font-size: 0.85rem; margin-top: 0.4rem; }
+    .testblock .data { color: var(--muted); font-size: 0.84rem; margin-top: 0.4rem; }
+    .testblock .data code { color: #cdd9f5; }
+
+    footer {
+      margin-top: 4rem; padding: 1.5rem 0; border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.8rem;
+    }
+    kbd {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 4px;
+      padding: 0.05em 0.45em; font-family: monospace; font-size: 0.8rem;
+    }
+    @media (max-width: 768px) {
+      .topbar { padding: 0.6rem 1rem; flex-wrap: wrap; }
+      main { padding: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武
+     TOP BAR WITH TABS
+笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武 -->
+<div class="topbar">
+  <div class="logo">､・MCP App</div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tab-nontech" onclick="switchTab('tab-nontech', this)">
+      刹 Everyday Guide (non-technical)
+    </button>
+    <button class="tab-btn" data-tab="tab-tech" onclick="switchTab('tab-tech', this)">
+      屏・・Technical Details
+    </button>
+  </div>
+</div>
+
+<main>
+
+<!-- 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武
+     TAB 1 窶・NON-TECHNICAL
+笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武 -->
+<div class="tab-page active" id="tab-nontech">
+
+  <div class="hero">
+    <h1>MCP App 窶・Everyday Guide</h1>
+    <p style="color: var(--muted); font-size: 1rem; margin-top: 0.5rem;">
+      A chat assistant with real-world superpowers 窶・it can tell the time, read your files,
+      work with Excel, browse the web, draw diagrams and read images. Everything from one
+      chat window in your browser.
+    </p>
+    <div class="hero-badges">
+      <span class="badge badge-orange">Streamlit chat UI</span>
+      <span class="badge badge-blue">Ollama Cloud ﾂｷ gpt-oss:120b</span>
+      <span class="badge badge-blue">Vision ﾂｷ glm-5.3-flash</span>
+      <span class="badge badge-green">14 Tool Servers</span>
+      <span class="badge badge-green">Switchable providers</span>
+    </div>
+  </div>
+
+  <div class="toc">
+    <a href="#n-what">What is it?</a>
+    <a href="#n-abilities">What can it do?</a>
+    <a href="#n-how">How it works</a>
+    <a href="#n-start">Getting started</a>
+    <a href="#n-ui">Using the screen</a>
+    <a href="#n-test">Test every tool server</a>
+    <a href="#n-data">Sample test data</a>
+    <a href="#n-trouble">Common problems</a>
+    <a href="#n-tips">Tips</a>
+  </div>
+
+  <!-- 笏笏 What is it 笏笏 -->
+  <section id="n-what">
+    <h2>What is MCP App?</h2>
+    <p>
+      MCP App is a <strong>chat assistant that can do things</strong>, not just talk. A normal
+      chatbot can only write text. This app can also <em>act</em>: it can check the real time,
+      open spreadsheets, read files on your disk, browse websites, draw diagrams, query
+      databases and analyse pictures.
+    </p>
+    <p>
+      It does this by connecting a <strong>Large Language Model (LLM)</strong> 窶・the "brain" 窶・to a set of
+      <strong>tool servers</strong> 窶・the "hands". The brain decides <em>which</em> tool to use and when; the hands do
+      the actual work and hand the results back so the brain can answer you properly.
+    </p>
+    <div class="callout callout-info">
+      <div class="callout-title">邃ｹ・・The name "MCP"</div>
+      MCP stands for <strong>Model Context Protocol</strong> 窶・an open standard that lets AI apps plug
+      into tools. Because it's a standard, any MCP-compatible tool server can be added to this
+      app without changing the app's code.
+    </div>
+
+    <h3>How the conversation flows (plain English)</h3>
+    <ol class="steps">
+      <li><div><strong>You type a message</strong><br>
+        e.g. <em>"What time is it now?"</em> 窶・it appears in the chat, and a 笞呻ｸ・Processing bar with a Stop button shows.</div></li>
+      <li><div><strong>The brain thinks</strong><br>
+        The message (plus recent history) is sent to the AI model. It decides: "To answer this I need the <code>get_current_time</code> tool."</div></li>
+      <li><div><strong>The hands do the work</strong><br>
+        The app asks the right tool server (a small helper program) for the time. You'll see a 肌 block in the chat showing the call.</div></li>
+      <li><div><strong>The result goes back to the brain</strong><br>
+        The tool's answer ("7:38 AM, Eastern Time") is fed back into the AI.</div></li>
+      <li><div><strong>You get a real answer</strong><br>
+        The AI writes: <em>"It's currently 7:38 AM (Eastern Daylight Time, America/New_York)"</em>, plus a footer listing the tools used. If it needs more tools, steps 2窶・ repeat (up to a safe limit of 20 rounds).</div></li>
+    </ol>
+  </section>
+
+  <!-- 笏笏 What can it do 笏笏 -->
+  <section id="n-abilities">
+    <h2>What can it do?</h2>
+    <table>
+      <thead><tr><th>Capability</th><th>Example prompt</th></tr></thead>
+      <tbody>
+        <tr><td>町 Chat &amp; answer questions</td><td>"Explain what a REST API is"</td></tr>
+        <tr><td>竢ｰ Get date &amp; time (any timezone)</td><td>"What time is it in Tokyo?"</td></tr>
+        <tr><td>投 Read &amp; write Excel files</td><td>"Read the Sales sheet from C:\Temp\mcp_test_data\sales.xlsx"</td></tr>
+        <tr><td>刀 Read / list / create local files</td><td>"List the files in .\config"</td></tr>
+        <tr><td>倹 Browse websites &amp; fetch pages</td><td>"Fetch https://example.com and summarize it"</td></tr>
+        <tr><td>萄 Control a real browser + screenshots</td><td>"Open bbc.com and take a screenshot"</td></tr>
+        <tr><td>嶋 Build charts &amp; dashboards</td><td>"Show a bar chart of Q1 sales: Jan 120, Feb 90, Mar 150"</td></tr>
+        <tr><td>ｧｩ Draw flowcharts / diagrams (draw.io)</td><td>"Make a flowchart diagram: Start 竊・Validate 竊・Process 竊・End"</td></tr>
+        <tr><td>淀・・Query SQL databases</td><td>"Run SELECT dept, AVG(salary) FROM employees GROUP BY dept"</td></tr>
+        <tr><td>名・・Understand images (Vision)</td><td>Attach a photo and ask "What do you see in this image?"</td></tr>
+        <tr><td>当 Search AgilePoint documentation</td><td>"Search the AgilePoint docs for 'worklist'"</td></tr>
+        <tr><td>召 Query AgilePoint worklists</td><td>"Show my AgilePoint worklist"</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 笏笏 Getting started 笏笏 -->
+  <section id="n-start">
+    <h2>Getting started</h2>
+    <ol class="steps">
+      <li><div><strong>Start the app</strong><br>
+        Double-click <code>mcp_app\run_app.bat</code>. A browser tab opens at
+        <code>http://localhost:8502</code>. (Log output: <code>C:\Temp\streamlit_out.txt</code>.)</div></li>
+      <li><div><strong>Start the tool servers</strong><br>
+        Sidebar 竊・<strong>箕・・Manage Servers</strong> 竊・make sure the toggles you want are ON.
+        (If you edit the list, click <strong>売 Restart</strong> at the bottom of the sidebar.)</div></li>
+      <li><div><strong>Send your first message</strong><br>
+        Type <code>hi</code> 竊・friendly reply. On the first message the app shows
+        "Starting MCP servers窶ｦ" and all enabled servers turn 泙 READY in the sidebar.</div></li>
+      <li><div><strong>Try a tool</strong><br>
+        Type <code>What time is it now?</code> 竊・a 肌 tool block appears and you get the real current time.</div></li>
+    </ol>
+
+    <div class="callout callout-tip">
+      <div class="callout-title">笨・Which buttons do what</div>
+      <strong>売 Restart</strong> = stop &amp; start all tool servers (use after changing servers/settings).<br>
+      <strong>卵・・Clear</strong> = wipe the conversation but keep servers running.<br>
+      <strong>竢ｹ・・Stop</strong> (in chat) = cancel the reply that is currently being generated.
+    </div>
+  </section>
+
+  <!-- 笏笏 UI overview 笏笏 -->
+  <section id="n-ui">
+    <h2>Using the screen</h2>
+    <h3>Main chat area</h3>
+    <table>
+      <thead><tr><th>Element</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>泛 Your message</td><td>What you typed</td></tr>
+        <tr><td>､・Reply</td><td>The AI's answer (markdown formatted)</td></tr>
+        <tr><td>肌 Tool block</td><td>Open by default 窶・shows what was sent to the tool and what it returned; long output has a <strong>塘 View full output</strong> expander</td></tr>
+        <tr><td>笞呻ｸ・Processing窶ｦ</td><td>Full-width status bar with spinner + Stop button while working</td></tr>
+        <tr><td>"Used N tool(s)"</td><td>Footer listing every tool used in that reply</td></tr>
+        <tr><td>Red error box</td><td>If something fails, the error appears as a red box (not hidden text)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Sidebar panels</h3>
+    <table>
+      <thead><tr><th>Panel</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>泙 Server Status</td><td>泙 ready ﾂｷ 閥 failed ﾂｷ 笞ｫ disabled, plus "N ready ﾂｷ N tools"</td></tr>
+        <tr><td>箕・・Manage Servers</td><td>Turn servers on/off, 笨擾ｸ・edit, 卵・・delete, 筐・add new ones 窶・saved automatically</td></tr>
+        <tr><td>梼 Upload Files</td><td>Attach a file (text, CSV, image窶ｦ) to include with your next message</td></tr>
+        <tr><td>萄 Screenshots</td><td>Opens the screenshots folder, shows the last 12 thumbnails</td></tr>
+        <tr><td>笞呻ｸ・Settings</td><td>Pick AI provider/model (箕・・Local Ollama, 笘・ｸ・Ollama Cloud, 笘・ｸ・other cloud), Vision on/off, approvals, timeouts, theme</td></tr>
+        <tr><td>Provider badge</td><td>Top of sidebar shows e.g. <code>笘・ｸ・Ollama Cloud ﾂｷ gpt-oss:120b</code> and <code>早・・Vision ﾂｷ glm-5.3-flash</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 笏笏 Test every tool server 笏笏 -->
+  <section id="n-test">
+    <h2>Test every tool server (copy-paste prompts)</h2>
+    <p>
+      Each block below tests one server end-to-end. <strong>Steps for all tests:</strong>
+      竭 make sure the server is 泙 READY (create the test data first 窶・see next section),
+      竭｡ paste the prompt into the chat, 竭｢ compare with the expected result.
+    </p>
+
+    <div class="testblock">
+      <div class="card-title">1 ﾂｷ time_srv 窶・current time <span class="pill pill-green">no test data needed</span></div>
+      <div class="prompt">What time is it now?</div>
+      <div class="expect">笨・A 肌 <code>time_srv.get_current_time</code> block, then the real current time with the timezone (e.g. "7:38 AM Eastern Daylight Time").</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">2 ﾂｷ mock_srv 窶・arithmetic &amp; echo <span class="pill pill-green">no test data needed</span></div>
+      <div class="prompt">Add 17 and 25 using the mock tools, then greet Bob.</div>
+      <div class="expect">笨・肌 <code>mock_srv.add</code> 竊・42, then 肌 <code>mock_srv.greet</code> 竊・"Hello, Bob!".</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">3 ﾂｷ excel 窶・read a workbook <span class="pill pill-orange">needs sales.xlsx (see test data)</span></div>
+      <div class="prompt">List the sheets in the workbook at "C:\Temp\mcp_test_data\sales.xlsx" and show the first 10 rows of the Sales sheet.</div>
+      <div class="expect">笨・肌 <code>excel.read_sheet_names</code> 竊・Sales, Regions; 肌 <code>excel.read_sheet_data</code> 竊・the 5 columns (Month, Region, Product, Units, Revenue) and rows.</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">4 ﾂｷ filesystem 窶・list a folder <span class="pill pill-green">no test data needed</span></div>
+      <div class="prompt">List the files in .\config</div>
+      <div class="expect">笨・肌 <code>filesystem.list_directory</code> 竊・app_settings.yaml, mcp_servers.yaml, policies.yaml.</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">5 ﾂｷ analytics 窶・build a chart <span class="pill pill-green">no test data needed</span></div>
+      <div class="prompt">Show a bar chart of Q1 sales: Jan 120, Feb 90, Mar 150.</div>
+      <div class="expect">笨・肌 <code>analytics.create_chart</code> 竊・reply includes a path to an .html chart file; open it in a browser to see the bars.</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">6 ﾂｷ drawio 窶・diagram <span class="pill pill-green">no test data needed</span></div>
+      <div class="prompt">Make a flowchart diagram: Start -&gt; Validate -&gt; (ok) -&gt; Process -&gt; End; (invalid) -&gt; Reject. Also explain each step in one sentence.</div>
+      <div class="expect">笨・Reply starts with an <strong>Open in draw.io</strong> link, and the explanation text appears <em>below</em> the link.</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">7 ﾂｷ web-fetch 窶・read a page <span class="pill pill-green">no test data needed</span></div>
+      <div class="prompt">Fetch https://example.com and summarize it.</div>
+      <div class="expect">笨・肌 fetch tool called; summary mentions "Example Domain".</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">8 ﾂｷ sql 窶・query a database <span class="pill pill-orange">needs test.db (see test data)</span></div>
+      <div class="prompt">List the tables in sqlite:///C:/Temp/mcp_test_data/test.db, then run SELECT dept, AVG(salary) FROM employees GROUP BY dept.</div>
+      <div class="expect">笨・肌 <code>sql.list_tables</code> 竊・employees; 肌 <code>sql.query</code> 竊・3 rows (Engineering / Sales / HR averages).</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">9 ﾂｷ agilepoint_docs 窶・documentation search <span class="pill pill-green">no test data needed</span></div>
+      <div class="prompt">Search the AgilePoint docs for "worklist".</div>
+      <div class="expect">笨・肌 <code>agilepoint_docs.search_docs</code> 竊・list of matching doc pages.</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">10 ﾂｷ vision 窶・image understanding <span class="pill pill-orange">needs vision_test.png + Vision enabled</span></div>
+      <div class="prompt">Upload vision_test.png via 梼 Upload Files, then ask:</div>
+      <div class="prompt" style="margin-top:0.2rem">What do you see in this image? Describe the shapes and any text.</div>
+      <div class="expect">笨・Reply names 竕･2 of: red background, yellow circle, the digits "742". Sidebar badge shows 早・・Vision ﾂｷ glm-5.3-flash.</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">11 ﾂｷ excel robustness 窶・odd paths <span class="pill pill-orange">needs the space-named folder copy</span></div>
+      <div class="prompt">Read the Sales sheet from "C:\Temp\mcp test data\sales.xlsx" and summarize it.</div>
+      <div class="expect">笨・Excel tools still work even though the path is quoted and contains spaces. Same for a plain path and a UNC path (<code>\\localhost\C$\Temp\mcp_test_data\sales.xlsx</code>).</div>
+    </div>
+
+    <div class="testblock">
+      <div class="card-title">12 ﾂｷ ui 窶・long output truncation</div>
+      <div class="prompt">Read rows 1 to 500 of the Sales sheet in "C:\Temp\mcp_test_data\sales.xlsx".</div>
+      <div class="expect">笨・Output block shows the first ~3000 characters plus a <strong>塘 View full output</strong> expander with everything.</div>
+    </div>
+  </section>
+
+  <!-- 笏笏 Sample test data 笏笏 -->
+  <section id="n-data">
+    <h2>Sample test data (create once)</h2>
+    <p>All test files live in <code>C:\Temp\mcp_test_data\</code>. Run these PowerShell commands once
+       (from any folder); each prints "created 窶ｦ" when done.</p>
+
+    <h3>A ﾂｷ Excel workbook 窶・sales.xlsx</h3>
+    <pre><code><span class="cmd">python</span> -c <span class="str">"
+import openpyxl, os
+os.makedirs(r'C:\Temp\mcp_test_data', exist_ok=True)
+wb = openpyxl.Workbook()
+ws = wb.active; ws.title = 'Sales'
+ws.append(['Month', 'Region', 'Product', 'Units', 'Revenue'])
+rows = [
+    ['Jan','East','Widget',120,14400],['Jan','West','Widget',90,10800],
+    ['Feb','East','Widget',110,13200],['Feb','West','Gadget',75,15000],
+    ['Mar','East','Gadget',80,16000],['Mar','West','Widget',150,18000],
+    ['Apr','East','Widget',95,11400],['Apr','West','Gadget',60,12000],
+    ['May','East','Widget',130,15600],['May','West','Widget',100,12000],
+    ['Jun','East','Gadget',70,14000],['Jun','West','Widget',160,19200],
+]
+for r in rows: ws.append(r)
+wb.create_sheet('Regions').append(['Region','Manager','Target'])
+wb.save(r'C:\Temp\mcp_test_data\sales.xlsx')
+print('created sales.xlsx')
+"</span></code></pre>
+    <p><strong>What's inside:</strong> sheet <em>Sales</em> with 12 data rows (Month, Region, Product, Units, Revenue) and sheet <em>Regions</em>. Good for reading, writing, formulas and charts.</p>
+    <p><strong>Also make the space-in-name copy</strong> (used by test 11):</p>
+    <pre><code><span class="cmd">New-Item</span> -ItemType Directory -Force -Path <span class="str">'C:\Temp\mcp test data'</span> | <span class="kw">Out-Null</span>
+<span class="cmd">Copy-Item</span> <span class="str">'C:\Temp\mcp_test_data\sales.xlsx'</span> <span class="str">'C:\Temp\mcp test data\sales.xlsx'</span></code></pre>
+
+    <h3>B ﾂｷ Vision image 窶・vision_test.png</h3>
+    <pre><code><span class="cmd">python</span> -c <span class="str">"
+from PIL import Image, ImageDraw
+import os
+os.makedirs(r'C:\Temp\mcp_test_data', exist_ok=True)
+img = Image.new('RGB', (300, 200), (200, 30, 30))
+d = ImageDraw.Draw(img)
+d.ellipse([40, 40, 160, 160], fill=(250, 220, 50))
+try:
+    from PIL import ImageFont
+    f = ImageFont.load_default(size=48)
+except Exception:
+    f = None
+d.text((180, 70), '742', fill=(255, 255, 255), font=f)
+img.save(r'C:\Temp\mcp_test_data\vision_test.png')
+print('created vision_test.png')
+"</span></code></pre>
+    <p><strong>What's inside:</strong> red background, yellow circle, white digits <em>742</em>. The vision test passes only if the AI can genuinely see it.</p>
+
+    <h3>C ﾂｷ SQLite database 窶・test.db</h3>
+    <pre><code><span class="cmd">python</span> -c <span class="str">"
+import sqlite3, os
+os.makedirs(r'C:\Temp\mcp_test_data', exist_ok=True)
+con = sqlite3.connect(r'C:\Temp\mcp_test_data\test.db')
+cur = con.cursor()
+cur.execute('CREATE TABLE IF NOT EXISTS employees (id INTEGER PRIMARY KEY, name TEXT, dept TEXT, salary REAL)')
+cur.executemany('INSERT INTO employees (name, dept, salary) VALUES (?,?,?)', [
+    ('Alice','Engineering',95000),('Bob','Sales',61000),('Carol','Engineering',103000),
+    ('Dave','HR',57000),('Eve','Sales',66000),('Frank','Engineering',88000)])
+con.commit(); con.close()
+print('created test.db')
+"</span></code></pre>
+    <p><strong>What's inside:</strong> one <em>employees</em> table, 6 people across Engineering / Sales / HR.</p>
+
+    <h3>D ﾂｷ Chart data 窶・chart_data.xlsx (optional)</h3>
+    <pre><code><span class="cmd">python</span> -c <span class="str">"
+import openpyxl, os
+os.makedirs(r'C:\Temp\mcp_test_data', exist_ok=True)
+wb = openpyxl.Workbook(); ws = wb.active; ws.title = 'Data'
+ws.append(['Category', 'Value'])
+for k, v in [('Alpha',12),('Beta',30),('Gamma',7),('Delta',22),('Epsilon',18)]: ws.append([k, v])
+wb.save(r'C:\Temp\mcp_test_data\chart_data.xlsx')
+print('created chart_data.xlsx')
+"</span></code></pre>
+    <p><strong>What's inside:</strong> 5 categories (Alpha窶ｦEpsilon) with values 窶・for
+       <em>"Create a bar chart from the Data sheet of C:\Temp\mcp_test_data\chart_data.xlsx"</em>.</p>
+
+    <div class="callout callout-tip">
+      <div class="callout-title">笨・Full checklist</div>
+      A complete step-by-step manual test plan (approval mode, retry, settings and regression
+      suites) lives in <code>mcp_app\howtotest.md</code>.
+    </div>
+  </section>
+
+  <!-- 笏笏 Troubleshooting 笏笏 -->
+  <section id="n-trouble">
+    <h2>Common problems</h2>
+    <table>
+      <thead><tr><th>Symptom</th><th>What to do</th></tr></thead>
+      <tbody>
+        <tr><td>A server shows 閥 FAILED</td><td>Sidebar 竊・Manage Servers 竊・check its 笨擾ｸ・command/args; click 売 Restart. Node-based servers need Node.js installed; first run can be slow (npx downloads).</td></tr>
+        <tr><td>"The model version 窶ｦ has been deprecated"</td><td>Your cloud model was retired by the provider. Pick another model in 笞呻ｸ・Settings (e.g. <code>gpt-oss:120b</code> on Ollama Cloud) and save.</td></tr>
+        <tr><td>AI answers but never uses tools</td><td>Check the server is 泙 READY; fully restart the app (close the terminal window, run <code>run_app.bat</code> again) 窶・sidebar Restart doesn't reload Python code.</td></tr>
+        <tr><td>Reply is very slow</td><td>Cloud models take a few seconds per step; multi-tool turns do several round trips. Watch the 笞呻ｸ・Processing bar; press Stop if needed.</td></tr>
+        <tr><td>Nothing happens at all</td><td>Check the log <code>C:\Temp\streamlit_out.txt</code>; make sure only one copy of the app is running (duplicate processes on port 8502 cause confusing errors).</td></tr>
+        <tr><td>Vision answers blindly</td><td>Enable Vision in 笞呻ｸ・Settings and confirm the badge shows 早・・Vision ﾂｷ glm-5.3-flash; attach the image to the same message you send.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 笏笏 Tips 笏笏 -->
+  <section id="n-tips">
+    <h2>Tips for better results</h2>
+    <ul>
+      <li><strong>Give exact paths.</strong> "Read C:\Temp\mcp_test_data\sales.xlsx" works better than "read my sales data".</li>
+      <li><strong>Name the sheet.</strong> "Read the <em>Sales</em> sheet from 窶ｦ" avoids guessing.</li>
+      <li><strong>One task per message.</strong> Chained tasks work, but clear single steps get cleaner tool calls.</li>
+      <li><strong>Watch the 肌 blocks.</strong> They show exactly what the AI did 窶・the fastest way to understand an unexpected answer.</li>
+      <li><strong>Use 卵・・Clear</strong> when switching topics so old context doesn't confuse the model.</li>
+      <li><strong>Big files?</strong> Ask "how many rows does this file have?" first, then read in chunks 窶・outputs are capped to protect the chat.</li>
+    </ul>
+  </section>
+
+  <footer>
+    MCP App ﾂｷ Everyday Guide ﾂｷ see the 屏・・Technical Details tab for internals.
+  </footer>
+</div>
+
+<!-- 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武
+     TAB 2 窶・TECHNICAL
+笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武 -->
+<div class="tab-page" id="tab-tech">
+
+  <div class="hero">
+    <h1>MCP App 窶・Technical Details</h1>
+    <p style="color: var(--muted); font-size: 1rem; margin-top: 0.5rem;">
+      Tech stack, architecture, request lifecycle, configuration schema and quality gates
+      for the MCP App.
+    </p>
+    <div class="hero-badges">
+      <span class="badge badge-green">Python 3.12 ﾂｷ Streamlit 1.54</span>
+      <span class="badge badge-blue">Agno 2.5.10 ﾂｷ httpx</span>
+      <span class="badge badge-orange">MCP stdio ﾂｷ 14 servers</span>
+      <span class="badge badge-green">pytest 44 passed</span>
+    </div>
+  </div>
+
+  <div class="toc">
+    <a href="#t-stack">Tech stack</a>
+    <a href="#t-arch">Architecture diagram</a>
+    <a href="#t-lifecycle">Request lifecycle</a>
+    <a href="#t-modules">Module reference</a>
+    <a href="#t-config">Configuration schema</a>
+    <a href="#t-servers">Server matrix</a>
+    <a href="#t-robust">Robustness features</a>
+    <a href="#t-quality">Testing &amp; quality gates</a>
+    <a href="#t-extend">Extending</a>
+  </div>
+
+  <!-- 笏笏 Tech stack 笏笏 -->
+  <section id="t-stack">
+    <h2>Tech stack</h2>
+    <table>
+      <thead><tr><th>Layer</th><th>Technology</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Language</td><td>Python 3.12 (portable venv, not committed)</td><td>Team standard; async-first</td></tr>
+        <tr><td>UI</td><td>Streamlit 1.54 窶・<code>st.status</code>, <code>st.error</code>, expanders, upload</td><td>Pure-Python web UI</td></tr>
+        <tr><td>Sync/async bridge</td><td>Custom <code>async_bridge.py</code> 窶・background thread + asyncio loop, <code>submit()</code> 竊・Future, cancel</td><td>Streamlit is sync; keeps Stop responsive</td></tr>
+        <tr><td>Orchestration</td><td><strong>Agno 2.5.10</strong> (<code>Agent</code>, <code>Ollama</code>, <code>OpenAIChat</code>) + legacy in-house loop (<code>orchestrator.py</code>)</td><td>Agno runs the tool-calling agent; legacy loop kept for CLI paths</td></tr>
+        <tr><td>LLM 窶・main</td><td><strong>Ollama Cloud</strong> <code>gpt-oss:120b</code> via native <code>/api/chat</code> + Bearer key; or local Ollama; or OpenAI-compatible (Baseten <code>Kimi-K2.6</code>)</td><td>Tool calling verified; switchable per config</td></tr>
+        <tr><td>LLM 窶・vision</td><td>Ollama Cloud <code>glm-5.3-flash</code> via dedicated Agno agent</td><td>Image turns routed separately</td></tr>
+        <tr><td>HTTP client</td><td><code>httpx.AsyncClient</code> 窶・native Ollama + OpenAI-compat adapters</td><td>Async, timeouts, Bearer auth</td></tr>
+        <tr><td>Tool protocol</td><td>MCP over <strong>stdio</strong> (JSON-RPC 2.0); ws stub present, HTTP transport planned</td><td>Standard; crash-isolated subprocesses</td></tr>
+        <tr><td>Config</td><td>YAML ﾃ・ validated by <strong>Pydantic v2</strong>; <code>.env.llm</code> overlays secrets</td><td>Typed + strict; UI writes back</td></tr>
+        <tr><td>Persistence</td><td>SQLite (sessions) + JSONL trace logs with secret <em>redaction</em></td><td>Auditable, safe logs</td></tr>
+        <tr><td>Observability</td><td>Structured logger + JSONL tracing in <code>.mcp_app_logs/</code></td><td>Per-session traces</td></tr>
+        <tr><td>CLI</td><td><code>click</code> 窶・<code>mcp chat</code>, <code>list-servers</code>, <code>health</code></td><td>Non-streaming contract preserved</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 笏笏 Architecture 笏笏 -->
+  <section id="t-arch">
+    <h2>Architecture diagram</h2>
+    <p>Layered view of a running session (current build 窶・Ollama Cloud main + vision):</p>
+    <div class="arch"><span style="color:#7fffaa">笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+笏・                        STREAMLIT UI  (app.py)                     笏・
+笏・  chat loop ﾂｷ 肌 tool expanders ﾂｷ st.status processing ﾂｷ Stop      笏・
+笏・  sidebar: servers ﾂｷ upload ﾂｷ screenshots ﾂｷ settings (writes YAML) 笏・
+笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+                               笏・messages / images
+                               笆ｼ
+笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+笏・                    ASYNC BRIDGE  (thread)                         笏・
+笏・     submit(coro) 竊・Future ﾂｷ cancel_current() 竊・Stop button        笏・
+笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+                               笆ｼ
+笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+笏・                   CHAT ENGINE (core/chat_engine.py)               笏・
+笏・  session history ﾂｷ ServerManager ﾂｷ ToolRegistry ﾂｷ ToolRouter      笏・
+笏・  (retry_async on transient Transport/Timeout errors)              笏・
+笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+                笏・run_turn()                         笏・
+                笆ｼ                                    笆ｼ
+笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・ 笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+笏・     AGNO ORCHESTRATOR            笏・ 笏・       SERVER MANAGER        笏・
+笏・ main agent  (tools + memory)     笏・ 笏・ starts/stops, env injection 笏・
+笏・ vision agent (image turns)       笏・ 笏・ policy: allowed/denied tools笏・
+笏・ guardrails: xlsx-turn scoping,   笏・ 笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+笏・   draw.io intercept, URL dedup   笏・                笏・stdio (subprocess)
+笏披楳笏笏笏笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・                笆ｼ
+            笏・Agno Ollama / OpenAIChat   笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+            笆ｼ                            笏・ 14 MCP SERVERS (stdio subprocesses) 笏・
+笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・   笏・ mock_srv ﾂｷ time_srv ﾂｷ analytics     笏・
+笏・ OLLAMA CLOUD  https://ollama.com 笏・   笏・ agilepoint(_docs) ﾂｷ excel ﾂｷ filesys 笏・
+笏・ main: gpt-oss:120b  (Bearer key) 笏・   笏・ playwright(_enhanced) ﾂｷ web-fetch   笏・
+笏・ vision: glm-5.3-flash            笏・   笏・ drawio ﾂｷ sql ﾂｷ jira                 笏・
+笏・ fallback: Baseten Kimi-K2.6      笏・   笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・
+
+PERSISTENCE:  session (sqlite) ﾂｷ trace_*.jsonl (redacted) ﾂｷ screenshots/
+CONFIG:       app_settings.yaml + .env.llm (secrets) ﾂｷ mcp_servers.yaml ﾂｷ policies.yaml</span></div>
+
+    <h3>Turn routing logic</h3>
+    <div class="arch"><span style="color:#cdd9f5">run_turn(text, images)
+  笏・
+  笏懌楳 images attached AND vision enabled 笏笏笆ｺ _run_vision_turn()   (vision agent, no tools)
+  笏・                                          on failure 竊・fallback to main agent
+  笏懌楳 text mentions .xlsx/.xls/.xlsm 笏笏笏笏笏笏笆ｺ main agent with EXCEL-ONLY tools
+  笏・          (detect_xlsx_path: quoted "窶ｦ" ﾂｷ UNC \\srv\share ﾂｷ plain; .xls/.xlsm/.xltx/.xltm)
+  笏懌楳 draw.io URL produced 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笆ｺ reply = [Open in draw.io] link
+  笏・                                         + "\n\n" + LLM commentary (if any)
+  笏披楳 default 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笆ｺ main agent with ALL tool schemas</span></div>
+  </section>
+
+  <!-- 笏笏 Request lifecycle 笏笏 -->
+  <section id="t-lifecycle">
+    <h2>Request lifecycle (sequence)</h2>
+    <div class="arch"><span style="color:#cdd9f5">User        UI(app.py)     Bridge       ChatEngine     AgnoOrchestrator    Ollama Cloud      ServerManager    MCP Server
+  笏・send msg    笏・            笏・            笏・               笏・                 笏・                笏・               笏・
+  笏懌楳笏笏笏笏笏笏笏笏笏笏笏笆ｺ笏・submit()    笏・            笏・               笏・                 笏・                笏・               笏・
+  笏・            笏懌楳笏笏笏笏笏笏笏笏笏笏笏笆ｺ笏・run(coro)   笏・               笏・                 笏・                笏・               笏・
+  笏・            笏・            笏懌楳笏笏笏笏笏笏笏笏笏笏笏笆ｺ笏・run_turn()     笏・                 笏・                笏・               笏・
+  笏・            笏・            笏・            笏懌楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笆ｺ笏・agno Agent.arun  笏・                笏・               笏・
+  笏・            笏・            笏・            笏・               笏懌楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笆ｺ笏・POST /api/chat  笏・               笏・
+  笏・            笏・            笏・            笏・               笏・                 笏・ (Bearer key)   笏・               笏・
+  笏・            笏・            笏・            笏・               笏や淀笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏､ tool_calls[]    笏・               笏・
+  笏・            笏・            笏・            笏・               笏懌楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笆ｺ 笏・tools/call
+  笏・            笏・            笏・            笏・               笏・                 笏・                笏・exec + result  笏・
+  笏・            笏・            笏・            笏・               笏や淀笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・result text
+  笏・            笏・            笏・            笏・               笏・ (retry_async ﾃ・ on timeout/transport error)       笏・
+  笏・            笏・            笏・            笏・               笏懌楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笆ｺ笏・next round 窶ｦ    笏・               笏・
+  笏・            笏・            笏・            笏・               笏・  窶ｦ until final text or max_tool_rounds (20)       笏・
+  笏・            笏・            笏・            笏や淀笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏､ (reply, tool_records)            笏・               笏・
+  笏・            笏や淀笏笏笏笏笏笏笏笏笏笏笏笏笏､ Future      笏・               笏・                 笏・                笏・               笏・
+  笏や淀笏笏笏笏笏笏笏笏笏笏笏笏笏､ render 肌 blocks + st.status + final answer                      笏・                笏・               笏・/span></div>
+
+    <p>Streaming (<code>stream=True</code>) is <strong>not yet implemented</strong> 窶・both LLM adapters raise
+       <code>NotImplementedError</code> (Phase 4 of the hardening plan); the CLI's non-streaming
+       <code>send() 竊・(str, list)</code> contract is the stable interface.</p>
+  </section>
+
+  <!-- 笏笏 Module reference 笏笏 -->
+  <section id="t-modules">
+    <h2>Module reference</h2>
+    <div class="card">
+      <div class="card-title">src/mcp_app/ui/ 窶・presentation</div>
+      <div class="card-meta">app.py ﾂｷ async_bridge.py ﾂｷ launcher.py</div>
+      <p>Chat rendering, tool-call expanders (default expanded, 3000-char cap + full-output
+         expander), <code>st.status</code> processing block, settings form (writes YAML +
+         <code>.env.llm</code>), server CRUD, upload pipeline, screenshot gallery, async polling.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">src/mcp_app/core/ 窶・orchestration</div>
+      <div class="card-meta">chat_engine.py ﾂｷ agno_orchestrator.py ﾂｷ orchestrator.py ﾂｷ tool_registry.py ﾂｷ tool_router.py ﾂｷ session.py ﾂｷ errors.py</div>
+      <p><code>chat_engine.py</code> wires registry/router/orchestrator and owns lifecycle.
+         <code>agno_orchestrator.py</code> builds the Agno <code>Agent</code> (+ vision agent), applies
+         xlsx tool-scoping, draw.io intercept and turn limits. <code>tool_router.py</code> executes calls
+         wrapped in <code>retry_async(retries=2, exceptions=(ProcessTimeoutError, TransportError))</code> 窶・
+         policy/validation errors fail fast, untouched.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">src/mcp_app/llm/ 窶・model adapters</div>
+      <div class="card-meta">ollama_adapter.py ﾂｷ openai_compat_adapter.py ﾂｷ prompting.py ﾂｷ tool_call_parser.py</div>
+      <p>Native Ollama <code>/api/chat</code> adapter (Bearer header only when <code>api_key</code> set 窶・local
+         Ollama sends none) and OpenAI-compatible adapter with Bearer + <code>_normalize_base_url</code>.
+         <code>prompting.py</code> generates the system message incl. exact Excel tool names
+         (<code>read_sheet_names</code>, <code>read_sheet_data</code>, <code>write_sheet_data</code>,
+         <code>read_sheet_formula</code>, <code>write_sheet_formula</code>) to stop models hallucinating names.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">src/mcp_app/mcp/ 窶・MCP plumbing</div>
+      <div class="card-meta">server_manager.py ﾂｷ client.py ﾂｷ transports/{stdio,http,ws}.py</div>
+      <p>Starts all enabled servers concurrently (<code>start_all</code>), injects per-server env
+         (<code>EXCEL_MAX_ROWS</code>/<code>SQL_MAX_ROWS</code> from limits via <code>merged_env.setdefault</code> so explicit
+         per-server <code>env:</code> wins), routes <code>tools/call</code>. <code>http.py</code> is a stub
+         (Phase 5: Streamable HTTP); <code>ws.py</code> optional (Phase 6).</p>
+    </div>
+    <div class="card">
+      <div class="card-title">src/mcp_app/config/ 窶・typed config</div>
+      <div class="card-meta">schema.py (Pydantic v2) ﾂｷ loader.py ﾂｷ profiles.py</div>
+      <p><code>AppSettings</code>: <code>ollama(host, model, api_key, temperature, num_ctx)</code>,
+         <code>openai_compat(base_url, api_key, model)</code>, <code>llm_provider</code>,
+         <code>vision(enabled, provider, base_url, api_key, model)</code>, <code>limits</code>, <code>timeouts</code>,
+         <code>tool_calling</code>, <code>ui</code>. <code>loader.py</code> overlays <code>.env.llm</code> keys
+         (<code>OLLAMA_API_KEY</code>, <code>OPENAI_COMPAT_*</code>, <code>VISION_*</code>, <code>LLM_PROVIDER</code>窶ｦ)
+         onto the YAML dict, then validates strictly.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">storage/ ﾂｷ observability/ ﾂｷ utils/ ﾂｷ cli/</div>
+      <div class="card-meta">sqlite_store.py ﾂｷ jsonl_store.py ﾂｷ redact.py ﾂｷ logger.py ﾂｷ tracing.py ﾂｷ retry.py ﾂｷ timeouts.py ﾂｷ commands.py ﾂｷ interactive.py</div>
+      <p>Session persistence, redacted trace logs, the <code>retry_async</code> helper (used by the
+         tool router), timeout constants, and the <code>click</code> CLI (<code>mcp chat</code>, health, list-servers).</p>
+    </div>
+    <div class="card">
+      <div class="card-title">servers/ 窶・bundled custom MCP servers</div>
+      <div class="card-meta">excel ﾂｷ drawio ﾂｷ analytics ﾂｷ agilepoint ﾂｷ agilepoint_docs ﾂｷ playwright(enhanced) ﾂｷ sql</div>
+      <p>Self-contained stdio JSON-RPC servers. Excel enforces <code>EXCEL_MAX_ROWS</code>
+         (default 2000); SQL enforces <code>SQL_MAX_ROWS=500</code>; drawio converts Mermaid/CSV/XML
+         to a draw.io URL; analytics renders Plotly charts to HTML files.</p>
+    </div>
+  </section>
+
+  <!-- 笏笏 Config schema 笏笏 -->
+  <section id="t-config">
+    <h2>Configuration schema</h2>
+    <h3>Resolution order</h3>
+    <div class="arch"><span style="color:#cdd9f5">defaults (schema.py)  竊・ app_settings.yaml  竊・ .env.llm overrides (win)  竊・ UI Settings form (writes both)</span></div>
+
+    <h3>Key fields (app_settings.yaml / .env.llm)</h3>
+    <table>
+      <thead><tr><th>Field</th><th>Env override</th><th>Current value</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>llm_provider</code></td><td><code>LLM_PROVIDER</code></td><td><code>ollama</code></td><td><code>ollama | openai_compat</code></td></tr>
+        <tr><td><code>ollama.host</code></td><td><code>OLLAMA_HOST</code></td><td><code>https://ollama.com</code></td><td>local = <code>http://localhost:11434</code></td></tr>
+        <tr><td><code>ollama.model</code></td><td><code>OLLAMA_MODEL</code></td><td><code>gpt-oss:120b</code></td><td>tool-calling verified</td></tr>
+        <tr><td><code>ollama.api_key</code></td><td><code>OLLAMA_API_KEY</code></td><td><em>from .env.llm</em></td><td>blank for local Ollama; adapter omits header; never committed</td></tr>
+        <tr><td><code>openai_compat.*</code></td><td><code>OPENAI_COMPAT_*</code></td><td>Baseten ﾂｷ Kimi-K2.6</td><td>fallback cloud provider</td></tr>
+        <tr><td><code>vision.*</code></td><td><code>VISION_*</code></td><td>ollama ﾂｷ glm-5.3-flash</td><td>cloud vision; <code>qwen3-vl:8b</code> 404s on cloud plan</td></tr>
+        <tr><td><code>limits.max_tool_rounds</code></td><td>窶・/td><td>20</td><td>agentic rounds per turn</td></tr>
+        <tr><td><code>limits.excel_max_rows</code></td><td><code>EXCEL_MAX_ROWS</code></td><td>2000</td><td>injected into excel server env</td></tr>
+        <tr><td><code>limits.sql_max_rows</code></td><td><code>SQL_MAX_ROWS</code></td><td>500</td><td>injected into sql server env</td></tr>
+        <tr><td><code>limits.max_tool_output_chars</code></td><td>窶・/td><td>8000</td><td>UI truncates at 3000 + full-output expander</td></tr>
+        <tr><td><code>timeouts.llm_seconds / tool_seconds</code></td><td>窶・/td><td>300 / 120</td><td>httpx + router timeouts</td></tr>
+        <tr><td><code>tool_calling.mode</code></td><td>窶・/td><td><code>auto</code></td><td><code>require_approval</code> prompts per tool</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 笏笏 Server matrix 笏笏 -->
+  <section id="t-servers">
+    <h2>Server matrix (config/mcp_servers.yaml)</h2>
+    <table>
+      <thead><tr><th>id</th><th>Runtime</th><th>Source</th><th>Tools</th></tr></thead>
+      <tbody>
+        <tr><td><code>mock_srv</code></td><td>Python</td><td>tests/mocks/mock_mcp_server</td><td><code>echo</code>, <code>add</code>, <code>greet</code></td></tr>
+        <tr><td><code>time_srv</code></td><td>Python pkg</td><td>mcp-server-time</td><td><code>get_current_time</code></td></tr>
+        <tr><td><code>analytics</code></td><td>Python</td><td>servers/analytics</td><td>chart / dashboard builders (HTML out), from-data &amp; from-file variants</td></tr>
+        <tr><td><code>agilepoint_docs</code></td><td>Python</td><td>servers/agilepoint_docs</td><td><code>search_docs</code>, <code>fetch_page</code></td></tr>
+        <tr><td><code>agilepoint</code></td><td>Python</td><td>servers/agilepoint</td><td><code>get_worklist_by_user</code>, <code>get_worklist_summary</code>, <code>query_worklist_sql</code>, <code>query_proc_instances(_sql)</code></td></tr>
+        <tr><td><code>excel</code></td><td>Python</td><td>servers/excel</td><td><code>read_sheet_names</code>, <code>read_sheet_data</code>, <code>write_sheet_data</code>, <code>read_sheet_formula</code>, <code>write_sheet_formula</code></td></tr>
+        <tr><td><code>filesystem</code></td><td>Node (npx)</td><td>@modelcontextprotocol/server-filesystem</td><td>list/read/write/move/tree… (scoped to configured root dirs)</td></tr>
+        <tr><td><code>playwright</code></td><td>Node</td><td>@playwright/mcp (cli.js, --isolated)</td><td>browser_navigate/click/type/snapshot/screenshot窶ｦ</td></tr>
+        <tr><td><code>web-fetch</code></td><td>Python pkg</td><td>mcp_server_fetch</td><td>URL fetch 竊・markdown</td></tr>
+        <tr><td><code>drawio</code></td><td>Python</td><td>servers/drawio</td><td><code>open_drawio_mermaid</code>, <code>open_drawio_csv</code>, <code>open_drawio_xml</code></td></tr>
+        <tr><td><code>playwright_enhanced</code></td><td>Python</td><td>servers/playwright</td><td><code>pw_run_session</code> (scripted multi-step browser runs)</td></tr>
+        <tr><td><code>sql</code></td><td>Python</td><td>servers/sql</td><td><code>sql_query</code>, <code>sql_execute</code>, <code>sql_list_tables</code>, <code>sql_describe_table</code> (SQLite/PG/MySQL/MSSQL)</td></tr>
+        <tr><td><code>jira</code></td><td>exe</td><td>mcp-atlassian (--env-file .env.jira)</td><td>Jira search/read tools</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 笏笏 Robustness 笏笏 -->
+  <section id="t-robust">
+    <h2>Robustness features (where to find them)</h2>
+    <table>
+      <thead><tr><th>Feature</th><th>Location</th><th>Behaviour</th></tr></thead>
+      <tbody>
+        <tr><td>Retry on transient tool errors</td><td><code>core/tool_router.py</code> <code>execute()</code></td><td><code>retry_async(retries=2)</code> scoped to <code>ProcessTimeoutError</code>/<code>TransportError</code>; policy/validation errors raise immediately</td></tr>
+        <tr><td>Excel path detection</td><td><code>core/orchestrator.py</code> <code>detect_xlsx_path()</code></td><td>One regex handles quoted ("C:\My Folder\f.xlsx"), UNC (\\srv\share\f.xlsx), plain, + .xls/.xlsm/.xltx/.xltm; used by both orchestrators</td></tr>
+        <tr><td>draw.io reply composition</td><td><code>agno_orchestrator.py</code> (URL-first path)</td><td>Link block first; LLM commentary appended after a blank line; empty commentary 竊・link-only</td></tr>
+        <tr><td>Row/round ceilings</td><td><code>servers/excel</code> (EXCEL_MAX_ROWS), <code>servers/sql</code> (SQL_MAX_ROWS), <code>agno_orchestrator</code> (max_tool_rounds)</td><td>Defaults 2000 / 500 / 20; env-injected per server; per-server yaml env still wins</td></tr>
+        <tr><td>Secret redaction</td><td><code>storage/redact.py</code></td><td>api_key / token / password scrubbed from persisted traces</td></tr>
+        <tr><td>Vision fallback</td><td><code>_run_vision_turn</code></td><td>Vision agent failure degrades to main agent instead of erroring the turn</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 笏笏 Quality gates 笏笏 -->
+  <section id="t-quality">
+    <h2>Testing &amp; quality gates</h2>
+    <table>
+      <thead><tr><th>Gate</th><th>Command (from mcp_app/)</th><th>Expected</th></tr></thead>
+      <tbody>
+        <tr><td>Preflight (live pipeline)</td><td><code>set PYTHONIOENCODING=utf-8 &amp;&amp; venv\Scripts\python.exe test_preflight.py</code></td><td><strong>ALL 5 STEPS PASSED</strong> (starts real Excel server, verifies prompt names, resolver, xlsx scoping)</td></tr>
+        <tr><td>Unit tests</td><td><code>..\venv\Scripts\python.exe -m pytest mcp_app/tests/ -q</code> (repo root)</td><td><strong>44 passed</strong>; 11 <code>test_cli_smoke.py</code> failures are pre-existing (click/CliRunner incompat)</td></tr>
+        <tr><td>Excel tool tests</td><td><code>test_excel_tools.py</code> ﾂｷ <code>test_excel_schema.py</code></td><td>ALL CHECKS PASSED / exit 0</td></tr>
+        <tr><td>Manual E2E</td><td>see <code>mcp_app/howtotest.md</code></td><td>per-feature checklists + test-data generators</td></tr>
+      </tbody>
+    </table>
+    <div class="callout callout-warn">
+      <div class="callout-title">笞・・Duplicate-process trap</div>
+      Two Streamlit processes on :8502 serve <em>different code versions</em> and cause
+      "impossible" TypeErrors. Before debugging, verify only one is running:
+      <code>Get-CimInstance Win32_Process -Filter "Name='python.exe'" | ? { $_.CommandLine -like '*streamlit*8502*' }</code>
+    </div>
+  </section>
+
+  <!-- 笏笏 Extending 笏笏 -->
+  <section id="t-extend">
+    <h2>Extending the app</h2>
+    <h3>Add an MCP server (no code changes)</h3>
+    <ol class="steps">
+      <li><div>Sidebar 竊・Manage Servers 竊・筐・Add Server 窶・or edit <code>config/mcp_servers.yaml</code> directly
+        (id, command, args, timeouts, tags, optional <code>policy.allowed_tools / denied_tools</code>).</div></li>
+      <li><div>Click 売 Restart (or send a message) 窶・servers restart; new tools appear in the registry automatically.</div></li>
+    </ol>
+    <h3>Roadmap (plan.md)</h3>
+    <table>
+      <thead><tr><th>Phase</th><th>Scope</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1 窶・Streamlit UX</td><td>expanders, st.error, full-output, st.status, settings sections</td><td><span class="pill pill-green">done</span></td></tr>
+        <tr><td>2 窶・Robustness</td><td>path regex, retry, drawio commentary, externalized limits</td><td><span class="pill pill-green">done</span></td></tr>
+        <tr><td>3 窶・Vision</td><td>Ollama Cloud vision agent + wiring fixes</td><td><span class="pill pill-green">done</span></td></tr>
+        <tr><td>4 窶・Streaming</td><td>adapter <code>stream=True</code>, <code>ChatEngine.send_stream()</code>, <code>st.write_stream</code></td><td><span class="pill pill-orange">next</span></td></tr>
+        <tr><td>5 窶・HTTP transport</td><td>MCP Streamable HTTP client (<code>transports/http.py</code> stub today)</td><td><span class="pill pill-blue">planned</span></td></tr>
+        <tr><td>6 窶・WS transport</td><td>optional, non-standard 窶・decision checkpoint required</td><td><span class="pill pill-blue">optional</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    MCP App ﾂｷ Technical Guide ﾂｷ preflight ALL 5 STEPS PASSED ﾂｷ pytest 44 passed ﾂｷ Python 3.12 ﾂｷ Streamlit 1.54 ﾂｷ Agno 2.5.10
+  </footer>
+</div>
+
+</main>
+
+<script>
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+  // Smooth-scroll for in-page anchor chips within the active tab
+  document.querySelectorAll('.toc a').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+</body>
+</html>

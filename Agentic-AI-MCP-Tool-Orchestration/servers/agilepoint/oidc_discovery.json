@@ -1,0 +1,90 @@
+{
+  "authorization_endpoint": "https://eformqa.agilityclouds.com/idp/auth",
+  "claims_parameter_supported": true,
+  "claims_supported": [
+    "sub",
+    "userName",
+    "name",
+    "tenantName",
+    "email",
+    "FullName",
+    "locale",
+    "Department",
+    "Disabled",
+    "Manager",
+    "Title",
+    "TimeZone",
+    "provider",
+    "SupportedLanguage",
+    "minioPolicy",
+    "isSessionCookie",
+    "changePasswordLink",
+    "isMultiTenantEnabled",
+    "showChangePassword",
+    "sid",
+    "auth_time",
+    "iss"
+  ],
+  "code_challenge_methods_supported": [
+    "S256",
+    "S256"
+  ],
+  "end_session_endpoint": "https://eformqa.agilityclouds.com/idp/session/end",
+  "grant_types_supported": [
+    "implicit",
+    "authorization_code",
+    "refresh_token",
+    "client_credentials"
+  ],
+  "issuer": "https://eformqa.agilityclouds.com/idp",
+  "jwks_uri": "https://eformqa.agilityclouds.com/idp/jwks",
+  "authorization_response_iss_parameter_supported": true,
+  "response_modes_supported": [
+    "form_post",
+    "fragment",
+    "query"
+  ],
+  "response_types_supported": [
+    "code id_token",
+    "code",
+    "id_token",
+    "none"
+  ],
+  "scopes_supported": [
+    "openid",
+    "offline_access",
+    "profile",
+    "minio",
+    "claims.advanced",
+    "email"
+  ],
+  "subject_types_supported": [
+    "public"
+  ],
+  "token_endpoint_auth_methods_supported": [
+    "client_secret_basic",
+    "client_secret_jwt",
+    "client_secret_post",
+    "private_key_jwt",
+    "none"
+  ],
+  "token_endpoint_auth_signing_alg_values_supported": [
+    "HS256",
+    "RS256",
+    "PS256",
+    "ES256",
+    "EdDSA"
+  ],
+  "token_endpoint": "https://eformqa.agilityclouds.com/idp/token",
+  "id_token_signing_alg_values_supported": [
+    "RS256"
+  ],
+  "pushed_authorization_request_endpoint": "https://eformqa.agilityclouds.com/idp/request",
+  "request_parameter_supported": false,
+  "request_uri_parameter_supported": false,
+  "userinfo_endpoint": "https://eformqa.agilityclouds.com/idp/me",
+  "introspection_endpoint": "https://eformqa.agilityclouds.com/idp/token/introspection",
+  "claim_types_supported": [
+    "normal"
+  ]
+}

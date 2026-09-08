@@ -1,0 +1,28 @@
+# ── secrets ──
+.env
+.env.llm
+.env.*
+!.env.example
+.env.jira
+
+# ── python ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# ── runtime artifacts ──
+.mcp_app_logs/
+*.sqlite
+*.db
+.mcp_app_logs/screenshots/
+
+# ── tooling ──
+.pytest_cache/
+.ruff_cache/
+*.egg-info
+.DS_Store
+Thumbs.db
