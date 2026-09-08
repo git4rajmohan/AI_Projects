@@ -1,0 +1,45 @@
+browser:
+  headless: false
+  screenshots_dir: ./.mcp_app_logs/screenshots
+limits:
+  excel_max_rows: 2000
+  max_tool_output_chars: 8000
+  max_tool_rounds: 20
+  sql_max_rows: 500
+llm_provider: ollama
+logging:
+  dir: ./.mcp_app_logs
+  level: INFO
+ollama:
+  api_key: ''  # set via OLLAMA_API_KEY in .env.llm (never commit the real value)
+  host: https://ollama.com
+  model: gpt-oss:120b
+  num_ctx: 8192
+  temperature: 0.2
+openai_compat:
+  api_key: ''  # set via OPENAI_COMPAT_API_KEY in .env.llm (never commit the real value)
+  base_url: https://inference.baseten.co/v1
+  model: moonshotai/Kimi-K2.6
+  temperature: 0.2
+timeouts:
+  llm_seconds: 300
+  tool_seconds: 120
+tool_calling:
+  mode: auto
+ui:
+  accent_color: '#ff6b35'
+  chat_max_width: 800
+  compact_mode: false
+  font_family: sans-serif
+  font_size: 15
+  show_timestamps: false
+  theme: dark
+  tool_calls_expanded: false
+  zoom: 1.1
+vision:
+  api_key: ''  # set via VISION_API_KEY in .env.llm (never commit the real value)
+  base_url: https://ollama.com
+  enabled: true
+  model: glm-5.3-flash
+  provider: ollama
+  temperature: 0.2

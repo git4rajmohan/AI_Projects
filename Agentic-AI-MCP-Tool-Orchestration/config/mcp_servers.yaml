@@ -1,0 +1,268 @@
+﻿servers:
+- enabled: true
+  id: mock_srv
+  name: Mock Tools Server
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - <PROJECT_ROOT>\tests\mocks\mock_mcp_server\server.py
+    command: <VENV_DIR>\Scripts\python.exe
+    cwd: null
+    env: {}
+  tags:
+  - mock
+  - test
+  timeouts:
+    call_seconds: 30
+    connect_seconds: 10
+  transport: stdio
+- enabled: true
+  id: time_srv
+  name: Time Server
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - -m
+    - mcp_server_time
+    - --local-timezone=America/New_York
+    command: <VENV_DIR>\Scripts\python.exe
+  tags:
+  - time
+  timeouts:
+    call_seconds: 30
+    connect_seconds: 10
+  transport: stdio
+- enabled: true
+  id: analytics
+  name: Analytics & Dashboard Server
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - <PROJECT_ROOT>\servers\analytics\server.py
+    command: <VENV_DIR>\Scripts\python.exe
+    cwd: null
+    env: {}
+  tags:
+  - analytics
+  - charts
+  - dashboard
+  timeouts:
+    call_seconds: 60
+    connect_seconds: 15
+  transport: stdio
+- enabled: true
+  id: agilepoint_docs
+  name: AgilePoint Documentation
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - <PROJECT_ROOT>\servers\agilepoint_docs\server.py
+    command: <VENV_DIR>\Scripts\python.exe
+    cwd: null
+    env: {}
+  tags:
+  - docs
+  - agilepoint
+  timeouts:
+    call_seconds: 30
+    connect_seconds: 15
+  transport: stdio
+- enabled: true
+  id: agilepoint
+  name: AgilePoint API Server
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - <PROJECT_ROOT>\servers\agilepoint\server.py
+    command: <VENV_DIR>\Scripts\python.exe
+    cwd: null
+    env: {}
+    env_file: <PROJECT_ROOT>\.env.agilepoint
+  tags:
+  - agilepoint
+  - api
+  - worklist
+  timeouts:
+    call_seconds: 120
+    connect_seconds: 15
+  transport: stdio
+- enabled: true
+  id: excel
+  name: Excel MCP Server
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - <PROJECT_ROOT>\servers\excel\server.py
+    command: <VENV_DIR>\Scripts\python.exe
+    cwd: null
+    env: {}
+  tags:
+  - excel
+  - spreadsheet
+  timeouts:
+    call_seconds: 60
+    connect_seconds: 15
+  transport: stdio
+- enabled: true
+  id: filesystem
+  name: Filesystem
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - -y
+    - '@modelcontextprotocol/server-filesystem'
+    - D:\
+    - <HOME>
+    command: npx.cmd
+    cwd: null
+    env: {}
+  tags:
+  - filesystem
+  - files
+  timeouts:
+    call_seconds: 30
+    connect_seconds: 30
+  transport: stdio
+- enabled: true
+  id: playwright
+  name: Playwright Browser
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - <HOME>\node_modules\@playwright\mcp\cli.js
+    - --isolated
+    - --timeout-navigation=30000
+    - --timeout-action=10000
+    command: node
+    cwd: null
+    env: {}
+  tags:
+  - browser
+  - playwright
+  timeouts:
+    call_seconds: 120
+    connect_seconds: 30
+  transport: stdio
+- enabled: true
+  id: web-fetch
+  name: Web Fetch
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - -u
+    - -m
+    - mcp_server_fetch
+    command: <VENV_DIR>\Scripts\python.exe
+    cwd: null
+    env:
+      PYTHONUNBUFFERED: '1'
+  tags:
+  - web
+  - fetch
+  timeouts:
+    call_seconds: 30
+    connect_seconds: 15
+  transport: stdio
+- enabled: true
+  id: drawio
+  name: Draw.io Diagram Editor
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - <PROJECT_ROOT>\servers\drawio\server.py
+    command: <VENV_DIR>\Scripts\python.exe
+    cwd: null
+    env: {}
+  tags:
+  - diagrams
+  - drawio
+  - mermaid
+  timeouts:
+    call_seconds: 30
+    connect_seconds: 15
+  transport: stdio
+- enabled: true
+  id: playwright_enhanced
+  name: Playwright Enhanced Browser
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - <PROJECT_ROOT>\servers\playwright\server.py
+    command: <VENV_DIR>\Scripts\python.exe
+    cwd: null
+    env: {}
+  tags:
+  - browser
+  - playwright
+  - enhanced
+  timeouts:
+    call_seconds: 300
+    connect_seconds: 30
+  transport: stdio
+- enabled: true
+  id: sql
+  name: SQL Database
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - <PROJECT_ROOT>\servers\sql\server.py
+    command: <VENV_DIR>\Scripts\python.exe
+    cwd: null
+    env: {}
+  tags:
+  - sql
+  - database
+  - sqlite
+  - postgresql
+  - mysql
+  timeouts:
+    call_seconds: 60
+    connect_seconds: 15
+  transport: stdio
+- enabled: true
+  id: jira
+  name: Jira MCP Server
+  policy:
+    allowed_tools: []
+    denied_tools: []
+  stdio:
+    args:
+    - --transport
+    - stdio
+    - --env-file
+    - <PROJECT_ROOT>\.env.jira
+    command: <VENV_DIR>\Scripts\mcp-atlassian.exe
+    cwd: null
+    env: {}
+  tags:
+  - jira
+  - atlassian
+  timeouts:
+    call_seconds: 30
+    connect_seconds: 15
+  transport: stdio
+

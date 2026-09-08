@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-app"
+version = "0.1.0"
+description = "Modular MCP client orchestrator using local Ollama"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0",
+    "PyYAML>=6.0",
+    "httpx>=0.25",
+    "ollama>=0.3",
+    "mcp>=1.0",
+    "click>=8.0",
+    "rich>=13.0",
+    "anyio>=4.0",
+    "aiofiles>=23.0",
+    "streamlit>=1.35",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
+
+[project.scripts]
+mcpapp = "mcp_app.main:main"
+mcpapp-ui = "mcp_app.ui.launcher:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+pythonpath = ["src"]

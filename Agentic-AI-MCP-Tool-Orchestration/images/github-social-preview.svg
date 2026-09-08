@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e1117"/><stop offset="0.55" stop-color="#161a2b"/><stop offset="1" stop-color="#1e2236"/>
+    </linearGradient>
+    <linearGradient id="accentbar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff6b35"/><stop offset="1" stop-color="#4f8ef7"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1280" height="10" fill="url(#accentbar)"/>
+
+  <text x="72" y="120" fill="#8892b0" font-size="20" font-weight="600" letter-spacing="4">AGENTIC AI PROJECTS</text>
+  <text x="72" y="212" fill="#ffffff" font-size="64" font-weight="800">Agentic AI — MCP Tool</text>
+  <text x="72" y="288" fill="#ff6b35" font-size="64" font-weight="800">Orchestration</text>
+
+  <text x="72" y="352" fill="#cdd9f5" font-size="22">A local AI chat assistant with tool-calling superpowers —</text>
+  <text x="72" y="384" fill="#cdd9f5" font-size="22">any LLM × 14 MCP tool servers × Streamlit chat UI.</text>
+
+  <!-- server pills -->
+  <g font-size="15" font-weight="600">
+    <rect x="72"  y="432" width="118" height="40" rx="20" fill="rgba(46,204,113,0.15)" stroke="#2ecc71"/><text x="90"  y="458" fill="#2ecc71">⏰ time</text>
+    <rect x="204" y="432" width="118" height="40" rx="20" fill="rgba(46,204,113,0.15)" stroke="#2ecc71"/><text x="228" y="458" fill="#2ecc71">📊 excel</text>
+    <rect x="336" y="432" width="132" height="40" rx="20" fill="rgba(46,204,113,0.15)" stroke="#2ecc71"/><text x="356" y="458" fill="#2ecc71">📁 files</text>
+    <rect x="482" y="432" width="126" height="40" rx="20" fill="rgba(46,204,113,0.15)" stroke="#2ecc71"/><text x="500" y="458" fill="#2ecc71">🌐 browse</text>
+    <rect x="622" y="432" width="128" height="40" rx="20" fill="rgba(46,204,113,0.15)" stroke="#2ecc71"/><text x="640" y="458" fill="#2ecc71">🧩 drawio</text>
+    <rect x="764" y="432" width="98" height="40" rx="20" fill="rgba(46,204,113,0.15)" stroke="#2ecc71"/><text x="782" y="458" fill="#2ecc71">🗄️ sql</text>
+    <rect x="876" y="432" width="126" height="40" rx="20" fill="rgba(46,204,113,0.15)" stroke="#2ecc71"/><text x="894" y="458" fill="#2ecc71">🖼️ vision</text>
+    <rect x="1016" y="432" width="188" height="40" rx="20" fill="rgba(79,142,247,0.15)" stroke="#4f8ef7"/><text x="1034" y="458" fill="#4f8ef7">+ 7 more servers</text>
+  </g>
+
+  <text x="72" y="532" fill="#8892b0" font-size="18">Python 3.12 · Streamlit 1.54 · Agno 2.5.10 · MCP over stdio · Ollama Cloud gpt-oss:120b · glm-5.3-flash vision</text>
+  <text x="72" y="566" fill="#5a6a8a" font-size="16">pytest 44 passed · preflight ALL 5 STEPS PASSED · secrets via .env.llm, never committed</text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="640" viewBox="0 0 1180 640" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8892b0"/>
+    </marker>
+    <linearGradient id="hdr" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1a1d27"/><stop offset="1" stop-color="#22263a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1180" height="640" fill="#0e1117"/>
+  <rect x="0" y="0" width="1180" height="64" fill="url(#hdr)"/>
+  <text x="32" y="40" fill="#ff6b35" font-size="22" font-weight="700">Agentic AI — MCP Tool Orchestration</text>
+  <text x="470" y="40" fill="#8892b0" font-size="13">architecture · Streamlit + Agno + MCP stdio · Ollama Cloud gpt-oss:120b</text>
+
+  <!-- UI layer -->
+  <rect x="90" y="96" width="1000" height="86" rx="10" fill="#1a1d27" stroke="#2e3250"/>
+  <text x="120" y="128" fill="#ff6b35" font-size="16" font-weight="700">STREAMLIT UI  (ui/app.py)</text>
+  <text x="120" y="152" fill="#cdd9f5" font-size="13">chat loop · 🔧 tool-call expanders · ⚙️ st.status + Stop · 📎 upload · 🖥️ server manager</text>
+  <text x="120" y="172" fill="#8892b0" font-size="12">settings form writes YAML + .env.llm · screenshots gallery</text>
+
+  <!-- bridge -->
+  <rect x="330" y="216" width="520" height="56" rx="10" fill="#1a1d27" stroke="#2e3250"/>
+  <text x="352" y="240" fill="#4f8ef7" font-size="14" font-weight="700">ASYNC BRIDGE (async_bridge.py)</text>
+  <text x="352" y="260" fill="#8892b0" font-size="12">submit(coro) → Future · cancel_current() → Stop button</text>
+
+  <!-- engine -->
+  <rect x="90" y="304" width="1000" height="96" rx="10" fill="#1a1d27" stroke="#2e3250"/>
+  <text x="120" y="332" fill="#2ecc71" font-size="16" font-weight="700">CHAT ENGINE (core/chat_engine.py)</text>
+  <text x="120" y="356" fill="#cdd9f5" font-size="13">session history · AgnoOrchestrator (main agent + vision agent) · ServerManager · ToolRegistry · ToolRouter</text>
+  <text x="120" y="380" fill="#8892b0" font-size="12">retry_async(retries=2) on transient timeouts/transport · policy gate (allowed/denied tools) · max 20 tool rounds</text>
+
+  <!-- orchestrator internals -->
+  <rect x="90" y="432" width="380" height="132" rx="10" fill="#141820" stroke="#2e3250"/>
+  <text x="112" y="460" fill="#ff6b35" font-size="14" font-weight="700">AGENT MODELS</text>
+  <text x="112" y="484" fill="#cdd9f5" font-size="12.5">main → Ollama Cloud  gpt-oss:120b</text>
+  <text x="112" y="506" fill="#cdd9f5" font-size="12.5">vision → glm-5.3-flash (image turns)</text>
+  <text x="112" y="528" fill="#cdd9f5" font-size="12.5">fallback → Baseten Kimi-K2.6 (OpenAI-compat)</text>
+  <text x="112" y="550" fill="#8892b0" font-size="12">native /api/chat + Bearer · httpx · agno 2.5.10</text>
+
+  <!-- guardrails -->
+  <rect x="490" y="432" width="600" height="132" rx="10" fill="#141820" stroke="#2e3250"/>
+  <text x="512" y="460" fill="#ff6b35" font-size="14" font-weight="700">TURN ROUTING GUARDRAILS</text>
+  <text x="512" y="484" fill="#cdd9f5" font-size="12.5">xlsx turn → EXCEL-ONLY tool scope (quoted / UNC / plain paths)</text>
+  <text x="512" y="506" fill="#cdd9f5" font-size="12.5">draw.io turn → [Open in draw.io] link + LLM commentary</text>
+  <text x="512" y="506" fill="#8892b0" font-size="12"> </text>
+  <text x="512" y="528" fill="#cdd9f5" font-size="12.5">limits injected per server: EXCEL_MAX_ROWS=2000 · SQL_MAX_ROWS=500</text>
+  <text x="512" y="550" fill="#8892b0" font-size="12">secrets redacted from persisted traces (storage/redact.py)</text>
+
+  <!-- MCP servers band -->
+  <rect x="90" y="596" width="1000" height="0" fill="none"/>
+  <g transform="translate(0,596)">
+    <rect x="90" y="0" width="1000" height="0" fill="none"/>
+  </g>
+  <text x="90" y="606" fill="#8892b0" font-size="12.5">14 MCP servers over stdio (subprocesses, JSON-RPC):  mock_srv · time_srv · analytics · agilepoint · agilepoint_docs · excel · filesystem ·</text>
+  <text x="90" y="624" fill="#8892b0" font-size="12.5">playwright · playwright_enhanced · web-fetch · drawio · sql · jira        CONFIG: app_settings.yaml + .env.llm · mcp_servers.yaml · policies.yaml</text>
+
+  <!-- arrows -->
+  <line x1="590" y1="182" x2="590" y2="212" stroke="#8892b0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="590" y1="272" x2="590" y2="300" stroke="#8892b0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="400" y1="400" x2="300" y2="428" stroke="#8892b0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="780" y1="400" x2="780" y2="428" stroke="#8892b0" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>
