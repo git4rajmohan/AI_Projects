@@ -27,6 +27,7 @@
 | 6 | **[NLP Machine Learning Sentiment Analysis](./NLP_MachineLearning_SentimentAnalysis/)** | scikit-learn (TF-IDF · LR · NB · SVM) · NLTK · spaCy · Jupyter | ✅ Complete |
 | 7 | **[Agentic AI Multi-Agent E-Commerce Orchestrator](./Agentic-AI-Ecommerce-Orchestrator/)** | Google ADK (4-agent hierarchy) · LiteLLM · Ollama Cloud (`gpt-oss:120b`) · `adk web` dev UI | ✅ Complete |
 | 8 | **[Agentic AI Multi-Agent Mindmap Orchestrator](./agentic-ai-mindmap-orchestrator/)** | Streamlit · 3-agent review loop · Ollama Local (`gpt-oss:120b`) · markmap.js | ✅ Complete |
+| 9 | **[Agentic AI MCP Tool Orchestration](./Agentic-AI-MCP-Tool-Orchestration/)** | MCP (14 tool servers over stdio) · Streamlit · Agno · Ollama Cloud (`gpt-oss:120b` + `glm-5.3-flash` vision) | ✅ Complete |
 
 ### 1️⃣ Hospital Appointment Scheduler & Confirmation Bot
 
@@ -220,18 +221,43 @@ An agentic pipeline that transforms unstructured content — text files, YouTube
 
 ---
 
+### 9️⃣ Agentic AI — MCP Tool Orchestration
+
+A production-style AI chat assistant that orchestrates **14 MCP (Model Context Protocol) tool servers** behind any LLM — time, Excel, filesystem, browser automation, draw.io diagrams, charts, SQL, Jira, AgilePoint docs/worklists, and image understanding — via a Streamlit chat UI with a switchable provider layer (Ollama Cloud `gpt-oss:120b` main + `glm-5.3-flash` vision, local Ollama, or any OpenAI-compatible endpoint such as Baseten).
+
+**Highlights**
+
+- 🧩 MCP-standard tools — any MCP-compatible server plugs in via `mcp_servers.yaml` with zero code changes (stdio JSON-RPC subprocesses, crash-isolated)
+- 🔀 Provider-agnostic LLM layer — main + dedicated vision model independently switchable; secrets via `.env.llm`, never committed
+- 🛡️ Robust turn handling — transient tool failures auto-retry (timeouts/transport only), Excel turns auto-scoped to Excel-only tools (quoted/UNC/plain paths), draw.io link + commentary composition
+- 🎛️ Guardrails — approval mode, tool allow/deny policies, row ceilings injected per server (`EXCEL_MAX_ROWS`, `SQL_MAX_ROWS`), output truncation with full-output expander
+- 🔍 Full observability — per-session JSONL traces with secret redaction, tool-call expanders showing exact payloads
+- 🧪 Quality gates — pytest (44 passed), live preflight harness that starts a real Excel MCP server, 12-recipe manual E2E plan with test-data generators
+- 📖 Interactive 2-tab `userguide.html` (everyday guide + full technical reference)
+
+> 📚 **Full docs, setup guide, and architecture:** [`Agentic-AI-MCP-Tool-Orchestration/README.md`](./Agentic-AI-MCP-Tool-Orchestration/README.md) ·
+> 📖 **Interactive user guide (HTML, 2 tabs):** [`Agentic-AI-MCP-Tool-Orchestration/userguide.html`](./Agentic-AI-MCP-Tool-Orchestration/userguide.html) ·
+> 🧪 **Manual E2E test plan:** [`Agentic-AI-MCP-Tool-Orchestration/howtotest.md`](./Agentic-AI-MCP-Tool-Orchestration/howtotest.md)
+
+| Architecture | GitHub social preview |
+|:---:|:---:|
+| ![Architecture](./Agentic-AI-MCP-Tool-Orchestration/docs/architecture.png) | ![Social preview](./Agentic-AI-MCP-Tool-Orchestration/images/github-social-preview.png) |
+
+---
+
 ## 🗺️ Roadmap
 
 - [x] 5️⃣ Knowledge Graph Builder — ADK agents + Neo4j + natural language Q&A → **[KnowledgegraphUIapp](./KnowledgegraphUIapp/)**
 - [x] 6️⃣ Model Evaluation Harness — automated LLM benchmarking & regression testing → **[rag-evaluation-harness](./rag-evaluation-harness/)**
 - [x] 7️⃣ Classic NLP / ML Sentiment Analysis — end-to-end text classification teaching notebook → **[NLP_MachineLearning_SentimentAnalysis](./NLP_MachineLearning_SentimentAnalysis/)**
 - [x] 8️⃣ Multi-Agent Workflow Orchestrator — ADK-style agent collaboration patterns → **[Agentic-AI-Ecommerce-Orchestrator](./Agentic-AI-Ecommerce-Orchestrator/)**
+- [x] 9️⃣ MCP Tool Orchestration — Model Context Protocol client + 14 tool servers → **[Agentic-AI-MCP-Tool-Orchestration](./Agentic-AI-MCP-Tool-Orchestration/)**
 
 ## 🛠️ Common Tech
 
 | Layer | Tools |
 |-------|-------|
-| LLM Orchestration | LangChain (LCEL), LangGraph, Google ADK, NVIDIA NeMo Guardrails |
+| LLM Orchestration | LangChain (LCEL), LangGraph, Google ADK, NVIDIA NeMo Guardrails, **MCP (Model Context Protocol)**, Agno |
 | Evaluation | RAGAS (LLM-judged metrics), pytest, Streamlit dashboards |
 | LLM Providers | Ollama Cloud (gpt-oss:120b, glm-5.2, kimi-k2.6), local Ollama |
 | APIs & UI | FastAPI, Uvicorn, Streamlit, vanilla-JS enterprise consoles |
