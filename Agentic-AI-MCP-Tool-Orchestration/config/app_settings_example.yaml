@@ -1,0 +1,66 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# App Settings — EXAMPLE file
+# Copy this file to app_settings.yaml and fill in your own values.
+#   copy .env.example → .env.llm            (credentials, gitignored)
+#   app_settings.yaml is also written by the UI Settings form at runtime.
+# NEVER commit real API keys — keep them in .env.llm / .env.jira (gitignored).
+# ─────────────────────────────────────────────────────────────────────────────
+
+browser:
+  headless: false
+  screenshots_dir: ./.mcp_app_logs/screenshots
+
+limits:
+  excel_max_rows: 2000
+  max_tool_output_chars: 8000
+  max_tool_rounds: 20
+  sql_max_rows: 500
+
+# Main LLM provider: "ollama" (local or cloud) | "openai_compat" (Baseten/Groq/OpenAI/…)
+llm_provider: ollama
+
+logging:
+  dir: ./.mcp_app_logs
+  level: INFO
+
+# Main LLM — Ollama (local or cloud)
+ollama:
+  api_key: <ENTER-YOUR-OLLAMA-API-KEY-HERE>   # Ollama Cloud key (ollama.com/settings/keys); leave '' for local Ollama
+  host: https://ollama.com                    # local: http://localhost:11434
+  model: gpt-oss:120b
+  num_ctx: 8192
+  temperature: 0.2
+
+# Alternative OpenAI-compatible endpoint (used when llm_provider: openai_compat)
+openai_compat:
+  api_key: <ENTER-YOUR-CLOUD-API-KEY-HERE>    # e.g. Baseten / Groq / OpenAI key
+  base_url: https://inference.baseten.co/v1
+  model: moonshotai/Kimi-K2.6
+  temperature: 0.2
+
+timeouts:
+  llm_seconds: 300
+  tool_seconds: 120
+
+tool_calling:
+  mode: auto                                  # "auto" | "require_approval"
+
+ui:
+  accent_color: '#ff6b35'
+  chat_max_width: 800
+  compact_mode: false
+  font_family: sans-serif
+  font_size: 15
+  show_timestamps: false
+  theme: dark
+  tool_calls_expanded: false
+  zoom: 1.1
+
+# Dedicated vision model for image turns (optional — enabled: false to disable)
+vision:
+  api_key: <ENTER-YOUR-VISION-API-KEY-HERE>   # usually the same Ollama Cloud key
+  base_url: https://ollama.com
+  enabled: true
+  model: glm-5.3-flash
+  provider: ollama
+  temperature: 0.2
