@@ -28,6 +28,7 @@
 | 7 | **[Agentic AI Multi-Agent E-Commerce Orchestrator](./Agentic-AI-Ecommerce-Orchestrator/)** | Google ADK (4-agent hierarchy) · LiteLLM · Ollama Cloud (`gpt-oss:120b`) · `adk web` dev UI | ✅ Complete |
 | 8 | **[Agentic AI Multi-Agent Mindmap Orchestrator](./agentic-ai-mindmap-orchestrator/)** | Streamlit · 3-agent review loop · Ollama Local (`gpt-oss:120b`) · markmap.js | ✅ Complete |
 | 9 | **[Agentic AI MCP Tool Orchestration](./Agentic-AI-MCP-Tool-Orchestration/)** | MCP (14 tool servers over stdio) · Streamlit · Agno · Ollama Cloud (`gpt-oss:120b` + `glm-5.3-flash` vision) | ✅ Complete |
+| 10 | **[AI-Safe Support Ticket Classifier](./AI-Safe-Support-Ticket-Classifier/)** | LangGraph · FastAPI · Vanilla JS workflow visualizer · Ollama Cloud (`gpt-oss:120b`) · LLM-judge injection guard | ✅ Complete |
 
 ### 1️⃣ Hospital Appointment Scheduler & Confirmation Bot
 
@@ -238,6 +239,33 @@ A production-style AI chat assistant that orchestrates **14 MCP (Model Context P
 > 📚 **Full docs, setup guide, and architecture:** [`Agentic-AI-MCP-Tool-Orchestration/README.md`](./Agentic-AI-MCP-Tool-Orchestration/README.md) ·
 > 📖 **Interactive user guide (HTML, 2 tabs):** [`Agentic-AI-MCP-Tool-Orchestration/userguide.html`](./Agentic-AI-MCP-Tool-Orchestration/userguide.html) ·
 > 🧪 **Manual E2E test plan:** [`Agentic-AI-MCP-Tool-Orchestration/howtotest.md`](./Agentic-AI-MCP-Tool-Orchestration/howtotest.md)
+
+---
+
+### 🔟 AI-Safe Support Ticket Classifier
+
+A production-grade AI ticket-triage service with a **live pipeline visualizer**: a 6-node LangGraph pipeline wraps an LLM classifier in hard safety boundaries — PII redaction before the model ever sees the text, a dedicated LLM-judge prompt-injection guard that fails closed, Pydantic schema + business-rule validation, and a tenacity-backed fallback so a ticket is never lost. Every node's status (green/red/grey + yellow replay pulse), duration, and full output is inspectable in the browser via a per-node trace contract.
+
+**Highlights**
+
+- 🧠 Structured classification — 7 issue categories · 5 team owners · 4 priorities · 4 sentiments · confidence + reasoning, via JSON-mode on Ollama Cloud (`gpt-oss:120b`)
+- 🛡️ PII redaction first — regex engine strips EMAIL / PHONE / CREDIT_CARD before any LLM call; the original text never leaves the server
+- 🚨 Prompt-injection guard — dedicated LLM judge with structured verdict; **fails safe** (guard error ⇒ block input, not pass-through)
+- 📊 Live workflow visualizer — color-coded node strip (green completed / red failed / yellow pulsing / grey skipped) with per-node durations and SVG edges, including the fallback branch
+- 🔍 Node detail inspector — click any node for a slide-over drawer: redacted text, PII chips, guard verdict + attack pattern, full classification, validation errors, cost breakdown, raw JSON
+- 🔁 Safe fallback — tenacity retries → conservative `SAFE_CLASSIFICATION` (human review, confidence 0)
+- 💰 Cost & prompt-version tracking — per-call token/cost roll-up, versioned prompt registry stamped on every result
+- 📖 Two-tier in-app user guide (`userguide.html`) — a non-technical explainer tab and a technical architecture tab
+- 🧪 8 offline pytest tests (LLM mocked), all passing
+
+> 📄 **Full docs, setup guide, and architecture:** [`AI-Safe-Support-Ticket-Classifier/README.md`](./AI-Safe-Support-Ticket-Classifier/README.md) ·
+> 📚 **Interactive user guide (HTML, 2 tabs):** [`AI-Safe-Support-Ticket-Classifier/demo_ui/userguide.html`](./AI-Safe-Support-Ticket-Classifier/demo_ui/userguide.html)
+
+| Green path — clean run w/ PII redaction | Red path — injection attack blocked |
+|:---:|:---:|
+| ![Green path](./AI-Safe-Support-Ticket-Classifier/docs/images/01_green_path.png) | ![Injection blocked](./AI-Safe-Support-Ticket-Classifier/docs/images/02_injection_blocked.png) |
+| **Node inspector — PII drawer** | **Two-tier user guide** |
+| ![Node drawer](./AI-Safe-Support-Ticket-Classifier/docs/images/03_node_drawer.png) | ![User guide](./AI-Safe-Support-Ticket-Classifier/docs/images/04_userguide.png) |
 
 | Architecture | GitHub social preview |
 |:---:|:---:|
