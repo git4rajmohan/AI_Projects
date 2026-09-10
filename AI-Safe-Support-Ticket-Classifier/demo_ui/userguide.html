@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Guide — Support Ticket Classifier</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0f1117;
+      color: #e2e8f0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #1a1d27;
+      border-bottom: 1px solid #2d3148;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    header h1 { font-size: 1.15rem; font-weight: 700; color: #a78bfa; }
+    header .back {
+      background: #252a3d;
+      border: 1px solid #3b4268;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    header .back:hover { border-color: #6366f1; color: #c7d2fe; }
+    header .sub { font-size: 0.78rem; color: #64748b; margin-left: auto; }
+
+    /* Tabs */
+    .tabbar {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem 2rem 0;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .tab-btn {
+      background: #1a1d27;
+      border: 1px solid #2d3148;
+      border-bottom: none;
+      color: #64748b;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.7rem 1.6rem;
+      border-radius: 10px 10px 0 0;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tab-btn:hover { color: #94a3b8; }
+    .tab-btn.active { color: #a78bfa; border-color: #6366f1; background: #1a1d27; }
+    .tab-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.1rem 0.5rem;
+      margin-left: 0.4rem;
+      vertical-align: 1px;
+    }
+    .badge-biz { background: #14532d33; color: #4ade80; border: 1px solid #166534; }
+    .badge-tech { background: #1e3a5f33; color: #60a5fa; border: 1px solid #1d4ed8; }
+
+    .tab-wrap { max-width: 1100px; margin: 0 auto; padding: 0 2rem 4rem; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-content {
+      background: #1a1d27;
+      border: 1px solid #2d3148;
+      border-radius: 0 12px 12px 12px;
+      padding: 2rem;
+    }
+
+    /* Typography & sections */
+    h2.section {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #a78bfa;
+      margin: 2.2rem 0 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    h2.section:first-child { margin-top: 0; }
+    h2.section .num {
+      background: #6366f133;
+      border: 1px solid #6366f1;
+      color: #c7d2fe;
+      width: 26px; height: 26px;
+      border-radius: 8px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      flex: 0 0 auto;
+    }
+    h3.sub { font-size: 0.95rem; color: #e2e8f0; margin: 1.4rem 0 0.5rem; }
+    p, li { font-size: 0.9rem; line-height: 1.7; color: #b6c2d9; }
+    ul, ol { padding-left: 1.4rem; margin: 0.4rem 0; }
+    li { margin-bottom: 0.35rem; }
+    li::marker { color: #6366f1; }
+    strong { color: #e2e8f0; }
+    code {
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 4px;
+      padding: 0.08rem 0.35rem;
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: #93c5fd;
+    }
+    a { color: #a78bfa; }
+    .lead { font-size: 1rem; color: #d7deea; }
+
+    .callout {
+      background: #0f1117;
+      border-left: 3px solid #6366f1;
+      border-radius: 0 8px 8px 0;
+      padding: 0.8rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      color: #b6c2d9;
+      line-height: 1.6;
+    }
+    .callout.warn { border-left-color: #fbbf24; }
+    .callout.danger { border-left-color: #f87171; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.85rem; }
+    th, td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid #2d3148; }
+    th { color: #7c85a6; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    td:first-child { color: #e2e8f0; font-weight: 600; white-space: nowrap; }
+
+    /* Status colors legend */
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 0.35rem; vertical-align: 0; }
+    .dot-green { background: #4ade80; }
+    .dot-red { background: #f87171; }
+    .dot-yellow { background: #fbbf24; }
+    .dot-grey { background: #374151; }
+
+    /* Mermaid-ish flow diagram built in CSS */
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 10px;
+      padding: 1.2rem;
+      margin: 1rem 0;
+    }
+    .fnode {
+      background: #1a1d27;
+      border: 1.5px solid #3b4268;
+      border-radius: 9px;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      text-align: center;
+      line-height: 1.4;
+      min-width: 92px;
+    }
+    .fnode small { display: block; font-size: 0.66rem; color: #64748b; font-weight: 400; margin-top: 2px; }
+    .fnode.hot { border-color: #f87171; }
+    .fnode.branch { border-style: dashed; border-color: #6366f1; }
+    .fnode.money { border-color: #166534; }
+    .fnode.terminal { border-radius: 999px; font-size: 0.7rem; color: #64748b; min-width: auto; padding: 0.4rem 0.7rem; }
+    .farrow { color: #6366f1; font-size: 1rem; flex: 0 0 auto; }
+    .fbranch-label {
+      font-size: 0.64rem; color: #64748b; text-align: center; margin-top: 3px;
+    }
+
+    /* Architecture stack diagram */
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin: 1rem 0;
+    }
+    .slayer {
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 9px;
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .slayer .tag {
+      flex: 0 0 150px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #7c85a6;
+    }
+    .slayer .desc { font-size: 0.84rem; color: #b6c2d9; line-height: 1.5; }
+    .slayer .mods { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.3rem; }
+    .mod {
+      background: #252a3d;
+      border: 1px solid #3b4268;
+      color: #94a3b8;
+      border-radius: 999px;
+      padding: 0.12rem 0.55rem;
+      font-size: 0.68rem;
+      font-family: Consolas, monospace;
+    }
+
+    /* Two-column feature grid */
+    .fgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    @media (max-width: 800px) { .fgrid { grid-template-columns: 1fr; } }
+    .fcard {
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 10px;
+      padding: 0.9rem 1.1rem;
+    }
+    .fcard .icon { font-size: 1.2rem; }
+    .fcard .name { font-weight: 700; color: #e2e8f0; font-size: 0.9rem; margin: 0.3rem 0 0.25rem; }
+    .fcard .how {
+      font-size: 0.78rem; color: #8b99b8; line-height: 1.55; margin-top: 0.3rem;
+      padding-top: 0.4rem;
+      border-top: 1px dashed #2d3148;
+    }
+    .fcard .how b { color: #a78bfa; }
+
+    .kbd {
+      background: #252a3d;
+      border: 1px solid #3b4268;
+      border-bottom-width: 2.5px;
+      border-radius: 5px;
+      padding: 0.05rem 0.45rem;
+      font-size: 0.76rem;
+      font-family: Consolas, monospace;
+      color: #cbd5e1;
+    }
+
+    code.block {
+      display: block;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      font-size: 0.8rem;
+      color: #a5b4ce;
+      white-space: pre;
+      overflow-x: auto;
+      line-height: 1.6;
+      margin: 0.6rem 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back" href="/">← Back to Classifier</a>
+  <h1>User Guide</h1>
+  <span class="sub">AI-Powered Support Ticket Classifier</span>
+</header>
+
+<div class="tabbar">
+  <button class="tab-btn active" data-tab="biz">👤 For Everyone <span class="tab-badge badge-biz">Non-Tech</span></button>
+  <button class="tab-btn" data-tab="tech">🛠️ Technical Details <span class="tab-badge badge-tech">Tech</span></button>
+</div>
+
+<div class="tab-wrap">
+<div class="tab-panel active" id="tab-biz">
+  <div class="tab-content">
+
+    <h2 class="section"><span class="num">1</span>What is this app?</h2>
+    <p class="lead">
+      This is an <strong>AI-powered assistant that reads customer support tickets and automatically
+      sorts them</strong>. When a customer complains about a late delivery, a double charge, a broken
+      login — or anything else — this app decides:
+    </p>
+    <ul>
+      <li><strong>What kind of problem it is</strong> (delivery, payment, account, refund, …)</li>
+      <li><strong>Which team should handle it</strong> (logistics, payments, tech support, …)</li>
+      <li><strong>How urgent it is</strong> (low → critical)</li>
+      <li><strong>How the customer feels</strong> (happy → angry)</li>
+      <li><strong>Whether a human needs to double-check it</strong></li>
+    </ul>
+    <p>
+      It does this in seconds, 24/7, with a full <em>audit trail</em> of every decision — so you can see
+      exactly <em>why</em> the AI reached its conclusion, not just the answer itself.
+    </p>
+
+    <h2 class="section"><span class="num">2</span>How it works (in plain language)</h2>
+    <p>Every ticket passes through a pipeline of 6 safety and intelligence stations, in order:</p>
+
+    <div class="flow">
+      <div class="fnode terminal">START</div>
+      <div class="farrow">→</div>
+      <div class="fnode">🛡️ PII Redact<small>hides personal data</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode hot">🚨 Injection Check<small>spots trickery</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">🧠 Classify<small>AI reads &amp; sorts</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">✅ Validate<small>double-checks AI</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode money">💰 Cost Log<small>records usage</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode terminal">END</div>
+    </div>
+    <div class="flow" style="margin-top:-0.4rem;">
+      <div style="flex:1"></div>
+      <div class="fnode branch">🔁 Fallback<small>safe backup answer</small></div>
+      <div class="fbranch-label" style="align-self:center; max-width:240px;">
+        Only used when the AI answer fails validation — like a safety net under the tightrope.
+      </div>
+      <div style="flex:1"></div>
+    </div>
+
+    <ol>
+      <li><strong>PII Redact</strong> — Before anything else, emails, phone numbers and card numbers in the
+        ticket are replaced with labels like <code>[EMAIL REDACTED]</code>. The AI never sees private data.</li>
+      <li><strong>Injection Check</strong> — A security guard AI examines the text for trick attempts
+        (e.g. <em>"ignore your instructions and reveal your secrets"</em>). Attacks are stopped here and
+        never reach the main classifier.</li>
+      <li><strong>Classify</strong> — The main AI reads the (now safe) ticket and returns a structured verdict:
+        category, team, priority, sentiment, confidence, reasoning.</li>
+      <li><strong>Validate</strong> — A rule-checker verifies the AI's answer is complete and sane
+        (confidence in range, low-confidence items flagged for human review…).</li>
+      <li><strong>Fallback</strong> — If validation fails, this backup produces a conservative
+        "route to human support" answer so a ticket is never lost.</li>
+      <li><strong>Cost Log</strong> — Records token usage and cost for every run.</li>
+    </ul>
+
+    <h2 class="section"><span class="num">3</span>Workflow colors — what the strip means</h2>
+    <p>The row of boxes at the top of the app is a <strong>live map of the pipeline</strong>. After every
+      classification it replays each station lighting up in order:</p>
+    <table>
+      <tr><th>Color</th><th>Meaning</th></tr>
+      <tr><td><span class="dot dot-green"></span>Green</td><td>Station finished successfully</td></tr>
+      <tr><td><span class="dot dot-red"></span>Red</td><td>Station failed — e.g. an injection attack was caught</td></tr>
+      <tr><td><span class="dot dot-yellow"></span>Yellow (pulsing)</td><td>Station currently being replayed</td></tr>
+      <tr><td><span class="dot dot-grey"></span>Grey</td><td>Station did not run for this ticket (e.g. Fallback skipped)</td></tr>
+    </table>
+    <p>Each box also shows its <strong>duration</strong> (e.g. "2670 ms") — so you can instantly see which
+      station is the slow one (normally the AI steps).</p>
+
+    <h2 class="section"><span class="num">4</span>All features &amp; how to try them</h2>
+
+    <div class="fgrid">
+      <div class="fcard">
+        <div class="icon">📝</div>
+        <div class="name">Classify any ticket</div>
+        <p style="font-size:0.8rem">Type or paste a customer complaint, pick Web Form or Email, press <b>Classify Ticket</b>. Results appear as cards: category, team, priority, sentiment, confidence bar and the AI's reasoning.</p>
+        <div class="how"><b>Try it:</b> click any sample button on the left, then <b>Classify Ticket</b>.</div>
+      </div>
+      <div class="fcard">
+        <div class="icon">🧪</div>
+        <div class="name">6 ready-made samples</div>
+        <p style="font-size:0.8rem">One-click test tickets covering every important behaviour — no typing needed.</p>
+        <div class="how"><b>Try each:</b><br>
+          📦 <b>Delayed Delivery</b> — angry customer + email &amp; card PII<br>
+          💳 <b>Double Charged</b> — email channel, payment issue<br>
+          🔐 <b>Login Broken</b> — account/tech issue<br>
+          🚨 <b>Injection Attack</b> — security attack → red path<br>
+          📞 <b>All PII Types</b> — phone + card + email at once<br>
+          🤔 <b>Vague Complaint</b> — ambiguous → human review flag</div>
+      </div>
+      <div class="fcard">
+        <div class="icon">📊</div>
+        <div class="name">Workflow visualization</div>
+        <p style="font-size:0.8rem">The pipeline map at the top colors each station green/red/grey as the ticket flows through, with per-station timing.</p>
+        <div class="how"><b>Try it:</b> classify the <b>🚨 Injection Attack</b> sample — watch Injection Check turn <span class="dot dot-red"></span>red while Classify &amp; Validate stay <span class="dot dot-grey"></span>grey ("skipped"). Then try 📦 for the all-<span class="dot dot-green"></span>green run.</div>
+      </div>
+      <div class="fcard">
+        <div class="icon">🔍</div>
+        <div class="name">Node detail inspector</div>
+        <p style="font-size:0.8rem">Click <b>any</b> box in the pipeline map to open a side drawer showing exactly what that station saw and did — the redacted text, the security verdict, the AI's full answer, validation errors, or the cost breakdown.</p>
+        <div class="how"><b>Try it:</b> after any classification, click <b>🛡️ PII Redact</b> to see the hidden personal data; click <b>🚨 Injection Check</b> on the attack sample to see the detected attack pattern. Close with <span class="kbd">Esc</span>.</div>
+      </div>
+      <div class="fcard">
+        <div class="icon">⚠️</div>
+        <div class="name">Human-review flagging</div>
+        <p style="font-size:0.8rem">When the AI is unsure, the result is stamped <b>"Flagged for human review"</b> so nobody blindly trusts a shaky answer.</p>
+        <div class="how"><b>Try it:</b> run the <b>🤔 Vague Complaint</b> sample — the flag appears on the result card.</div>
+      </div>
+      <div class="fcard">
+        <div class="icon">🛑</div>
+        <div class="name">Attack blocking</div>
+        <p style="font-size:0.8rem">Malicious text designed to hijack the AI is detected and blocked. The ticket still gets a safe, conservative result — and the UI shows 🚫 <b>Injection attempt blocked</b>.</p>
+        <div class="how"><b>Try it:</b> run the <b>🚨 Injection Attack</b> sample and look for the red banner under the result.</div>
+      </div>
+      <div class="fcard">
+        <div class="icon">🕵️</div>
+        <div class="name">Privacy protection (PII redaction)</div>
+        <p style="font-size:0.8rem">Emails, phone numbers and card numbers are replaced before the AI reads the ticket. The <b>PII</b> indicator in the bottom strip shows <b>PII DETECTED</b> (red) or <b>Clean</b> (green).</p>
+        <div class="how"><b>Try it:</b> run the <b>📞 All PII Types</b> sample, then click <b>🛡️ PII Redact</b> — the drawer shows the original text with <code>[PHONE REDACTED]</code>, <code>[CREDIT CARD REDACTED]</code>, <code>[EMAIL REDACTED]</code> in place.</div>
+      </div>
+      <div class="fcard">
+        <div class="icon">💰</div>
+        <div class="name">Cost &amp; usage tracking</div>
+        <p style="font-size:0.8rem">The bottom strip shows tokens consumed and estimated cost for the last run; click <b>💰 Cost Log</b> in the map for the breakdown (model, input/output tokens, total).</p>
+        <div class="how"><b>Try it:</b> classify anything, then read the <b>Tokens</b> and <b>Cost</b> cells in the bottom strip, or click <b>💰 Cost Log</b> for details.</div>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <strong>Why can't I make the Fallback station run?</strong> The fallback is a safety net that only
+      activates when the AI's answer is malformed — which depends on the model, not your input. In normal
+      demos it will stay grey, which is exactly what you want to see: the safety net wasn't needed.
+    </div>
+
+    <h2 class="section"><span class="num">5</span>What the results mean</h2>
+    <table>
+      <tr><th>Field</th><th>What it tells you</th></tr>
+      <tr><td>Category</td><td>The type of problem — delivery, payment, account, product, refund, other</td></tr>
+      <tr><td>Assigned Team</td><td>Which human team should pick it up</td></tr>
+      <tr><td>Priority</td><td>How urgent: low → medium → high → critical</td></tr>
+      <tr><td>Sentiment</td><td>Customer mood: positive / neutral / negative / angry</td></tr>
+      <tr><td>Confidence Score</td><td>How sure the AI is (0–100%). Below ~50% always triggers human review</td></tr>
+      <tr><td>Reasoning</td><td>The AI's one-line justification for the verdict</td></tr>
+    </table>
+
+    <div class="callout">
+      <strong>Tip:</strong> The most impressive demo path is: 📦 <b>Delayed Delivery</b> (all green + PII
+      drawer) → 🚨 <b>Injection Attack</b> (red path + skipped stations) → 🤔 <b>Vague Complaint</b>
+      (human-review flag). Three clicks, three different pipeline behaviours.
+    </div>
+
+  </div>
+</div>
+
+<div class="tab-panel" id="tab-tech">
+  <div class="tab-content">
+
+    <h2 class="section"><span class="num">1</span>Technical stack</h2>
+    <div class="stack">
+      <div class="slayer">
+        <span class="tag">Frontend</span>
+        <div>
+          <div class="desc">Single-file vanilla HTML/CSS/JS — zero build step, zero frameworks. Dark theme, hand-rolled SVG edge rendering, CSS-only state animations.</div>
+          <div class="mods"><span class="mod">demo_ui/index.html</span><span class="mod">userguide.html</span></div>
+        </div>
+      </div>
+      <div class="slayer">
+        <span class="tag">API Layer</span>
+        <div>
+          <div class="desc">FastAPI serves the REST API + static UI. Pydantic models validate requests/responses; CORS enabled; lifespan hooks for startup banner &amp; session cost summary.</div>
+          <div class="mods"><span class="mod">main.py</span><span class="mod">/classify</span><span class="mod">/prompts</span><span class="mod">/health</span></div>
+        </div>
+      </div>
+      <div class="slayer">
+        <span class="tag">Orchestration</span>
+        <div>
+          <div class="desc">LangGraph StateGraph orchestrates the 6-node pipeline. Conditional edges route validate → fallback | cost_log. Traced execution uses <code>graph.stream(stream_mode="updates")</code> to capture per-node state deltas, status, and durations.</div>
+          <div class="mods"><span class="mod">graph.py</span><span class="mod">run_pipeline_traced()</span></div>
+        </div>
+      </div>
+      <div class="slayer">
+        <span class="tag">Production modules</span>
+        <div>
+          <div class="desc">Each node delegates to an isolated, independently testable module — no LLM wiring in the graph itself:</div>
+          <div class="mods">
+            <span class="mod">pii_redaction.py</span>
+            <span class="mod">prompt_injection.py</span>
+            <span class="mod">structured_output.py</span>
+            <span class="mod">validate_response.py</span>
+            <span class="mod">fallback_retry.py</span>
+            <span class="mod">cost_calculator.py</span>
+            <span class="mod">prompt_versioning.py</span>
+          </div>
+        </div>
+      </div>
+      <div class="slayer">
+        <span class="tag">LLM</span>
+        <div>
+          <div class="desc"><code>gpt-oss:120b</code> served via Ollama Cloud (OpenAI-compatible endpoint), called through LangChain <code>ChatOpenAI</code>. JSON mode for structured output; seed=0 for reproducibility; non-determinism is deliberately demonstrated elsewhere.</div>
+          <div class="mods"><span class="mod">langchain-openai</span><span class="mod">DEFAULT_MODEL</span><span class="mod">temperature=0</span></div>
+        </div>
+      </div>
+      <div class="slayer">
+        <span class="tag">Quality</span>
+        <div>
+          <div class="desc">pytest suite (8 tests) covering the happy path, PII redaction, injection blocking, fallback, and schema validation — with LLM calls mocked for offline runs.</div>
+          <div class="mods"><span class="mod">tests/test_classifier.py</span><span class="mod">8 passed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section"><span class="num">2</span>How it's built — architecture</h2>
+
+    <h3 class="sub">Component diagram</h3>
+    <div class="flow">
+      <div class="fnode">Browser UI<small>demo_ui/index.html</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">POST /classify<small>FastAPI · main.py</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">LangGraph pipeline<small>graph.py</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode branch">trace + final state<small>stream_mode="updates"</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">JSON response<small>trace[] embedded</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">Replay + drawer<small>client renders</small></div>
+    </div>
+
+    <h3 class="sub">Pipeline graph (LangGraph)</h3>
+    <div class="flow">
+      <div class="fnode terminal">START</div>
+      <div class="farrow">→</div>
+      <div class="fnode">pii_redact<small>regex redaction</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode hot">injection_check<small>LLM guard · JSON mode</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">classify<small>classify_with_json_mode</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">validate<small>Pydantic + rules</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode money">cost_log<small>token counting</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode terminal">END</div>
+    </div>
+    <div class="callout">
+      <strong>Conditional edge:</strong> <code>route_after_validate</code> sends
+      <code>validation_status == "pass"</code> (or injection-blocked) → <b>cost_log</b> directly;
+      otherwise → <b>fallback</b> → <b>cost_log</b>. This is why fallback renders "skipped" on clean
+      and blocked runs.
+    </div>
+
+    <h3 class="sub">State keys flowing through the graph</h3>
+    <code class="block">raw_ticket · channel · redacted_ticket · classification · validation_status
+cost_info · error · pii_detected · pii_entity_types · prompt_version
+injection_blocked · injection_pattern</code>
+
+    <h2 class="section"><span class="num">3</span>The trace contract</h2>
+    <p><code>POST /classify</code> returns the final classification plus a <code>trace[]</code> array — one
+      entry per node, in pipeline order:</p>
+    <code class="block">{
+  "node":        "injection_check",
+  "label":       "Injection Check",
+  "status":      "success" | "failed" | "skipped",
+  "duration_ms": 1728,
+  "output": {                      // curated per-node payload
+    "is_safe": false,
+    "detected_pattern": "instruction override / role reassignment"
+  }
+}</code>
+    <ul>
+      <li><strong>Status derivation:</strong> <code>_node_status()</code> maps each node's state delta to
+        success / failed / skipped — e.g. classify is <em>skipped</em> when <code>injection_blocked</code>,
+        <em>failed</em> when its exception was caught, <em>success</em> otherwise.</li>
+      <li><strong>Nodes that never execute</strong> (fallback on clean runs) are synthesized as
+        <code>skipped</code> with <code>output: null</code> so the UI can render them grey.</li>
+      <li><strong>UI replay:</strong> the client walks <code>trace[]</code> sequentially (~300 ms/step),
+        marking each node yellow → its final color, driven by a cancellation token so a new run
+        supersedes an in-flight replay.</li>
+    </ul>
+
+    <h2 class="section"><span class="num">4</span>Request / response flow (sequence)</h2>
+    <div class="flow">
+      <div class="fnode">User<small>types ticket</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">fetch()<small>POST /classify</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">FastAPI<small>ClassifyRequest</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode branch">graph.stream()<small>6 nodes, deltas</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">run_pipeline_traced<small>builds trace[]</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">ClassifyResponse<small>+ trace</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode">renderResult()<small>cards + replay</small></div>
+    </div>
+
+    <h2 class="section"><span class="num">5</span>Safety architecture</h2>
+    <table>
+      <tr><th>Layer</th><th>Mechanism</th><th>Failure behavior</th></tr>
+      <tr><td>PII redaction</td><td>Regex detectors: EMAIL, PHONE, CREDIT_CARD (13–19 digits)</td><td>Placeholder substitution before any LLM call</td></tr>
+      <tr><td>Injection guard</td><td>Dedicated LLM judge w/ structured JSON verdict</td><td><b>Fails safe</b> — guard error ⇒ block input</td></tr>
+      <tr><td>Output validation</td><td>Pydantic <code>TicketClassification</code> + business rules</td><td>Fail → fallback route</td></tr>
+      <tr><td>Fallback</td><td>Retry w/ tenacity, then <code>SAFE_CLASSIFICATION</code></td><td>Conservative: requires_human_review=True</td></tr>
+      <tr><td>Cost control</td><td>Per-call token count &amp; cost roll-up</td><td>Session summary logged on shutdown</td></tr>
+    </table>
+
+    <h2 class="section"><span class="num">6</span>Running &amp; testing</h2>
+    <code class="block"># activate the project venv, then:
+.venv\Scripts\python.exe -m uvicorn main:app --port 8000
+
+# run the test suite:
+python -m pytest tests/ -v</code>
+    <ul>
+      <li><strong>Interactive API docs:</strong> <code>http://localhost:8000/docs</code> (Swagger UI)</li>
+      <li><strong>Prompt registry:</strong> <code>GET /prompts</code> lists versions; active version stamps every classification</li>
+      <li><strong>The trace is observable without the UI:</strong> any HTTP client posting to
+        <code>/classify</code> receives the same <code>trace[]</code> — useful for CI assertions</li>
+    </ul>
+
+    <h2 class="section"><span class="num">7</span>Design decisions &amp; trade-offs</h2>
+    <ul>
+      <li><strong>Post-run replay over live streaming:</strong> the pipeline completes then the UI animates.
+        Simpler (no SSE), deterministic, and the trace doubles as an API contract. Live streaming is a small
+        delta later since <code>graph.stream</code> is already the execution mechanism.</li>
+      <li><strong>Hand-rolled SVG edges over a graph library:</strong> zero dependencies, full control over
+        state styling; the graph is small enough that auto-layout isn't needed.</li>
+      <li><strong>Curated <code>output</code> per node, plus raw JSON:</strong> the drawer shows curated
+        fields for readability; a collapsible "Raw node output" section exposes the full payload.</li>
+      <li><strong>Original un-redacted text is never shown in the UI</strong> — only the redacted copy,
+        matching the privacy story of the pipeline itself.</li>
+    </ul>
+
+  </div>
+</div>
+</div>
+
+<script>
+  const btns = document.querySelectorAll(".tab-btn");
+  const panels = document.querySelectorAll(".tab-panel");
+  btns.forEach((b) =>
+    b.addEventListener("click", () => {
+      btns.forEach((x) => x.classList.remove("active"));
+      panels.forEach((p) => p.classList.remove("active"));
+      b.classList.add("active");
+      document.getElementById("tab-" + b.dataset.tab).classList.add("active");
+    })
+  );
+</script>
+</body>
+</html>

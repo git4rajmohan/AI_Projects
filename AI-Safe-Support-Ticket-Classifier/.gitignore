@@ -1,0 +1,24 @@
+# ---- credentials: NEVER commit ----
+.env
+.env.local
+*.key
+
+# ---- python runtime ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+
+# ---- local artifacts ----
+.DS_Store
+Thumbs.db
+*.log
+repo_assets/
+
+# ---- editor ----
+.vscode/
+.idea/
