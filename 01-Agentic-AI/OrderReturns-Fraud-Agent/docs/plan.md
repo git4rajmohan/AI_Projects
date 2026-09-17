@@ -35,7 +35,7 @@ FastAPI layer to start/approve/reject/inspect runs. Delivered as 7 independently
   - `ReturnState` (TypedDict, used as LangGraph state): `order_id`, `customer_id`, `item_id`, `reason_text`, `photo_provided`, `photo_url`, `photo_retry_count`, `item_condition`, `order_date`, `item_value`, `shipping_fee`, `refund_amount`, `fraud_score`, `fraud_flags` (list[str]), `status`, `manager_note`, `decision_log` (list[str] audit trail).
   - API contracts: `ReturnRequest` (order_id, item_id, reason_text, photo_provided, photo_url optional), `ReturnResponse` (thread_id, status, message, next_action optional), `ApprovalRequest` (manager_note optional), `PhotoResubmitRequest` (photo_provided, photo_url optional).
 - [x] Unit test `tests/test_schemas.py`: instantiate each model with valid/invalid data, assert `ValidationError` raised for bad enum values and missing required fields.
-- **Verification:** `pytest tests/test_schemas.py -v` all green. ✅ (25 passed, venv `d:\...\.venv` Python 3.11.9)
+- **Verification:** `pytest tests/test_schemas.py -v` all green. ✅ (25 passed, Python 3.11.9)
 
 ### Phase 2 — Mock Services (Order DB, Payment Gateway, Fraud Heuristics)
 *Depends on Phase 1. Independently testable business logic, no LangGraph/FastAPI involved.*

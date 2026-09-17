@@ -1,4 +1,4 @@
-# Enterprise Knowledge Assistant — Coding Agent Instructions
+# Enterprise Knowledge Assistant  ECoding Agent Instructions
 
 ## 1. Project Goal
 
@@ -23,23 +23,16 @@ The project is intended as a portfolio/demo application and should be technicall
 
 ```text
 Enterprise Documents
-        ↓
-     Cognee
-        ↓
-Knowledge extraction + graph construction
-        ↓
-      Qdrant
+        ↁE     Cognee
+        ↁEKnowledge extraction + graph construction
+        ↁE      Qdrant
 (vector storage / semantic retrieval)
-        ↓
-    LlamaIndex
+        ↁE    LlamaIndex
 (query orchestration / context handling)
-        ↓
-      Ollama
+        ↁE      Ollama
    (local LLM)
-        ↓
-Grounded Answer + Citations
-        ↓
-   Streamlit UI
+        ↁEGrounded Answer + Citations
+        ↁE   Streamlit UI
 ```
 
 Do not claim that a component performed work that it did not actually perform.
@@ -51,7 +44,7 @@ Do not claim that a component performed work that it did not actually perform.
 The current Windows project directory is:
 
 ```text
-D:\RMFolder\RMPythonProjects\AI02\03LlamaIndex_RAGChatBot
+<project-root>
 ```
 
 Use this directory as the project root unless the user explicitly changes it.
@@ -75,7 +68,7 @@ Its `docs` directory contains the initial enterprise document corpus.
 The project's own document directory must be:
 
 ```text
-D:\RMFolder\RMPythonProjects\AI02\03LlamaIndex_RAGChatBot\data\documents
+<project-root>\data\documents
 ```
 
 The source repository is reference material only. Do not make the application dependent on the cloned repository at runtime.
@@ -215,16 +208,12 @@ Prefer:
 
 ```text
 Documents
-   ↓
-Cognee ingestion / knowledge construction
+   ↁECognee ingestion / knowledge construction
    ├── graph knowledge
    └── vector storage through configured Qdrant integration
-             ↓
-        LlamaIndex orchestration
-             ↓
-        retrieval/context
-             ↓
-           Ollama
+             ↁE        LlamaIndex orchestration
+             ↁE        retrieval/context
+             ↁE           Ollama
 ```
 
 If the selected library versions make direct sharing of a Qdrant collection unsafe, use clearly separated collections or a clean adapter layer.
@@ -239,40 +228,15 @@ Never assume that a Qdrant collection written by Cognee has exactly the same sch
 
 ```text
                          USER
-                           │
-                           ▼
-                    ┌─────────────┐
-                    │  Streamlit  │
-                    │     UI      │
-                    └──────┬──────┘
-                           │
-                           ▼
-                    ┌─────────────┐
-                    │ LlamaIndex  │
-                    │ Orchestrator│
-                    └──────┬──────┘
-                           │
-              ┌────────────┴────────────┐
-              │                         │
-              ▼                         ▼
-        ┌───────────┐             ┌───────────┐
-        │  Qdrant   │             │  Cognee   │
-        │  Vectors  │             │   Graph   │
-        └─────┬─────┘             └─────┬─────┘
-              │                         │
-              └──────────┬──────────────┘
-                         ▼
+                           ━E                           ▼
+                    ┌─────────────━E                    ━E Streamlit  ━E                    ━E    UI      ━E                    └──────┬──────━E                           ━E                           ▼
+                    ┌─────────────━E                    ━ELlamaIndex  ━E                    ━EOrchestrator━E                    └──────┬──────━E                           ━E              ┌────────────┴────────────━E              ━E                        ━E              ▼                         ▼
+        ┌───────────━E            ┌───────────━E        ━E Qdrant   ━E            ━E Cognee   ━E        ━E Vectors  ━E            ━E  Graph   ━E        └─────┬─────━E            └─────┬─────━E              ━E                        ━E              └──────────┬──────────────━E                         ▼
                  Retrieved Evidence
-                         │
-                         ▼
-                    ┌──────────┐
-                    │  Ollama  │
-                    │ Local LLM│
-                    └────┬─────┘
-                         ▼
+                         ━E                         ▼
+                    ┌──────────━E                    ━E Ollama  ━E                    ━ELocal LLM━E                    └────┬─────━E                         ▼
                  Grounded Answer
-                         │
-                         ▼
+                         ━E                         ▼
                    Source Citations
 ```
 
@@ -328,50 +292,37 @@ Responsible for:
 
 Implement retrieval in stages.
 
-## Stage 1 — Vector Retrieval
+## Stage 1  EVector Retrieval
 
 ```text
 Question
-   ↓
-Embedding
-   ↓
-Qdrant
-   ↓
-Relevant document chunks
+   ↁEEmbedding
+   ↁEQdrant
+   ↁERelevant document chunks
 ```
 
-## Stage 2 — Graph Retrieval
+## Stage 2  EGraph Retrieval
 
 ```text
 Question
-   ↓
-Cognee
-   ↓
-Entities
-   ↓
-Relationships
-   ↓
-Relevant graph evidence
+   ↁECognee
+   ↁEEntities
+   ↁERelationships
+   ↁERelevant graph evidence
 ```
 
-## Stage 3 — Hybrid Retrieval
+## Stage 3  EHybrid Retrieval
 
 ```text
                   Question
-                     │
-              ┌──────┴──────┐
-              ▼             ▼
+                     ━E              ┌──────┴──────━E              ▼             ▼
            Qdrant         Cognee
            vectors         graph
-              │             │
-              └──────┬──────┘
-                     ▼
+              ━E            ━E              └──────┬──────━E                     ▼
               Evidence fusion
-                     │
-                     ▼
+                     ━E                     ▼
                 LlamaIndex
-                     │
-                     ▼
+                     ━E                     ▼
                   Ollama
 ```
 
@@ -395,9 +346,9 @@ Cognee
 For this project:
 
 ```text
-Vector store → Qdrant
-Graph store  → Cognee-supported local graph backend
-Metadata     → Cognee-supported local persistence
+Vector store ↁEQdrant
+Graph store  ↁECognee-supported local graph backend
+Metadata     ↁECognee-supported local persistence
 ```
 
 Use a local graph backend supported by the installed Cognee version.
@@ -417,7 +368,7 @@ Run Qdrant locally.
 Recommended location:
 
 ```text
-D:\RMFolder\RMPythonProjects\AI02\03LlamaIndex_RAGChatBot\qdrant\
+<project-root>\qdrant\
 ```
 
 Example:
@@ -625,10 +576,8 @@ When a document is uploaded:
 
 ```text
 File
- ↓
-SHA-256
- ↓
-Compare existing metadata
+ ↁESHA-256
+ ↁECompare existing metadata
 ```
 
 If the same file already exists:
@@ -736,19 +685,16 @@ Example:
 
 ```text
 Employee
-   │
-   └── follows → Leave Policy
-                      │
-                      ├── allows → Annual Leave
-                      └── requires → Manager Approval
+   ━E   └── follows ↁELeave Policy
+                      ━E                      ├── allows ↁEAnnual Leave
+                      └── requires ↁEManager Approval
 ```
 
 Another example:
 
 ```text
 Expense
-   │
-   └── governed_by → Expense Policy
+   ━E   └── governed_by ↁEExpense Policy
 ```
 
 These are examples of possible relationships only.
@@ -839,42 +785,34 @@ If direct sharing is compatible, use it.
 
 If not, choose one of these clean designs:
 
-### Design A — Cognee-owned Qdrant
+### Design A  ECognee-owned Qdrant
 
 ```text
 Documents
-   ↓
-Cognee
-   ↓
-Qdrant + Graph
-   ↓
-Cognee retrieval
-   ↓
-LlamaIndex orchestration
+   ↁECognee
+   ↁEQdrant + Graph
+   ↁECognee retrieval
+   ↁELlamaIndex orchestration
 ```
 
-### Design B — Separate collections
+### Design B  ESeparate collections
 
 ```text
 Cognee
-   ↓
-Qdrant collection: cognee_*
+   ↁEQdrant collection: cognee_*
 
 LlamaIndex
-   ↓
-Qdrant collection: llamaindex_*
+   ↁEQdrant collection: llamaindex_*
 ```
 
 Use this only if there is a technical reason.
 
-### Design C — Adapter layer
+### Design C  EAdapter layer
 
 ```text
 LlamaIndex Retriever
-        ↓
-Application adapter
-        ↓
-Cognee retrieval
+        ↁEApplication adapter
+        ↁECognee retrieval
 ```
 
 This is acceptable when direct Qdrant schema sharing is unsafe.
@@ -993,7 +931,7 @@ Sources:
 If page information is reliably available:
 
 ```text
-📄 pto-and-leave-policy.pdf — Page 4
+📄 pto-and-leave-policy.pdf  EPage 4
 ```
 
 Never fabricate page numbers.
@@ -1123,10 +1061,10 @@ Do not display entire confidential documents unnecessarily.
 Display:
 
 ```text
-Ollama      ● Connected
-Qdrant      ● Connected
-Cognee      ● Ready
-Knowledge   ● Indexed
+Ollama      ◁EConnected
+Qdrant      ◁EConnected
+Cognee      ◁EReady
+Knowledge   ◁EIndexed
 ```
 
 Health checks must be real.
@@ -1217,8 +1155,7 @@ At startup:
 
 ```text
 Detect existing state
-        ↓
-Reuse it
+        ↁEReuse it
 ```
 
 Only process documents when explicitly requested or when a controlled update is required.
@@ -1250,65 +1187,50 @@ Use this structure:
 
 ```text
 03LlamaIndex_RAGChatBot/
-│
-├── README.md
+━E├── README.md
 ├── instructions.md
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
-│
-├── app/
-│   ├── main.py
-│   │
-│   ├── config/
-│   │   └── settings.py
-│   │
-│   ├── ui/
-│   │   ├── chat.py
-│   │   ├── sidebar.py
-│   │   └── components.py
-│   │
-│   ├── ingestion/
-│   │   ├── document_ingestion.py
-│   │   ├── document_manager.py
-│   │   └── metadata.py
-│   │
-│   ├── retrieval/
-│   │   ├── llamaindex_engine.py
-│   │   ├── vector_retriever.py
-│   │   ├── graph_retriever.py
-│   │   └── hybrid_retriever.py
-│   │
-│   ├── knowledge/
-│   │   └── cognee_manager.py
-│   │
-│   ├── vectorstore/
-│   │   └── qdrant_manager.py
-│   │
-│   ├── llm/
-│   │   └── ollama_manager.py
-│   │
-│   └── models/
-│       └── schemas.py
-│
-├── data/
-│   ├── documents/
-│   └── metadata/
-│
-├── logs/
-│
-├── tests/
-│   ├── test_configuration.py
-│   ├── test_health.py
-│   ├── test_ingestion.py
-│   ├── test_qdrant.py
-│   └── test_retrieval.py
-│
-├── scripts/
-│   ├── check_services.py
-│   └── reset_database.py
-│
-└── policy-rag-app/
+━E├── app/
+━E  ├── main.py
+━E  ━E━E  ├── config/
+━E  ━E  └── settings.py
+━E  ━E━E  ├── ui/
+━E  ━E  ├── chat.py
+━E  ━E  ├── sidebar.py
+━E  ━E  └── components.py
+━E  ━E━E  ├── ingestion/
+━E  ━E  ├── document_ingestion.py
+━E  ━E  ├── document_manager.py
+━E  ━E  └── metadata.py
+━E  ━E━E  ├── retrieval/
+━E  ━E  ├── llamaindex_engine.py
+━E  ━E  ├── vector_retriever.py
+━E  ━E  ├── graph_retriever.py
+━E  ━E  └── hybrid_retriever.py
+━E  ━E━E  ├── knowledge/
+━E  ━E  └── cognee_manager.py
+━E  ━E━E  ├── vectorstore/
+━E  ━E  └── qdrant_manager.py
+━E  ━E━E  ├── llm/
+━E  ━E  └── ollama_manager.py
+━E  ━E━E  └── models/
+━E      └── schemas.py
+━E├── data/
+━E  ├── documents/
+━E  └── metadata/
+━E├── logs/
+━E├── tests/
+━E  ├── test_configuration.py
+━E  ├── test_health.py
+━E  ├── test_ingestion.py
+━E  ├── test_qdrant.py
+━E  └── test_retrieval.py
+━E├── scripts/
+━E  ├── check_services.py
+━E  └── reset_database.py
+━E└── policy-rag-app/
     └── docs/
 ```
 
@@ -1429,7 +1351,7 @@ Do not blindly use versions from old blog posts.
 Expected native startup:
 
 ```powershell
-cd D:\RMFolder\RMPythonProjects\AI02\03LlamaIndex_RAGChatBot\qdrant
+cd <project-root>\qdrant
 .\qdrant.exe
 ```
 
@@ -1473,7 +1395,7 @@ Typical workflow:
 ### Terminal 1
 
 ```powershell
-cd D:\RMFolder\RMPythonProjects\AI02\03LlamaIndex_RAGChatBot\qdrant
+cd <project-root>\qdrant
 .\qdrant.exe
 ```
 
@@ -1486,7 +1408,7 @@ ollama list
 ### Terminal 3
 
 ```powershell
-cd D:\RMFolder\RMPythonProjects\AI02\03LlamaIndex_RAGChatBot
+cd <project-root>
 .\.venv\Scripts\Activate.ps1
 streamlit run app\main.py
 ```
@@ -1499,7 +1421,7 @@ Document the actual Streamlit URL in README after running it.
 
 Do NOT build the whole system in one step.
 
-## Phase 1 — Environment
+## Phase 1  EEnvironment
 
 Verify:
 
@@ -1514,7 +1436,7 @@ Create a health-check script.
 
 ---
 
-## Phase 2 — Document Inventory
+## Phase 2  EDocument Inventory
 
 Verify the 11 PDF files in:
 
@@ -1528,16 +1450,14 @@ Calculate file hashes.
 
 ---
 
-## Phase 3 — Basic Cognee Ingestion
+## Phase 3  EBasic Cognee Ingestion
 
 Implement:
 
 ```text
 Document
-   ↓
-Cognee
-   ↓
-Knowledge
+   ↁECognee
+   ↁEKnowledge
 ```
 
 Verify that Cognee successfully processes a small subset first.
@@ -1546,7 +1466,7 @@ Do not process all 11 files until one or two files work.
 
 ---
 
-## Phase 4 — Qdrant
+## Phase 4  EQdrant
 
 Configure Qdrant.
 
@@ -1554,39 +1474,32 @@ Verify:
 
 ```text
 Embedding
-   ↓
-Qdrant
-   ↓
-Similarity search
+   ↁEQdrant
+   ↁESimilarity search
 ```
 
 Confirm vector dimension.
 
 ---
 
-## Phase 5 — LlamaIndex
+## Phase 5  ELlamaIndex
 
 Implement basic query orchestration:
 
 ```text
 Question
-   ↓
-LlamaIndex
-   ↓
-Retriever
-   ↓
-Context
-   ↓
-Ollama
-   ↓
-Answer
+   ↁELlamaIndex
+   ↁERetriever
+   ↁEContext
+   ↁEOllama
+   ↁEAnswer
 ```
 
 Verify basic RAG before adding graph retrieval.
 
 ---
 
-## Phase 6 — Citations
+## Phase 6  ECitations
 
 Add:
 
@@ -1604,7 +1517,7 @@ Verify citations are derived from actual retrieved nodes.
 
 ---
 
-## Phase 7 — Graph Retrieval
+## Phase 7  EGraph Retrieval
 
 Add Cognee graph retrieval.
 
@@ -1618,7 +1531,7 @@ Which policy governs remote work?
 
 ---
 
-## Phase 8 — Hybrid Retrieval
+## Phase 8  EHybrid Retrieval
 
 Combine:
 
@@ -1632,7 +1545,7 @@ Use LlamaIndex/application orchestration to create the final context.
 
 ---
 
-## Phase 9 — Streamlit
+## Phase 9  EStreamlit
 
 Add:
 
@@ -1648,13 +1561,13 @@ Debug mode
 
 ---
 
-## Phase 10 — Testing
+## Phase 10  ETesting
 
 Add pytest tests.
 
 ---
 
-## Phase 11 — README
+## Phase 11  EREADME
 
 Document:
 
@@ -1820,21 +1733,17 @@ Do not use questions that assume facts not present in the corpus.
 
 The technical demo should show:
 
-## Demo 1 — Document ingestion
+## Demo 1  EDocument ingestion
 
 ```text
 Upload PDF
-   ↓
-Process
-   ↓
-Cognee
-   ↓
-Entities + relationships
-   ↓
-Qdrant vectors
+   ↁEProcess
+   ↁECognee
+   ↁEEntities + relationships
+   ↁEQdrant vectors
 ```
 
-## Demo 2 — Normal RAG
+## Demo 2  ENormal RAG
 
 Ask:
 
@@ -1849,13 +1758,13 @@ Answer
 Sources
 ```
 
-## Demo 3 — Multi-document retrieval
+## Demo 3  EMulti-document retrieval
 
 Ask a question requiring information from multiple policies.
 
 Show multiple sources.
 
-## Demo 4 — Graph reasoning
+## Demo 4  EGraph reasoning
 
 Ask:
 
@@ -1871,7 +1780,7 @@ Vector Evidence
 Graph Evidence
 ```
 
-## Demo 5 — Hallucination resistance
+## Demo 5  EHallucination resistance
 
 Ask:
 
@@ -2046,17 +1955,13 @@ After V1 works:
 ```text
 V1
 Local Enterprise Knowledge Assistant
-        ↓
-V2
+        ↁEV2
 Advanced Vector + Graph Hybrid Retrieval
-        ↓
-V3
+        ↁEV3
 RAG Evaluation
-        ↓
-V4
+        ↁEV4
 Agentic RAG
-        ↓
-V5
+        ↁEV5
 Multi-Agent Enterprise Assistant
 ```
 
@@ -2170,36 +2075,36 @@ Avoid:
 The V1 application is complete when the following work locally:
 
 ```text
-✓ Windows native setup
-✓ Python virtual environment
-✓ Ollama running locally
-✓ Qdrant running locally
-✓ No Docker dependency
-✓ PDF ingestion
-✓ DOCX ingestion
-✓ TXT ingestion
-✓ Markdown ingestion
-✓ HTML ingestion
-✓ Document metadata
-✓ Duplicate detection
-✓ Cognee knowledge processing
-✓ Knowledge graph creation
-✓ Local embedding generation
-✓ Qdrant vector storage
-✓ LlamaIndex query orchestration
-✓ Local Ollama LLM
-✓ Grounded answers
-✓ Source citations
-✓ Unknown-question handling
-✓ Persistent data
-✓ Document management
-✓ Health checks
-✓ Logging
-✓ Error handling
-✓ Basic automated tests
-✓ Developer/debug mode
-✓ README
-✓ Clean modular architecture
+✁EWindows native setup
+✁EPython virtual environment
+✁EOllama running locally
+✁EQdrant running locally
+✁ENo Docker dependency
+✁EPDF ingestion
+✁EDOCX ingestion
+✁ETXT ingestion
+✁EMarkdown ingestion
+✁EHTML ingestion
+✁EDocument metadata
+✁EDuplicate detection
+✁ECognee knowledge processing
+✁EKnowledge graph creation
+✁ELocal embedding generation
+✁EQdrant vector storage
+✁ELlamaIndex query orchestration
+✁ELocal Ollama LLM
+✁EGrounded answers
+✁ESource citations
+✁EUnknown-question handling
+✁EPersistent data
+✁EDocument management
+✁EHealth checks
+✁ELogging
+✁EError handling
+✁EBasic automated tests
+✁EDeveloper/debug mode
+✁EREADME
+✁EClean modular architecture
 ```
 
 ---
@@ -2210,32 +2115,22 @@ Maintain a clean separation:
 
 ```text
                          USER
-                           │
-                           ▼
+                           ━E                           ▼
                       Streamlit
-                           │
-                           ▼
+                           ━E                           ▼
                      LlamaIndex
                    Query Orchestrator
-                           │
-              ┌────────────┴────────────┐
-              │                         │
-              ▼                         ▼
+                           ━E              ┌────────────┴────────────━E              ━E                        ━E              ▼                         ▼
            Qdrant                    Cognee
        Vector Evidence          Graph Evidence
-              │                         │
-              └────────────┬────────────┘
-                           ▼
+              ━E                        ━E              └────────────┬────────────━E                           ▼
                     Evidence Fusion
-                           │
-                           ▼
+                           ━E                           ▼
                          Ollama
                        Local LLM
-                           │
-                           ▼
+                           ━E                           ▼
                    Grounded Answer
-                           │
-                           ▼
+                           ━E                           ▼
                     Source Citations
 ```
 
@@ -2250,3 +2145,4 @@ The application must demonstrate that the system can retrieve information from e
 The project should be explainable in one sentence:
 
 > **A fully local enterprise knowledge assistant that combines Cognee's knowledge graph, Qdrant vector search, LlamaIndex retrieval orchestration, and Ollama local LLM inference to provide grounded, citation-backed answers from enterprise documents.**
+

@@ -1,23 +1,23 @@
 # 🏥 Hospital Appointment Scheduler & Confirmation Bot
 
-> Part of the [AI_Projects](../README.md) showcase — a curated collection of AI/ML projects.
+> Part of the [AI_Projects](../README.md) showcase  Ea curated collection of AI/ML projects.
 
-A lightweight, deterministic backend service built with **LangChain (LCEL)**, **FastAPI**, and **Pydantic** that processes inbound patient/client scheduling requests — with a full **enterprise-grade web console** for conversational booking and admin management.
+A lightweight, deterministic backend service built with **LangChain (LCEL)**, **FastAPI**, and **Pydantic** that processes inbound patient/client scheduling requests  Ewith a full **enterprise-grade web console** for conversational booking and admin management.
 
 ## Why This Project Exists
 
-Demonstrates how an LLM can extract structured intent from free-form natural language while deterministic Python code owns the actual appointment decisions — calendar rules, slot selection and confirmations — so the AI never makes the business decision.
+Demonstrates how an LLM can extract structured intent from free-form natural language while deterministic Python code owns the actual appointment decisions  Ecalendar rules, slot selection and confirmations  Eso the AI never makes the business decision.
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![LangChain](https://img.shields.io/badge/🦜%20LangChain-LCEL-green)](https://python.langchain.com/)
+[![LangChain](https://img.shields.io/badge/🦁E20LangChain-LCEL-green)](https://python.langchain.com/)
 [![Ollama](https://img.shields.io/badge/LLM-Ollama%20Cloud-white?logo=ollama)](https://ollama.com/)
 [![Twilio](https://img.shields.io/badge/SMS-Twilio-red?logo=twilio&logoColor=white)](https://www.twilio.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## Screenshots
 
-| Chat Console | Calendar — Week View |
+| Chat Console | Calendar  EWeek View |
 |:---:|:---:|
 | ![Chat Console](docs/screenshots/01-chat.png) | ![Calendar View](docs/screenshots/02-calendar.png) |
 | **Booking History** | **SMS Sent History** |
@@ -27,12 +27,12 @@ Demonstrates how an LLM can extract structured intent from free-form natural lan
 
 ### Conversational Chat Bot
 - 💬 Natural-language booking: *"I want to book a cardiology appointment for John Doe next Monday at 2pm"*
-- 🤖 LLM-powered intent extraction → structured appointment fields via LangChain LCEL + Pydantic
+- 🤁ELLM-powered intent extraction ↁEstructured appointment fields via LangChain LCEL + Pydantic
 - 📋 Booking confirmation cards with patient, department, scheduled time, masked phone, and SMS SID
 - ⚡ Quick-action chips (Book / Reschedule / Cancel / Inquiry) and session-aware multi-turn chat
 
 ### Admin Console
-- 📆 **Calendar — Week View**: 7-day × 8-slot availability grid with color-coded status rails
+- 📆 **Calendar  EWeek View**: 7-day ÁE8-slot availability grid with color-coded status rails
 - 👥 **Booking History**: searchable table with masked phone numbers (click-to-reveal), SMS SIDs
 - 📱 **SMS History**: full audit trail of sent messages with mode badges (twilio / mock / seed / error)
 - 🟢 Live health status pill in the app bar (model + SMS mode at a glance)
@@ -55,7 +55,7 @@ Demonstrates how an LLM can extract structured intent from free-form natural lan
 
 | Component | Technology |
 |-----------|-----------|
-| LLM Orchestration | LangChain (LCEL) — `langchain`, `langchain-core`, `langchain-openai` |
+| LLM Orchestration | LangChain (LCEL)  E`langchain`, `langchain-core`, `langchain-openai` |
 | LLM Provider | Ollama Cloud (`gpt-oss:120b`) via local OpenAI-format proxy |
 | API Framework | FastAPI + Uvicorn |
 | Data Validation | Pydantic v2 |
@@ -66,23 +66,23 @@ Demonstrates how an LLM can extract structured intent from free-form natural lan
 
 ```text
 ├── app/
-│   ├── __init__.py
-│   ├── main.py              # FastAPI entry point + web UI serving
-│   ├── schemas.py           # Pydantic schemas (input/output/extraction)
-│   ├── chain.py             # LangChain LCEL pipeline + orchestrator
-│   ├── services.py          # Mock Calendar & SMS services
-│   ├── config.py            # Environment configuration (pydantic-settings)
-│   └── static/
-│       └── index.html       # Enterprise web console (single-file, no build step)
+━E  ├── __init__.py
+━E  ├── main.py              # FastAPI entry point + web UI serving
+━E  ├── schemas.py           # Pydantic schemas (input/output/extraction)
+━E  ├── chain.py             # LangChain LCEL pipeline + orchestrator
+━E  ├── services.py          # Mock Calendar & SMS services
+━E  ├── config.py            # Environment configuration (pydantic-settings)
+━E  └── static/
+━E      └── index.html       # Enterprise web console (single-file, no build step)
 ├── tests/
-│   ├── __init__.py
-│   ├── conftest.py          # Shared fixtures
-│   ├── test_chain.py        # Extraction & orchestrator tests
-│   └── test_api.py          # FastAPI endpoint tests
+━E  ├── __init__.py
+━E  ├── conftest.py          # Shared fixtures
+━E  ├── test_chain.py        # Extraction & orchestrator tests
+━E  └── test_api.py          # FastAPI endpoint tests
 ├── docs/
-│   └── screenshots/         # UI screenshots for README
+━E  └── screenshots/         # UI screenshots for README
 ├── data/
-│   └── appointments.db      # SQLite store (bookings, SMS records)
+━E  └── appointments.db      # SQLite store (bookings, SMS records)
 ├── ollama_cloud_proxy.py    # OpenAI→Ollama format translator
 ├── .env                     # API keys (gitignored)
 ├── .env.example             # Template for .env
@@ -95,7 +95,7 @@ Demonstrates how an LLM can extract structured intent from free-form natural lan
 
 ## Web Console
 
-The UI is served at `http://127.0.0.1:8000/` — a single-file `app/static/index.html` (no Node, no build step).
+The UI is served at `http://127.0.0.1:8000/`  Ea single-file `app/static/index.html` (no Node, no build step).
 
 | Endpoint | Purpose |
 |----------|---------|
@@ -113,7 +113,7 @@ The UI is served at `http://127.0.0.1:8000/` — a single-file `app/static/index
 ### 1. Create virtual environment & install dependencies
 
 ```powershell
-cd "D:\RMFolder\RMPythonProjects\AI02\01LangChain_Appointment Scheduler and Confirmation Bot"
+cd 01-Agentic-AI\Hospital-Appointment-Agent   # from the repository root
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
@@ -161,7 +161,7 @@ API docs: http://127.0.0.1:8000/docs
 pytest tests/ -v
 ```
 
-> Unit tests mock the LLM chain — no proxy or Ollama Cloud needed.
+> Unit tests mock the LLM chain  Eno proxy or Ollama Cloud needed.
 
 ## API Usage
 
@@ -204,17 +204,17 @@ curl http://127.0.0.1:8000/api/health
 ## How It Works
 
 ```
-Raw Text → [ChatPromptTemplate | ChatOpenAI | PydanticOutputParser] → ExtractedAppointment
-                                                                         │
+Raw Text ↁE[ChatPromptTemplate | ChatOpenAI | PydanticOutputParser] ↁEExtractedAppointment
+                                                                         ━E
                                                                          ▼
-                                                              ┌─── Calendar Check ───┐
-                                                              │                      │
+                                                              ┌─── Calendar Check ───━E
+                                                              ━E                     ━E
                                                          Available?            Not Available?
-                                                              │                      │
+                                                              ━E                     ━E
                                                          Book Slot          Find Next Available
-                                                              │                      │
-                                                              └────── SMS ──────────┘
-                                                                         │
+                                                              ━E                     ━E
+                                                              └────── SMS ──────────━E
+                                                                         ━E
                                                                          ▼
                                                                   ExecutionSummary
 ```
@@ -245,6 +245,6 @@ To change the model, edit `OLLAMA_MODEL` in `.env`.
 
 ## Notes
 
-- **No LangGraph / no vector retrievers** — strictly linear LCEL pipeline per spec.
-- **Mock services** — Calendar and SMS are mock by default. Set real Twilio creds in `.env` to enable actual SMS.
-- **Proxy required** — The Ollama Cloud proxy must be running before the app can make LLM calls.
+- **No LangGraph / no vector retrievers**  Estrictly linear LCEL pipeline per spec.
+- **Mock services**  ECalendar and SMS are mock by default. Set real Twilio creds in `.env` to enable actual SMS.
+- **Proxy required**  EThe Ollama Cloud proxy must be running before the app can make LLM calls.
