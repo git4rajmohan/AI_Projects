@@ -1,0 +1,44 @@
+Meeting: Q4 Product Launch Planning - Sept 14, 2026
+Attendees: Sarah (PM), David (Engineering Lead), Priya (Design), Tom (QA), Rachel (Marketing)
+
+Sarah: Welcome everyone. Today we finalize the Q4 launch plan. First, status of the payments revamp.
+
+David: Backend is done, but the integration tests with the new payment gateway are only 60% complete. We found two failing scenarios on currency conversion.
+
+Sarah: Can we still hit the October 1 launch?
+
+David: Not safely. I recommend we move to October 15. My team needs two more weeks, and I want a full week for staging validation.
+
+Tom: I agree with the delay. QA found 3 critical bugs in staging last week. Two are fixed, one is still open - the refund edge case. I can't sign off without it.
+
+Sarah: Okay, decision one: payments revamp launches October 15 instead of October 1. Tom, when can you complete the regression suite?
+
+Tom: Once David's fix lands, I need 4 days. I'll have the full regression report by October 10.
+
+Sarah: Good. Next topic - the search fuzzy matching feature.
+
+David: That's ready. We shipped it to staging yesterday. No critical issues in the first test round.
+
+Priya: Design sign-off is done. I handed the final mockups to engineering yesterday.
+
+Rachel: Marketing is ready to announce it. I suggest we bundle it into the October 15 launch announcement instead of a separate release note.
+
+Sarah: Good idea. Decision two: search fuzzy matching ships together with the payments revamp on October 15.
+
+Priya: One concern - the onboarding flow redesign still needs user research. We have 5 interviews scheduled for the last week of September.
+
+Sarah: That's fine, it's not a launch blocker. Priya, please share the research findings by October 3.
+
+Priya: Will do.
+
+Rachel: For the launch event, do we do a webinar or just a blog post?
+
+Sarah: Budget was cut, so blog post plus a short demo video. Rachel, can you confirm the video vendor by Friday?
+
+Rachel: Yes, I'll have the vendor quote by Friday, September 18.
+
+Tom: Last thing - performance testing. The staging environment is slower than production. Anyone else seeing that?
+
+David: Yes, we know. Infra is migrating the staging database this weekend. It should be fixed by Monday.
+
+Sarah: Perfect. To summarize: payments revamp launches October 15, fuzzy matching bundled in the same release, Rachel confirms video vendor by September 18, Priya shares research by October 3, Tom delivers regression report by October 10. Open item: refund edge case fix from David, and we still need legal sign-off on the new data retention policy - I'll chase that this week. Thanks everyone.

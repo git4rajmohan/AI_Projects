@@ -1,0 +1,8 @@
+google-adk==1.22.1
+litellm
+ddgs
+edge-tts
+yfinance
+python-dotenv
+fastapi
+uvicorn

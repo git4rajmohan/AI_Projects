@@ -70,7 +70,7 @@ A collection of 16 practical AI/ML projects demonstrating agentic AI, multi-agen
 | Project | AI Capability | Technology |
 |---|---|---|
 | [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) | Invoice AI reads, deterministic policy decides | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
-| [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) | Voice/multimodal AI pipeline | faster-whisper, edge-tts, ADK |
+| [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) | Agents plan, tools act → finished podcast | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
 
 ### 🧠 NLP & Machine Learning
 

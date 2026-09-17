@@ -309,19 +309,19 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 ## 15. Research Voice Agent — AI Research-to-Podcast Pipeline
 
-**Folder:** [`04-Applied-AI/Research-Voice-Agent/`](./04-Applied-AI/Research-Voice-Agent/)
+**Folder:** [`04-Applied-AI/Research-Voice-Agent/`](./04-Applied-AI/Research-Voice-Agent/) · **User guide:** [`userguide.html`](./04-Applied-AI/Research-Voice-Agent/userguide.html)
 
-**Purpose:** A multimodal/voice pipeline: research or transcripts are turned into a producer report, then a conversational script, then speech via TTS into an MP3.
+**Purpose:** A three-mode voice-AI pipeline on Google ADK — a prompt, meeting transcript, or audio recording goes in, and two cooperating agents (producer → podcaster via `AgentTool`) research (whitelist-fenced ddgs + yfinance), write the report/script, and speak it into an MP3 with edge-tts; every tool call streams live into the browser (10-step stepper driven by ADK callbacks).
 
-**Focus:** Voice AI pipeline (STT → research → script → TTS)
+**Focus:** Voice AI pipeline (STT → research → script → TTS) + callback-enforced guardrails
 
-**Technologies:** FastAPI · Google ADK · LiteLLM · gpt-oss:120b · DuckDuckGo search · yfinance · edge-tts · faster-whisper
+**Technologies:** Google ADK (1.22.1, pinned) · Ollama Cloud gpt-oss:120b via LiteLLM + embedded OpenAI→Ollama proxy · FastAPI · ddgs · yfinance · edge-tts · faster-whisper (isolated subprocess)
 
-**Modes:** AI News · Meeting Recap · Audio Summary
+**Modes:** AI News (10 steps) · Meeting Recap (9 steps) · Audio Summary (4 steps, text-only by design) — 12 languages, 1–4 voiced hosts, 5 topic presets with per-preset whitelists
 
-**Guardrails:** source-domain whitelist · freshness callback · process log · UI step tracker
+**Guardrails:** source-domain whitelist enforced by before-tool callbacks (model cannot bypass) · freshness window on every search · Data Sourcing Notes audit section · recap faithfulness rule ("Not specified", never invented)
 
-**How it differs:** Multimodal/voice AI pipeline rather than text-only AI.
+**How it differs:** A voice/multimodal pipeline where agents plan and tools act — output is a finished report AND a playable MP3 from one open-weights model, with the whole run visible step by step.
 
 ---
 

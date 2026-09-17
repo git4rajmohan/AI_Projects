@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Voice Agent — User Guide</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --muted: #5b6b7c;
+    --accent: #2563eb;
+    --accent-soft: #e8effd;
+    --green: #16a34a;
+    --green-soft: #e7f7ee;
+    --red: #dc2626;
+    --red-soft: #fdeaea;
+    --amber: #d97706;
+    --amber-soft: #fdf3e3;
+    --grey-soft: #eef1f6;
+    --border: #dbe2ec;
+    --radius: 14px;
+    --mono: "Cascadia Code", "Consolas", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 60%, #3b82f6 100%);
+    color: #fff;
+    padding: 34px 24px 0;
+  }
+  .head-inner { max-width: 1100px; margin: 0 auto; }
+  header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: .2px; }
+  header p.sub { color: #cfe0ff; margin-top: 6px; font-size: .98rem; }
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .tab-btn {
+    appearance: none; border: none; cursor: pointer;
+    padding: 12px 26px; font-size: 1rem; font-weight: 600;
+    border-radius: 12px 12px 0 0;
+    background: rgba(255,255,255,.15); color: #dbe9ff;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,.28); }
+  .tab-btn.active { background: var(--bg); color: var(--accent); }
+  main { max-width: 1100px; margin: 0 auto; padding: 34px 24px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  h2 { font-size: 1.35rem; margin: 38px 0 14px; padding-top: 8px; }
+  h2:first-child { margin-top: 0; }
+  h3 { font-size: 1.08rem; margin: 24px 0 10px; }
+  h4 { font-size: 1rem; }
+  p { margin: 10px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px; margin: 16px 0;
+    box-shadow: 0 1px 3px rgba(20,40,80,.05);
+  }
+  .lead { font-size: 1.05rem; color: var(--muted); }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 6px 0; }
+  code {
+    font-family: var(--mono); font-size: .88em;
+    background: var(--grey-soft); border-radius: 5px; padding: 2px 6px;
+  }
+  pre {
+    font-family: var(--mono); font-size: .85rem;
+    background: #0f172a; color: #e2e8f0; border-radius: 10px;
+    padding: 14px 18px; overflow-x: auto; margin: 14px 0; line-height: 1.65;
+  }
+  pre code { background: none; padding: 0; color: inherit; font-size: .85rem; }
+  .pill {
+    display: inline-block; padding: 2px 12px; border-radius: 999px;
+    font-size: .82rem; font-weight: 600; white-space: nowrap;
+  }
+  .pill.green  { background: var(--green-soft);  color: var(--green); }
+  .pill.amber  { background: var(--amber-soft);  color: var(--amber); }
+  .pill.red    { background: var(--red-soft);    color: var(--red); }
+  .pill.blue   { background: var(--accent-soft); color: var(--accent); }
+  .pill.grey   { background: var(--grey-soft);   color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; background: var(--card);
+          border-radius: 10px; overflow: hidden; font-size: .93rem; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--accent-soft); color: #1e3a8a; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .note {
+    border-left: 4px solid var(--accent); background: var(--accent-soft);
+    padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: .95rem;
+  }
+  .note.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+  .note.ok   { border-left-color: var(--green); background: var(--green-soft); }
+  .note.danger { border-left-color: var(--red); background: var(--red-soft); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  .stat { text-align: center; }
+  .stat .kicker { text-transform: uppercase; letter-spacing: 1.5px; font-size: .72rem; color: var(--muted); }
+  .stat .val { font-size: 2rem; font-weight: 700; color: var(--green); margin: 2px 0; }
+  .stat .lbl { font-size: .85rem; color: var(--muted); }
+  .diagram { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+             padding: 18px; margin: 16px 0; overflow-x: auto; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .diagram figcaption { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 10px; }
+  .step { display: flex; gap: 14px; margin: 14px 0; align-items: flex-start; }
+  .step .num {
+    flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: .95rem;
+  }
+  .step h4 { font-size: 1rem; margin-bottom: 2px; }
+  .step p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .kbd { font-family: var(--mono); background: #fff; border: 1px solid var(--border);
+         border-bottom-width: 3px; border-radius: 6px; padding: 1px 7px; font-size: .82rem; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 26px; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <h1>🎙 Research Voice Agent — From a One-Line Prompt to a Finished Podcast, Hands-Free</h1>
+    <p class="sub">FastAPI + Google ADK + Ollama Cloud: give it a prompt, a meeting transcript or an audio
+    recording, and a small team of AI agents does the rest — a <em>producer agent</em> that researches or reads
+    and writes the report, a <em>podcaster agent</em> that turns it into a conversational script, and
+    <em>edge-tts neural voices</em> that speak it into an MP3. Everything streams live into the browser:
+    a 10-step progress tracker, a log of every tool call, and an audio player the moment the episode is ready.
+    One page, three modes, zero cloud lock-in.</p>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-btn-pitch" onclick="showTab('pitch')">🚀 Elevator Pitch</button>
+      <button class="tab-btn" id="tab-btn-nontechnical" onclick="showTab('nontechnical')">📖 Non-Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-technical" onclick="showTab('technical')">⚙️ Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-glossary" onclick="showTab('glossary')">📚 Glossary</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================================================================== -->
+<!-- TAB 0 — ELEVATOR PITCH                                               -->
+<!-- ==================================================================== -->
+<section class="panel active" id="panel-pitch">
+
+  <h2>The 30-second pitch</h2>
+  <div class="card">
+    <p class="lead">
+      Producing a podcast episode the traditional way means research tabs, a notes doc, a script draft,
+      an audio editor and a microphone. Ask a chatbot to "make me a podcast about AI news" and you get
+      text — you still have to research, structure, script and record everything yourself.
+    </p>
+    <p>
+      <strong>This project collapses that whole production pipeline into one Start button.</strong>
+      You pick one of three modes — <em>AI News</em> (researches fresh AI news for NASDAQ-listed US
+      companies and enriches it with live stock data), <em>Meeting Recap</em> (turns a pasted transcript
+      into a decisions/action-items recap), or <em>Audio Summary</em> (uploads a recording and transcribes
+      it locally). A <em>producer agent</em> built on Google's Agent Development Kit plans the run and
+      calls real tools — web search restricted to a domain whitelist, live tickers via yfinance, and a
+      markdown writer. A second <em>podcaster agent</em> converts the result into a Joe-and-Jane style
+      conversational script, and <em>edge-tts</em> neural voices synthesize the actual MP3 — in any of
+      12 languages, with 1–4 configurable hosts. The whole run streams into the browser: numbered step
+      pills light up, a live log shows every tool call, and the report and audio player populate the
+      moment artifacts are saved. All reasoning runs on one open-weights model
+      (<code>gpt-oss:120b</code> via Ollama Cloud) — the orchestration is the product.
+    </p>
+    <p><strong>The line that matters: you press Start once; a research agent gathers, a podcaster agent voices, and the browser watches it happen live.</strong></p>
+  </div>
+
+  <h2>The one-line principle</h2>
+  <div class="grid3">
+    <div class="card">
+      <h3>🧭 Agents plan, tools act</h3>
+      <p>The producer agent doesn't write the news — it <strong>orchestrates</strong>: it acknowledges,
+      then silently calls <code>web_search</code>, <code>get_financial_context</code> and
+      <code>save_news_to_markdown</code> before saying another word. Real work happens in tools, not in
+      the model's imagination.</p>
+    </div>
+    <div class="card">
+      <h3>🎛 Presets over prompts</h3>
+      <p>Five topic presets swap the prompt prefill, the <strong>domain whitelist</strong>, the search
+      region, the agent's name and the step labels. "AI + market news" and "Entertainment — India" are
+      the same engine wearing different scope rules — configuration, not code.</p>
+    </div>
+    <div class="card">
+      <h3>📺 Progress you can trust</h3>
+      <p>The stepper pills are driven by <strong>ADK tool callbacks</strong> — the UI lights up when the
+      agent <em>actually</em> calls a tool, not when it claims to. The live log, the agent banner and the
+      artifact panels always mirror the real state of the run.</p>
+    </div>
+  </div>
+
+  <h2>How it works in one picture</h2>
+  <figure class="diagram">
+    <svg viewBox="0 0 980 200" width="980" role="img" aria-label="Podcast studio pipeline">
+      <defs>
+        <marker id="ar0" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <rect x="15" y="68" width="150" height="64" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="90" y="95" fill="#334155">🎛 Pick a mode</text>
+        <text x="90" y="115" fill="#5b6b7c" font-weight="400" font-size="11">news · recap · audio</text>
+
+        <rect x="185" y="68" width="150" height="64" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="260" y="95" fill="#1e3a8a">🧭 Producer agent</text>
+        <text x="260" y="115" fill="#5b6b7c" font-weight="400" font-size="11">acknowledges → plans</text>
+
+        <rect x="355" y="68" width="150" height="64" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="430" y="95" fill="#14532d">🔍 Live research</text>
+        <text x="430" y="115" fill="#5b6b7c" font-weight="400" font-size="11">ddgs search · yfinance</text>
+
+        <rect x="525" y="68" width="140" height="64" rx="12" fill="#e7f7ee" stroke="#16a34a"/>
+        <text x="595" y="95" fill="#14532d">📝 Report + script</text>
+        <text x="595" y="115" fill="#5b6b7c" font-weight="400" font-size="11">markdown · host lines</text>
+
+        <rect x="685" y="68" width="150" height="64" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="760" y="95" fill="#92400e">🎧 Podcaster agent</text>
+        <text x="760" y="115" fill="#5b6b7c" font-weight="400" font-size="11">edge-tts neural voices</text>
+
+        <rect x="855" y="68" width="110" height="64" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="910" y="95" fill="#334155">🔊 Artifacts</text>
+        <text x="910" y="115" fill="#5b6b7c" font-weight="400" font-size="11">md + mp3 panel</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="165" y1="100" x2="183" y2="100" marker-end="url(#ar0)"/>
+        <line x1="335" y1="100" x2="353" y2="100" marker-end="url(#ar0)"/>
+        <line x1="505" y1="100" x2="523" y2="100" marker-end="url(#ar0)"/>
+        <line x1="665" y1="100" x2="683" y2="100" marker-end="url(#ar0)"/>
+        <line x1="835" y1="100" x2="853" y2="100" marker-end="url(#ar0)"/>
+      </g>
+      <g>
+        <rect x="265" y="160" width="450" height="26" rx="13" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+        <text x="490" y="178" text-anchor="middle" fill="#14532d" font-size="12" font-weight="bold">🔗 AgentTool hands the script to the podcaster — one relay, two agents</text>
+        <line x1="760" y1="132" x2="760" y2="172" stroke="#16a34a" stroke-width="2" marker-end="url(#ar0)"/>
+      </g>
+      <g>
+        <rect x="15" y="14" width="950" height="34" rx="8" fill="#eef1f6"/>
+        <text x="490" y="36" text-anchor="middle" fill="#5b6b7c" font-size="11.5">every solid box below also emits live UI events — step pills, log lines and the agent banner update as each tool fires</text>
+      </g>
+    </svg>
+    <figcaption>Figure 0 — One Start button, two cooperating agents. The producer gathers and writes; the podcaster speaks; the browser streams it all.</figcaption>
+  </figure>
+
+  <h2>Numbers from the shipped build</h2>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">Production modes</div><div class="val">3</div><div class="lbl">news · recap · audio summary</div></div>
+    <div class="card stat"><div class="kicker">Workflow steps</div><div class="val">10</div><div class="lbl">tracked pills in a news run</div></div>
+    <div class="card stat"><div class="kicker">Output languages</div><div class="val">12</div><div class="lbl">with native neural voices</div></div>
+  </div>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">Topic presets</div><div class="val">5</div><div class="lbl">each with its own whitelist</div></div>
+    <div class="card stat"><div class="kicker">Podcast hosts</div><div class="val">1–4</div><div class="lbl">named, voiced, persona-driven</div></div>
+    <div class="card stat"><div class="kicker">LLM behind it all</div><div class="val">1</div><div class="lbl">gpt-oss:120b on Ollama Cloud</div></div>
+  </div>
+
+  <div class="note ok">
+    <strong>The signal:</strong> a single open-weights model plays every role — researcher, writer,
+    scriptwriter. The specialization lives in <em>instructions</em>, <em>tools</em> and <em>callbacks</em>,
+    not in fine-tuned models. Swap the preset and the same skeleton researches tech, academia or
+    Bollywood; swap <code>edge-tts</code> for any TTS and the podcaster agent doesn't change. The
+    architecture is the lesson.
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 1 — NON-TECHNICAL                                                -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-nontechnical">
+
+  <h2>What is this project?</h2>
+  <div class="card">
+    <p class="lead">
+      The <strong>Research Voice Agent</strong> is a web app that runs entirely on your own machine and
+      produces <em>finished content</em> — written reports and spoken podcast episodes — from three kinds
+      of input.
+    </p>
+    <p>You give it one of three things:</p>
+    <ol>
+      <li><strong>A prompt</strong> — e.g. <em>"Research the latest AI news for NASDAQ-listed US companies"</em>.
+          It searches whitelisted news sites, enriches stories with live stock prices, writes a structured
+          report, then records a podcast with your configured hosts. <span class="pill blue">news mode</span></li>
+      <li><strong>A meeting transcript</strong> — pasted text or a file. It extracts decisions, discussion,
+          action items and open questions into a recap document, plus a highlights podcast.
+          <span class="pill green">recap mode</span></li>
+      <li><strong>An audio recording</strong> — e.g. a recorded meeting. It transcribes the audio
+          <em>locally on your machine</em> (nothing leaves it except the final summary request) and writes
+          a clean summary with key highlights and action items. <span class="pill amber">audio summary</span></li>
+    </ol>
+    <p>
+      Think of it as a tiny radio station with two employees. The <em>producer</em> does the journalism —
+      researching, verifying, writing. The <em>sound engineer</em> takes the finished script and records
+      it with professional voices. You are the station manager: you choose the show, press Start, and
+      watch both employees work through the studio's glass wall — every step lit up on the board.
+    </p>
+  </div>
+
+  <h2>What does a run look like?</h2>
+  <p>
+    Everything happens on one page. You pick a tab, give your input, tune the settings if you like, and
+    press <span class="kbd">▶ Start</span>. From then on the page is live:
+  </p>
+  <div class="card">
+    <ul>
+      <li><strong>A stepper</strong> — one numbered pill per workflow step (10 for news, 9 for recap, 4 for
+          audio summary). Grey = waiting, pulsing amber = running, green = done, red = failed.</li>
+      <li><strong>A now-working banner</strong> — which agent is on stage: the Research Agent, the Recap
+          Agent, the Voice Agent, or the Transcription Engine.</li>
+      <li><strong>A live log</strong> — every tool call, every saved file, transcription progress
+          percentages — the same events the agents trigger, streamed as text.</li>
+      <li><strong>Result panels</strong> — the report renders as markdown in the Report panel; the podcast
+          appears in the audio player the moment the MP3 is written, with Download buttons under both.</li>
+      <li><strong>Run history</strong> — the last runs with time, prompt and which artifacts were produced.</li>
+    </ul>
+    <div class="note">
+      <strong>Only two messages come from the agent itself:</strong> a short acknowledgment right after you
+      press Start ("Okay, I'll start researching…") and a final confirmation when everything is done.
+      All the actual work happens silently in between — that's by design, so you watch the steps rather
+      than read a wall of chatter.
+    </div>
+  </div>
+
+  <h2>A news run, step by step</h2>
+  <p>The default <strong>📰 AI News</strong> mode walks a 10-step workflow. The pills in the app light up in exactly this order:</p>
+
+  <div class="card">
+    <div class="step"><div class="num">1</div><div><h4>Acknowledge</h4>
+      <p>The producer agent confirms: "Okay, I'll start researching the latest AI news for NASDAQ-listed US companies…"</p></div></div>
+    <div class="step"><div class="num">2</div><div><h4>Search news</h4>
+      <p>It calls <code>web_search</code> — but it never chooses sites freely: a callback restricts results
+      to your whitelisted domains and forces a freshness window (last week by default).</p></div></div>
+    <div class="step"><div class="num">3–4</div><div><h4>Extract tickers &amp; fetch financials</h4>
+      <p>Companies are identified from the stories, then <code>get_financial_context</code> pulls live
+      stock context via yfinance. Missing data becomes "Not Available" — the run never halts for it.</p></div></div>
+    <div class="step"><div class="num">5–6</div><div><h4>Structure &amp; format the report</h4>
+      <p>Findings are organized into the report schema — including a "Data Sourcing Notes" section that
+      records exactly which search results were filtered and why.</p></div></div>
+    <div class="step"><div class="num">7</div><div><h4>Save the report</h4>
+      <p><code>save_news_to_markdown</code> writes <code>ai_research_report.md</code> — the Report panel
+      updates the moment the file lands.</p></div></div>
+    <div class="step"><div class="num">8</div><div><h4>Write the script</h4>
+      <p>The producer converts the report into a conversational script with exact speaker labels —
+      <code>Joe: …</code> / <code>Jane: …</code> — matching your configured host names, count and personas.</p></div></div>
+    <div class="step"><div class="num">9</div><div><h4>Generate audio</h4>
+      <p>The producer hands the script to the <em>podcaster agent</em> (a sub-agent), which calls
+      <code>generate_podcast_audio</code> — edge-tts renders each host's lines with its own neural voice
+      and the MP3 chunks are stitched into one episode.</p></div></div>
+    <div class="step"><div class="num">10</div><div><h4>Confirm done</h4>
+      <p>The final message: "All done. I've compiled the research report, saved it to
+      <code>ai_research_report.md</code>, and generated the podcast audio file for you."</p></div></div>
+  </div>
+
+  <h2>The other two runs</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🎙 Meeting Recap (9 steps)</h3>
+      <p>The same skeleton with the input swapped: instead of searching the web, the producer reads
+      <em>your transcript</em> (paste it or load a <code>.txt/.md/.vtt/.srt/.docx</code> file), then
+      produces a recap document — Key Decisions, Discussion Summary, an Action Items table with owners
+      and deadlines, Open Questions — and a highlights podcast saved as <code>meeting_recap.md</code> +
+      <code>meeting_recap.mp3</code>.</p>
+      <p class="lead">Faithfulness rule: only what's actually in the transcript. No invented quotes,
+      no invented decisions — missing details become "Not specified".</p>
+    </div>
+    <div class="card">
+      <h3>🎵 Audio Summary (4 steps, text only)</h3>
+      <p>Upload an mp3/wav/m4a/… recording. A dedicated transcription engine (<code>faster-whisper</code>)
+      runs <strong>locally in an isolated subprocess</strong> — you watch the progress percentage climb in
+      the live log. One LLM pass then writes <code>audio_summary.md</code> with an Overview, Key
+      Highlights (with timestamps), Action Items and Open Questions.</p>
+      <p class="lead">This mode deliberately produces <strong>no podcast</strong> — it's for reading the
+      record, not re-broadcasting it. The raw transcript is kept as <code>transcript_*.txt</code>.</p>
+    </div>
+  </div>
+
+  <h2>What you get (artifacts per mode)</h2>
+  <div class="card">
+    <table>
+      <tr><th>Mode</th><th>Input</th><th>Output files</th></tr>
+      <tr><td>📰 AI News</td><td>a text prompt</td><td><code>artifacts/news/ai_research_report.md</code> + <code>ai_today_podcast.mp3</code></td></tr>
+      <tr><td>🎙 Meeting Recap</td><td>transcript (paste or file)</td><td><code>artifacts/recap/meeting_recap.md</code> + <code>meeting_recap.mp3</code></td></tr>
+      <tr><td>🎵 Audio Summary</td><td>audio recording upload</td><td><code>artifacts/summaries/audio_summary.md</code> + raw transcript <code>transcript_*.txt</code> (no podcast in this mode)</td></tr>
+    </table>
+    <div class="note ok">
+      <strong>Nothing goes stale:</strong> before every run the previous artifacts for that mode are
+      archived to <code>_old_&lt;timestamp&gt;</code> copies, so the panels always show the latest run —
+      and nothing you liked is ever deleted.
+    </div>
+  </div>
+
+  <h2>Make it yours: language, hosts, presets</h2>
+  <div class="grid3">
+    <div class="card">
+      <h3>🌍 12 languages</h3>
+      <p>English, Japanese, Chinese, Tamil, Hindi, Spanish, French, German, Korean, Portuguese, Arabic,
+      Russian. Pick one and the <em>entire</em> run — report, script and spoken voices — happens in that
+      language, with voices remapped to native speakers of it.</p>
+    </div>
+    <div class="card">
+      <h3>🎙 1–4 hosts</h3>
+      <p>Solo anchor, the classic Joe &amp; Jane duo, a trio panel or a four-host panel. Each host has a
+      name, an edge-tts voice and a persona that shapes its speaking style — and you can hear any voice
+      instantly with <em>Preview host</em>, no run needed.</p>
+    </div>
+    <div class="card">
+      <h3>🎛 5 topic presets</h3>
+      <p>AI + market news (default), Tech industry, Research/academic, Entertainment — India, or
+      <em>Custom</em>. Each preset swaps the prompt prefill, the domain whitelist, the search region and
+      the agent's displayed name and step labels.</p>
+    </div>
+  </div>
+
+  <h2>Quick start</h2>
+  <div class="card">
+    <ol>
+      <li>Put your Ollama cloud key in the <code>.env</code> file: <code>OLLAMA_API_KEY=…</code></li>
+      <li>Start the app: <code>.venv\Scripts\python.exe podcast_ui.py</code></li>
+      <li>Open <code>http://127.0.0.1:8000</code> in your browser.</li>
+      <li>Pick a tab, give an input, press <span class="kbd">▶ Start</span>.</li>
+    </ol>
+    <div class="note ok">
+      <strong>First run is slower — once.</strong> The transcription model downloads one time (~a minute)
+      and is pre-warmed automatically at server startup; every later run reuses it.
+    </div>
+  </div>
+
+  <h2>Tips for best results</h2>
+  <div class="note ok">
+    <strong>Do</strong>
+    <ul style="margin-bottom:0;">
+      <li><strong>Pick the language before starting</strong> — the report, script and voices all follow the setting captured at Start</li>
+      <li><strong>Keep the domain whitelist tight</strong> — fewer, better sources beat a giant list; the callback filters everything through it</li>
+      <li><strong>Use "week" freshness</strong> — news mode is tuned for the last 7 days by default and that's where it shines</li>
+      <li><strong>Watch the log, not just the pills</strong> — it shows which domains were filtered and what the tools actually returned</li>
+      <li><strong>Preview hosts before a long run</strong> — <em>Preview host N</em> speaks a sample instantly</li>
+    </ul>
+  </div>
+  <div class="note warn">
+    <strong>Avoid</strong>
+    <ul style="margin-bottom:0;">
+      <li>Don't expect a podcast from Audio Summary — that mode is deliberately text-only</li>
+      <li>Don't start a second run while one is active — the server refuses with "a run is already in progress"</li>
+      <li>Don't expect real-time market prices — yfinance gives context, not trading data; missing tickers degrade to "Not Available" by design</li>
+      <li>Don't paste URLs outside the whitelist and expect them to be read — search is fenced to your domains on purpose</li>
+    </ul>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+  <div class="card">
+    <h3>Do I need to know AI or programming to use this?</h3>
+    <p>
+      No. You type what you want researched (or paste a transcript, or pick a file) and press Start.
+      The interesting part — which tools fired, what was filtered, what the agents said — is all visible
+      on the page, so you learn how it works just by watching.
+    </p>
+    <h3>Does my audio or my transcripts leave my computer?</h3>
+    <p>
+      Audio never does: transcription runs locally with faster-whisper. Only the final <em>text</em> of a
+      summary, report or script request goes to the cloud LLM (Ollama Cloud) — and web search queries go
+      to DuckDuckGo, restricted to your whitelisted domains.
+    </p>
+    <h3>Why "only two user-facing messages" from the agent?</h3>
+    <p>
+      Focus, again. The producer's instruction mandates an acknowledgment, silent work, and one final
+      confirmation. That keeps the chat panel clean and makes the <em>stepper</em> the real narrative of
+      the run — you watch progress instead of reading commentary.
+    </p>
+    <h3>What stops the research agent from making things up?</h3>
+    <p>
+      Three guardrails: search results only come from the whitelisted domains (enforced by a callback,
+      not by trust); every stock lookup goes through the yfinance tool rather than the model's memory;
+      and the report must carry a "Data Sourcing Notes" section listing what was filtered. Missing facts
+      become "Not Available" placeholders — never invented numbers.
+    </p>
+    <h3>Can I use my own topic instead of the presets?</h3>
+    <p>
+      Yes — the <em>Custom</em> preset gives you a free prompt plus your own whitelist. Financial steps
+      are skipped automatically for non-market topics, and the stepper relabels itself to match.
+    </p>
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 2 — TECHNICAL                                                    -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-technical">
+
+  <h2>System overview</h2>
+  <p>
+    The project is a two-file application plus a subprocess: <code>podcast_ui.py</code> is a
+    <strong>FastAPI + uvicorn server</strong> on <code>127.0.0.1:8000</code> that serves the single-page
+    UI, owns run orchestration and persists settings to <code>config.json</code>. It imports
+    <code>lesson6_podcast_agent.py</code> as the <strong>agent engine</strong>: a Google ADK
+    <code>Runner</code> driving a producer <code>Agent</code> (tools: search, financials, markdown save)
+    with a podcaster <code>Agent</code> exposed through <code>AgentTool</code>. An
+    <strong>embedded OpenAI↔Ollama proxy</strong> (FastAPI on <code>127.0.0.1:11435</code>) starts inside
+    the same process so every LLM call can reach Ollama Cloud. Audio uploads bypass the agent loop
+    entirely and go through a <strong>subprocess transcriber</strong> with a hard timeout. Shared state
+    is one lock-guarded dict polled by the browser every 1.5&nbsp;s.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 900 500" width="900" role="img" aria-label="System architecture">
+      <defs>
+        <marker id="arch-a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+
+      <!-- Browser -->
+      <rect x="20" y="14" width="400" height="80" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+      <text x="220" y="38" text-anchor="middle" fill="#334155" font-size="13" font-weight="bold">🌐 Browser — single-page UI (served by FastAPI)</text>
+      <text x="220" y="58" text-anchor="middle" fill="#475569" font-size="10.5">stepper · live log · report viewer · audio player · config panel</text>
+      <text x="220" y="76" text-anchor="middle" fill="#64748b" font-size="9">polls /api/status every 1.5 s · download buttons · run history</text>
+
+      <!-- LLM cloud -->
+      <rect x="480" y="14" width="400" height="80" rx="10" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+      <text x="680" y="38" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="bold">☁️ Ollama Cloud — gpt-oss:120b</text>
+      <text x="680" y="58" text-anchor="middle" fill="#475569" font-size="10.5">LiteLLM "openai/…" provider → https://ollama.com</text>
+      <text x="680" y="76" text-anchor="middle" fill="#64748b" font-size="9">reached through the embedded OpenAI↔Ollama proxy</text>
+
+      <!-- Server -->
+      <rect x="230" y="126" width="440" height="86" rx="10" fill="#e7f7ee" stroke="#16a34a" stroke-width="2.5"/>
+      <text x="450" y="150" text-anchor="middle" fill="#14532d" font-size="13.5" font-weight="bold">🖥️ podcast_ui.py — FastAPI + uvicorn · 127.0.0.1:8000</text>
+      <text x="450" y="170" text-anchor="middle" fill="#475569" font-size="10.5">REST endpoints · config.json persistence · artifact archiving (_old_*)</text>
+      <text x="450" y="188" text-anchor="middle" fill="#5b6b7c" font-size="10">lock-guarded STATE → /api/status · spawns ONE worker thread per run · 409 if busy</text>
+
+      <!-- Engine -->
+      <rect x="230" y="246" width="440" height="108" rx="10" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+      <text x="450" y="270" text-anchor="middle" fill="#92400e" font-size="13.5" font-weight="bold">🧠 lesson6_podcast_agent.py — ADK agent engine</text>
+      <text x="450" y="290" text-anchor="middle" fill="#475569" font-size="10">ADK Runner + InMemorySessionService · CLI loop replaces adk web</text>
+      <text x="450" y="308" text-anchor="middle" fill="#5b6b7c" font-size="10">producer agent (preset-built) · podcaster agent via AgentTool</text>
+      <text x="450" y="326" text-anchor="middle" fill="#5b6b7c" font-size="10">before/after tool callbacks → stepper · process-log injection</text>
+      <text x="450" y="344" text-anchor="middle" fill="#64748b" font-size="10" font-family="Consolas, monospace">embedded OpenAI↔Ollama proxy · 127.0.0.1:11435</text>
+
+      <line x1="220" y1="94" x2="380" y2="124" stroke="#5b6b7c" stroke-width="2" marker-end="url(#arch-a)"/>
+      <line x1="680" y1="94" x2="560" y2="244" stroke="#2563eb" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arch-a)"/>
+      <text x="700" y="160" fill="#2563eb" font-size="9">dashed = every LLM call</text>
+      <text x="700" y="172" fill="#2563eb" font-size="9">via the embedded proxy</text>
+      <line x1="450" y1="212" x2="450" y2="244" stroke="#16a34a" stroke-width="2" marker-end="url(#arch-a)"/>
+      <text x="458" y="230" fill="#16a34a" font-size="9">imports engine as a module · same process</text>
+
+      <!-- External services -->
+      <rect x="20" y="404" width="190" height="76" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+      <text x="115" y="428" text-anchor="middle" fill="#334155" font-size="12" font-weight="bold">🔎 DuckDuckGo</text>
+      <text x="115" y="448" text-anchor="middle" fill="#475569" font-size="9.5">ddgs news search</text>
+      <text x="115" y="464" text-anchor="middle" fill="#5b6b7c" font-size="9">whitelist + freshness callbacks</text>
+
+      <rect x="240" y="404" width="190" height="76" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+      <text x="335" y="428" text-anchor="middle" fill="#334155" font-size="12" font-weight="bold">💹 Yahoo Finance</text>
+      <text x="335" y="448" text-anchor="middle" fill="#475569" font-size="9.5">yfinance stock context</text>
+      <text x="335" y="464" text-anchor="middle" fill="#5b6b7c" font-size="9">skipped on non-market presets</text>
+
+      <rect x="460" y="404" width="190" height="76" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+      <text x="555" y="428" text-anchor="middle" fill="#334155" font-size="12" font-weight="bold">🎙 edge-tts</text>
+      <text x="555" y="448" text-anchor="middle" fill="#475569" font-size="9.5">Microsoft neural voices → MP3</text>
+      <text x="555" y="464" text-anchor="middle" fill="#5b6b7c" font-size="9">per-host voice, chunked stream</text>
+
+      <rect x="680" y="404" width="190" height="76" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+      <text x="775" y="428" text-anchor="middle" fill="#334155" font-size="12" font-weight="bold">🎤 faster-whisper (local)</text>
+      <text x="775" y="448" text-anchor="middle" fill="#475569" font-size="9.5">_transcribe_sub.py subprocess</text>
+      <text x="775" y="464" text-anchor="middle" fill="#5b6b7c" font-size="9">JSON progress · 900 s hard cap</text>
+
+      <line x1="340" y1="354" x2="135" y2="402" stroke="#5b6b7c" stroke-width="2" marker-end="url(#arch-a)"/>
+      <line x1="410" y1="354" x2="335" y2="402" stroke="#5b6b7c" stroke-width="2" marker-end="url(#arch-a)"/>
+      <line x1="520" y1="354" x2="555" y2="402" stroke="#d97706" stroke-width="2" marker-end="url(#arch-a)"/>
+      <line x1="620" y1="330" x2="760" y2="402" stroke="#64748b" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arch-a)"/>
+      <text x="705" y="378" fill="#64748b" font-size="9">dashed = audio path only (no agents)</text>
+    </svg>
+    <figcaption>Figure 1 — System layout: the browser polls a single FastAPI server, which drives the ADK engine in-process; the engine reaches four external services, two of them through its embedded proxy.</figcaption>
+  </figure>
+
+  <h2>Tech stack at a glance</h2>
+  <div class="card">
+    <table>
+      <tr><th>Layer</th><th>Technology</th><th>Role</th></tr>
+      <tr><td>Frontend</td><td>Vanilla HTML/CSS/JS — one page, embedded in the server file</td><td>Stepper, live log, report viewer, audio player, config panel; polls <code>/api/status</code> every 1.5 s</td></tr>
+      <tr><td>API server</td><td><strong>FastAPI + uvicorn</strong> on <code>127.0.0.1:8000</code> (<code>podcast_ui.py</code>)</td><td>REST endpoints, run orchestration, shared state, config persistence</td></tr>
+      <tr><td>Agent framework</td><td><strong>Google ADK</strong> (<code>google-adk==1.22.1</code>)</td><td>Multi-agent orchestration: <code>Runner</code>, sessions, function tools, <code>AgentTool</code> delegation, callbacks</td></tr>
+      <tr><td>LLM</td><td><strong>Ollama Cloud</strong> — <code>gpt-oss:120b</code> via <strong>LiteLLM</strong></td><td>Reasoning, research, report writing, scripts, summaries</td></tr>
+      <tr><td>Format bridge</td><td>Embedded <strong>OpenAI ↔ Ollama proxy</strong> (FastAPI on <code>127.0.0.1:11435</code>)</td><td>Translates OpenAI-style chat/tool calls to Ollama's native API (tool-call shapes, array content, model prefix)</td></tr>
+      <tr><td>Web search</td><td><strong>ddgs</strong> (DuckDuckGo)</td><td>Fresh news, filtered by whitelisted domains + freshness window</td></tr>
+      <tr><td>Financial data</td><td><strong>yfinance</strong></td><td>Live stock context for mentioned tickers</td></tr>
+      <tr><td>Text-to-speech</td><td><strong>edge-tts</strong> (Microsoft neural voices)</td><td>Per-host voices; MP3 chunks concatenated into the final episode</td></tr>
+      <tr><td>Speech-to-text</td><td><strong>faster-whisper</strong> in an isolated subprocess (<code>_transcribe_sub.py</code>)</td><td>Local transcription with live progress lines; hard 900 s timeout</td></tr>
+      <tr><td>Config</td><td><code>config.json</code> + <code>python-dotenv</code></td><td>UI settings persistence; API keys from <code>.env</code></td></tr>
+    </table>
+  </div>
+
+  <h2>The two agents, in code</h2>
+  <div class="card">
+    <p>
+      The engine defines two ADK agents. The <strong>producer</strong> is rebuilt per run by
+      <code>podcast_ui.build_agents()</code> — its instruction is assembled from the active topic preset
+      (goal line, scope limitation, acknowledgment sentence, financial-steps variant) plus a
+      <em>hosts directive</em> that encodes the configured host names, personas and the exact
+      <code>Name: text</code> script format. The <strong>podcaster</strong> is a specialist with a single
+      tool; the producer reaches it through <code>AgentTool</code>, which makes a sub-agent callable like
+      a function.
+    </p>
+<pre><code># lesson6_podcast_agent.py — the podcaster specialist
+podcaster_agent = Agent(
+    name="podcaster_agent",
+    model=LiteLlm(model=OLLAMA_MODEL),        # openai/gpt-oss:120b
+    instruction=_PODCASTER_INSTRUCTION,       # "call generate_podcast_audio with the script"
+    tools=[generate_podcast_audio],
+)
+
+# the producer — preset-driven, four tools, callbacks for guardrails
+root_agent = Agent(
+    name="ai_news_researcher",
+    model=LiteLlm(model=OLLAMA_MODEL),
+    instruction=root_instruction(...),        # goal + scope + ack + hosts directive
+    tools=[
+        web_search,               # ddgs, whitelisted + freshness-enforced
+        get_financial_context,    # yfinance tickers -> stock context
+        save_news_to_markdown,    # report / recap -> artifacts/&lt;mode&gt;/
+        AgentTool(agent=podcaster_agent),   # sub-agent as a callable tool
+    ],
+    before_tool_callback=[filter_news_sources_callback, enforce_data_freshness_callback],
+    after_tool_callback=[inject_process_log_after_search],
+)</code></pre>
+    <div class="note warn">
+      <strong>Why no <code>output_schema</code>?</strong> The original lesson notebook set
+      <code>output_schema=AINewsReport</code> on the producer. ADK <em>disables tool use</em> when an
+      output schema is set — fatal for a workflow that lives on tool calls. The Pydantic schemas
+      (<code>AINewsReport</code>, <code>MeetingRecap</code>, <code>ActionItem</code>, <code>NewsStory</code>)
+      are kept as structure guidance in the instructions instead.
+    </div>
+  </div>
+
+  <h2>The five tools</h2>
+  <div class="card">
+    <table>
+      <tr><th>Tool (owner)</th><th>Signature</th><th>What it does</th></tr>
+      <tr>
+        <td><code>web_search</code><br>(producer)</td>
+        <td><code>(query, max_results=8)</code></td>
+        <td>ddgs text search; region/freshness/max-results from config; results are filtered by the whitelist callback and annotated with a <code>process_log</code></td>
+      </tr>
+      <tr>
+        <td><code>get_financial_context</code><br>(producer)</td>
+        <td><code>(tickers: List[str])</code></td>
+        <td>yfinance lookups → per-ticker context dict; "Not Available" for anything unresolvable</td>
+      </tr>
+      <tr>
+        <td><code>save_news_to_markdown</code><br>(both producers)</td>
+        <td><code>(filename, content)</code></td>
+        <td>writes the report/recap into <code>artifacts/&lt;mode&gt;/</code>; drives the "Save" step pill</td>
+      </tr>
+      <tr>
+        <td><code>read_transcript_file</code><br>(recap producer)</td>
+        <td><code>(filepath)</code></td>
+        <td>reads <code>.txt/.md/.vtt/.srt/.docx</code> (docx via zipfile) transcript files</td>
+      </tr>
+      <tr>
+        <td><code>generate_podcast_audio</code><br>(podcaster)</td>
+        <td><code>(podcast_script, tool_context, filename)</code></td>
+        <td>parses <code>Speaker:</code> lines → maps to host voices → edge-tts streams → concatenated MP3 written to disk</td>
+      </tr>
+    </table>
+<pre><code># generate_podcast_audio — the async-inside-async gotcha, solved
+async def _synthesize() -&gt; bytes:
+    chunks = []
+    for voice, text in segments:            # (voice, text) per speaker line
+        tts = edge_tts.Communicate(text=text, voice=voice)
+        async for chunk in tts.stream():
+            if chunk["type"] == "audio":
+                buf.extend(chunk["data"])   # raw mp3 bytes per host
+        chunks.append(bytes(buf))
+    return b"".join(chunks)
+
+# ADK tool calls already run inside an event loop — asyncio.run() here
+# would raise. So the synthesis runs on a thread with its own loop:
+with ThreadPoolExecutor(max_workers=1) as pool:
+    audio_data = pool.submit(lambda: asyncio.run(_synthesize())).result()</code></pre>
+    <div class="note">
+      <strong>Script → voices:</strong> the tool regex-parses every <code>Speaker:</code> line, looks the
+      speaker up in the configured host map, and synthesizes one MP3 segment per line with that host's
+      edge-tts voice. Unrecognized speakers are skipped; no speaker lines at all returns a structured
+      error telling the model the exact expected format.
+    </div>
+  </div>
+
+  <h2>Guardrails: what the callbacks enforce</h2>
+  <div class="card">
+    <p>
+      The producer's tools are wrapped by ADK callbacks — the same mechanism that powers the stepper.
+      Three of them are guardrails, so the model <em>cannot</em> bypass them even if it wanted to:
+    </p>
+    <table>
+      <tr><th>Callback (when)</th><th>Enforcement</th></tr>
+      <tr>
+        <td><code>filter_news_sources_callback</code><br><span class="pill grey">before every tool</span></td>
+        <td>Rewrites <code>web_search</code> queries to respect the whitelist; any result from a non-whitelisted domain is dropped before the model sees it.</td>
+      </tr>
+      <tr>
+        <td><code>enforce_data_freshness_callback</code><br><span class="pill grey">before every tool</span></td>
+        <td>Forces <code>timelimit='w'</code> (the configured freshness window) onto every search so stale content can't slip in.</td>
+      </tr>
+      <tr>
+        <td><code>inject_process_log_after_search</code><br><span class="pill grey">after web_search</span></td>
+        <td>Attaches the filtering log to the tool result — which is why every report carries a "Data Sourcing Notes" section the user can audit.</td>
+      </tr>
+      <tr>
+        <td><code>ui_step_tracker_before / _after</code><br><span class="pill blue">in podcast_ui.py</span></td>
+        <td>Map tool names to workflow steps and light up the stepper pills — including multi-step jumps (a successful save marks formatting steps done too).</td>
+      </tr>
+    </table>
+  </div>
+
+  <h2>News run — message sequence</h2>
+  <div class="card">
+    <p class="lead">
+      A time-ordered trace of one news run. The Step column matches the stepper pills; the auto-continue
+      loop at the bottom repeats until the MP3 exists.
+    </p>
+    <table>
+      <tr><th>Step</th><th>From</th><th>→</th><th>Action</th></tr>
+      <tr><td></td><td>Browser</td><td>Server</td><td><code>POST /api/run {mode:"news", prompt, language, hosts}</code></td></tr>
+      <tr><td></td><td>Server</td><td>Worker</td><td>archive old artifacts · reset stepper · spawn worker thread</td></tr>
+      <tr><td></td><td>Worker</td><td>ADK</td><td>build agents (preset + language + host directives) · create Runner + session</td></tr>
+      <tr><td><span class="pill blue">1</span></td><td>Worker</td><td>Producer</td><td>turn 1: the prompt</td></tr>
+      <tr><td><span class="pill blue">1</span></td><td>Producer</td><td>Worker</td><td>scripted acknowledgment (final response of the turn)</td></tr>
+      <tr><td><span class="pill blue">2</span></td><td>Producer</td><td>ddgs</td><td>tool call: <code>web_search(query)</code> — whitelist + freshness applied by callbacks</td></tr>
+      <tr><td><span class="pill blue">4</span></td><td>Producer</td><td>yfinance</td><td>tool call: <code>get_financial_context(tickers)</code></td></tr>
+      <tr><td><span class="pill blue">7</span></td><td>Producer</td><td>disk</td><td>tool call: <code>save_news_to_markdown("ai_research_report.md", …)</code></td></tr>
+      <tr><td><span class="pill amber">9</span></td><td>Producer</td><td>Podcaster</td><td><code>AgentTool</code> delegation: "make the audio from this script"</td></tr>
+      <tr><td><span class="pill amber">9</span></td><td>Podcaster</td><td>edge-tts</td><td><code>generate_podcast_audio</code> → per-host MP3 chunks → file written</td></tr>
+      <tr><td><span class="pill grey">↻</span></td><td>Worker</td><td>Producer</td><td>if MP3 missing and nudges remain: send <em>"continue"</em> (bounded by <code>max_auto_continue</code>)</td></tr>
+      <tr><td><span class="pill green">✓</span></td><td>Worker</td><td>Server</td><td>verify report + MP3 exist → final step green → history entry</td></tr>
+    </table>
+    <div class="note warn">
+      <strong>Why the auto-continue loop exists:</strong> Ollama chat models end their turn after a
+      text-only message — they won't emit a tool call in the same response. The worker therefore nudges
+      the agent with <em>"continue"</em> until the target artifact exists, bounded by the
+      <em>Max auto-continue nudges</em> setting (default 10) so a stuck run fails cleanly instead of hanging.
+    </div>
+  </div>
+
+  <h2>Meeting recap — how it differs from news</h2>
+  <div class="card">
+    <p class="lead">The same producer skeleton with four swaps:</p>
+    <table>
+      <tr><th>Aspect</th><th>News mode</th><th>Recap mode</th></tr>
+      <tr><td>Input</td><td>text prompt → <code>web_search</code></td><td>transcript paste/file → persisted as <code>transcript_&lt;ts&gt;.txt</code> and read with <code>read_transcript_file</code></td></tr>
+      <tr><td>Agent</td><td><code>ai_news_researcher</code> (preset-named, e.g. "AI &amp; Markets Research Agent")</td><td><code>meeting_recap_producer</code> — no web tools at all</td></tr>
+      <tr><td>Structure</td><td><code>AINewsReport</code> schema + Data Sourcing Notes</td><td><code>MeetingRecap</code> schema: decisions / discussion / action-items table / open questions</td></tr>
+      <tr><td>Audio basename</td><td><code>ai_today_podcast</code></td><td><code>meeting_recap</code> — mode-routed so one never overwrites the other</td></tr>
+      <tr><td>Stepper</td><td>10 pills</td><td>9 pills, producer badged 🎙</td></tr>
+    </table>
+  </div>
+
+  <h2>Audio-summary path — no agents involved</h2>
+  <div class="card">
+    <p>
+      The upload is stored as <code>recordings/recording_&lt;ts&gt;_&lt;name&gt;</code>, then a worker
+      thread runs a deterministic four-step script: spawn the transcriber subprocess, save
+      <code>transcripts/transcript_&lt;ts&gt;.txt</code>, make <em>one</em> LLM call through the proxy
+      (the summary prompt), and write <code>artifacts/summaries/audio_summary.md</code>.
+    </p>
+<pre><code># _transcribe_sub.py — standalone process, streams JSON lines
+{"p": 12.5, "m": "transcribing 01:23/11:05"}   # progress → live log
+{"p": 100.0, "m": "done"}
+{"final": true, "result": {...}}                # transcript + segments
+
+# podcast_ui.py side
+TRANSCRIBE_SUBPROCESS_TIMEOUT_S = 900          # hard cap; proc.kill() on breach
+proc = subprocess.Popen([sys.executable, "_transcribe_sub.py", str(audio_path),
+                         whisper_model], stdout=subprocess.PIPE, ...)</code></pre>
+    <div class="note warn">
+      <strong>Why a subprocess?</strong> faster-whisper (ctranslate2) proved unreliable inside the uvicorn
+      app process on Windows. A clean <code>python.exe</code> subprocess is robust, streams progress as
+      JSON lines, and a hard 900&nbsp;s timeout (plus the Stop button) kills it without taking the server
+      down. The model is <em>pre-warmed</em> in a background thread at startup so the first real
+      transcription isn't the cold one.
+    </div>
+  </div>
+
+  <h2>Configuration anatomy</h2>
+  <div class="card">
+    <p>
+      Everything on the page persists to <code>config.json</code>; the UI loads it at startup and
+      <em>Save config</em> rewrites it. Hosts carry name + voice + persona; language changes remap
+      hosts 1–2 to that language's native voice pair.
+    </p>
+<pre><code>{
+  "model": "openai/gpt-oss:120b",
+  "topic_preset": "ai_nasdaq",
+  "whitelist_domains": ["techcrunch.com", "venturebeat.com", ...],
+  "search_max_results": 8, "search_region": "us-en", "search_timelimit": "w",
+  "language": "en",
+  "hosts": [
+    {"name": "Joe",  "voice": "en-US-GuyNeural",   "persona": "the enthusiastic host..."},
+    {"name": "Jane", "voice": "en-US-JennyNeural", "persona": "the analytical co-host..."}
+  ],
+  "report_file": "ai_research_report.md",  "audio_file": "ai_today_podcast.mp3",
+  "recap_report_file": "meeting_recap.md", "recap_audio_file": "meeting_recap.mp3",
+  "audio_summary_file": "audio_summary.md",
+  "whisper_model": "small",  "max_auto_continue": 10
+}</code></pre>
+    <div class="note">
+      <strong>.env keys:</strong> <code>OLLAMA_API_KEY</code> (required — the Ollama cloud key) plus
+      optional overrides: <code>OLLAMA_MODEL</code>, <code>PODCAST_UI_PORT</code>,
+      <code>OLLAMA_PROXY_HOST/PORT</code>, <code>WHISPER_MODEL</code>, <code>PODCAST_OUTPUT_DIR</code>.
+    </div>
+  </div>
+
+  <h2>API surface</h2>
+  <div class="card">
+    <table>
+      <tr><th>Endpoint</th><th>Purpose</th></tr>
+      <tr><td><code>GET /</code></td><td>The single-page UI (HTML embedded in the server file)</td></tr>
+      <tr><td><code>GET / POST /api/config</code></td><td>Read / persist settings (model, presets, domains, search, hosts, filenames)</td></tr>
+      <tr><td><code>POST /api/run</code></td><td>Start a run: <code>{mode:"news"|"recap"|"audiosum", …}</code>; <span class="pill red">409</span> if one is already running</td></tr>
+      <tr><td><code>POST /api/stop</code></td><td>Ask the current run to stop at the next step boundary</td></tr>
+      <tr><td><code>GET /api/status</code></td><td>Stepper states, log tail, agent text, artifacts, history, whisper readiness</td></tr>
+      <tr><td><code>GET /api/steps_config</code></td><td>Workflow steps per mode (preset-aware; drives the stepper UI)</td></tr>
+      <tr><td><code>GET /api/presets</code></td><td>Topic preset metadata (label, icon, prompt, whitelist)</td></tr>
+      <tr><td><code>GET /api/languages</code></td><td>Language → native edge-tts voice map</td></tr>
+      <tr><td><code>GET /api/report?mode=</code> · <code>GET /api/audio?mode=&amp;download=</code></td><td>Fetch report text / MP3 bytes for the requested mode</td></tr>
+      <tr><td><code>POST /api/upload?filename=</code></td><td>Store an audio recording for the summary mode</td></tr>
+      <tr><td><code>GET /api/voice_preview?voice=&amp;text=</code></td><td>Synthesize a short preview (host alias or any edge-tts voice)</td></tr>
+    </table>
+  </div>
+
+  <h2>Dependencies</h2>
+  <div class="card">
+    <table>
+      <tr><th>Package</th><th>Version</th><th>Purpose</th></tr>
+      <tr><td><code>google-adk</code></td><td>1.22.1 (pinned)</td><td>agent framework: Agent, Runner, ToolContext, AgentTool, callbacks</td></tr>
+      <tr><td><code>litellm</code></td><td>latest</td><td>routes ADK's LLM calls to Ollama Cloud (with the embedded proxy in front)</td></tr>
+      <tr><td><code>fastapi</code> + <code>uvicorn</code></td><td>latest</td><td>the UI server and the embedded OpenAI↔Ollama proxy</td></tr>
+      <tr><td><code>ddgs</code></td><td>latest</td><td>DuckDuckGo web search (replacement for the lesson's Gemini-only google_search tool)</td></tr>
+      <tr><td><code>edge-tts</code></td><td>latest</td><td>neural TTS (replaces the lesson's Gemini-only TTS)</td></tr>
+      <tr><td><code>yfinance</code></td><td>latest</td><td>stock context for mentioned tickers</td></tr>
+      <tr><td><code>python-dotenv</code></td><td>latest</td><td>loads <code>.env</code> (OLLAMA_API_KEY)</td></tr>
+    </table>
+    <div class="note">
+      faster-whisper is used by <code>_transcribe_sub.py</code> (isolated environment, installed alongside
+      the app deps) — keeping the heavy CTranslate2 runtime out of the server process entirely.
+    </div>
+  </div>
+
+  <h2>Project layout</h2>
+  <div class="card">
+<pre><code>VoiceAgents/
+├── lesson6_podcast_agent.py   # the engine: agents, tools, callbacks, embedded proxy, prompts
+├── podcast_ui.py              # FastAPI server + entire UI page + run orchestration + config
+├── _transcribe_sub.py         # standalone transcription runner (spawned as a subprocess)
+├── config.json                # saved UI settings
+├── .env                       # OLLAMA_API_KEY (+ optional overrides) — not committed
+├── requirements.txt           # google-adk==1.22.1, litellm, ddgs, edge-tts, yfinance, ...
+├── artifacts/
+│   ├── news/                  # ai_research_report.md (+ _old_* archives)
+│   ├── recap/                 # meeting_recap.md (+ _old_* archives)
+│   └── summaries/             # audio_summary.md
+├── transcripts/               # transcript_&lt;timestamp&gt;.txt (paste + audio transcriptions)
+├── recordings/                # uploaded audio, stored as recording_&lt;ts&gt;_&lt;name&gt;
+├── logs/                      # run logs
+└── userguide.html             # this guide</code></pre>
+  </div>
+
+  <h2>Running it</h2>
+  <div class="card">
+<pre><code># 1. Create the environment
+python -m venv .venv
+.venv\Scripts\activate.bat        # Windows
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Add your key to .env
+#    OLLAMA_API_KEY=&lt;your ollama.com key&gt;
+
+# 4. Launch (the embedded proxy on :11435 starts automatically)
+.venv\Scripts\python.exe podcast_ui.py
+#    → http://127.0.0.1:8000
+
+# 5. Pick a tab and press Start:
+#    News  → type a prompt (preset prefill helps) → Start
+#    Recap → paste a transcript or Load file → Start
+#    Audio → upload a recording in the Meeting Recap tab → Start</code></pre>
+    <div class="note ok">
+      🧪 <strong>Verification:</strong> watch the stepper while a run progresses — pills should advance
+      only when the corresponding tool fires (see the log lines naming each tool). When finished, the
+      Report panel shows the markdown and the audio player plays the MP3; both files exist under
+      <code>artifacts/&lt;mode&gt;/</code> and a history entry appears.
+    </div>
+  </div>
+
+  <h2>Design decisions worth knowing</h2>
+  <div class="card">
+    <ul>
+      <li><strong>One model, many roles</strong> — gpt-oss:120b plays researcher, writer, scriptwriter and
+          audio specialist. Specialization comes from instructions and tools, not fine-tunes.</li>
+      <li><strong>Sub-agent as a tool, not a hand-off</strong> — the producer calls the podcaster via
+          <code>AgentTool</code>, so audio generation is just another step in one workflow rather than a
+          conversation the user has to steer.</li>
+      <li><strong>Embedded proxy over a separate terminal</strong> — the OpenAI↔Ollama translator is a
+          FastAPI app started in a daemon thread inside the engine (after a <code>/health</code> check),
+          so there's no second process to launch or forget.</li>
+      <li><strong>Thread-per-run with a single-flight lock</strong> — one run at a time; shared STATE is
+          lock-guarded; a stale "running" state with a dead worker self-heals on the next run.</li>
+      <li><strong>Callbacks as the single source of UI truth</strong> — stepper pills advance on ADK tool
+          events, never on string-matching outputs, so the UI can't lie about progress.</li>
+      <li><strong>Async-in-async containment</strong> — edge-tts synthesis runs on a dedicated thread with
+          its own event loop (and whisper in a subprocess), keeping ADK's running loop untouched.</li>
+      <li><strong>Mode-routed artifacts</strong> — every artifact filename is resolved through
+          <code>output_path(filename, mode)</code> into <code>artifacts/news|recap|summaries</code>, with
+          <code>_old_</code> archiving so panels never show stale content.</li>
+      <li><strong>Graceful degradation</strong> — missing tickers become "Not Available", missing recap
+          fields "Not specified"; the run always delivers its artifacts rather than dying mid-flight.</li>
+    </ul>
+  </div>
+
+  <h2>Troubleshooting</h2>
+  <div class="card">
+    <ul>
+      <li><strong>Page won't open</strong> — the server isn't running: start it with
+          <code>.venv\Scripts\python.exe podcast_ui.py</code> and open <code>http://127.0.0.1:8000</code>.</li>
+      <li><strong>"A run is already in progress" while idle</strong> — stale state; the server self-heals
+          on the next run, or restart the server.</li>
+      <li><strong>Port 8000 / 11435 busy</strong> — close stray <code>python.exe</code> processes from
+          previous launches (on Windows each start spawns a launcher + interpreter pair).</li>
+      <li><strong>First transcription is slow</strong> — the whisper model downloads once; later runs are
+          much faster (and the startup pre-warm helps).</li>
+      <li><strong>Wrong output language</strong> — set <b>Report &amp; podcast language</b> in
+          Configuration <em>before</em> the run; hosts 1–2 remap automatically.</li>
+      <li><strong>Search returns little</strong> — check the whitelist domains and the freshness setting
+          (week is a good default).</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 3 — GLOSSARY                                                     -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-glossary">
+
+  <h2>Glossary — every technical term in this guide</h2>
+  <div class="card">
+    <p class="lead">
+      Every technical term that appears in the Elevator Pitch, Non-Technical Guide, and Technical
+      Guide — expanded to its full form, explained in plain English, and located in this project.
+      Terms are grouped by theme so you can jump to the area you need.
+    </p>
+  </div>
+
+  <h3>🤖 Agents &amp; orchestration</h3>
+  <div class="card">
+    <table>
+      <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+      <tr><td><strong>Agent</strong></td><td>AI Agent</td><td>An LLM given a role (instructions), capabilities (tools) and colleagues so it can act toward a goal instead of just completing text.</td><td>The producer agent and the podcaster agent in <code>lesson6_podcast_agent.py</code>.</td></tr>
+      <tr><td><strong>Producer Agent</strong></td><td>Research / Recap Producer</td><td>The root agent that runs the whole workflow: acknowledges, then silently orchestrates tools, and confirms at the end.</td><td><code>root_agent</code> ("ai_news_researcher") and <code>meeting_recap_producer</code>.</td></tr>
+      <tr><td><strong>Podcaster Agent</strong></td><td>Audio Specialist Agent</td><td>A narrow sub-agent whose only job is turning a script into an MP3 via its one tool.</td><td><code>podcaster_agent</code> — shown in the UI banner as the "Voice Agent 🎧".</td></tr>
+      <tr><td><strong>Multi-Agent System</strong></td><td>Multi-Agent System</td><td>Several specialized agents cooperating on one task, usually with a planner delegating to specialists.</td><td>Producer + podcaster, coordinated by the UI's worker thread.</td></tr>
+      <tr><td><strong>AgentTool</strong></td><td>Agent-as-Tool (ADK class)</td><td>ADK wrapper that makes a sub-agent callable like a function tool by a parent agent.</td><td><code>AgentTool(agent=podcaster_agent)</code> in the producer's tool list.</td></tr>
+      <tr><td><strong>Runner</strong></td><td>ADK Runner</td><td>The ADK object that executes agent turns, streaming events (tool calls, final responses).</td><td><code>runner.run_async(...)</code> in the engine's turn loop (replaces <code>adk web</code>).</td></tr>
+      <tr><td><strong>Session</strong></td><td>ADK Session</td><td>One conversation with its own state, history and metadata.</td><td><code>InMemorySessionService</code> + <code>session_001</code> per run.</td></tr>
+      <tr><td><strong>Instruction</strong></td><td>System Instruction</td><td>The standing prompt defining an agent's role, workflow and rules — read before every turn.</td><td>Preset-assembled producer instruction; fixed podcaster instruction.</td></tr>
+      <tr><td><strong>Guardrail</strong></td><td>Behavioral Guardrail</td><td>A rule (in prompts or code) preventing out-of-scope behavior — inventing data, leaving scope, stalling forever.</td><td>Scope directives per preset; the "two user-facing messages" rule; bounded auto-continue.</td></tr>
+    </table>
+  </div>
+
+  <h3>🛠️ Tools &amp; callbacks</h3>
+  <div class="card">
+    <table>
+      <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+      <tr><td><strong>Function Tool</strong></td><td>FunctionTool (ADK)</td><td>A plain Python function the LLM may call by name; ADK exposes its signature as a tool schema.</td><td><code>web_search</code>, <code>get_financial_context</code>, <code>save_news_to_markdown</code>, <code>read_transcript_file</code>, <code>generate_podcast_audio</code>.</td></tr>
+      <tr><td><strong>ToolContext</strong></td><td>Tool Context (ADK)</td><td>The handle a tool receives to reach session facilities and per-run settings.</td><td>Parameter of <code>generate_podcast_audio</code>; carries the mode's audio basename.</td></tr>
+      <tr><td><strong>Callback</strong></td><td>Tool Callback (before/after)</td><td>ADK hooks that run around every tool call — able to inspect, rewrite arguments, or modify results.</td><td><code>before_tool_callback</code> / <code>after_tool_callback</code> on the producer; the UI's step trackers.</td></tr>
+      <tr><td><strong>Whitelist Filter</strong></td><td>Domain Whitelist</td><td>A fixed list of domains a search may draw from; everything else is dropped.</td><td><code>filter_news_sources_callback</code> + the per-preset <code>whitelist_domains</code> in <code>config.json</code>.</td></tr>
+      <tr><td><strong>Freshness Enforcement</strong></td><td>Data Freshness Window</td><td>Forcing search results to a recency window (day/week/month/year) regardless of what the model asks for.</td><td><code>enforce_data_freshness_callback</code> — injects <code>timelimit='w'</code>.</td></tr>
+      <tr><td><strong>Process Log</strong></td><td>Data Sourcing Notes</td><td>A machine-generated list of what the filters did, attached to search results and printed in every report.</td><td><code>inject_process_log_after_search</code> → the report's "## Data Sourcing Notes" section.</td></tr>
+      <tr><td><strong>Structured Schema</strong></td><td>Pydantic Model</td><td>A class describing required fields so LLM output has a predictable shape.</td><td><code>AINewsReport</code>, <code>MeetingRecap</code>, <code>ActionItem</code>, <code>NewsStory</code> — used as instruction guidance (see note below).</td></tr>
+    </table>
+    <div class="note warn">
+      <strong>Schema vs tools:</strong> setting <code>output_schema</code> on an ADK agent disables tool
+      use entirely — so the schemas here guide the instructions instead of being enforced by the
+      framework. That trade-off is documented in the Technical Guide's agent section.
+    </div>
+  </div>
+
+  <h3>🎙 Speech &amp; audio</h3>
+  <div class="card">
+    <table>
+      <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+      <tr><td><strong>TTS</strong></td><td>Text-To-Speech</td><td>Synthesizing spoken audio from written text.</td><td>The podcaster agent's <code>generate_podcast_audio</code> tool.</td></tr>
+      <tr><td><strong>edge-tts</strong></td><td>Edge TTS (Microsoft neural voices)</td><td>A cloud TTS service exposing natural-sounding neural voices per language/region.</td><td>Every host voice — e.g. <code>en-US-GuyNeural</code>, <code>ja-JP-NanamiNeural</code>.</td></tr>
+      <tr><td><strong>Neural Voice</strong></td><td>Neural Text-to-Speech Voice</td><td>A voice generated by a deep-learning model rather than concatenated recordings; identified by a locale tag.</td><td>The <code>voice</code> field of each configured host.</td></tr>
+      <tr><td><strong>Host Persona</strong></td><td>Speaker Persona</td><td>A short description of a host's style that shapes how the script is written for that speaker.</td><td>The <code>persona</code> field per host; injected via the hosts directive.</td></tr>
+      <tr><td><strong>Speaker Line</strong></td><td>Speaker-Labelled Script Line</td><td>Script format <code>Name: text</code> — one label per line — that makes multi-voice rendering possible.</td><td>Regex-parsed in <code>_segments_from_script</code>; errors name the exact expected format.</td></tr>
+      <tr><td><strong>Chunked Streaming</strong></td><td>Audio Chunk Streaming</td><td>TTS engines deliver audio incrementally; chunks of type <code>audio</code> are concatenated into the final file.</td><td><code>tts.stream()</code> loop in <code>generate_podcast_audio</code>.</td></tr>
+      <tr><td><strong>STT</strong></td><td>Speech-To-Text</td><td>Transcribing spoken audio into text.</td><td>The Audio Summary mode's step 2.</td></tr>
+      <tr><td><strong>faster-whisper</strong></td><td>Faster-Whisper (CTranslate2 Whisper)</td><td>A fast local re-implementation of OpenAI's Whisper speech recognition.</td><td>Runs in the <code>_transcribe_sub.py</code> subprocess; model name from <code>whisper_model</code>.</td></tr>
+      <tr><td><strong>Pre-warm</strong></td><td>Model Pre-warming</td><td>Loading a model once at startup so the first real request isn't the slow one.</td><td>Background thread at server start; <code>/api/status</code> reports <code>whisper_ready</code>.</td></tr>
+    </table>
+  </div>
+
+  <h3>☁️ Models &amp; serving</h3>
+  <div class="card">
+    <table>
+      <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+      <tr><td><strong>Google ADK</strong></td><td>Agent Development Kit</td><td>Google's framework for building, running and debugging agents — Agent, Runner, tools, callbacks.</td><td>The entire engine; <code>google-adk==1.22.1</code>.</td></tr>
+      <tr><td><strong>LiteLLM</strong></td><td>LiteLLM</td><td>A routing library that lets one codebase call many LLM providers through a uniform interface.</td><td><code>LiteLlm(model="openai/gpt-oss:120b")</code> on both agents.</td></tr>
+      <tr><td><strong>Ollama Cloud</strong></td><td>Ollama Cloud (ollama.com)</td><td>Hosted Ollama serving open-weight models behind an API key.</td><td>Hosts <code>gpt-oss:120b</code> — the single model behind every agent.</td></tr>
+      <tr><td><strong>gpt-oss:120b</strong></td><td>GPT-OSS 120B (open-weight model)</td><td>OpenAI's open-weight MoE model — the reasoning engine the whole studio shares.</td><td>The <code>model</code> config value (default).</td></tr>
+      <tr><td><strong>OpenAI ↔ Ollama Proxy</strong></td><td>Format-Bridge Proxy</td><td>A local FastAPI translator between OpenAI-style chat/tool calls and Ollama's native API (tool-call shapes, array content, model prefix).</td><td>Embedded in the engine at <code>127.0.0.1:11435</code>; auto-started after a <code>/health</code> check.</td></tr>
+      <tr><td><strong>Auto-Continue</strong></td><td>Bounded Nudge Loop</td><td>Re-sending "continue" until the target artifact exists, because Ollama models end their turn after a text-only message.</td><td>The worker's loop, bounded by <code>max_auto_continue</code> (default 10).</td></tr>
+      <tr><td><strong>Event Loop</strong></td><td>Asyncio Event Loop</td><td>The single async execution context; nesting <code>asyncio.run()</code> inside one fails.</td><td>Why edge-tts synthesis runs on its own thread — documented in the tool code.</td></tr>
+    </table>
+  </div>
+
+  <h3>🖥️ Web app &amp; workflow</h3>
+  <div class="card">
+    <table>
+      <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+      <tr><td><strong>FastAPI</strong></td><td>FastAPI</td><td>A modern Python web framework for building REST APIs.</td><td><code>podcast_ui.py</code> (the app) and the embedded proxy.</td></tr>
+      <tr><td><strong>uvicorn</strong></td><td>Uvicorn ASGI Server</td><td>The server process that actually serves FastAPI apps.</td><td>Started by <code>podcast_ui.py</code> on <code>127.0.0.1:8000</code>.</td></tr>
+      <tr><td><strong>Stepper</strong></td><td>Workflow Stepper</td><td>The row of numbered pills, one per workflow step, showing idle/running/done/error.</td><td>Driven by <code>WORKFLOW_STEPS_BY_MODE</code> + the UI step-tracker callbacks.</td></tr>
+      <tr><td><strong>Topic Preset</strong></td><td>Topic Preset</td><td>A named bundle of prompt prefill, whitelist, region, agent identity and step labels.</td><td><code>TOPIC_PRESETS</code>: <code>ai_nasdaq</code>, <code>tech</code>, <code>research</code>, <code>entertainment_in</code>, <code>custom</code>.</td></tr>
+      <tr><td><strong>Single-Flight Run</strong></td><td>Single-Flight Execution</td><td>Only one run may execute at a time; a second request is rejected.</td><td><code>409 A run is already in progress</code> from <code>/api/run</code>.</td></tr>
+      <tr><td><strong>Artifact Archiving</strong></td><td>Artifact Archiving</td><td>Renaming previous outputs with a <code>_old_&lt;timestamp&gt;</code> stamp before a new run writes fresh ones.</td><td>Applied per mode at run start — panels never show stale content.</td></tr>
+      <tr><td><strong>Status Polling</strong></td><td>Client Polling</td><td>The browser re-fetches state on an interval instead of the server pushing events.</td><td><code>/api/status</code> every 1.5 s from the single-page UI.</td></tr>
+      <tr><td><strong>Worker Thread</strong></td><td>Worker Thread</td><td>A background thread that executes the run so the HTTP server stays responsive.</td><td>One per run, spawned by the server; Stop sets a flag honored at step boundaries.</td></tr>
+      <tr><td><strong>Subprocess Isolation</strong></td><td>Subprocess Isolation</td><td>Running fragile native code in a separate OS process so crashes can't take the server down.</td><td><code>_transcribe_sub.py</code> with a 900 s hard timeout and JSON progress lines.</td></tr>
+    </table>
+  </div>
+
+  <div class="note">
+    <strong>Cross-references:</strong> the two-agent design and its code live in the Technical Guide's
+    "The two agents" section; guardrail mechanics in "Guardrails: what the callbacks enforce"; the
+    run narratives in the Non-Technical Guide. Every term above is used somewhere in those tabs —
+    nothing here is decoration.
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  Research Voice Agent · FastAPI + Google ADK + Ollama Cloud + edge-tts · docs updated 2026-09-16
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    document.getElementById('tab-btn-' + name).classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+</script>
+
+</body>
+</html>

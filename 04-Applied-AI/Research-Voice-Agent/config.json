@@ -1,0 +1,35 @@
+{
+  "model": "openai/gpt-oss:120b",
+  "whitelist_domains": [
+    "techcrunch.com",
+    "venturebeat.com",
+    "theverge.com",
+    "technologyreview.com",
+    "arstechnica.com"
+  ],
+  "search_max_results": 8,
+  "search_region": "us-en",
+  "search_timelimit": "w",
+  "report_file": "ai_research_report.md",
+  "audio_file": "ai_today_podcast.mp3",
+  "max_auto_continue": 10,
+  "language": "en",
+  "hosts": [
+    {
+      "name": "Joe",
+      "voice": "en-US-GuyNeural",
+      "persona": "the enthusiastic host who opens each segment"
+    },
+    {
+      "name": "Jane",
+      "voice": "en-US-JennyNeural",
+      "persona": "the analytical co-host who adds depth and data"
+    }
+  ],
+  "recap_report_file": "meeting_recap.md",
+  "recap_audio_file": "meeting_recap.mp3",
+  "audio_summary_file": "audio_summary.md",
+  "whisper_model": "small",
+  "topic_preset": "ai_nasdaq",
+  "custom_topic": ""
+}
