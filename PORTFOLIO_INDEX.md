@@ -282,24 +282,28 @@ Documents → LLM Knowledge Extraction → Source/Entity/Concept Pages
 
 ## 14. DocFlow — AI Document Intelligence & Invoice Approval Engine
 
-**Folder:** [`04-Applied-AI/DocFlow-Document-Intelligence/`](./04-Applied-AI/DocFlow-Document-Intelligence/)
+**Folder:** [`04-Applied-AI/DocFlow-Document-Intelligence/`](./04-Applied-AI/DocFlow-Document-Intelligence/) · **User guide:** [`userguide.html`](./04-Applied-AI/DocFlow-Document-Intelligence/userguide.html)
 
-**Purpose:** Invoice/document processing where AI reads (OCR + structured LLM extraction with per-field confidence) but deterministic validation, policy rules and human review own the decisions.
+**Purpose:** Invoice-approval workflow where an LLM reads invoice PDFs (OCR fallback for image-only scans) with per-field confidence, but a deterministic engine — 9 validation checks, two/three-way PO matching, ordered policy rules R001–R008 — makes every financial decision, risky invoices go to an evidence-first human reviewer, and every stage lands in an append-only audit trail.
 
-**Focus:** Document AI + deterministic validation/policy
+**Focus:** Document AI + deterministic validation/policy + human-in-the-loop approval
 
-**Technologies:** FastAPI · Streamlit · PyMuPDF · Tesseract OCR · Pillow · Pydantic v2 · pytest
+**Technologies:** FastAPI · Streamlit · SQLite · PyMuPDF · Tesseract OCR · Pillow · Pydantic v2 · Ollama (mock/live) · pytest (101 passed, 1 skipped)
 
 **Architecture:**
 ```text
-Invoice PDF/Image → PyMuPDF Text Extraction → Tesseract OCR Fallback
-→ LLM Structured JSON → Per-field Confidence → Deterministic Validation
-→ Policy Rules → Human Review when Required → Audit Trail
+Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-only)
+→ LLM structured extraction + per-field confidence (Ollama or mock replay)
+→ 9 deterministic checks + two/three-way PO match → Policy engine R001–R008 (first trigger wins)
+→ AUTO_APPROVE (<¥100k) / EXCEPTION / HUMAN_REVIEW / FINANCE_REVIEW / REJECT (duplicate, pre-insert)
+→ Evidence-first Streamlit review → SQLite systems of record + append-only audit trail
 ```
 
 **Design principle:** *AI reads, code decides, humans own risk.*
 
-**How it differs:** Document AI combined with deterministic financial/business validation.
+**Evaluation:** 6-level harness over 10 seeded invoice scenarios (field accuracy with critical fields ×5, match accuracy, exception recall, false approvals, latency, review time saved). Shipped report: decision accuracy 1.0, exception recall 1.0, false approvals 0 — sample/project evaluation results, not production claims.
+
+**How it differs:** Document AI where the LLM is deliberately untrusted — extraction only, with a pure-Python policy engine deciding, humans owning risk, and a replayable audit trail.
 
 ---
 

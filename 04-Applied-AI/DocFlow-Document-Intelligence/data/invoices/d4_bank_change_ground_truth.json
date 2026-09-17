@@ -1,0 +1,26 @@
+{
+  "vendor_name": "ABC Supplier",
+  "vendor_id": "V-10025",
+  "invoice_number": "INV-10028",
+  "invoice_date": "2026-09-10",
+  "po_number": "PO-12345",
+  "currency": "JPY",
+  "bank_account": "XXXX9876",
+  "line_items": [
+    {
+      "description": "Product A",
+      "quantity": 100,
+      "unit_price": 1000,
+      "amount": 100000
+    },
+    {
+      "description": "Product B",
+      "quantity": 150,
+      "unit_price": 5000,
+      "amount": 750000
+    }
+  ],
+  "subtotal": 850000,
+  "tax": 0,
+  "total_amount": 850000
+}

@@ -1,0 +1,20 @@
+{
+  "vendor_name": "Delta Components",
+  "vendor_id": "V-10026",
+  "invoice_number": "INV-10029",
+  "invoice_date": "2026-09-12",
+  "po_number": "PO-20001",
+  "currency": "JPY",
+  "bank_account": "XXXX5566",
+  "line_items": [
+    {
+      "description": "Widget",
+      "quantity": 50,
+      "unit_price": 800,
+      "amount": 40000
+    }
+  ],
+  "subtotal": 40000,
+  "tax": 0,
+  "total_amount": 40000
+}

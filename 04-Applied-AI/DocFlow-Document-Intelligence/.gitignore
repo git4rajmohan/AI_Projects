@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+data/*.db
+data/_probe.pdf
+# data/invoices/  (sample PDFs + ground truth are committed so the eval harness runs from a fresh clone)
+evaluation/results.json

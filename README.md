@@ -69,7 +69,7 @@ A collection of 16 practical AI/ML projects demonstrating agentic AI, multi-agen
 
 | Project | AI Capability | Technology |
 |---|---|---|
-| [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) | Document AI + deterministic validation | PyMuPDF, Tesseract OCR, Pydantic |
+| [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) | Invoice AI reads, deterministic policy decides | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
 | [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) | Voice/multimodal AI pipeline | faster-whisper, edge-tts, ADK |
 
 ### 🧠 NLP & Machine Learning

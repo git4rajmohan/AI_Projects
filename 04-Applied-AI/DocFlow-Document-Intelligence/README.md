@@ -1,89 +1,230 @@
 # DocFlow — AI Document Intelligence & Invoice Approval Engine
 
-> Invoice/document processing where AI reads (OCR + structured LLM extraction with per-field confidence) but deterministic validation, policy rules and human review own the decisions.
+An invoice-approval workflow where **AI reads, code decides, humans own risk**: an invoice PDF
+(even a pure image-only scan) is read by an LLM with per-field confidence, but every financial
+decision is made by deterministic validation, ordered policy rules — and only genuinely risky
+invoices reach a human reviewer, with the full evidence side-by-side.
 
-**Design principle:** *AI reads, code decides, humans own risk.*
+> FastAPI · Streamlit · SQLite · PyMuPDF · Tesseract OCR · Ollama (live or mock) · pytest
 
 ## What This Project Demonstrates
 
-- Document intelligence (OCR + structured extraction)
-- Per-field confidence scoring
-- Deterministic validation and policy engine
-- Human-in-the-loop review
-- Audit trail
+- **Document intelligence** — PDF text-layer extraction (PyMuPDF) with a Tesseract OCR fallback
+  for image-only scans; structured LLM field extraction with a **confidence score per field**
+- **Deterministic decision core** — 9 validation checks, two-way/three-way PO matching, and the
+  ordered policy rules R001–R008, all pure Python with **zero LLM imports**
+- **Human-in-the-loop approval** — evidence-first reviewer UI (document, fields, checks, rule
+  reasons side-by-side) with approve / reject / request-info / correct-and-resubmit actions
+- **Append-only audit trail** — every pipeline stage appends an event; the UI's workflow strips
+  are rendered *from* the audit events, so the picture can never disagree with the database
+- **Measurable evaluation** — a 6-level eval harness over 10 invoice scenarios with a
+  risk-weighted error score (critical fields ×5)
 
 ## Why This Project Exists
 
-Demonstrates a production-style document AI workflow where the LLM reads and extracts, but deterministic validation and policy rules make the financial decisions — with humans owning the risk through review gates.
+Demonstrates a production-style document AI workflow where the LLM reads and extracts, but
+deterministic validation and policy rules make the financial decisions — with humans owning the
+risk through review gates. LLMs are excellent readers and unreliable judges: a confident wrong
+answer on a ¥1M payment is expensive, so the extraction LLM here has no authority over thresholds,
+approvals, or fraud calls. The same pattern generalizes to contract review, insurance claims, and
+clinical prior authorization.
 
 ## Architecture
 
 ```text
-Invoice PDF / Image
-        ↓
-PyMuPDF Text Extraction
-        ↓
-Tesseract OCR Fallback
-        ↓
-LLM Structured JSON
-        ↓
-Per-field Confidence
-        ↓
-Deterministic Validation
-        ↓
-Policy Rules
-        ↓
-Human Review when Required
-        ↓
-Audit Trail
+                INVOICE (.pdf, even image-only)
+                          ↓
+              PyMuPDF text load (quality-graded)
+                          ↓
+              AI Field Extraction (Ollama or mock)
+                structured JSON + per-field confidence
+                          ↓
+        ┌─────────────────┴─────────────────┐
+        ↓                                   ↓
+ Vendor Validation (9 checks)    Line-Item Arithmetic (recomputed in code)
+        ↓                                   ↓
+        └─────────────────┬─────────────────┘
+                          ↓
+              Invoice ↔ PO Match (two-way + AI line map, code-verified)
+                          ↓
+              Optional Goods-Receipt Match (three-way)
+                          ↓
+              Deterministic Policy Engine (R001–R008, first trigger wins)
+                          ↓
+              ┌───────────┴───────────┐
+              ↓                       ↓
+        AUTO_APPROVE          HUMAN_REVIEW / EXCEPTION / REJECT
+              (¥<100k green)          ↓
+                          Human Reviewer (Streamlit, evidence-first)
+                          ↓
+              Systems of Record (SQLite) + append-only Audit Trail
 ```
+
+The **policy engine is a pure function** of (validation report, match report, extracted invoice)
+— unit-tested without any AI. The **only AI component is extraction** (`app/extraction/`): an
+OpenAI-compatible LLM call that returns structured JSON; the LLM never touches the database and
+never decides anything financial.
 
 ## Workflow
 
-*To be verified from code.*
+1. **Upload → pipeline runs**: `received → extracted → validated → matched → policy_decided → outcome`,
+   each stage updating invoice status and appending an audit event before the next begins
+2. **Automatic exits**: clean invoices under ¥100k auto-approve (R008); duplicates are rejected
+   *pre-insert* (R001) — the block event lands on the original invoice, no orphan rows
+3. **Human loop** (only for risk): reviewer sees the document, extracted fields, all 9 checks,
+   the match report and the exact fired rule — then approves, rejects, requests info, or corrects
+   a field (corrections re-enter the pipeline **from validation**, corrected fields get confidence
+   1.0, the rest keep their original scores — no confidence laundering)
+
+## Policy Engine — R001–R008 (ordered, first trigger wins as the decision; all triggered rules collected into `reasons[]`)
+
+| Rule | Trigger | Decision |
+|---|---|---|
+| R001 | same vendor + invoice number already recorded | **REJECT** (blocked pre-insert) |
+| R002 | bank account ≠ vendor master | **HUMAN_REVIEW** (mandatory) |
+| R003 | PO number not found | **EXCEPTION** |
+| R004 | any FAIL / MISMATCH check | **EXCEPTION** |
+| R005 | any critical-field confidence < 0.6 | **HUMAN_REVIEW** |
+| R006 | total > ¥1,000,000 | **FINANCE_REVIEW** |
+| R007 | total ≥ ¥100,000 | **MANAGER_REVIEW** |
+| R008 | everything green, < ¥100,000 | **AUTO_APPROVE** |
+
+Thresholds, tolerances and the confidence floor are deterministic `.env` settings the LLM never
+sees.
 
 ## Technology Stack
 
 | Area | Technology |
 |---|---|
-| LLM | OpenAI-compatible client (Ollama) |
-| Backend | FastAPI |
-| Frontend | Streamlit |
-| Documents | PyMuPDF, Tesseract OCR, Pillow |
-| Validation | Pydantic v2 |
-| Testing | pytest |
+| LLM extraction | OpenAI-compatible client → Ollama (`gpt-oss:120b`), live **or** mock mode |
+| Backend | FastAPI (8 routes) + Pydantic v2 wire models |
+| Reviewer UI | Streamlit (thin `requests` client — zero DB access) |
+| Documents | PyMuPDF (text layer + rasterization), pytesseract + Pillow (optional OCR) |
+| Storage | SQLite (vendors, POs, receipts, invoices, exceptions, reviews, audit_events) |
+| Testing | pytest — 101 passed, 1 skipped (the skipped test needs a live LLM) |
 
-*To be verified against the project's requirements files.*
+Mock-first by design: `.env` ships `EXTRACTION_MODE=mock`, which replays each sample's
+ground-truth JSON — the whole pipeline (validation → matching → policy → review) runs and is
+tested with **zero LLM dependency**; flip one env var for live Ollama.
 
 ## Demo
 
-*Screenshots/demo assets to be added when project code is copied into this repository.*
+Screenshots from a real run of the shipped app (FastAPI + Streamlit reviewer):
+
+| | |
+|---|---|
+| ![Reviewer landing: exception inbox + sidebar](docs/screenshots/ui_allinvoices.png) | ![Quantity mismatch review with per-line evidence](docs/screenshots/ui_review_mismatch.png) |
+| ![Missing-PO exception with workflow strips](docs/screenshots/ui_review_missing_po.png) | |
+
+- **Exception inbox** lists only invoices waiting on a human — safe small invoices never appear
+- **Evidence-first review page**: original document next to extracted fields, all 9 validation
+  checks, the invoice-vs-PO per-line table (✅ mapped / 🚨 mismatched / ❓ unmapped), the fired
+  rule, and two workflow strips (🤖 agent steps / 🧍 human steps) rendered from audit events
+
+**Full guide:** [`userguide.html`](./userguide.html) — 4-tab walkthrough (pitch, non-technical,
+technical, glossary). **Scenario walkthroughs:** [`demo_script.md`](./demo_script.md);
+step-by-step test matrix: [`howtotest.md`](./howtotest.md).
+
+## Sample documents (data/invoices/, 10 scenarios)
+
+| sample | scenario | expected decision |
+|---|---|---|
+| `d1_normal` | normal ¥850k invoice, PO-12345 | MANAGER_REVIEW (R007 band) |
+| `d2_qty_mismatch` | billed 150, PO says 100 | EXCEPTION (R004) |
+| `d3_duplicate` | invoice number already paid | REJECT (R001), blocked pre-insert |
+| `d4_bank_change` | bank account ≠ vendor master | HUMAN_REVIEW (R002) |
+| `d5_missing_po` | PO-99999 not in the PO system | EXCEPTION (R003) |
+| `d6_low_confidence` | degraded scan, confidence capped | HUMAN_REVIEW (R005) |
+| `d7_high_value` | ¥1.2M invoice | FINANCE_REVIEW (R006) |
+| `d8_currency_mismatch` | USD invoice vs JPY PO | EXCEPTION (R004) |
+| `d9_small` | ¥60k, everything green | AUTO_APPROVE (R008) |
+| `d10_scanned` | image-only scan (zero text layer) | MANAGER_REVIEW via OCR (HUMAN_REVIEW without Tesseract) |
+
+Samples regenerate deterministically with `tools/make_sample_invoices.py`; each has a
+`*_ground_truth.json` used by mock extraction and the eval harness.
 
 ## How to Run
 
-*To be verified from the project's actual installation and execution instructions.*
+```bash
+py -3.11 -m venv .venv
+.venv/Scripts/pip install -r requirements.txt
+copy .env.example .env    # then paste your Ollama key (or keep EXTRACTION_MODE=mock for offline)
 
-## Key AI Engineering Concepts
+# eval harness: 10 scenarios through the real pipeline → evaluation/report.md + results.json
+.venv/Scripts/python.exe -m evaluation.run_eval
 
-- Document AI with confidence scoring
-- Deterministic financial/business validation
-- Human-in-the-loop approval
-- Audit trail
+# API (terminal 1) — seed the DB first if data/docflow.db is missing
+.venv/Scripts/python.exe -c "import app.db; app.db.seed('data/docflow.db')"
+.venv/Scripts/python.exe -m uvicorn app.api.main:app --port 8000
 
-## Safety / Reliability
+# reviewer UI (terminal 2)
+.venv/Scripts/python.exe -m streamlit run ui/reviewer.py
 
-- Deterministic validation + policy rules
-- Human review when required
-- Sample accuracy/review-time numbers, if present, are **sample/project evaluation results**, not general production performance claims.
+# tests
+.venv/Scripts/python.exe -m pytest tests/ -q
+```
+
+Setup and verification steps for every scenario are in [`howtotest.md`](./howtotest.md).
+The project was developed against **Python 3.11/3.12** on Windows.
+
+## API Routes (app/api/main.py)
+
+`GET /health` · `POST /invoices/upload` · `GET /invoices[?status=]` · `GET /invoices/{id}`
+(assembled from audit events) · `GET /invoices/{id}/audit` · `GET /invoices/{id}/document` ·
+`POST /invoices/{id}/review` · `DELETE /invoices/{id}` (delete-for-retest, refuses seeded
+fixtures) · `GET /exceptions`
 
 ## Testing / Evaluation
 
-*To be verified — pytest suite to be documented from code.*
+```bash
+.venv/Scripts/python.exe -m pytest tests/ -q          # 101 passed, 1 skipped (live LLM)
+.venv/Scripts/python.exe -m evaluation.run_eval       # 6-level harness → report.md
+```
+
+The eval harness runs all 10 scenarios through the real pipeline in one fresh DB and reports:
+field accuracy (critical fields `total_amount` / `bank_account` / `vendor` weighted ×5), match
+accuracy, exception recall, false approvals, latency (avg + p95), and estimated review-time
+saved. Latest shipped results live in [`evaluation/report.md`](./evaluation/report.md); on the
+sample suite: **decision accuracy 1.0, match accuracy 1.0, exception recall 1.0, false approvals
+0**. These are **sample/project evaluation results on 10 seeded scenarios**, not general
+production performance claims.
+
+## Key AI Engineering Concepts
+
+- Document AI with per-field confidence scoring and OCR fallback
+- Deterministic policy engine as a pure function (no LLM in the decision path)
+- Human-in-the-loop review with evidence-first UI
+- Append-only audit trail driving the UI state machine
+- Mock-first LLM testing (offline-replayable demos and test suites)
+
+## Safety / Reliability
+
+- Duplicate guard is **pre-insert** (idempotency without orphan rows)
+- Arithmetic is always recomputed in code — LLM-stated totals are never trusted
+- Every check is emitted on every run (a missing check is itself suspicious)
+- Graceful OCR degradation: no Tesseract binary → image-only pages read as poor quality → human
+  review, never a 500
+- Corrections re-run the whole verification chain (no confidence laundering)
+
+## Project Layout
+
+```text
+app/           ingest, extraction, validation, matching, policy, workflow, audit, api
+ui/            Streamlit reviewer (thin API client, zero DB access)
+data/          sample invoices + ground truth (DB & uploads are gitignored, created at runtime)
+evaluation/    6-level eval harness → report.md + results.json
+tests/         pytest per phase (conftest regenerates samples)
+tools/         make_sample_invoices.py, build_userguide.py, capture_screens.py
+```
 
 ## How This Project Differs
 
-Document AI combined with deterministic financial/business validation and approval policy.
+Document AI where the LLM is confined to *reading*: a deterministic, ordered policy engine makes
+every financial call, humans own the risky minority, and an append-only audit trail makes every
+decision replayable. Unlike a chat-with-PDF demo, the AI component here is deliberately
+untrusted — the value is in what surrounds it.
 
 ## AI-Assisted Development
 
-This project was developed using AI-assisted coding workflows. Architecture, implementation decisions, testing, debugging and validation were reviewed and refined during development.
+This project was developed using AI-assisted coding workflows. Architecture, implementation
+decisions, testing, debugging and validation were reviewed and refined during development.
