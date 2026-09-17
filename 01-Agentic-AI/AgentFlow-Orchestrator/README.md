@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # AgentFlow — Dynamic Multi-Agent Workflow & Skill Orchestrator
 
 > A dynamic multi-agent orchestration platform where an LLM converts user intent into a structured agent workflow, obtains approval, executes it through tools, evaluates the result and saves successful workflows as reusable skills.

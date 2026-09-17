@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # Production RAG Documentation Assistant
 
 > A production-oriented Retrieval-Augmented Generation pipeline: three chunking strategies, hybrid BM25 + vector retrieval fused with RRF, strictly grounded generation with per-claim citations, honest refusals — and a deterministic regression gate that turns 🟢 the moment quality slips.

@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # 🤖 Agentic AI — MCP Tool Orchestration
 
 **A production-style AI chat assistant that orchestrates 14 MCP (Model Context Protocol) tool servers behind any LLM** — time, Excel, filesystem, browser automation, diagrams, charts, SQL, Jira, docs search, and image understanding — all behind a Streamlit chat UI with a switchable provider layer (Ollama Cloud / local Ollama / any OpenAI-compatible endpoint).

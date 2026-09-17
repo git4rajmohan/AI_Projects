@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # 📚 LLM Wiki — AI Knowledge Base Generator
 
 > From a pile of documents to a living, cross-linked knowledge base — hands-free. Drop source documents into `Clippings/`, press *Run Ingest*, and an LLM writes a structured wiki: source pages, entity pages, concept pages and a master index, stitched together with Obsidian-style `[[wiki-links]]`. Browse it as a folder tree or a D3 force graph, and interrogate it in a streaming chat that cites its sources and grades its own confidence.

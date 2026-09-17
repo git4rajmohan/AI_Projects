@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # Research Voice Agent — From a One-Line Prompt to a Finished Podcast
 
 A three-mode voice-AI pipeline: give it a prompt, a meeting transcript, or an audio recording,

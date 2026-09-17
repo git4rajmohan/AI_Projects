@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # DocFlow — AI Document Intelligence & Invoice Approval Engine
 
 An invoice-approval workflow where **AI reads, code decides, humans own risk**: an invoice PDF

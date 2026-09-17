@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # 🛡️ AI-Safe Support Ticket Classifier
 
 **Production-grade AI ticket triage with a live pipeline visualizer — safety rails (PII redaction, prompt-injection guard, validation, fallback) wrapped around an LLM classifier, with every node's output inspectable in the UI.**

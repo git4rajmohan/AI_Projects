@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # 🛒 Agentic AI — Multi-Agent E-Commerce Orchestrator
 
 A multi-agent e-commerce assistant built on **Google ADK (Agent Development Kit)**: a root orchestrator agent collaborates with three specialist agents (catalog → checkout → order summary) to take a shopper from *"I want a new phone"* to a complete, Amazon-style order summary — with all workflow data flowing through **shared session state**.

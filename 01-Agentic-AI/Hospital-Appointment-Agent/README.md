@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # 🏥 Hospital Appointment Scheduler & Confirmation Bot
 
 > Part of the [AI_Projects](../README.md) showcase  Ea curated collection of AI/ML projects.

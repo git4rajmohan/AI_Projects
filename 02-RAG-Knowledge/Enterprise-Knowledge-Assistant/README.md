@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 # Enterprise Knowledge Assistant — Hybrid Graph RAG
 
 > A fully local RAG chatbot over 11 enterprise HR/policy PDFs. A hybrid retriever fuses semantic vector search, BM25 keyword search and knowledge-graph relationships; a calibrated **evidence gate** refuses to answer *before the LLM is ever called* when the documents don't support the question; every claim carries real filenames.

@@ -1,3 +1,7 @@
+Languages: **English** | [日本語](README.ja.md)
+
+---
+
 <div align="center">
 
 # 🛡️ AI Guardrails Demo
