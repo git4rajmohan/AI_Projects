@@ -1,0 +1,89 @@
+name: web-research
+version: 1.0.0
+description: >
+  Research a topic on the web and generate a summary report.
+  Uses multiple parallel research agents to search for information,
+  then a single report agent to compile findings.
+
+author: AgentOS
+tags:
+  - research
+  - web-search
+  - report
+  - analysis
+
+inputs:
+  - name: topic
+    type: string
+    description: The topic to research
+
+outputs:
+  - name: report
+    type: document
+    description: A summary report of the research findings
+
+agents:
+  - id: researcher_1
+    name: Researcher 1
+    description: Searches the web for information on the topic
+    goal: Find relevant information about the research topic
+    tools:
+      - web_search
+    dependencies: []
+    max_iterations: 3
+    max_tool_calls: 5
+    timeout_seconds: 120
+
+  - id: researcher_2
+    name: Researcher 2
+    description: Searches the web for alternative perspectives
+    goal: Find alternative viewpoints and additional data
+    tools:
+      - web_search
+    dependencies: []
+    max_iterations: 3
+    max_tool_calls: 5
+    timeout_seconds: 120
+
+  - id: report_writer
+    name: Report Writer
+    description: Compiles research findings into a summary report
+    goal: Create a comprehensive report from the research findings
+    tools:
+      - file_writer
+    dependencies:
+      - researcher_1
+      - researcher_2
+    max_iterations: 5
+    max_tool_calls: 10
+    timeout_seconds: 120
+
+tools:
+  - web_search
+  - file_writer
+
+workflow:
+  type: dag
+  nodes:
+    - id: researcher_1
+    - id: researcher_2
+    - id: report_writer
+  edges:
+    - from: researcher_1
+      to: report_writer
+    - from: researcher_2
+      to: report_writer
+
+evaluation:
+  criteria:
+    - completeness
+    - accuracy
+    - relevance
+  threshold: 0.7
+
+permissions:
+  file_read: false
+  file_write: true
+  network: true
+
+enabled: true

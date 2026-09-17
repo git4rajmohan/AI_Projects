@@ -1,0 +1,52 @@
+Auto Sales Insights Report
+==========================
+
+**Overall Summary**
+- Total orders processed: 2,747
+- Cumulative sales value: $9,760,221.71
+- Average unit price (PRICEEACH): $101.10
+
+**Sales by Product Line**
+| Product Line          | Sales ($)   | Orders |
+|----------------------|------------:|-------:|
+| Classic Cars         | 3,842,868.54 |    949 |
+| Motorcycles          | 1,103,512.19 |    313 |
+| Planes               |   969,323.42 |    304 |
+| Ships                |   700,039.22 |    230 |
+| Trucks and Buses    | 1,111,559.19 |    295 |
+| Vintage Cars        | 1,806,675.68 |    579 |
+| Trains               |   226,243.47 |     77 |
+
+**Monthly Sales Trend (Jan 2018 – May 2020)**
+- Strong growth observed in late 2018, peaking in November 2018 ($1,029,837.66). 
+- Another peak in November 2019 ($1,058,699.29). 
+- Sales dipped slightly in early 2020 but remained above $300k per month.
+
+**Top 5 Customers by Sales**
+1. Euro Shopping Channel – $912,294.11
+2. Mini Gifts Distributors Ltd. – $654,858.06
+3. Australian Collectors, Co. – $200,995.41
+4. Muscle Machine Inc – $197,736.94
+5. La Rochelle Gifts – $180,124.90
+
+**Deal Size Distribution**
+- Medium: 1,349 orders (49.1%)
+- Small: 1,246 orders (45.4%)
+- Large: 152 orders (5.5%)
+
+**Order Status Breakdown**
+- Shipped: 2,541 orders (92.6%)
+- Cancelled: 60 (2.2%)
+- Resolved: 47 (1.7%)
+- On Hold: 44 (1.6%)
+- In Process: 41 (1.5%)
+- Disputed: 14 (0.5%)
+
+**Key Insights**
+1. Classic Cars dominate revenue, contributing ~39% of total sales.
+2. The business experiences seasonal spikes in Q4 each year, especially November.
+3. A small proportion of large‑deal orders (5.5%) still represent a meaningful revenue share.
+4. Over 92% of orders are successfully shipped; the remaining statuses are relatively low‑volume.
+5. The two biggest customers together account for ~15% of total sales, indicating concentration risk.
+
+*Prepared by Data Insights Generator*

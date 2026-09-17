@@ -1,0 +1,36 @@
+# AgentOS — Agentic AI Workflow Platform
+# Python Dependencies
+
+# --- Agent Framework ---
+google-adk>=1.0.0
+
+# --- Web Framework ---
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+
+# --- Data Validation & Settings ---
+pydantic>=2.9.0
+pydantic-settings>=2.5.0
+
+# --- Database ---
+sqlalchemy[asyncio]>=2.0.35
+aiosqlite>=0.20.0
+
+# --- LLM ---
+litellm>=1.50.0
+
+# --- HTTP Client ---
+httpx>=0.27.0
+
+# --- Utilities ---
+python-dotenv>=1.0.1
+pyyaml>=6.0.2
+
+# --- Data tools (used by data-analysis skills/agents) ---
+pandas>=2.2.0
+openpyxl>=3.1.0
+
+# --- Testing ---
+pytest>=8.3.0
+pytest-asyncio>=0.24.0

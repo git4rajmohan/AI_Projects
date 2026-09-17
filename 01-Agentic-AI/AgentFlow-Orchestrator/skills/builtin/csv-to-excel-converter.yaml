@@ -1,0 +1,60 @@
+name: csv-to-excel-converter
+version: 1.0.0
+description: >
+  Convert a CSV file into an Excel (.xlsx) file.
+  A simple single-agent skill that reads a CSV and writes it as Excel.
+
+author: AgentOS
+tags:
+  - csv
+  - excel
+  - file-conversion
+  - data
+
+inputs:
+  - name: input_file
+    type: file
+    description: Path to the input CSV file
+
+outputs:
+  - name: output_file
+    type: file
+    description: Path to the output Excel file
+
+agents:
+  - id: file_converter
+    name: File Converter
+    description: Reads a CSV file and writes it as an Excel file
+    goal: Convert the input CSV file to Excel format
+    tools:
+      - file_reader
+      - file_writer
+      - python_executor
+    dependencies: []
+    max_iterations: 3
+    max_tool_calls: 10
+    timeout_seconds: 60
+
+tools:
+  - file_reader
+  - file_writer
+  - python_executor
+
+workflow:
+  type: dag
+  nodes:
+    - id: file_converter
+  edges: []
+
+evaluation:
+  criteria:
+    - file_created
+    - correct_format
+  threshold: 0.8
+
+permissions:
+  file_read: true
+  file_write: true
+  network: false
+
+enabled: true

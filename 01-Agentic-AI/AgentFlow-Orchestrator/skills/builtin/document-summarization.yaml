@@ -1,0 +1,57 @@
+name: document-summarization
+version: 1.0.0
+description: >
+  Read a document file and generate a concise summary with key points.
+  A single-agent skill that reads a file and produces a summary.
+
+author: AgentOS
+tags:
+  - document
+  - summarization
+  - text
+  - analysis
+
+inputs:
+  - name: input_file
+    type: file
+    description: Path to the document to summarize
+
+outputs:
+  - name: summary
+    type: text
+    description: A concise summary of the document
+
+agents:
+  - id: summarizer
+    name: Document Summarizer
+    description: Reads a document and generates a summary with key points
+    goal: Read the document and produce a concise summary
+    tools:
+      - file_reader
+    dependencies: []
+    max_iterations: 3
+    max_tool_calls: 5
+    timeout_seconds: 60
+
+tools:
+  - file_reader
+
+workflow:
+  type: dag
+  nodes:
+    - id: summarizer
+  edges: []
+
+evaluation:
+  criteria:
+    - accuracy
+    - completeness
+    - conciseness
+  threshold: 0.7
+
+permissions:
+  file_read: true
+  file_write: false
+  network: false
+
+enabled: true

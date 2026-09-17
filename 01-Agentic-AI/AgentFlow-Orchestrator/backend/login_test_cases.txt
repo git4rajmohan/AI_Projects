@@ -1,0 +1,102 @@
+Login Screen Test Cases
+=========================
+
+1. Functional Test Cases
+-----------------------
+1.1 Valid Login
+    - Precondition: User has a registered account with email "user@example.com" and password "ValidPass123!".
+    - Steps:
+        1. Navigate to login page.
+        2. Enter email "user@example.com".
+        3. Enter password "ValidPass123!".
+        4. Click "Login" button.
+    - Expected Result: User is redirected to the dashboard/home page; session cookie/token is set.
+
+1.2 Invalid Email Format
+    - Precondition: None.
+    - Steps:
+        1. Enter "invalidemail" in email field.
+        2. Enter any password.
+        3. Click "Login".
+    - Expected Result: Inline validation message "Please enter a valid email address" appears, login is not attempted.
+
+1.3 Incorrect Password
+    - Precondition: Registered email "user@example.com".
+    - Steps:
+        1. Enter correct email.
+        2. Enter wrong password "WrongPass!".
+        3. Click "Login".
+    - Expected Result: Error message "Invalid email or password" displayed.
+
+1.4 Empty Email and Password
+    - Steps:
+        1. Leave both fields blank.
+        2. Click "Login".
+    - Expected Result: Validation messages for required fields appear.
+
+2. Boundary & Edge Test Cases
+------------------------------
+2.1 Maximum Length Email
+    - Use email of length 254 characters (max per RFC) with valid format.
+    - Expected: Login succeeds if credentials are correct.
+2.2 Maximum Length Password
+    - Use password of length 128 characters (or system max).
+    - Expected: Login succeeds if within policy.
+2.3 Minimum Length Password
+    - Use password shorter than required minimum (e.g., 5 characters).
+    - Expected: Validation error indicating password too short.
+2.4 SQL Injection Attempt
+    - Email: "' OR '1'='1"; Password: "anything".
+    - Expected: Login fails; no SQL error visible.
+2.5 XSS Attempt in Email Field
+    - Email: "<script>alert('xss')</script>@example.com".
+    - Expected: Input is sanitized; script not executed.
+
+3. UI/Usability Test Cases
+--------------------------
+3.1 Tab Order
+    - Verify focus moves from email field → password field → login button → forgot password link.
+3.2 Password Visibility Toggle
+    - Click eye icon; password characters become visible and hide again.
+3.3 Responsive Design
+    - Verify layout on mobile (320px), tablet (768px), desktop (1366px).
+3.4 Remember Me Checkbox
+    - Check box, login, close browser, reopen; user remains logged in.
+3.5 Forgot Password Link
+    - Click link; navigation to password recovery page.
+
+4. Error Handling Test Cases
+----------------------------
+4.1 Server Unavailable (HTTP 500)
+    - Simulate server error during login.
+    - Expected: Generic error message "Unable to process your request. Please try again later."
+4.2 Network Timeout
+    - Simulate network latency >30s.
+    - Expected: Timeout message and retry option.
+4.3 Account Locked after Multiple Failed Attempts
+    - Perform 5 consecutive failed logins.
+    - Expected: Message "Your account is locked. Contact support."
+4.4 CAPTCHA after Suspicious Activity
+    - Trigger CAPTCHA after rapid login attempts.
+    - Expected: CAPTCHA displayed before allowing further attempts.
+
+5. Security Test Cases
+----------------------
+5.1 Brute Force Protection
+    - Attempt rapid logins (e.g., 10 per minute).
+    - Expected: Rate limiting; temporary block with message.
+5.2 Password Stored Securely
+    - Verify backend does not return password hash in response.
+5.3 Session Management
+    - After successful login, ensure session ID changes on logout/login.
+5.4 HTTPS Enforcement
+    - Access login page via HTTP; expect redirect to HTTPS.
+5.5 CSRF Token Validation
+    - Submit login form without CSRF token.
+    - Expected: Server rejects request with 403.
+5.6 Logging of Authentication Events
+    - Verify successful and failed login attempts are logged with timestamp, IP, user agent.
+5.7 Multi-factor Authentication (if applicable)
+    - After correct credentials, prompt for OTP; verify OTP flow works.
+
+**End of Test Cases**

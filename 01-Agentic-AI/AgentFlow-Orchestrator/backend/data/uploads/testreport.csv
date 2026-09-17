@@ -1,0 +1,245 @@
+ID,Test Class,Status,Duration (ms),Duration (s),Start Time,End Time,Browser,Environment,Tested By,Error Message
+94,potest.MyFile_RMTest17Nov2025Smoketest,passed,65859,65.9,2026-02-04 21:01:25,2026-02-04 21:02:31,Edge,PROD,Alice,
+93,potest.MyFile_RMTest17Nov2025Smoketest,passed,83581,83.6,2026-02-04 20:59:02,2026-02-04 21:00:26,Chrome,PROD,Alice,
+92,potest.MyFile_RMTest17Nov2025Smoketest,passed,68213,68.2,2026-02-04 20:27:59,2026-02-04 20:29:07,Chrome,PROD,Deepa,
+91,potest.MyFile_RMTest17Nov2025Smoketest,passed,64451,64.5,2026-02-04 20:25:34,2026-02-04 20:26:38,Edge,PROD,Deepa,
+90,potest.MyFile_RMTest17Nov2025Smoketest,passed,70586,70.6,2026-02-04 19:55:21,2026-02-04 19:56:31,Firefox,PROD,Deepa,
+89,potest.MyFile_RMTest17Nov2025Smoketest,passed,65734,65.7,2026-02-04 17:02:28,2026-02-04 17:03:34,Firefox,PROD,Alice,
+88,potest.MyFile_RMTest17Nov2025Smoketest,passed,68647,68.6,2026-02-04 16:41:58,2026-02-04 16:43:07,Firefox,PROD,Alice,
+87,potest.MyFile_RMTest17Nov2025Smoketest,passed,67238,67.2,2026-02-04 16:22:01,2026-02-04 16:23:09,Firefox,PROD,svraj,
+86,potest.MyFile_RMTest17Nov2025Smoketest,failed,119969,120.0,2026-02-04 16:19:01,2026-02-04 16:21:01,Firefox,PROD,svraj,"Unable to locate element: //*[@id='RMComment1']
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: org.openqa.selenium.firefox.FirefoxDriver
+Capabilities {acceptInsecureCerts: true, browserName: firefox, browserVersio... (truncated)"
+85,potest.MyFile_RMtest_AssetPurchaseHappypath,failed,234261,234.3,2026-02-04 16:10:21,2026-02-04 16:14:16,Firefox,Local,svraj,"Unable to locate element: #DS_APDataEntity_AssetPurchase_RequisitionDate__u
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: org.openqa.selenium.firefox.FirefoxDriver
+Capabilities {acceptInsecureCerts: true, browser... (truncated)"
+84,potest.MyFile_RMtest_AssetPurchaseHappypath,passed,50810,50.8,2026-02-04 16:08:06,2026-02-04 16:08:57,Edge,Local,svraj,
+83,potest.MyFile_RMtest_AssetPurchaseHappypath,passed,53017,53.0,2026-02-04 12:51:18,2026-02-04 12:52:11,Chrome,Local,svraj,
+82,potest.MyFile_RMtest_AssetPurchaseHappypath,failed,236922,236.9,2026-02-04 12:45:25,2026-02-04 12:49:22,Chrome,Local,svraj,"no such element: Unable to locate element: {""method"":""css selector"",""selector"":""#DS_APDataEntity_AssetPurchase_RequisitionDate__u""}
+  (Session info: chrome=144.0.7559.110)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver ... (truncated)"
+81,potest.MyFile_RMtest_AssetPurchaseHappypath,passed,53559,53.6,2026-02-04 09:44:48,2026-02-04 09:45:42,Chrome,Local,svraj,
+80,potest.MyFile_RMtest_PurchaseRequestHappypath,passed,58487,58.5,2026-02-04 09:29:27,2026-02-04 09:30:25,Chrome,Local,svraj,
+61,AutoTestTool,cancelled,0,0.0,2026-02-03T15:52:51.499629,2026-02-03 23:54:03,Edge,Local,,
+59,AutoTestTool,failed,98994,99.0,2026-02-03T15:48:52.225175,2026-02-03T15:50:31.219330,Edge,Local,,"15:50:29.955 [main] DEBUG com.agilepoint.eformtest.Utils.TestDatabaseHelper - Test error logged: NoSuchElementException for execution 60
+? Logging task: FinalApprovalTask (failed, duration: 21539ms)
+15:50:29.971 [main] DEBUG com.agilepoint.eformtest.Utils.TestDatabaseHelper - Test step logged: FinalApprovalTask [Status: failed, Duration: 21539ms]
+15:50:30.633 [main] DEBUG com.agilepoint.eformtest.Utils.TestDatabaseHelper - Test execution completed: ID=60, Status=failed
+[ERROR] Tests run: 5, Fail... (truncated)"
+57,AutoTestTool,failed,152807,152.8,2026-02-03T15:34:40.149958,2026-02-03T15:37:12.957166,Edge,Local,,"15:37:11.480 [main] DEBUG com.agilepoint.eformtest.Utils.TestDatabaseHelper - Test error logged: NoSuchElementException for execution 58
+? Logging task: FinalApprovalTask (failed, duration: 21524ms)
+15:37:11.491 [main] DEBUG com.agilepoint.eformtest.Utils.TestDatabaseHelper - Test step logged: FinalApprovalTask [Status: failed, Duration: 21524ms]
+15:37:12.066 [main] DEBUG com.agilepoint.eformtest.Utils.TestDatabaseHelper - Test execution completed: ID=58, Status=failed
+[ERROR] Tests run: 5, Fail... (truncated)"
+55,AutoTestTool,failed,98987,99.0,2026-02-03T15:25:17.177851,2026-02-03T15:26:56.165564,Edge,Local,,"15:26:54.931 [main] ERROR com.agilepoint.eformtest.Utils.TestDatabaseHelper - Failed to log test error: [SQLITE_ERROR] SQL error or missing database (table selenium_test_errors has no column named failed_step_number)
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table selenium_test_errors has no column named failed_step_number)
+at org.sqlite.core.DB.newSQLException(DB.java:1179) ~[sqlite-jdbc-3.45.0.0.jar:?]
+at org.sqlite.core.DB.newSQLException(DB.java:1190) ~[sqlite... (truncated)"
+53,AutoTestTool,failed,96845,96.8,2026-02-03T15:13:29.872625,2026-02-03T15:15:06.717643,Edge,Local,,"java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:108)
+java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:108)
+[ERROR] ScreenCapture path cannot be null or empty
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project potest:
+[ERROR]
+[ERROR] Please refer to D:\RMFolder\SeleniumDevelopment... (truncated)"
+51,AutoTestTool,failed,96794,96.8,2026-02-03T15:02:55.505433,2026-02-03T15:04:32.300386,Edge,Local,,"java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:108)
+java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:108)
+[ERROR] ScreenCapture path cannot be null or empty
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project potest:
+[ERROR]
+[ERROR] Please refer to D:\RMFolder\SeleniumDevelopment... (truncated)"
+49,AutoTestTool,failed,97301,97.3,2026-02-03T14:58:00.598775,2026-02-03T14:59:37.900028,Edge,Local,,"java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:108)
+java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:108)
+[ERROR] ScreenCapture path cannot be null or empty
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project potest:
+[ERROR]
+[ERROR] Please refer to D:\RMFolder\SeleniumDevelopment... (truncated)"
+46,AutoTestTool,failed,98575,98.6,2026-02-03T14:43:08.865823,2026-02-03T14:44:47.441609,Edge,Local,,"java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:104)
+java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:104)
+[ERROR] ScreenCapture path cannot be null or empty
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project potest:
+[ERROR]
+[ERROR] Please refer to D:\RMFolder\SeleniumDevelopment... (truncated)"
+41,AutoTestTool,failed,98444,98.4,2026-02-03T13:55:46.749628,2026-02-03T13:57:25.193713,Edge,Local,,"13:56:06.878 [main] ERROR com.agilepoint.eformtest.Utils.TestDatabaseHelper - Failed to log test step: [SQLITE_ERROR] SQL error or missing database (table selenium_test_steps has no column named step_number)
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table selenium_test_steps has no column named step_number)
+at org.sqlite.core.DB.newSQLException(DB.java:1179) ~[sqlite-jdbc-3.45.0.0.jar:?]
+at org.sqlite.core.DB.newSQLException(DB.java:1190) ~[sqlite-jdbc-3.45.0.0.ja... (truncated)"
+39,AutoTestTool,failed,101874,101.9,2026-02-03T13:47:49.570901,2026-02-03T13:49:31.445728,Edge,Local,,"13:48:10.783 [main] ERROR com.agilepoint.eformtest.Utils.TestDatabaseHelper - Failed to log test step: [SQLITE_ERROR] SQL error or missing database (table selenium_test_steps has no column named step_number)
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table selenium_test_steps has no column named step_number)
+at org.sqlite.core.DB.newSQLException(DB.java:1179) ~[sqlite-jdbc-3.45.0.0.jar:?]
+at org.sqlite.core.DB.newSQLException(DB.java:1190) ~[sqlite-jdbc-3.45.0.0.ja... (truncated)"
+38,AutoTestTool,failed,16457,16.5,2026-02-03T13:44:07.830779,2026-02-03T13:44:24.288219,Edge,Local,,"[ERROR] COMPILATION ERROR :
+[ERROR] /D:/RMFolder/SeleniumDevelopment/potest10/src/test/java/potest/Listeners.java:[109,23] ';' expected
+[ERROR] /D:/RMFolder/SeleniumDevelopment/potest10/src/test/java/potest/Listeners.java:[109,31] ';' expected
+[ERROR] /D:/RMFolder/SeleniumDevelopment/potest10/src/test/java/potest/Listeners.java:[110,9] 'try' without 'catch', 'finally' or resource declarations
+[ERROR] /D:/RMFolder/SeleniumDevelopment/potest10/src/test/java/potest/Listeners.java:[143,11] illegal s... (truncated)"
+37,AutoTestTool,failed,15919,15.9,2026-02-03T13:43:07.469618,2026-02-03T13:43:23.388790,Edge,Local,,"[ERROR] COMPILATION ERROR :
+[ERROR] /D:/RMFolder/SeleniumDevelopment/potest10/src/test/java/potest/Listeners.java:[109,23] ';' expected
+[ERROR] /D:/RMFolder/SeleniumDevelopment/potest10/src/test/java/potest/Listeners.java:[109,31] ';' expected
+[ERROR] /D:/RMFolder/SeleniumDevelopment/potest10/src/test/java/potest/Listeners.java:[110,9] 'try' without 'catch', 'finally' or resource declarations
+[ERROR] /D:/RMFolder/SeleniumDevelopment/potest10/src/test/java/potest/Listeners.java:[143,11] illegal s... (truncated)"
+31,AutoTestTool,failed,101598,101.6,2026-02-03T13:33:54.964049,2026-02-03T13:35:36.562447,Edge,Local,,"java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:69)
+java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:69)
+[ERROR] ScreenCapture path cannot be null or empty
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project potest:
+[ERROR]
+[ERROR] Please refer to D:\RMFolder\SeleniumDevelopment\p... (truncated)"
+25,AutoTestTool,failed,105729,105.7,2026-02-03T13:09:11.597714,2026-02-03T13:10:57.326870,Edge,Local,,"java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:67)
+java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:67)
+[ERROR] ScreenCapture path cannot be null or empty
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project potest:
+[ERROR]
+[ERROR] Please refer to D:\RMFolder\SeleniumDevelopment\p... (truncated)"
+19,AutoTestTool,failed,101427,101.4,2026-02-03T12:55:57.391226,2026-02-03T12:57:38.819193,Edge,Local,,"java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:67)
+java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:67)
+[ERROR] ScreenCapture path cannot be null or empty
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project potest:
+[ERROR]
+[ERROR] Please refer to D:\RMFolder\SeleniumDevelopment\p... (truncated)"
+13,AutoTestTool,failed,96786,96.8,2026-02-03T12:50:11.455467,2026-02-03T12:51:48.242315,Edge,Local,,"java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:67)
+java.lang.NoSuchFieldException: driver
+at potest.Listeners.onTestFailure(Listeners.java:67)
+[ERROR] ScreenCapture path cannot be null or empty
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project potest:
+[ERROR]
+[ERROR] Please refer to D:\RMFolder\SeleniumDevelopment\p... (truncated)"
+11,AutoTestTool,cancelled,0,0.0,2026-02-03T12:47:04.140589,2026-02-03 23:54:03,Edge,Local,,
+79,potest.MyFile_RMTest17Nov2025Smoketest,failed,259865,259.9,2026-02-03 23:49:43,2026-02-03 23:54:02,Chrome,Local,svraj,"no such element: Unable to locate element: {""method"":""xpath"",""selector"":""//*[@id='RMComment']""}
+  (Session info: chrome=144.0.7559.110)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: org.openqa.selenium.chrome.Chr... (truncated)"
+78,potest.MyFile_RMTest17Nov2025Smoketest,failed,177058,177.1,2026-02-03 23:37:13,2026-02-03 23:40:10,Chrome,Local,svraj,"no such element: Unable to locate element: {""method"":""xpath"",""selector"":""//*[@id='RMComment']""}
+  (Session info: chrome=144.0.7559.110)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: org.openqa.selenium.chrome.Chr... (truncated)"
+77,potest.MyFile_RMtest_PurchaseRequestHappypath,passed,59234,59.2,2026-02-03 23:23:22,2026-02-03 23:24:21,Chrome,Local,svraj,
+76,potest.MyFile_RMtest_PurchaseRequestHappypath,passed,62711,62.7,2026-02-03 20:53:08,2026-02-03 20:54:10,Chrome,Local,,
+75,potest.MyFile_RMtest_PurchaseRequestHappypath,passed,60086,60.1,2026-02-03 20:26:23,2026-02-03 20:27:23,Chrome,Local,,
+74,potest.MyFile_RMtest_PurchaseRequestHappypath,passed,57984,58.0,2026-02-03 19:36:21,2026-02-03 19:37:19,Chrome,Local,,
+73,potest.MyFile_RMtest_PurchaseRequestFullFlowTest,passed,91576,91.6,2026-02-03 17:22:04,2026-02-03 17:23:35,Chrome,Local,,
+72,potest.MyFile_20260203_163931delete,passed,97551,97.6,2026-02-03 17:17:45,2026-02-03 17:19:23,Chrome,Local,,
+71,potest.MyFile_20260203_163931delete,passed,81786,81.8,2026-02-03 17:04:02,2026-02-03 17:05:24,Chrome,Local,,
+70,potest.MyFile_RMTest17Nov2025Smoketest,failed,144816,144.8,2026-02-03 16:57:58,2026-02-03 17:00:23,Chrome,Local,,"no such element: Unable to locate element: {""method"":""xpath"",""selector"":""//*[@id='RMComment1']""}
+  (Session info: chrome=144.0.7559.110)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: org.openqa.selenium.chrome.Ch... (truncated)"
+69,potest.MyFile_RMTest17Nov2025Smoketest,failed,173573,173.6,2026-02-03 16:56:06,2026-02-03 16:59:00,Chrome,Local,,"java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:8392
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: driver.version: RemoteWebDriver"
+68,potest.MyFile_RMTest17Nov2025Smoketest,failed,240436,240.4,2026-02-03 16:51:34,2026-02-03 16:55:35,Chrome,Local,,"no such element: Unable to locate element: {""method"":""xpath"",""selector"":""//*[@id='RMComment']""}
+  (Session info: chrome=144.0.7559.110)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: org.openqa.selenium.chrome.Chr... (truncated)"
+67,potest.MyFile_RMTest17Nov2025Smoketest,failed,144614,144.6,2026-02-03 16:43:45,2026-02-03 16:46:10,Firefox,STAGE,,"Unable to locate element: //*[@id='RMComment1']
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: org.openqa.selenium.firefox.FirefoxDriver
+Capabilities {acceptInsecureCerts: true, browserName: firefox, browserVersio... (truncated)"
+66,potest.MyFile_RMTest17Nov2025Smoketest,passed,71232,71.2,2026-02-03 16:40:35,2026-02-03 16:41:46,Firefox,STAGE,,
+65,potest.MyFile_RMTest17Nov2025Smoketest,passed,69736,69.7,2026-02-03 16:34:25,2026-02-03 16:35:35,Chrome,DEV,,
+64,potest.MyFile_RMTest17Nov2025Smoketest,passed,65606,65.6,2026-02-03 16:19:34,2026-02-03 16:20:39,Edge,Local,,
+63,potest.MyFile_RMTest17Nov2025Smoketest,passed,64860,64.9,2026-02-03 16:01:21,2026-02-03 16:02:26,Edge,Local,,
+62,potest.MyFile_RMTest17Nov2025Smoketest,passed,71766,71.8,2026-02-03 15:53:16,2026-02-03 15:54:28,Edge,Local,,
+60,potest.MyFile_RMTest17Nov2025Smoketest,failed,80074,80.1,2026-02-03 15:49:10,2026-02-03 15:50:30,Edge,Local,,"no such element: Unable to locate element: {""method"":""xpath"",""selector"":""//*[@id='RMComment1']""}
+  (Session info: MicrosoftEdge=144.0.3719.104)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: org.openqa.selenium.ed... (truncated)"
+58,potest.MyFile_RMTest17Nov2025Smoketest,failed,77883,77.9,2026-02-03 15:35:54,2026-02-03 15:37:12,Edge,Local,,"no such element: Unable to locate element: {""method"":""xpath"",""selector"":""//*[@id='RMComment1']""}
+  (Session info: MicrosoftEdge=144.0.3719.104)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'RMPC', ip: '192.168.0.6', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.5'
+Driver info: org.openqa.selenium.ed... (truncated)"
+56,potest.MyFile_RMTest17Nov2025Smoketest,failed,79143,79.1,2026-02-03 15:25:36,2026-02-03 15:26:55,Edge,Local,,
+54,potest.MyFile_RMTest17Nov2025Smoketest,passed,78081,78.1,2026-02-03 15:13:48,2026-02-03 15:15:06,Edge,Local,,
+52,potest.MyFile_RMTest17Nov2025Smoketest,passed,77705,77.7,2026-02-03 15:03:14,2026-02-03 15:04:31,Edge,Local,,
+50,potest.MyFile_RMTest17Nov2025Smoketest,passed,78053,78.1,2026-02-03 14:58:19,2026-02-03 14:59:37,Edge,Local,,
+48,potest.MyFile_RMTest17Nov2025Smoketest,passed,80339,80.3,2026-02-03 14:54:08,2026-02-03 14:55:29,Edge,Local,,
+47,potest.MyFile_RMTest17Nov2025Smoketest,passed,78530,78.5,2026-02-03 14:43:27,2026-02-03 14:44:46,Edge,Local,,
+45,potest.MyFile_RMTest17Nov2025Smoketest,passed,112026,112.0,2026-02-03 14:39:18,2026-02-03 14:41:10,Edge,Local,,
+44,potest.MyFile_RMTest17Nov2025Smoketest,passed,78651,78.7,2026-02-03 14:25:58,2026-02-03 14:27:16,Edge,Local,,
+43,potest.MyFile_RMTest17Nov2025Smoketest,passed,77737,77.7,2026-02-03 14:24:02,2026-02-03 14:25:20,Edge,Local,,
+42,potest.MyFile_RMTest17Nov2025Smoketest,passed,77803,77.8,2026-02-03 13:56:06,2026-02-03 13:57:24,Edge,Local,,
+40,potest.MyFile_RMTest17Nov2025Smoketest,passed,80162,80.2,2026-02-03 13:48:10,2026-02-03 13:49:30,Edge,Local,,
+36,potest.MyFile_RMTest17Nov2025Smoketest,cancelled,0,0.0,2026-02-03 13:35:13,2026-02-03 23:54:03,Edge,Local,,
+35,potest.MyFile_RMTest17Nov2025Smoketest,passed,11584,11.6,2026-02-03 13:35:02,2026-02-03 13:35:13,Edge,Local,,
+34,potest.MyFile_RMTest17Nov2025Smoketest,passed,9220,9.2,2026-02-03 13:34:52,2026-02-03 13:35:02,Edge,Local,,
+33,potest.MyFile_RMTest17Nov2025Smoketest,passed,34938,34.9,2026-02-03 13:34:18,2026-02-03 13:34:52,Edge,Local,,
+32,potest.MyFile_RMTest17Nov2025Smoketest,passed,1838,1.8,2026-02-03 13:34:16,2026-02-03 13:34:17,Edge,Local,,
+30,potest.MyFile_RMTest17Nov2025Smoketest,cancelled,0,0.0,2026-02-03 13:10:34,2026-02-03 23:54:03,Edge,Local,,
+29,potest.MyFile_RMTest17Nov2025Smoketest,passed,11753,11.8,2026-02-03 13:10:22,2026-02-03 13:10:34,Edge,Local,,
+28,potest.MyFile_RMTest17Nov2025Smoketest,passed,9107,9.1,2026-02-03 13:10:13,2026-02-03 13:10:22,Edge,Local,,
+27,potest.MyFile_RMTest17Nov2025Smoketest,passed,33569,33.6,2026-02-03 13:09:39,2026-02-03 13:10:13,Edge,Local,,
+26,potest.MyFile_RMTest17Nov2025Smoketest,passed,1736,1.7,2026-02-03 13:09:37,2026-02-03 13:09:39,Edge,Local,,
+24,potest.MyFile_RMTest17Nov2025Smoketest,cancelled,0,0.0,2026-02-03 12:57:15,2026-02-03 23:54:03,Edge,Local,,
+23,potest.MyFile_RMTest17Nov2025Smoketest,passed,11480,11.5,2026-02-03 12:57:04,2026-02-03 12:57:15,Edge,Local,,
+22,potest.MyFile_RMTest17Nov2025Smoketest,passed,9070,9.1,2026-02-03 12:56:54,2026-02-03 12:57:04,Edge,Local,,
+21,potest.MyFile_RMTest17Nov2025Smoketest,passed,36068,36.1,2026-02-03 12:56:18,2026-02-03 12:56:54,Edge,Local,,
+20,potest.MyFile_RMTest17Nov2025Smoketest,passed,1770,1.8,2026-02-03 12:56:17,2026-02-03 12:56:18,Edge,Local,,
+18,potest.MyFile_RMTest17Nov2025Smoketest,cancelled,0,0.0,2026-02-03 12:51:25,2026-02-03 23:54:03,Edge,Local,,
+17,potest.MyFile_RMTest17Nov2025Smoketest,passed,11902,11.9,2026-02-03 12:51:13,2026-02-03 12:51:25,Edge,Local,,
+16,potest.MyFile_RMTest17Nov2025Smoketest,passed,9016,9.0,2026-02-03 12:51:04,2026-02-03 12:51:13,Edge,Local,,
+15,potest.MyFile_RMTest17Nov2025Smoketest,passed,33345,33.3,2026-02-03 12:50:31,2026-02-03 12:51:04,Edge,Local,,
+14,potest.MyFile_RMTest17Nov2025Smoketest,passed,1606,1.6,2026-02-03 12:50:29,2026-02-03 12:50:31,Edge,Local,,
+12,potest.MyFile_RMTest17Nov2025Smoketest,cancelled,0,0.0,2026-02-03 12:47:24,2026-02-03 23:54:03,Edge,Local,,
+10,potest.MyFile_RMTest17Nov2025Smoketest,cancelled,0,0.0,2026-02-03 12:42:15,2026-02-03 23:54:03,Edge,Local,,
+9,potest.MyFile_RMTest17Nov2025Smoketest,passed,12004,12.0,2026-02-03 12:42:03,2026-02-03 12:42:15,Edge,Local,,
+8,potest.MyFile_RMTest17Nov2025Smoketest,passed,9104,9.1,2026-02-03 12:41:54,2026-02-03 12:42:03,Edge,Local,,
+7,potest.MyFile_RMTest17Nov2025Smoketest,passed,38600,38.6,2026-02-03 12:41:15,2026-02-03 12:41:54,Edge,Local,,
+6,potest.MyFile_RMTest17Nov2025Smoketest,passed,1864,1.9,2026-02-03 12:41:13,2026-02-03 12:41:15,Edge,Local,,
+5,potest.MyFile_RMTest17Nov2025Smoketest,cancelled,0,0.0,2026-02-03 12:28:34,2026-02-03 23:54:03,Edge,Local,,
+4,potest.MyFile_RMTest17Nov2025Smoketest,passed,11567,11.6,2026-02-03 12:28:22,2026-02-03 12:28:34,Edge,Local,,
+3,potest.MyFile_RMTest17Nov2025Smoketest,passed,8901,8.9,2026-02-03 12:28:13,2026-02-03 12:28:22,Edge,Local,,
+2,potest.MyFile_RMTest17Nov2025Smoketest,passed,35405,35.4,2026-02-03 12:27:38,2026-02-03 12:28:13,Edge,Local,,
+1,potest.MyFile_RMTest17Nov2025Smoketest,passed,1846,1.8,2026-02-03 12:27:36,2026-02-03 12:27:38,Edge,Local,,

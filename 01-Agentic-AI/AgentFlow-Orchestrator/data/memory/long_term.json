@@ -1,0 +1,101 @@
+[
+  {
+    "id": "e850f164-1287-42c6-a8bb-f639f94519e0",
+    "key": "api-test-key",
+    "value": "api-test-value",
+    "scope": "long_term",
+    "task_id": "",
+    "agent_id": "",
+    "metadata": {},
+    "created_at": "2026-09-16T13:40:31.339432+00:00",
+    "updated_at": "2026-09-16T13:40:31.339432+00:00"
+  },
+  {
+    "id": "4078307f-e602-43b2-89c6-42e056a3595c",
+    "key": "api-list-key",
+    "value": "val",
+    "scope": "long_term",
+    "task_id": "",
+    "agent_id": "",
+    "metadata": {},
+    "created_at": "2026-09-16T13:40:31.340440+00:00",
+    "updated_at": "2026-09-16T13:40:31.340440+00:00"
+  },
+  {
+    "id": "bbd4f941-4062-4f13-9fbc-42cd0e8208f1",
+    "key": "api-search-key",
+    "value": "contains searchable text",
+    "scope": "long_term",
+    "task_id": "",
+    "agent_id": "",
+    "metadata": {},
+    "created_at": "2026-09-16T13:40:31.340440+00:00",
+    "updated_at": "2026-09-16T13:40:31.340440+00:00"
+  },
+  {
+    "id": "37c0f656-1556-41f3-8fa6-2c64b8659e6f",
+    "key": "test-key-1",
+    "value": "test-value",
+    "scope": "long_term",
+    "task_id": "",
+    "agent_id": "",
+    "metadata": {},
+    "created_at": "2026-09-16T13:40:31.340440+00:00",
+    "updated_at": "2026-09-16T13:40:31.340440+00:00"
+  },
+  {
+    "id": "9cbf0bf3-ab74-42eb-a08d-93a8ff05a393",
+    "key": "test-list-1",
+    "value": "val1",
+    "scope": "long_term",
+    "task_id": "",
+    "agent_id": "",
+    "metadata": {},
+    "created_at": "2026-09-16T13:40:31.340440+00:00",
+    "updated_at": "2026-09-16T13:40:31.340440+00:00"
+  },
+  {
+    "id": "2e3d8d59-ff88-4928-acf1-41fc552506d8",
+    "key": "test-list-2",
+    "value": "val2",
+    "scope": "long_term",
+    "task_id": "",
+    "agent_id": "",
+    "metadata": {},
+    "created_at": "2026-09-16T13:40:31.340440+00:00",
+    "updated_at": "2026-09-16T13:40:31.340440+00:00"
+  },
+  {
+    "id": "f2f6c7ca-0d66-4a63-a4f6-cb2043b82373",
+    "key": "test-search-key",
+    "value": "This contains the word sales",
+    "scope": "long_term",
+    "task_id": "",
+    "agent_id": "",
+    "metadata": {},
+    "created_at": "2026-09-16T13:40:31.340440+00:00",
+    "updated_at": "2026-09-16T13:40:31.340440+00:00"
+  },
+  {
+    "id": "93920904-9cb7-4354-93fc-597700de9c1c",
+    "key": "test-update",
+    "value": "updated",
+    "scope": "long_term",
+    "task_id": "",
+    "agent_id": "",
+    "metadata": {},
+    "created_at": "2026-09-16T13:40:31.340440+00:00",
+    "updated_at": "2026-09-16T13:40:31.340440+00:00"
+  },
+  {
+    "id": "31fc0501-042f-4564-9173-621e784caf81",
+    "key": "key-u2",
+    "value": "val-u2",
+    "scope": "long_term",
+    "task_id": "",
+    "agent_id": "",
+    "metadata": {},
+    "created_at": "2026-09-16T13:40:31.340440+00:00",
+    "updated_at": "2026-09-16T13:40:31.340440+00:00"
+  }
+]

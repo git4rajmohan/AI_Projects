@@ -1,0 +1,71 @@
+Auto Sales Data Insights Report
+
+Dataset Overview:
+  Total orders: 2747
+  Total sales: $9,760,221.71
+
+Sales by Product Line:
+  Classic Cars: $3,842,868.54
+  Vintage Cars: $1,806,675.68
+  Trucks and Buses: $1,111,559.19
+  Motorcycles: $1,103,512.19
+  Planes: $969,323.42
+  Ships: $700,039.22
+  Trains: $226,243.47
+
+Top 5 Customers (by sales):
+  Euro Shopping Channel: $912,294.11
+  Mini Gifts Distributors Ltd.: $654,858.06
+  Australian Collectors, Co.: $200,995.41
+  Muscle Machine Inc: $197,736.94
+  La Rochelle Gifts: $180,124.90
+
+Top 10 Countries (by sales):
+  USA: $3,355,575.69
+  Spain: $1,215,686.92
+  France: $1,110,916.52
+  Australia: $630,623.10
+  UK: $478,880.46
+  Italy: $374,674.31
+  Finland: $329,581.91
+  Norway: $307,463.70
+  Singapore: $288,488.41
+  Denmark: $245,637.15
+
+Deal Size Distribution:
+  Medium: 1349 orders
+  Small: 1246 orders
+  Large: 152 orders
+
+Monthly Sales Trend:
+  2018-01: $129,753.60
+  2018-02: $140,836.19
+  2018-03: $155,809.32
+  2018-04: $201,609.55
+  2018-05: $192,673.11
+  2018-06: $168,082.56
+  2018-07: $187,731.88
+  2018-08: $197,809.30
+  2018-09: $263,973.36
+  2018-10: $448,452.95
+  2018-11: $1,029,837.66
+  2018-12: $236,444.58
+  2019-01: $292,688.10
+  2019-02: $311,419.53
+  2019-03: $205,733.73
+  2019-04: $206,148.12
+  2019-05: $273,438.39
+  2019-06: $286,674.22
+  2019-07: $327,144.09
+  2019-08: $461,501.27
+  2019-09: $320,750.91
+  2019-10: $552,924.25
+  2019-11: $1,058,699.29
+  2019-12: $372,802.66
+  2020-01: $339,543.42
+  2020-02: $303,982.56
+  2020-03: $374,262.76
+  2020-04: $261,633.29
+  2020-05: $457,861.06
+
+Latest month 2020-05 sales $457,861.06 (change from previous month +196,227.77)
