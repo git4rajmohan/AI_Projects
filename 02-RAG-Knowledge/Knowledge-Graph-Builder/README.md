@@ -1,7 +1,9 @@
 # 🔗 Knowledge Graph Builder
 
 > Turn spreadsheets and text documents into an interactive, queryable knowledge graph — powered by AI agents, Neo4j, and Google ADK.
+## Why This Project Exists
 
+Demonstrates graph-native knowledge representation: AI agents refine the schema (propose → critique → validate) while deterministic code generates the Cypher, so the LLM never writes raw graph queries.
 [![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688.svg)](https://fastapi.tiangolo.com)
 [![Neo4j](https://img.shields.io/badge/Neo4j-5.x-008CC1.svg)](https://neo4j.com)

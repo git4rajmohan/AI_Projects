@@ -1,8 +1,10 @@
 # AI / ML Engineering Portfolio
 
-A collection of 16 practical AI/ML projects demonstrating Agentic AI, Multi-Agent Systems, RAG, Knowledge Engineering, AI Safety, Document Intelligence, Voice AI and Classical NLP/ML.
+A collection of 16 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, RAG, knowledge engineering, AI safety, document intelligence, voice AI and classical NLP/ML.
 
 ## Portfolio Map
+
+5 categories · 16 projects
 
 | Category | Projects | Key Technologies |
 |---|---:|---|
@@ -12,26 +14,26 @@ A collection of 16 practical AI/ML projects demonstrating Agentic AI, Multi-Agen
 | 🏭 [Applied AI](./04-Applied-AI/) | 2 | OCR, Document AI, Voice AI, FastAPI |
 | 🧠 [NLP & Machine Learning](./05-NLP-Machine-Learning/) | 1 | scikit-learn, NLTK, spaCy |
 
-## Core AI Capabilities
+## What I Build
 
-- **Agentic AI** — dynamic workflow planning, agent DAGs, hierarchical multi-agent systems, agent handoffs, human-in-the-loop
-- **Tool Orchestration** — Model Context Protocol (MCP), multi-server tool ecosystems, controlled tool calling
-- **RAG & Knowledge Engineering** — hybrid retrieval (vector + BM25 + graph), RRF fusion, knowledge graphs, grounded answers
-- **AI Evaluation** — RAGAS, LLM-as-a-judge, golden datasets, retrieval metrics, regression testing
-- **AI Safety** — guardrails, jailbreak/injection defense, PII detection, output sanitization
-- **Applied AI** — OCR document intelligence, voice pipelines (STT/TTS), deterministic validation
+- 🤖 Agentic AI and multi-agent workflows
+- 🔧 LLM tool and MCP orchestration
+- 📚 Production-oriented RAG and knowledge systems
+- 📏 LLM/RAG evaluation and quality engineering
+- 🛡️ AI safety and prompt-injection defenses
+- 📄 Document intelligence and validation workflows
+- 🎙️ Voice and multimodal AI pipelines
+- 🧠 Classical NLP and machine-learning systems
 
 ## Featured Projects
 
-Selected to represent different technical areas — not a claim that they are the "best" projects:
-
-| Project | Demonstrates | Link |
-|---|---|---|
-| AgentFlow — Dynamic Multi-Agent Workflow & Skill Orchestrator | Dynamic agent orchestration | [→](./01-Agentic-AI/AgentFlow-Orchestrator/) |
-| Agentic AI MCP Tool Orchestration Platform | Tool protocol orchestration | [→](./01-Agentic-AI/MCP-Tool-Orchestration/) |
-| Production RAG Documentation Assistant | Retrieval engineering | [→](./02-RAG-Knowledge/Production-RAG/) |
-| LLM Guardrails & AI Safety Defense Lab | AI safety controls | [→](./03-AI-Safety-Quality/LLM-Guardrails/) |
-| RAG Evaluation & LLM Quality Engineering Harness | AI quality measurement | [→](./02-RAG-Knowledge/RAG-Evaluation-Harness/) |
+| Project | Demonstrates |
+|---|---|
+| [AgentFlow — Dynamic Multi-Agent Workflow & Skill Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) | Dynamic multi-agent orchestration |
+| [Agentic AI MCP Tool Orchestration Platform](./01-Agentic-AI/MCP-Tool-Orchestration/) | MCP & tool orchestration |
+| [Production RAG Documentation Assistant](./02-RAG-Knowledge/Production-RAG/) | Retrieval engineering |
+| [LLM Guardrails & AI Safety Defense Lab](./03-AI-Safety-Quality/LLM-Guardrails/) | AI safety |
+| [RAG Evaluation & LLM Quality Engineering Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/) | AI quality/evaluation |
 
 ## Projects by Category
 
@@ -78,23 +80,45 @@ Selected to represent different technical areas — not a claim that they are th
 
 ## Technical Coverage
 
-### LLM / AI
-Ollama · Ollama Cloud · Groq · LiteLLM · OpenAI-compatible APIs
+**LLM / AI**
+Ollama · Ollama Cloud · Groq · LiteLLM
 
-### Agentic AI
-Google ADK · LangGraph · LangChain LCEL · Agno · MCP · Multi-Agent Systems · Agent Handoffs · Agent DAGs · Human-in-the-Loop
+**Agentic AI**
+Google ADK · LangGraph · LangChain · Agno · MCP
 
-### RAG / Knowledge Engineering
-ChromaDB · Qdrant · Neo4j · LlamaIndex · Cognee · BM25 · Vector Search · Hybrid Retrieval · RRF · Graph RAG
+**RAG / Knowledge**
+ChromaDB · Qdrant · Neo4j · LlamaIndex · Cognee · BM25 · RRF
 
-### AI Evaluation
-RAGAS · LLM-as-a-Judge · pytest · Golden Datasets · Retrieval Metrics · Regression Testing
+**Evaluation**
+RAGAS · LLM-as-a-Judge · pytest · Golden Datasets
 
-### AI Safety
-NeMo Guardrails · Colang · Prompt Injection Detection · Jailbreak Detection · PII Detection · Output Sanitization
+**AI Safety**
+NeMo Guardrails · Colang · Prompt Injection · PII Detection
 
-### Applied AI
-OCR · Document Intelligence · Speech-to-Text · Text-to-Speech · Voice AI · FastAPI · Streamlit · React · SQLite · Neo4j
+**Applied AI**
+OCR · Document Intelligence · STT · TTS · Voice AI
+
+**Application**
+FastAPI · Streamlit · React · SQLite
+
+## Cross-Cutting AI Engineering
+
+**Evaluation**
+- RAGAS
+- LLM-as-a-judge
+- Golden datasets
+- Regression testing
+
+**Safety**
+- Prompt injection detection
+- PII detection
+- Jailbreak detection
+
+**Reliability**
+- Deterministic validation
+- Human-in-the-loop
+- Evidence gating
+- Checkpointing
 
 ## Project Selection Guide
 

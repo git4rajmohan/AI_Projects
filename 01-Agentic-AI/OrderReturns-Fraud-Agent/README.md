@@ -13,6 +13,10 @@ return-reason classifier, and SQLite-checkpointed **human-in-the-loop**
 manager approval gates for high-value refunds (`interrupt()`-based, per
 `INSTRUCTIONS.md`).
 
+## Why This Project Exists
+
+Demonstrates a stateful business-process agent where AI interprets the request but deterministic code makes the policy and refund decisions — with human approval gates and checkpointing for high-risk cases.
+
 **Highlights**
 
 - 🧠 4-path return workflow (auto-complete, photo-proof loop, manager approval, policy denial) driven by a single `StateGraph`

@@ -2,6 +2,10 @@
 
 **Production-grade AI ticket triage with a live pipeline visualizer — safety rails (PII redaction, prompt-injection guard, validation, fallback) wrapped around an LLM classifier, with every node's output inspectable in the UI.**
 
+## Why This Project Exists
+
+Demonstrates security controls embedded inside a practical AI business workflow — PII redaction before the model sees data, and a dedicated judge LLM vetoing injection attempts — rather than safety as an isolated demo.
+
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.111+-009688?logo=fastapi&logoColor=white)
 ![LangGraph](https://img.shields.io/badge/LangGraph-0.2+-1C3C3C?logo=langgraph&logoColor=white)

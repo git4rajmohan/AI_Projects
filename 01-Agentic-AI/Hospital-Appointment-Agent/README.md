@@ -4,6 +4,10 @@
 
 A lightweight, deterministic backend service built with **LangChain (LCEL)**, **FastAPI**, and **Pydantic** that processes inbound patient/client scheduling requests — with a full **enterprise-grade web console** for conversational booking and admin management.
 
+## Why This Project Exists
+
+Demonstrates how an LLM can extract structured intent from free-form natural language while deterministic Python code owns the actual appointment decisions — calendar rules, slot selection and confirmations — so the AI never makes the business decision.
+
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![LangChain](https://img.shields.io/badge/🦜%20LangChain-LCEL-green)](https://python.langchain.com/)

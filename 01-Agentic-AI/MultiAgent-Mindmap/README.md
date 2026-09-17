@@ -4,6 +4,10 @@
 
 **Transform unstructured content into structured knowledge.** Text files, YouTube transcripts, or pasted text go in — an interactive mindmap comes out, produced by a collaborative **Creator → Reviewer → Reviser** agent workflow with iterative feedback loops, LLM output validation, and deterministic artifact generation.
 
+## Why This Project Exists
+
+Demonstrates iterative multi-agent refinement — a Creator → Reviewer → Reviser loop with feedback cycles that progressively improves a structured knowledge artifact rather than accepting the first LLM output.
+
 *Runs 100% locally with Ollama — no cloud APIs, no data leaving your machine.*
 
 ![Architecture](docs/architecture.svg)

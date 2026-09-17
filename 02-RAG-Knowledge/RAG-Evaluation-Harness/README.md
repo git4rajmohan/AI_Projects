@@ -8,6 +8,10 @@
 
 A **Streamlit evaluation workbench** for RAG systems, built on the [RAGAS](https://docs.ragas.io/) library. Point it at any RAG endpoint and any OpenAI-compatible judge LLM, step through a two-phase workflow (query the RAG → review the retrieved context → judge the quality), and get LLM-judged scores with pass/fail thresholds, per-metric reasoning, and saved run history — **no embedding models required**.
 
+## Why This Project Exists
+
+Demonstrates how RAG systems can be evaluated systematically — LLM-as-a-judge metrics, thresholds and run history — rather than relying only on subjective inspection of responses.
+
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![RAGAS](https://img.shields.io/badge/🤖 RAGAS-LLM%20judged-5B21B6)](https://docs.ragas.io/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)

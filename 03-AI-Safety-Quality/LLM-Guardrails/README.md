@@ -4,6 +4,10 @@
 
 **An interactive Streamlit playground that teaches NeMo Guardrails — 7 progressive experiments that layer safety rails onto a raw LLM, from zero protection to a production-grade guarded assistant.**
 
+## Why This Project Exists
+
+Demonstrates AI safety as a dedicated discipline — jailbreak defense, injection detection, topic control and output sanitization layered progressively onto a raw LLM, with each rail observable in isolation.
+
 ![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B?logo=streamlit&logoColor=white)
 ![NeMo Guardrails](https://img.shields.io/badge/NVIDIA-NeMo%20Guardrails-76B900?logo=nvidia&logoColor=white)

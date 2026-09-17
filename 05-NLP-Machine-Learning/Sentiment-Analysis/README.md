@@ -4,6 +4,10 @@
 
 **A complete, educational Jupyter notebook demonstrating the full NLP pipeline for 3-class sentiment analysis (Positive / Neutral / Negative) on a custom dataset of ~2,000 product reviews — from raw text cleaning to a trained, explained, and saved ML model.**
 
+## Why This Project Exists
+
+Demonstrates foundational classical NLP/ML — preprocessing, TF-IDF feature engineering and supervised model comparison — as the base of the AI stack alongside the modern LLM and agentic projects in this portfolio.
+
 ![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-TF--IDF%20%2B%20ML-F7931E?logo=scikitlearn&logoColor=white)
 ![NLTK](https://img.shields.io/badge/NLTK-Text%20Processing-37B34A)

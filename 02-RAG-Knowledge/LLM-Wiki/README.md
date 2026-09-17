@@ -2,7 +2,7 @@
 
 > Converts documents into a navigable, Git-friendly markdown knowledge base with source/entity/concept pages, wiki links and graph visualization — rather than only answering questions.
 
-## 🎯 What This Project Demonstrates
+## What This Project Demonstrates
 
 - Document-to-knowledge transformation
 - Entity/concept extraction into persistent pages
@@ -10,14 +10,11 @@
 - Graph visualization
 - Cited streaming chat over the knowledge base
 
-## 🧠 AI / Technical Focus
+## Why This Project Exists
 
-- LLM knowledge extraction from documents
-- Markdown knowledge-base generation
-- Wiki-link graph structure
-- Local/remote LLM provider support
+Demonstrates that LLM output can become a persistent, navigable knowledge base — Git-friendly markdown with wiki links and graph visualization — instead of answers that disappear after the chat ends.
 
-## 🏗️ Architecture
+## Architecture
 
 ```text
 Documents
@@ -33,11 +30,11 @@ Wiki Links
 Graph Visualization
 ```
 
-## 🔄 Workflow
+## Workflow
 
 *To be verified from code.*
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Area | Technology |
 |---|---|
@@ -47,38 +44,34 @@ Graph Visualization
 | Knowledge Base | Markdown |
 | Visualization | D3 |
 
-*To be verified against requirements files during Phase 3.*
+*To be verified against the project's requirements files.*
 
-## ⭐ Key AI Engineering Concepts
+## Demo
+
+*Screenshots/demo assets to be added when project code is copied into this repository.*
+
+## How to Run
+
+*To be verified from the project's actual installation and execution instructions.*
+
+## Key AI Engineering Concepts
 
 - Knowledge-base generation
 - Entity/concept extraction
 - Cited streaming chat
 
-## 🛡️ Safety / Reliability
+## Safety / Reliability
 
 *To be verified — document only implemented controls.*
 
-## 🧪 Testing / Evaluation
+## Testing / Evaluation
 
 *To be verified.*
 
-## 🚀 How to Run
-
-*To be verified from the project's actual instructions.*
-
-## 📁 Project Structure
-
-*To be verified after code is copied in.*
-
-## 💡 Engineering Notes
-
-*To be verified.*
-
-## 🔍 How This Project Differs
+## How This Project Differs
 
 Produces a persistent, navigable, Git-friendly knowledge base — compared with chat-first RAG assistants.
 
-## 🤖 AI-Assisted Development
+## AI-Assisted Development
 
 This project was developed using AI-assisted coding workflows. Architecture, implementation decisions, testing, debugging and validation were reviewed and refined during development.
