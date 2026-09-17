@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Wiki UI — User Guide</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --muted: #5b6b7c;
+    --accent: #2563eb;
+    --accent-soft: #e8effd;
+    --green: #16a34a;
+    --green-soft: #e7f7ee;
+    --red: #dc2626;
+    --red-soft: #fdeaea;
+    --amber: #d97706;
+    --amber-soft: #fdf3e3;
+    --grey-soft: #eef1f6;
+    --border: #dbe2ec;
+    --radius: 14px;
+    --mono: "Cascadia Code", "Consolas", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 60%, #3b82f6 100%);
+    color: #fff;
+    padding: 34px 24px 0;
+  }
+  .head-inner { max-width: 1100px; margin: 0 auto; }
+  header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: .2px; }
+  header p.sub { color: #cfe0ff; margin-top: 6px; font-size: .98rem; }
+  header code { background: rgba(255,255,255,.18); color: #fff; }
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .tab-btn {
+    appearance: none; border: none; cursor: pointer;
+    padding: 12px 26px; font-size: 1rem; font-weight: 600;
+    border-radius: 12px 12px 0 0;
+    background: rgba(255,255,255,.15); color: #dbe9ff;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,.28); }
+  .tab-btn.active { background: var(--bg); color: var(--accent); }
+  main { max-width: 1100px; margin: 0 auto; padding: 34px 24px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  h2 { font-size: 1.35rem; margin: 38px 0 14px; padding-top: 8px; }
+  h2:first-child { margin-top: 0; }
+  h3 { font-size: 1.08rem; margin: 24px 0 10px; }
+  h4 { font-size: 1rem; }
+  p { margin: 10px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px; margin: 16px 0;
+    box-shadow: 0 1px 3px rgba(20,40,80,.05);
+  }
+  .lead { font-size: 1.05rem; color: var(--muted); }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 6px 0; }
+  code {
+    font-family: var(--mono); font-size: .88em;
+    background: var(--grey-soft); border-radius: 5px; padding: 2px 6px;
+  }
+  pre {
+    font-family: var(--mono); font-size: .85rem;
+    background: #0f172a; color: #e2e8f0; border-radius: 10px;
+    padding: 14px 18px; overflow-x: auto; margin: 14px 0; line-height: 1.65;
+  }
+  pre code { background: none; padding: 0; color: inherit; font-size: .85rem; }
+  .pill {
+    display: inline-block; padding: 2px 12px; border-radius: 999px;
+    font-size: .82rem; font-weight: 600; white-space: nowrap;
+  }
+  .pill.green  { background: var(--green-soft);  color: var(--green); }
+  .pill.amber  { background: var(--amber-soft);  color: var(--amber); }
+  .pill.red    { background: var(--red-soft);    color: var(--red); }
+  .pill.blue   { background: var(--accent-soft); color: var(--accent); }
+  .pill.grey   { background: var(--grey-soft);   color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; background: var(--card);
+          border-radius: 10px; overflow: hidden; font-size: .93rem; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--accent-soft); color: #1e3a8a; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .note {
+    border-left: 4px solid var(--accent); background: var(--accent-soft);
+    padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: .95rem;
+  }
+  .note.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+  .note.ok   { border-left-color: var(--green); background: var(--green-soft); }
+  .note.danger { border-left-color: var(--red); background: var(--red-soft); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  .stat { text-align: center; }
+  .stat .kicker { text-transform: uppercase; letter-spacing: 1.5px; font-size: .72rem; color: var(--muted); }
+  .stat .val { font-size: 2rem; font-weight: 700; color: var(--green); margin: 2px 0; }
+  .stat .lbl { font-size: .85rem; color: var(--muted); }
+  .diagram { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+             padding: 18px; margin: 16px 0; overflow-x: auto; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .diagram figcaption { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 10px; }
+  .step { display: flex; gap: 14px; margin: 14px 0; align-items: flex-start; }
+  .step .num {
+    flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: .95rem;
+  }
+  .step h4 { font-size: 1rem; margin-bottom: 2px; }
+  .step p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .kbd { font-family: var(--mono); background: #fff; border: 1px solid var(--border);
+         border-bottom-width: 3px; border-radius: 6px; padding: 1px 7px; font-size: .82rem; }
+  .figure-img { margin: 20px 0; text-align: center; }
+  .figure-img img { max-width: 100%; border-radius: 10px; border: 1px solid var(--border);
+                    box-shadow: 0 1px 3px rgba(20,40,80,.08); }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 26px; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <h1>📚 LLM Wiki UI — From a Pile of Documents to a Living Knowledge Base, Hands-Free</h1>
+    <p class="sub">FastAPI + React + any LLM: drop source documents into <code>Clippings/</code>, press
+    <em>Run Ingest</em>, and watch the model write a structured wiki — source pages, entity pages, concept
+    pages, a master index — with Obsidian-style <code>[[wiki-links]]</code> stitching it all together.
+    Then browse it as a folder tree or an interactive D3 link graph, and interrogate it in a streaming
+    chat that cites its sources and grades its own confidence. No database — the wiki is plain
+    <code>.md</code> files you can open in Obsidian, version with Git, and read with your own eyes.</p>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-btn-pitch" onclick="showTab('pitch')">🚀 Elevator Pitch</button>
+      <button class="tab-btn" id="tab-btn-nontechnical" onclick="showTab('nontechnical')">📖 Non-Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-technical" onclick="showTab('technical')">⚙️ Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-glossary" onclick="showTab('glossary')">📚 Glossary</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================================================================== -->
+<!-- TAB 0 — ELEVATOR PITCH                                               -->
+<!-- ==================================================================== -->
+<section class="panel active" id="panel-pitch">
+
+  <h2>The 30-second pitch</h2>
+  <div class="card">
+    <p class="lead">
+      You have forty product documents in a folder. Someone asks "how does offline sync work?" and the
+      answer is buried in three PDFs, a spreadsheet and a wiki nobody updated since last year. Reading,
+      indexing and cross-referencing all of it is <em>your</em> problem — forever.
+    </p>
+    <p>
+      <strong>This project turns that pile of documents into a self-maintaining wiki.</strong> Drop the
+      files into <code>Clippings/</code>, hit <em>Run Ingest</em>, and an LLM reads each one and writes
+      structured wiki pages: a <em>source page</em> per document, <em>entity pages</em> for every component
+      and feature it mentions, <em>concept pages</em> for the cross-cutting ideas, and a master
+      <code>index.md</code> that catalogs everything. Pages are cross-linked with Obsidian
+      <code>[[wiki-links]]</code>, browsable as a folder tree <em>or</em> an interactive D3 force graph,
+      and answerable in plain English — the Query tab retrieves the relevant pages, streams a cited
+      answer, and shows a confidence score. It runs on any of 8 LLM providers (OpenAI, Azure, Anthropic,
+      Ollama, LM Studio, Together, Baseten — or a GGUF model running <em>locally on your CPU</em>, no API
+      key needed). The wiki is plain Markdown files: human-readable, Obsidian-compatible, Git-friendly.
+    </p>
+    <p><strong>The line that matters: documents go in one side, a cross-linked, queryable knowledge base comes out the other — and the LLM does all the writing.</strong></p>
+  </div>
+
+  <h2>The one-line principle</h2>
+  <div class="grid3">
+    <div class="card">
+      <h3>📥 Ingest → 🕸️ Browse → 💬 Query</h3>
+      <p>Three stages, one loop. <strong>Ingest</strong> turns documents into linked wiki pages.
+      <strong>Browse</strong> explores them as a tree or force-directed graph.
+      <strong>Query</strong> answers questions <em>from the wiki only</em>, with citations and a
+      confidence grade. Each pass makes the next one smarter.</p>
+    </div>
+    <div class="card">
+      <h3>🗂️ Plain files, no lock-in</h3>
+      <p>Every page is a <code>.md</code> file with YAML frontmatter, stored in
+      <code>wiki/sources|entities|concepts|analyses</code>. No database, no proprietary format —
+      open it in Obsidian, grep it, or <code>git diff</code> it. <code>Clippings/</code> is never
+      modified; the wiki is fully regenerable.</p>
+    </div>
+    <div class="card">
+      <h3>🔍 Answers you can audit</h3>
+      <p>Query answers stream token by token, then land with <strong>citation chips</strong> (click to
+      open the exact page) and a <strong>confidence score</strong>. The system prompt forbids the model
+      from using outside knowledge — if the wiki doesn't know, it says so.</p>
+    </div>
+  </div>
+
+  <h2>How it works in one picture</h2>
+  <figure class="diagram">
+    <svg viewBox="0 0 980 210" width="980" role="img" aria-label="LLM Wiki three-stage flow">
+      <defs>
+        <marker id="ar0" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <rect x="15" y="75" width="160" height="70" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="95" y="103" fill="#334155">📄 Clippings/</text>
+        <text x="95" y="122" fill="#5b6b7c" font-weight="400" font-size="11">md · docx · xlsx · pdf · pptx</text>
+
+        <rect x="205" y="75" width="170" height="70" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="290" y="103" fill="#1e3a8a">⚙️ Ingest (streaming)</text>
+        <text x="290" y="122" fill="#5b6b7c" font-weight="400" font-size="11">LLM reads → writes pages</text>
+
+        <rect x="405" y="75" width="180" height="70" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="495" y="98" fill="#14532d">🗂️ wiki/</text>
+        <text x="495" y="115" fill="#5b6b7c" font-weight="400" font-size="11">sources/ · entities/ · concepts/</text>
+        <text x="495" y="131" fill="#5b6b7c" font-weight="400" font-size="11">analyses/ · index · overview · log</text>
+
+        <rect x="615" y="75" width="160" height="70" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="695" y="103" fill="#92400e">📁 Tree · 🕸️ Graph</text>
+        <text x="695" y="122" fill="#5b6b7c" font-weight="400" font-size="11">D3 force-directed links</text>
+
+        <rect x="805" y="75" width="160" height="70" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="885" y="98" fill="#1e3a8a">💬 Query chat</text>
+        <text x="885" y="115" fill="#5b6b7c" font-weight="400" font-size="11">retrieval → LLM → answer</text>
+        <text x="885" y="131" fill="#5b6b7c" font-weight="400" font-size="11">citations + confidence</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="175" y1="110" x2="203" y2="110" marker-end="url(#ar0)"/>
+        <line x1="375" y1="110" x2="403" y2="110" marker-end="url(#ar0)"/>
+        <line x1="585" y1="110" x2="613" y2="110" marker-end="url(#ar0)"/>
+        <line x1="775" y1="110" x2="803" y2="110" marker-end="url(#ar0)"/>
+      </g>
+      <g>
+        <rect x="330" y="170" width="330" height="26" rx="13" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+        <text x="495" y="188" text-anchor="middle" fill="#14532d" font-size="12" font-weight="bold">🔗 [[wiki-links]] connect every page into one graph</text>
+        <line x1="495" y1="147" x2="495" y2="168" stroke="#16a34a" stroke-width="2" marker-end="url(#ar0)"/>
+      </g>
+      <g>
+        <rect x="205" y="18" width="170" height="30" rx="15" fill="#ffffff" stroke="#d97706"/>
+        <text x="290" y="38" text-anchor="middle" fill="#92400e" font-size="11.5" font-weight="bold">Health Check closes the loop</text>
+        <path d="M 620 160 C 560 205, 380 205, 300 50" fill="none" stroke="#d97706" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#ar0)"/>
+      </g>
+    </svg>
+    <figcaption>Figure 0 — Documents in, knowledge base out. The Health Check (lint) then audits the wiki and tells you what to ingest next.</figcaption>
+  </figure>
+
+  <h2>Numbers from the shipped build</h2>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">LLM providers</div><div class="val">8</div><div class="lbl">cloud + local, incl. CPU-only GGUF</div></div>
+    <div class="card stat"><div class="kicker">Source formats</div><div class="val">7</div><div class="lbl">md · docx · xlsx · pdf · pptx · txt</div></div>
+    <div class="card stat"><div class="kicker">Page types</div><div class="val">4</div><div class="lbl">sources · entities · concepts · analyses</div></div>
+  </div>
+
+  <div class="note ok">
+    <strong>The signal:</strong> the wiki-building intelligence isn't in the app — it's in the
+    <em>contract</em>. <code>AGENTS.md</code> (the schema) + a strict <code>===FILE:===</code> output
+    format + post-processing guards turn a general-purpose LLM into a reliable technical writer.
+    Swap the model, keep the machine. Small local models get automatic fallbacks (compact prompts,
+    extractive answers, index rebuilding) so the same pipeline runs from a 2 GB GGUF file to GPT-4o.
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 1 — NON-TECHNICAL                                                -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-nontechnical">
+
+  <h2>What is this project?</h2>
+  <div class="card">
+    <p class="lead">
+      LLM Wiki UI is a <strong>wiki that writes itself</strong>. You feed it documents; a large language
+      model reads each one and produces a structured, cross-linked knowledge base — then answers
+      questions about it, showing its sources and how confident it is.
+    </p>
+    <p>In practice you do three things:</p>
+    <ol>
+      <li><strong>Create a project</strong> — one folder = one wiki (one product, one domain)</li>
+      <li><strong>Drop documents in and run Ingest</strong> — the LLM writes source, entity and concept pages and links them together</li>
+      <li><strong>Browse or ask questions</strong> — tree/graph navigation, or a chat that answers from the wiki only</li>
+    </ol>
+    <p>
+      Think of it as hiring a librarian who never sleeps. Every time you hand her a new document she
+      reads it, writes a summary card, files it under the right headings, updates the master index, and
+      adds "see also" strings to every related card she has ever filed. When you ask a question she
+      pulls the relevant cards, answers <em>only from them</em>, and tells you which cards she used —
+      and how sure she is.
+    </p>
+  </div>
+
+  <h2>What does using it look like?</h2>
+  <p>The app has three tabs. Here is the whole journey.</p>
+
+  <h3>Step 1 — Configure the LLM once</h3>
+  <p>
+    In <strong>Config → LLM Connection</strong> pick a provider from the dropdown — OpenAI, Azure OpenAI,
+    Anthropic, Ollama, LM Studio, Together AI, Baseten, or <strong>Local CPU Model</strong> (a GGUF file
+    running on your own machine, no API key, no internet). Enter the model and key, hit
+    <strong>Test Connection</strong>, and a green ✓ tells you you're ready. Settings persist in
+    <code>config.json</code>; keys are masked in the UI and the file is git-ignored.
+  </p>
+
+  <h3>Step 2 — Create a wiki project</h3>
+  <p>
+    In <strong>Config → Ingest</strong>, choose <em>New Wiki</em>, type a name, browse for a parent
+    folder, and click <strong>Create Wiki Structure</strong>. The app scaffolds the whole skeleton:
+  </p>
+<pre>MyWiki/
+├── AGENTS.md          ← the schema the LLM must follow
+├── Clippings/         ← your raw documents go here
+├── raw/articles/ · raw/assets/
+└── wiki/
+    ├── index.md · overview.md · log.md
+    └── sources/ · entities/ · concepts/ · analyses/</pre>
+  <p>
+    Already have a wiki folder on disk? Choose <em>Existing Wiki</em>, point at the folder, and it's
+    registered and set active.
+  </p>
+
+  <h3>Step 3 — Run Ingest and watch it write</h3>
+  <p>
+    Drag files onto the drop zone (or drop them into <code>Clippings/</code> and hit Reload), tick the
+    ones you want, and press <strong>Ingest Selected</strong>. A progress bar tracks file-by-file
+    progress while the LLM's raw output streams live into the log — you literally watch pages being
+    written. Each file finishes with a <code>✓ file (N pages)</code> line. <strong>Rebuild Entire
+    Wiki</strong> re-processes everything from scratch; <strong>Stop</strong> halts after the current
+    file.
+  </p>
+
+  <h3>Step 4 — Browse the wiki</h3>
+  <p>
+    The <strong>View Wiki</strong> tab opens on a two-pane <em>Tree</em> view: folder sidebar on the
+    left (sources, entities, concepts, analyses), rendered Markdown on the right. Every
+    <code>[[wiki-link]]</code> in a page is a clickable button that jumps straight to that page; a
+    <strong>Back</strong> button and a <strong>Backlinks</strong> panel ("which pages point here?") make
+    navigation feel like Obsidian. The sidebar even resizes — grab the divider and drag.
+  </p>
+
+  <h3>Step 5 — Explore the link graph</h3>
+  <p>
+    Flip the toggle to <em>Graph</em> and the whole wiki becomes a force-directed constellation: pages
+    are nodes, <code>[[wiki-links]]</code> are edges, colours distinguish sources (blue), entities
+    (green), concepts (amber), analyses (red). Drag nodes, zoom, hover for the path, click a node to
+    open that page. A ⚙ settings drawer exposes live controls: search highlight, hide orphan nodes,
+    per-type filters, node size, link thickness, label modes, arrows, and the physics sliders (repel,
+    link distance, gravity).
+  </p>
+
+  <h3>Step 6 — Ask questions</h3>
+  <p>
+    The <strong>Query</strong> tab is a streaming chat. Type a question; the backend picks the most
+    relevant wiki pages, hands them to the LLM as context, and streams the answer back. Under the
+    answer you get:
+  </p>
+  <ul>
+    <li><strong>Sources</strong> — chips for every wiki page used; click one to open it in the viewer</li>
+    <li><strong>Confidence</strong> — High / Medium / Low / None with a percentage, colour-coded green → red</li>
+    <li><strong>Save</strong> — turns the answer into a permanent <code>analyses/&lt;date&gt;-&lt;title&gt;.md</code> page that future queries can find</li>
+  </ul>
+  <p>
+    Two retrieval modes: <strong>Keyword</strong> (instant word-matching on the index) or
+    <strong>Semantic</strong> (a first LLM pass reads the index and picks pages — slower, smarter).
+    And a <strong>General LLM</strong> toggle switches the chat from "answer from my wiki" to "just talk
+    to the model directly" — same box, no wiki context, useful for anything the wiki doesn't cover.
+  </p>
+
+  <div class="note ok">
+    <strong>Why this matters:</strong> the wiki is plain files. You can edit any page by hand, commit it
+    to Git, or open the folder in Obsidian — the app reads whatever is on disk next time. The LLM
+    writes; <em>you</em> own the result.
+  </div>
+
+  <h2>The 4-step workflow</h2>
+
+  <div class="card">
+    <div class="step"><div class="num">1</div><div><h4>Prepare sources</h4>
+      <p>Drop .md / .docx / .xlsx / .pdf / .pptx files into Clippings/ or the upload drop zone.</p></div></div>
+    <p>
+      One topic per file works best; clean Markdown beats scraped HTML. Uploads land in the project's
+      <code>Clippings/</code> folder (10 MB per file), and the file list shows a
+      <span class="pill green">done</span> / <span class="pill grey">pending</span> badge per file by
+      checking <code>wiki/log.md</code>. Hover a file row for a 🗑 button — removing a file also deletes
+      its generated source page and refreshes the index.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">2</div><div><h4>Ingest</h4>
+      <p>The LLM reads each file and writes a source page + entity pages + concept pages + the updated index.</p></div></div>
+    <p>
+      Every ingest call includes the project's <code>AGENTS.md</code> schema and the current
+      <code>index.md</code>, so naming conventions stay consistent as the wiki grows. The output is
+      parsed page by page, normalized (paths slugified, bare filenames sorted into the right folder by
+      frontmatter type), and written to disk. A log entry lands in <code>wiki/log.md</code>, and the
+      index is auto-rebuilt as a safety net if the model forgot it.
+    </p>
+    <div class="note warn">
+      <strong>The one rule that matters:</strong> a single source can touch 5–15 pages. That's the
+      design, not a bug — entities and concepts are <em>shared</em>, so ingest #2 doesn't rewrite
+      them, it links to them. Expect the wiki to grow non-linearly.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">3</div><div><h4>Browse</h4>
+      <p>Tree view for reading, Graph view for seeing the shape of your knowledge.</p></div></div>
+    <p>
+      Isolated nodes in the graph are pages nobody links to — either fresh ingests needing
+      cross-references or candidates for deletion. The Health Check will tell you which.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">4</div><div><h4>Query &amp; health-check</h4>
+      <p>Ask questions with citations and confidence; run a lint to find broken links, orphans and gaps.</p></div></div>
+    <p>
+      The Health Check runs two phases: an instant programmatic scan (broken
+      <code>[[links]]</code>, orphan pages, pages with no outbound links) followed by an LLM narrative
+      that flags contradictions, stale claims, concept gaps, and — most usefully — <em>suggests the
+      next documents to go find</em>.
+    </p>
+    <div class="note ok">
+      <strong>Try it yourself:</strong> two terminals and a browser. The Technical Guide has the exact
+      commands; from empty folder to first answer is about five minutes.
+    </div>
+  </div>
+
+  <h2>Tips for best results</h2>
+  <div class="note ok">
+    <strong>Do</strong>
+    <ul style="margin-bottom:0;">
+      <li><strong>Start small</strong> — ingest 2–3 files, inspect the pages, then batch</li>
+      <li><strong>One topic per file</strong> — a 20-topic mega-doc dilutes every page it touches</li>
+      <li><strong>Use Temperature 0.2–0.4</strong> for ingest; raise it only for general chat</li>
+      <li><strong>Save good answers</strong> as analyses — they become first-class wiki pages</li>
+      <li><strong>Run a Health Check every 5–10 sources</strong> to catch link rot early</li>
+    </ul>
+  </div>
+  <div class="note warn">
+    <strong>Avoid</strong>
+    <ul style="margin-bottom:0;">
+      <li>Don't <strong>Rebuild Entire Wiki</strong> casually — it overwrites all pages, and LLM output varies run to run</li>
+      <li>Don't expect magic from 2B-class local models on huge PDFs — they get compact prompts and truncated sources by design</li>
+      <li>Don't ingest images expecting OCR — visuals are ignored; keep the alt text</li>
+      <li>Don't mix unrelated products in one project — the graph and retrieval both degrade</li>
+    </ul>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+  <div class="card">
+    <h3>Do I need to know programming to use this?</h3>
+    <p>
+      No. Configure one dropdown, drop files in a box, press two buttons. The developer-facing parts
+      (ports, API, config file) are only in the Technical Guide.
+    </p>
+    <h3>Where do my API keys live?</h3>
+    <p>
+      In <code>config.json</code> next to the app — masked as <code>***</code> in the UI, never sent
+      back to the browser unmasked, and git-ignored. Local CPU and Ollama need no key at all.
+    </p>
+    <h3>Can the app damage my documents?</h3>
+    <p>
+      No. <code>Clippings/</code> and <code>raw/</code> are read-only as far as the app is concerned.
+      Everything it writes lives under <code>wiki/</code>, which is regenerable by rebuilding.
+    </p>
+    <h3>What if the local model produces nothing?</h3>
+    <p>
+      The app doesn't give up: it strips thinking-block artifacts, retries empty answers, caps the
+      answer length, and — as a last resort — builds an <em>extractive answer</em> directly from the
+      retrieved pages so you always get the relevant text even if the model flaked.
+    </p>
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 2 — TECHNICAL                                                    -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-technical">
+
+  <h2>System overview</h2>
+  <p>
+    The project is a <strong>FastAPI backend + React SPA</strong>. Six routers (config, ingest, wiki,
+    query, lint, utils) front five services (ingest, lint, LLM, local-model, wiki-manager). All
+    long-running work — ingest, lint, query — is delivered as <strong>Server-Sent Events</strong>
+    streams. Persistence is <strong>plain Markdown files + one <code>config.json</code></strong>;
+    there is no database anywhere.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 900 500" width="900" role="img" aria-label="System architecture">
+      <defs>
+        <marker id="arch-a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+
+      <!-- Browser -->
+      <rect x="20" y="10" width="400" height="86" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+      <text x="220" y="34" text-anchor="middle" fill="#334155" font-size="13" font-weight="bold">🧑 React SPA (Vite + Tailwind + Zustand)</text>
+      <text x="220" y="54" text-anchor="middle" fill="#475569" font-size="10.5">Config tab · View Wiki tab (tree + D3 graph) · Query chat</text>
+      <text x="220" y="72" text-anchor="middle" fill="#64748b" font-size="9">react-markdown + remark-gfm render pages; [[wikilinks]] become buttons</text>
+      <text x="220" y="88" text-anchor="middle" fill="#64748b" font-size="9">dev :5173 (HMR) · prod served by backend from frontend/dist</text>
+
+      <!-- LLM providers -->
+      <rect x="480" y="10" width="400" height="86" rx="10" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+      <text x="680" y="34" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="bold">☁️ 8 providers — one interface</text>
+      <text x="680" y="54" text-anchor="middle" fill="#475569" font-size="10.5">openai · azure · anthropic · ollama · lmstudio · together · baseten · local-cpu</text>
+      <text x="680" y="72" text-anchor="middle" fill="#64748b" font-size="9">openai SDK for 6, anthropic SDK for 1, llama-cpp-python for local GGUF</text>
+      <text x="680" y="88" text-anchor="middle" fill="#64748b" font-size="9">keyless: ollama · lmstudio · local-cpu</text>
+
+      <!-- Backend -->
+      <rect x="230" y="136" width="440" height="96" rx="10" fill="#e7f7ee" stroke="#16a34a" stroke-width="2.5"/>
+      <text x="450" y="160" text-anchor="middle" fill="#14532d" font-size="13.5" font-weight="bold">⚙️ FastAPI backend — backend/main.py</text>
+      <text x="450" y="180" text-anchor="middle" fill="#475569" font-size="10.5">6 routers: /api/config · /api/ingest · /api/wiki · /api/query · /api/lint · /api/utils</text>
+      <text x="450" y="198" text-anchor="middle" fill="#5b6b7c" font-size="10">SSE streams: ingest tokens · lint tokens · query tokens+citations+confidence</text>
+      <text x="450" y="216" text-anchor="middle" fill="#64748b" font-size="9">CORS open (tunnel-friendly) · SPA served from frontend/dist in production</text>
+
+      <line x1="220" y1="96" x2="380" y2="134" stroke="#5b6b7c" stroke-width="2" marker-end="url(#arch-a)"/>
+      <line x1="680" y1="96" x2="540" y2="134" stroke="#5b6b7c" stroke-width="2" marker-end="url(#arch-a)"/>
+
+      <!-- Services -->
+      <rect x="30" y="272" width="260" height="120" rx="10" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+      <text x="160" y="296" text-anchor="middle" fill="#14532d" font-size="12.5" font-weight="bold">📥 ingest_service</text>
+      <text x="160" y="316" text-anchor="middle" fill="#475569" font-size="10">===FILE:=== protocol · AGENTS.md schema</text>
+      <text x="160" y="332" text-anchor="middle" fill="#475569" font-size="10">path normalize · type-dir inference</text>
+      <text x="160" y="348" text-anchor="middle" fill="#475569" font-size="10">thinking-strip · auto index rebuild</text>
+      <text x="160" y="368" text-anchor="middle" fill="#5b6b7c" font-size="9">extracts docx/xlsx/pdf/pptx text</text>
+
+      <rect x="320" y="272" width="260" height="120" rx="10" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+      <text x="450" y="296" text-anchor="middle" fill="#1e3a8a" font-size="12.5" font-weight="bold">🔎 query_router</text>
+      <text x="450" y="316" text-anchor="middle" fill="#475569" font-size="10">keyword (slug match) or semantic (LLM pick)</text>
+      <text x="450" y="332" text-anchor="middle" fill="#475569" font-size="10">budget: 40k chars cloud · 12k local</text>
+      <text x="450" y="348" text-anchor="middle" fill="#475569" font-size="10">confidence: ## Confidence: N → widget</text>
+      <text x="450" y="368" text-anchor="middle" fill="#5b6b7c" font-size="9">extractive fallback + empty-answer retry</text>
+
+      <rect x="610" y="272" width="260" height="120" rx="10" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+      <text x="740" y="296" text-anchor="middle" fill="#92400e" font-size="12.5" font-weight="bold">🩺 lint_service</text>
+      <text x="740" y="316" text-anchor="middle" fill="#475569" font-size="10">phase 1: regex link-graph scan</text>
+      <text x="740" y="332" text-anchor="middle" fill="#475569" font-size="10">broken · orphans · no-outbound</text>
+      <text x="740" y="348" text-anchor="middle" fill="#475569" font-size="10">phase 2: LLM narrative analysis</text>
+      <text x="740" y="368" text-anchor="middle" fill="#5b6b7c" font-size="9">result logged to wiki/log.md</text>
+
+      <line x1="380" y1="232" x2="200" y2="270" stroke="#16a34a" stroke-width="2" marker-end="url(#arch-a)"/>
+      <line x1="450" y1="232" x2="450" y2="270" stroke="#5b6b7c" stroke-width="2" marker-end="url(#arch-a)"/>
+      <line x1="520" y1="232" x2="700" y2="270" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arch-a)"/>
+
+      <!-- Storage -->
+      <rect x="130" y="424" width="640" height="56" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+      <text x="450" y="446" text-anchor="middle" fill="#334155" font-size="12.5" font-weight="bold">🗄️ Filesystem — the only database (wiki_manager.py)</text>
+      <text x="450" y="466" text-anchor="middle" fill="#5b6b7c" font-size="10" font-family="Consolas, monospace">wiki/sources · entities · concepts · analyses · index.md · overview.md · log.md — all plain .md + YAML frontmatter</text>
+
+      <line x1="160" y1="392" x2="240" y2="422" stroke="#5b6b7c" stroke-width="2" marker-end="url(#arch-a)"/>
+      <line x1="450" y1="392" x2="450" y2="422" stroke="#5b6b7c" stroke-width="2" marker-end="url(#arch-a)"/>
+      <line x1="740" y1="392" x2="660" y2="422" stroke="#d97706" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arch-a)"/>
+    </svg>
+    <figcaption>Figure 5 — SPA talks to FastAPI; routers fan out to services; every service reads and writes the same plain-file wiki.</figcaption>
+  </figure>
+
+  <h2>The ingest contract: <code>===FILE:===</code></h2>
+  <div class="card">
+    <p>
+      Ingestion is a single streaming LLM call per source file. The system prompt (in
+      <code>ingest_service.py</code>) teaches the model a tiny file-emission protocol:
+    </p>
+<pre><code>===FILE: sources/agilepoint-nx-portal.md===
+---
+title: "AgilePoint NX Portal"
+type: source
+…
+---
+(page body with [[wiki-links]])
+
+===FILE: entities/portal.md===
+…
+===FILE: index.md===
+…</code></pre>
+    <p>What happens to that raw text before it touches disk:</p>
+    <ul>
+      <li><strong>Thinking-strip</strong> — removes <code>&lt;|channel|&gt;thought…&lt;|channel|&gt;response</code>, <code>&lt;think&gt;</code> and <code>&lt;thinking&gt;</code> blocks that reasoning models emit</li>
+      <li><strong>Path normalization</strong> — strips a leading <code>wiki/</code>, slugifies filenames, rejects invalid Windows chars, and collapses degenerate repetition loops small models fall into (<code>email-email-email…</code>)</li>
+      <li><strong>Type-dir inference</strong> — a bare <code>my-page.md</code> with <code>type: entity</code> frontmatter is routed to <code>entities/</code> automatically</li>
+      <li><strong>log.md protection</strong> — the LLM can never overwrite the append-only log</li>
+      <li><strong>Evidence append</strong> — source pages get an <code>## Extracted Source Text</code> block (≤20k chars) so answers stay traceable</li>
+      <li><strong>Index fallback</strong> — <code>auto_rebuild_index()</code> regenerates <code>index.md</code> from frontmatter if the model didn't emit one</li>
+    </ul>
+    <p>
+      Context per call = <code>AGENTS.md</code> + current <code>index.md</code> + the source text.
+      Local CPU models get a compact variant: schema-only prompt, source truncated to 8k chars, no
+      index/overview output.
+    </p>
+  </div>
+
+  <h2>How retrieval works</h2>
+  <div class="card">
+    <p>
+      <code>POST /api/query/</code> accepts <code>mode</code> (<code>wiki</code> | <code>general</code>)
+      and <code>retrieval_mode</code> (<code>keyword</code> | <code>semantic</code>). In wiki mode:
+    </p>
+    <table>
+      <tr><th>Stage</th><th>Cloud models</th><th>Local CPU models</th></tr>
+      <tr>
+        <td><strong>Page selection</strong></td>
+        <td>keyword: tokenize question, score overlap vs index slugs, top 8 — or semantic: an LLM call reads the index and picks pages</td>
+        <td>keyword only, top 3 (semantic needs a second LLM pass these models can't afford)</td>
+      </tr>
+      <tr>
+        <td><strong>Context budget</strong></td>
+        <td>40 000 chars, full pages, index + overview always included</td>
+        <td>12 000 chars; entity/concept pages reduced to question-relevant snippets, source pages kept full</td>
+      </tr>
+      <tr>
+        <td><strong>History</strong></td>
+        <td>Full prior turns</td>
+        <td>Last 2 turns only, and only if the question looks like a follow-up ("it", "that", "more"…)</td>
+      </tr>
+      <tr>
+        <td><strong>Answer limits</strong></td>
+        <td>Model's configured max_tokens</td>
+        <td>≤512 tokens, 120 s timeout, retry-once on empty answers</td>
+      </tr>
+      <tr>
+        <td><strong>Fallback</strong></td>
+        <td>—</td>
+        <td>Extractive answer built from retrieved snippets (keyword confidence still reported)</td>
+      </tr>
+    </table>
+    <p>The SSE stream, in order:</p>
+<pre>data: {"type": "confidence", "score": {...}, "source": "keyword"}   ← preliminary, sent first
+data: {"type": "token", "token": "…"}                               ← full answer (cleaned) as one or more tokens
+data: {"type": "confidence", "score": {...}, "source": "llm"}       ← parsed from ## Confidence: N
+data: {"type": "citations", "pages": [{"path": "entities/x.md", "title": "X"}]}
+data: {"type": "done"}</pre>
+    <p>
+      The system prompt hard-forbids answering from general knowledge: no answer in the wiki ⇒ the
+      model must literally say <em>"The wiki does not contain information about this topic."</em>
+      The UI strips the <code>## References</code> and <code>## Confidence:</code> lines from the
+      visible bubble and re-renders them as chips and the confidence widget.
+    </p>
+  </div>
+
+  <h2>Graph view internals</h2>
+  <div class="card">
+    <p>
+      <code>GET /api/wiki/graph</code> walks every <code>.md</code> under <code>wiki/</code>, regex-extracts
+      <code>[[slug]]</code> targets, resolves each to a real path, and returns
+      <code>{nodes, edges}</code> with a <code>group</code> per folder. The frontend (D3 v7) runs a force
+      simulation whose parameters are all live:
+    </p>
+    <table>
+      <tr><th>Group</th><th>Folder</th><th>Colour</th></tr>
+      <tr><td>root</td><td>index / overview / log (top level)</td><td><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#a78bfa;vertical-align:middle;"></span> light purple</td></tr>
+      <tr><td>sources</td><td><code>wiki/sources/</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#60a5fa;vertical-align:middle;"></span> blue</td></tr>
+      <tr><td>entities</td><td><code>wiki/entities/</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#34d399;vertical-align:middle;"></span> green</td></tr>
+      <tr><td>concepts</td><td><code>wiki/concepts/</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#fbbf24;vertical-align:middle;"></span> amber</td></tr>
+      <tr><td>analyses</td><td><code>wiki/analyses/</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#f87171;vertical-align:middle;"></span> red</td></tr>
+    </table>
+    <p>
+      The ⚙ panel edits filters (search dim-highlight, orphans/attachments toggles, per-group visibility),
+      display (node size, link thickness, labels always/hover/never, arrows), and physics (repel
+      −600…−20, link distance 20…300, gravity 0.01…0.5) — applied imperatively to the live simulation,
+      no rebuild.
+    </p>
+  </div>
+
+  <h2>Health check: two phases</h2>
+  <div class="card">
+<pre># Phase 1 — pure Python (lint_service.run_lint, instant)
+slug_map = {page.stem → path}            # every [[target]] must resolve
+inbound   = {slug → [linking pages]}     # orphans = no inbound
+outbound  = count per page               # no_outbound = dead ends
+→ events: {"programmatic": {broken_links, orphan_pages, no_outbound_pages}}
+
+# Phase 2 — LLM sees every page's first 400 chars + phase-1 results
+→ flags contradictions · stale claims · concept gaps
+· missing cross-refs · data gaps · suggested new sources</pre>
+    <p>
+      Both phases stream over the same SSE channel the UI already uses for ingest, and every run
+      appends <code>## [date] lint | N broken links, M orphans</code> to <code>wiki/log.md</code>.
+    </p>
+  </div>
+
+  <h2>The local CPU model service</h2>
+  <div class="card">
+    <p>
+      <code>local_model_service.py</code> ships a catalog of GGUF models (Gemma 2 2B, Llama 3.2 3B,
+      Qwen 2.5 3B, Phi 3.5 Mini, Gemma 4 E2B — all Q4_K_M, ~1.7–2.2 GB), downloads them from
+      Hugging Face on demand into <code>models/</code>, and serves them through
+      <code>llama-cpp-python</code> — CPU only, chat-template aware (gemma / llama3 / chatml prompt
+      styles). The provider id is <code>local-cpu</code>; the config form shows a dropdown of
+      downloaded models and adapts the whole pipeline to it (compact prompts, 512-token answers,
+      extractive fallbacks). Drop a <code>.gguf</code> into <code>models/</code> and it appears in
+      the dropdown. When packaged as an exe, <code>models/</code> and <code>config.json</code> resolve
+      next to the executable.
+    </p>
+  </div>
+
+  <h2>Dependencies</h2>
+  <div class="card">
+    <table>
+      <tr><th>Layer</th><th>Packages</th><th>Purpose</th></tr>
+      <tr><td>Backend</td><td><code>fastapi</code>, <code>uvicorn[standard]</code>, <code>pydantic≥2</code>, <code>python-frontmatter</code>, <code>python-multipart</code>, <code>aiofiles</code></td><td>API, SSE streaming, YAML frontmatter parsing</td></tr>
+      <tr><td>LLM</td><td><code>openai≥1.0</code>, <code>anthropic≥0.25</code>, <code>llama-cpp-python≥0.3</code>, <code>huggingface-hub≥0.25</code></td><td>provider routing + local GGUF inference</td></tr>
+      <tr><td>Parsers</td><td><code>python-docx</code>, <code>openpyxl</code>, <code>pypdf</code>, <code>python-pptx</code></td><td>docx (paragraphs+tables), xlsx (sheets), pdf (per-page), pptx (slides+tables)</td></tr>
+      <tr><td>Frontend</td><td><code>react 18</code>, <code>vite 5</code>, <code>tailwind 3</code>, <code>zustand 4</code>, <code>d3 7</code>, <code>react-markdown 9</code> + <code>remark-gfm 4</code></td><td>SPA, state store, graph, Markdown + GFM rendering</td></tr>
+    </table>
+  </div>
+
+  <h2>Project layout</h2>
+  <div class="card">
+<pre><code>LLMWikiUI/
+├── backend/
+│   ├── main.py             # FastAPI app: 6 routers + SPA static mount
+│   ├── config.py           # AppConfig / LLMConfig / WikiProject → config.json
+│   ├── routers/
+│   │   ├── config_router.py    # LLM config, test-connection, projects, local-model CRUD
+│   │   ├── ingest_router.py    # scaffold, upload, file list/remove, run/rebuild (SSE)
+│   │   ├── wiki_router.py      # tree, page, search, backlinks, resolve, graph
+│   │   ├── query_router.py     # wiki + general chat (SSE), save-analysis, image upload
+│   │   ├── lint_router.py      # health-check run (SSE)
+│   │   └── utils_router.py     # native folder picker
+│   └── services/
+│       ├── ingest_service.py   # ===FILE:=== protocol, parsers, path guards
+│       ├── lint_service.py     # 2-phase health check
+│       ├── llm_service.py      # provider router (openai/anthropic/llama-cpp)
+│       ├── local_model_service.py  # GGUF catalog + download + CPU inference
+│       └── wiki_manager.py     # all file CRUD, link resolution, backlinks, index rebuild
+├── frontend/src/
+│   ├── App.jsx             # header + 3-tab shell
+│   ├── tabs/               # ConfigTab · WikiTab · QueryTab
+│   └── components/         # LLMConfigForm · IngestPanel · LintPanel · FileTree
+│                           # MarkdownViewer (+wikilinks, backlinks) · GraphView · ProjectSwitcher
+├── Clippings/  raw/  wiki/ # the LLM Wiki UI product wiki this repo ingests
+├── models/                 # downloaded GGUF files (git-ignored)
+├── config.json             # LLM keys + project registry (git-ignored)
+├── requirements.txt · userguide.html · AGENTS.md · README.md
+└── v1/ · baseline/         # frozen earlier builds (exe packaging reference)</code></pre>
+  </div>
+
+  <h2>Running it</h2>
+  <div class="card">
+<pre><code># 1. Backend environment
+python -m venv .venv
+.venv\Scripts\activate            # Windows  (source .venv/bin/activate on Mac/Linux)
+pip install -r requirements.txt
+
+# 2. Frontend dependencies
+cd frontend &amp;&amp; npm install &amp;&amp; cd ..
+
+# 3. Development — two terminals
+uvicorn backend.main:app --reload --port 8000      # terminal 1
+cd frontend &amp;&amp; npm run dev                          # terminal 2 → http://localhost:5173
+
+# 4. Production — single port
+cd frontend &amp;&amp; npm run build &amp;&amp; cd ..
+uvicorn backend.main:app --host 0.0.0.0 --port 8000 # → http://localhost:8000 serves SPA + API</code></pre>
+    <div class="note ok">
+      🧪 <strong>Verification:</strong> with the Local CPU provider and a downloaded GGUF, create a
+      project, drop two small <code>.md</code> files in, run Ingest, and confirm
+      <code>wiki/sources/</code> gains two pages, <code>index.md</code> lists them, and a Query of
+      "what is X?" returns an answer with citation chips and a confidence label. Run a Health Check —
+      broken-links and orphans should both read zero on a fresh wiki.
+    </div>
+  </div>
+
+  <h2>Design decisions worth knowing</h2>
+  <div class="card">
+    <ul>
+      <li><strong>Files, not a database</strong> — the wiki is the source of truth. Git gives history; Obsidian gives portability; a rebuild regenerates everything. State lives on disk or nowhere.</li>
+      <li><strong>Schema lives in AGENTS.md, not code</strong> — entity/concept taxonomies are per-project and editable without touching Python. The ingest prompt embeds it every call.</li>
+      <li><strong>===FILE:=== over JSON</strong> — models follow "emit files with markers" far more reliably than nested JSON of page objects; the parser is forgiving by design (slugify, type-inference, loop-collapse).</li>
+      <li><strong>Every stream is SSE</strong> — ingest, lint, and query share one transport, so the UI's live-token rendering is identical everywhere and an <code>AbortController</code> gives a real Stop button.</li>
+      <li><strong>Defence in depth for small models</strong> — thinking-strip → empty-answer retry → token cap → timeout → extractive fallback → auto index rebuild. The wiki degrades gracefully instead of failing.</li>
+      <li><strong>Path safety everywhere</strong> — every file op goes through a resolved-path guard against traversal; uploads and LLM-emitted paths alike are sanitized before touching disk.</li>
+      <li><strong>Wiki mode vs General mode</strong> — one toggle flips the contract: grounded-with-citations versus plain chat. Same provider, same stream, different system prompt.</li>
+      <li><strong>Masked keys</strong> — the backend returns <code>***</code> for stored keys and restores the real one server-side; the browser never sees a key it didn't type.</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 3 — GLOSSARY                                                     -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-glossary">
+
+  <h2>Glossary — every technical term in this guide</h2>
+  <div class="card">
+    <p class="lead">
+      Every technical term that appears in the Elevator Pitch, Non-Technical Guide, and Technical
+      Guide — expanded to its full form, explained in plain English, and located in this project.
+      Terms are grouped by theme so you can jump to the area you need.
+    </p>
+  </div>
+
+  <h3>🗂️ Wiki structure</h3>
+  <div class="card">
+    <table>
+      <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+      <tr><td><strong>Project</strong></td><td>Wiki Project</td><td>A folder pairing source documents with their generated wiki; multiple projects can be registered and switched.</td><td><code>WikiProject</code> in <code>backend/config.py</code>; the header "Wiki:" switcher.</td></tr>
+      <tr><td><strong>Clippings</strong></td><td>Clippings Folder</td><td>The drop zone for raw source documents; read-only for the app.</td><td><code>Clippings/</code> in each project root.</td></tr>
+      <tr><td><strong>Source page</strong></td><td>Source Page</td><td>One wiki page summarising one ingested document.</td><td><code>wiki/sources/&lt;slug&gt;.md</code>.</td></tr>
+      <tr><td><strong>Entity page</strong></td><td>Entity Page</td><td>A page for a distinct component, module, or feature mentioned across sources.</td><td><code>wiki/entities/</code>.</td></tr>
+      <tr><td><strong>Concept page</strong></td><td>Concept Page</td><td>A page for a cross-cutting idea spanning multiple entities.</td><td><code>wiki/concepts/</code>.</td></tr>
+      <tr><td><strong>Analysis page</strong></td><td>Analysis Page</td><td>A saved Q&amp;A result, promoted into the wiki so future queries can cite it.</td><td><code>wiki/analyses/&lt;date&gt;-&lt;slug&gt;.md</code> via <em>Save</em>.</td></tr>
+      <tr><td><strong>Frontmatter</strong></td><td>YAML Frontmatter</td><td>Key–value metadata (title, type, tags, dates, sources) at the top of every page.</td><td>Parsed by <code>python-frontmatter</code>; shown as a card in the viewer.</td></tr>
+      <tr><td><strong>Wiki-link</strong></td><td><code>[[Wikilink]]</code></td><td>Obsidian-style internal link; optional <code>[[slug|display]]</code> alias form.</td><td>Rendered clickable in <code>MarkdownViewer.jsx</code>; resolved by <code>resolve_wikilink()</code>.</td></tr>
+      <tr><td><strong>Index</strong></td><td>Wiki Index (<code>index.md</code>)</td><td>Master catalog table of all sources, entities, concepts, analyses.</td><td>Written by the LLM per ingest; auto-rebuilt as fallback.</td></tr>
+      <tr><td><strong>Overview</strong></td><td>Wiki Overview</td><td>The evolving high-level synthesis of the whole knowledge base.</td><td><code>wiki/overview.md</code>; refreshed per AGENTS.md cadence.</td></tr>
+      <tr><td><strong>Log</strong></td><td>Activity Log</td><td>Append-only record of ingests, analyses and lint runs.</td><td><code>wiki/log.md</code>; also the source of "done/pending" badges.</td></tr>
+    </table>
+  </div>
+
+  <h3>⚙️ Ingest &amp; retrieval</h3>
+  <div class="card">
+    <table>
+      <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+      <tr><td><strong>Ingest</strong></td><td>Ingestion</td><td>Feeding a source document to the LLM and writing the resulting wiki pages.</td><td><code>ingest_service.ingest_files()</code>; <strong>Run Ingest</strong> button.</td></tr>
+      <tr><td><strong>Rebuild</strong></td><td>Full Rebuild</td><td>Re-ingesting every source and regenerating all pages from scratch.</td><td><strong>Rebuild Entire Wiki</strong> button → <code>rebuild=True</code>.</td></tr>
+      <tr><td><strong>Scaffold</strong></td><td>Project Scaffolding</td><td>Creating the standard folder tree + template files for a new wiki.</td><td><code>wiki_manager.scaffold_wiki()</code>; <em>Create Wiki Structure</em>.</td></tr>
+      <tr><td><strong>AGENTS.md</strong></td><td>Agent Schema File</td><td>The per-project contract: page types, frontmatter rules, linking style. Sent with every ingest call.</td><td>Project root; template in <code>wiki_manager.AGENTS_TEMPLATE</code>.</td></tr>
+      <tr><td><strong>===FILE:===</strong></td><td>File Marker Protocol</td><td>The delimiter format the LLM uses to emit multiple files in one response.</td><td><code>INGEST_SYSTEM_PROMPT</code>; parsed by <code>_parse_and_write_pages()</code>.</td></tr>
+      <tr><td><strong>Thinking-strip</strong></td><td>Reasoning Block Removal</td><td>Removing <code>&lt;think&gt;</code>/<code>&lt;|channel|&gt;</code> reasoning artifacts before parsing model output.</td><td><code>_strip_thinking()</code> — shared by ingest and query.</td></tr>
+      <tr><td><strong>Keyword retrieval</strong></td><td>Lexical Retrieval</td><td>Scoring index slugs by word overlap with the question; instant and deterministic.</td><td><code>_find_relevant_pages()</code> in <code>query_router.py</code>.</td></tr>
+      <tr><td><strong>Semantic retrieval</strong></td><td>LLM-based Page Selection</td><td>An extra LLM call reads the index and picks the most relevant pages — slower, better recall.</td><td><code>_semantic_find_relevant_pages()</code>; the <em>Semantic</em> radio.</td></tr>
+      <tr><td><strong>Extractive answer</strong></td><td>Extractive Fallback</td><td>An answer assembled directly from retrieved passages when the LLM fails or times out.</td><td><code>_build_extractive_answer()</code>.</td></tr>
+      <tr><td><strong>Confidence</strong></td><td>Self-graded Confidence</td><td>The model's <code>## Confidence: N</code> (0–100), mapped to High/Medium/Low/None and shown colour-coded.</td><td>Widget under each answer; keyword-based preliminary score also sent.</td></tr>
+    </table>
+  </div>
+
+  <h3>🩺 Health &amp; graph</h3>
+  <div class="card">
+    <table>
+      <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+      <tr><td><strong>Lint / Health Check</strong></td><td>Wiki Health Check</td><td>Two-phase audit: programmatic link-graph scan, then LLM narrative analysis.</td><td><code>lint_service.run_lint()</code>; Config → Health Check.</td></tr>
+      <tr><td><strong>Broken link</strong></td><td>Dangling <code>[[link]]</code></td><td>A wiki-link whose target slug resolves to no page.</td><td>Phase 1 regex scan → <code>broken_links</code>.</td></tr>
+      <tr><td><strong>Orphan page</strong></td><td>Orphan</td><td>A page no other page links to.</td><td>Phase 1 <code>orphan_pages</code>; also hideable in the graph.</td></tr>
+      <tr><td><strong>Backlinks</strong></td><td>Inbound Links</td><td>The list of pages containing a link to the current page.</td><td><code>get_backlinks()</code>; panel under the viewer.</td></tr>
+      <tr><td><strong>Force-directed graph</strong></td><td>Force-directed Graph</td><td>A physics layout where linked nodes attract and unlinked nodes repel.</td><td><code>GraphView.jsx</code> + D3 v7 forces.</td></tr>
+      <tr><td><strong>Group</strong></td><td>Node Group</td><td>The graph's node category, derived from the page's folder.</td><td>root / sources / entities / concepts / analyses.</td></tr>
+    </table>
+  </div>
+
+  <h3>🔌 Platform</h3>
+  <div class="card">
+    <table>
+      <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+      <tr><td><strong>FastAPI</strong></td><td>FastAPI</td><td>Python async web framework hosting the API and serving the built SPA.</td><td><code>backend/main.py</code>, port 8000.</td></tr>
+      <tr><td><strong>Router</strong></td><td>APIRouter</td><td>One FastAPI module per feature area.</td><td>config · ingest · wiki · query · lint · utils under <code>backend/routers/</code>.</td></tr>
+      <tr><td><strong>SSE</strong></td><td>Server-Sent Events</td><td>One-way HTTP streaming; the transport for every live progress/token feed.</td><td>All run/rebuild/lint/query endpoints; parsed with a <code>\n\n</code> buffer in the frontend.</td></tr>
+      <tr><td><strong>Zustand</strong></td><td>Zustand Store</td><td>Minimal React state library; holds projects, active page, chat history, LLM status.</td><td><code>frontend/src/store/appStore.js</code>.</td></tr>
+      <tr><td><strong>D3</strong></td><td>Data-Driven Documents v7</td><td>The graph library powering the link view's simulation, drag and zoom.</td><td><code>GraphView.jsx</code> + <code>d3</code> dependency.</td></tr>
+      <tr><td><strong>GFM</strong></td><td>GitHub-Flavored Markdown</td><td>Tables, task lists, strikethrough and fenced code in Markdown.</td><td><code>remark-gfm</code> in viewer and chat bubbles.</td></tr>
+      <tr><td><strong>GGUF</strong></td><td>GPT-Generated Unified Format</td><td>Single-file quantized model format runnable by <code>llama-cpp-python</code> on CPU.</td><td><code>models/*.gguf</code>; the <code>local-cpu</code> provider.</td></tr>
+      <tr><td><strong>Q4_K_M</strong></td><td>4-bit K-quant Medium</td><td>A quantization level trading a little quality for ~4× smaller files.</td><td>All catalog models (~1.7–2.2 GB).</td></tr>
+      <tr><td><strong>Provider</strong></td><td>LLM Provider</td><td>Where inference happens: openai, azure, anthropic, ollama, lmstudio, together, baseten, local-cpu.</td><td><code>llm_service.PROVIDER_BASE_URLS</code> + the Config dropdown.</td></tr>
+      <tr><td><strong>General mode</strong></td><td>General LLM Mode</td><td>Query mode with no wiki context — the model answers from itself.</td><td>Query tab toggle → <code>GENERAL_SYSTEM_PROMPT</code>.</td></tr>
+    </table>
+  </div>
+
+  <div class="note">
+    <strong>Cross-references:</strong> the three-stage pipeline is Figure 0, the backend fan-out is
+    Figure 5, the ingest contract and retrieval budgets are in the Technical Guide, and the
+    day-to-day walkthrough is in the Non-Technical Guide. Every term above appears in at least one of
+    those tabs — nothing here is decoration.
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  LLM Wiki UI · FastAPI + React + Zustand + D3 · docs updated 2026-09-16
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    document.getElementById('tab-btn-' + name).classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+</script>
+
+</body>
+</html>

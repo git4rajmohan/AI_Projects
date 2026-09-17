@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Config (contains API keys)
+config.json
+
+# Environment (contains API keys)
+.env
+
+# Frontend build artifacts
+frontend/node_modules/
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db

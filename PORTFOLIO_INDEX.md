@@ -208,7 +208,9 @@ Documents → Vector Retrieval + BM25 + Knowledge Graph → RRF Fusion
 
 **Focus:** Document-to-knowledge-base transformation
 
-**Technologies:** FastAPI · React · Markdown · D3 · Obsidian-style wiki links · local/remote LLMs
+**Technologies:** FastAPI · React 18 · Vite · Zustand · D3 · Markdown + YAML frontmatter · llama-cpp-python (local GGUF) · OpenAI/Azure/Anthropic/Ollama/LM Studio/Together/Baseten SDKs
+
+**Verified capabilities** (from code + the shipped user guide): 8 LLM providers including keyless local GGUF models served in-process; `===FILE:===` ingest contract with `AGENTS.md` schema-in-Markdown; grounded wiki-only query mode with citation chips and confidence score (SSE streaming); two-phase health check (programmatic link lint + LLM narrative review); path-traversal guards and append-only activity log.
 
 **Architecture:**
 ```text
