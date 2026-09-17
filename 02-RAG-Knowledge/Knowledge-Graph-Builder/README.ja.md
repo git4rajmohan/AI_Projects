@@ -89,11 +89,11 @@
 
 ### ユーザーガイド — 仕組み(Tab 1)
 
-![User Guide Tab 1  EHow It Works](images/userguide-tab1-full.png)
+![ユーザーガイド Tab 1 — 仕組み](images/userguide-tab1-full.png)
 
 ### ユーザーガイド — 技術詳細(Tab 2)
 
-![User Guide Tab 2  ETechnical Details](images/userguide-tab2-full.png)
+![ユーザーガイド Tab 2 — 技術詳細](images/userguide-tab2-full.png)
 
 ---
 
@@ -132,30 +132,30 @@ pip install -r requirements.txt
 ### 4. 環境変数の設定
 
 ```bash
-# Copy the template and fill in your values
+# テンプレートをコピーして値を記入
 cp .env.example .env
-# Edit .env with your Ollama API key, Neo4j password, etc.
+# Ollama API キー、Neo4j パスワードなどを .env に記入
 ```
 
 ### 5. Neo4j の起動
 
 ```bash
-# Option A: Docker
+# オプション A: Docker
 docker run -d --name neo4j-adk \
   -p 7687:7687 -p 7474:7474 \
   -e NEO4J_AUTH=neo4j/your_password \
   neo4j:5
 
-# Option B: Local Neo4j installation
-# Ensure Neo4j is running on bolt://localhost:7687
+# オプション B: ローカルの Neo4j インストール
+# Neo4j が bolt://localhost:7687 で稼働していることを確認
 ```
 
 ### 6. Ollama Cloud プロキシの起動(クラウド LLM を使う場合)
 
 ```bash
-# From the parent workspace directory
+# 親ワークスペースディレクトリから実行
 python ollama_cloud_proxy.py
-# This runs on http://127.0.0.1:11435/v1
+# http://127.0.0.1:11435/v1 で待ち受けます
 ```
 
 ### 7. アプリの起動
@@ -176,27 +176,27 @@ python -m uvicorn app.main:app --reload --port 8080
 KnowledgegraphUIapp/
 ├── app/
 ━E  ├── __init__.py
-━E  ├── main.py              # FastAPI web server & REST endpoints
-━E  ├── agents.py            # Google ADK agents (LoopAgent + LlmAgent)
-━E  ├── graph_builder.py     # Cypher LOAD CSV graph construction
-━E  ├── query_engine.py      # Direct LLM query (fallback path)
+━E  ├── main.py              # FastAPI Web サーバーと REST エンドポイント
+━E  ├── agents.py            # Google ADK エージェント (LoopAgent + LlmAgent)
+━E  ├── graph_builder.py     # Cypher LOAD CSV によるグラフ構築
+━E  ├── query_engine.py      # 直接 LLM クエリ(フォールバック経路)
 ━E  └── static/
-━E      └── index.html       # Single-page frontend (vanilla JS)
-├── input_files/             # 6 sample datasets
-━E  ├── project1_furniture/  # Products, suppliers, components, assemblies
-━E  ├── project2_tech/       # Companies, customers, products, purchases
-━E  ├── project3_reviews/    # Markdown product reviews (10 files)
-━E  ├── project4_healthcare/ # Doctors, hospitals, patients, prescriptions
-━E  ├── project5_ecommerce/  # Buyers, sellers, orders, products, reviews
-━E  └── project6_education/  # Students, professors, courses, universities
+━E      └── index.html       # シングルページフロントエンド(バニラ JS)
+├── input_files/             # 6 つのサンプルデータセット
+━E  ├── project1_furniture/  # 製品、サプライヤー、部品、アセンブリ
+━E  ├── project2_tech/       # 企業、顧客、製品、購入
+━E  ├── project3_reviews/    # Markdown 製品レビュー(10 ファイル)
+━E  ├── project4_healthcare/ # 医師、病院、患者、処方
+━E  ├── project5_ecommerce/  # 購入者、販売者、注文、製品、レビュー
+━E  └── project6_education/  # 学生、教授、講座、大学
 ├── tests/
-━E  ├── test_app.py          # Unit tests
-━E  ├── e2e_test.py          # End-to-end test (project 1)
-━E  └── e2e_test_project2.py # End-to-end test (project 2)
-├── images/                  # Screenshots for documentation
-├── userguide.html           # Interactive user guide (2 tabs)
+━E  ├── test_app.py          # ユニットテスト
+━E  ├── e2e_test.py          # E2E テスト(プロジェクト 1)
+━E  └── e2e_test_project2.py # E2E テスト(プロジェクト 2)
+├── images/                  # ドキュメント用スクリーンショット
+├── userguide.html           # インタラクティブなユーザーガイド(2 タブ)
 ├── requirements.txt
-├── .env.example             # Environment template (safe to commit)
+├── .env.example             # 環境変数テンプレート(コミット可能)
 └── .gitignore
 ```
 
