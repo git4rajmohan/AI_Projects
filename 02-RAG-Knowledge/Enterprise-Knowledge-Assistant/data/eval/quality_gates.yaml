@@ -1,0 +1,11 @@
+# Quality gates for the offline RAG evaluation (alternateplan.md §17).
+# Starting values from the spec — adjust after establishing the first real
+# baseline (they are config, not code). CI fails the build when any metric
+# falls below its threshold.
+
+quality_gates:
+  faithfulness: 0.85          # LLM-judged: all claims evidence-supported
+  refusal_accuracy: 1.00      # every unsupported question must be refused
+  answer_correctness: 0.80    # corpus-verified keywords present in answers
+  citation_accuracy: 0.90     # citations name an expected source document
+  context_relevance: 0.80     # retrieved context contains expected keywords

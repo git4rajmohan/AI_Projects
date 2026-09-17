@@ -1,0 +1,16 @@
+# Tested against .venv on Python 3.11.9 / Windows 11 — versions are the installed, working set.
+# Embeddings run on the LOCAL Ollama daemon (nomic-embed-text); the LLM runs on Ollama Cloud.
+cognee==1.4.2
+cognee-community-vector-adapter-qdrant==0.4.0
+llama-index==0.14.24
+llama-index-llms-ollama==0.11.0
+llama-index-embeddings-ollama==0.10.0
+llama-index-vector-stores-qdrant==0.10.3
+qdrant-client==1.19.0
+ollama==0.6.2
+streamlit==1.63.0
+python-dotenv==1.2.3
+requests==2.34.2
+rank-bm25==0.2.2
+PyYAML==6.0.3
+pytest==9.1.1
