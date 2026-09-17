@@ -1,0 +1,2343 @@
+{
+  "snapshot_id": "7711f41d",
+  "created_at": "2026-09-11T17:56:29",
+  "config": {
+    "strategy": "current-corpus",
+    "retriever": "hybrid",
+    "top_k": 5,
+    "overfetch_factor": 2,
+    "rrf_k": 60,
+    "chat_model": "gpt-oss:120b",
+    "embed_model": "nomic-embed-text",
+    "corpus_strategy": "semantic-embedding",
+    "corpus_size": 46
+  },
+  "golden_count": 19,
+  "aggregate": {
+    "n_questions": 19,
+    "n_answerable": 17,
+    "n_negative": 2,
+    "recall_at_k": null,
+    "recall_section": null,
+    "recall_multihop": null,
+    "first_relevant_rank": null,
+    "citation_coverage": 0.0353,
+    "must_term_coverage": 0.6189,
+    "refusal_accuracy": 1.0,
+    "mean_total_ms": 9485,
+    "p95_total_ms": 33626
+  },
+  "results": [
+    {
+      "id": "b15c8bea",
+      "kind": "section",
+      "question": "What are the two agents discussed and which approach does each use?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.8,
+      "refusal_correct": null,
+      "n_citations": 0,
+      "retrieve_ms": 4183,
+      "generate_ms": 5583,
+      "total_ms": 9766,
+      "n_retrieved": 5,
+      "answer_preview": "The documentation describes two example agents:\n\n| Agent | Approach |\n|-------|----------|\n| **Maps_Agent** | Uses the **Traditional Function Tool** calling approach (custom functions such as `get_directions()` and `search_places_on_route()`). |\n| **MCP_Maps_Agent** | Uses the **Model Context Protocol (MCP)** approach (connects to a Google Maps MCP server that provides built‑in tools). |\n\nThese ag",
+      "citations": [],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0323,
+          "matched": false,
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Function Tools vs Model Context Protocol (MCP)*"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Scalability**",
+          "score": 0.0315,
+          "matched": false,
+          "preview": "**Scalability**    - Easy to add new tool sources    - Multiple MCP servers can be connected  5. **Standardization**    "
+        },
+        {
+          "rank": 3,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0313,
+          "matched": false,
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | MCP Approach | |---|---|---| | Coupling "
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Reusability**",
+          "score": 0.0302,
+          "matched": false,
+          "preview": "**Reusability**    - One MCP server can serve multiple agents    - Tools are standardized across different AI platforms "
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0301,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_0",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0323,
+          "score_key": "rrf",
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Functio",
+          "bm25_rank": 2,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_16",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Scalability**",
+          "score": 0.0315,
+          "score_key": "rrf",
+          "preview": "**Scalability**    - Easy to add new tool sources    - Multiple MCP servers can ",
+          "bm25_rank": 3,
+          "vector_rank": 4
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_18",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0313,
+          "score_key": "rrf",
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | ",
+          "bm25_rank": 7,
+          "vector_rank": 1
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_15",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Reusability**",
+          "score": 0.0302,
+          "score_key": "rrf",
+          "preview": "**Reusability**    - One MCP server can serve multiple agents    - Tools are sta",
+          "bm25_rank": 10,
+          "vector_rank": 3
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0301,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 6,
+          "vector_rank": 7
+        }
+      ],
+      "missing_terms": [
+        "compares",
+        "follows"
+      ]
+    },
+    {
+      "id": "998faf1e",
+      "kind": "section",
+      "question": "Which custom functions are listed for Maps_Agent and how many built‑in tools does MCP_Maps_Agent employ?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.5556,
+      "refusal_correct": null,
+      "n_citations": 2,
+      "retrieve_ms": 266,
+      "generate_ms": 13789,
+      "total_ms": 14055,
+      "n_retrieved": 5,
+      "answer_preview": "- **Maps_Agent** uses the custom function tools **`get_directions()`** and **`search_places_on_route()`**.  \n  [Source: DOCUMENTATION.md, Section: Traditional Approach: Maps_Agent (Function Tool)]\n\n- **MCP_Maps_Agent** employs **three built‑in tools** provided by the Google Maps MCP Server.  \n  [Source: DOCUMENTATION.md, Section: Modern Approach: MCP_Maps_Agent (MCP)]",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: Traditional Approach: Maps_Agent (Function Tool)]",
+        "[Source: DOCUMENTATION.md, Section: Modern Approach: MCP_Maps_Agent (MCP)]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0333,
+          "matched": false,
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Function Tools vs Model Context Protocol (MCP)*"
+        },
+        {
+          "rank": 2,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**Step 5 — `server.py`**",
+          "score": 0.0311,
+          "matched": false,
+          "preview": "**Step 5 — `server.py`** Build the MCP server last, after all tools are verified. The server is just a thin registration"
+        },
+        {
+          "rank": 3,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0306,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        },
+        {
+          "rank": 4,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**MCP — Model Context Protocol** — is an open standard devel",
+          "score": 0.0299,
+          "matched": false,
+          "preview": "**MCP — Model Context Protocol** — is an open standard developed by Anthropic that solves this problem. It defines a str"
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Reusability**",
+          "score": 0.029,
+          "matched": false,
+          "preview": "**Reusability**    - One MCP server can serve multiple agents    - Tools are standardized across different AI platforms "
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_0",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0333,
+          "score_key": "rrf",
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Functio",
+          "bm25_rank": 0,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "MCP_Documentation.md_20",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**Step 5 — `server.py`**",
+          "score": 0.0311,
+          "score_key": "rrf",
+          "preview": "**Step 5 — `server.py`** Build the MCP server last, after all tools are verified",
+          "bm25_rank": 1,
+          "vector_rank": 8
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0306,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 9,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "MCP_Documentation.md_2",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**MCP — Model Context Protocol** — is an open standard devel",
+          "score": 0.0299,
+          "score_key": "rrf",
+          "preview": "**MCP — Model Context Protocol** — is an open standard developed by Anthropic th",
+          "bm25_rank": 7,
+          "vector_rank": 7
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_15",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Reusability**",
+          "score": 0.029,
+          "score_key": "rrf",
+          "preview": "**Reusability**    - One MCP server can serve multiple agents    - Tools are sta",
+          "bm25_rank": 15,
+          "vector_rank": 4
+        }
+      ],
+      "missing_terms": [
+        "includes",
+        "functions",
+        "named",
+        "accesse"
+      ]
+    },
+    {
+      "id": "b6513988",
+      "kind": "section",
+      "question": "Which parameters in the function signature are required and what type must they be?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.7143,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 102,
+      "generate_ms": 33524,
+      "total_ms": 33626,
+      "n_retrieved": 5,
+      "answer_preview": "The function signature defines two required parameters:\n\n- **`origin`** – must be a **string** (`str`)  \n- **`destination`** – must be a **string** (`str`)  \n\nBoth are marked as required inputs, while the third parameter (`mode`) is optional with a default value.  \n\n[Source: DOCUMENTATION.md, Section: Function Signature]",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: Function Signature]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Function Signature:** Parameters become the tool's input s",
+          "score": 0.0331,
+          "matched": false,
+          "preview": "**Function Signature:** Parameters become the tool's input schema that LLM understands    - `origin: str` → Required inp"
+        },
+        {
+          "rank": 2,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Build the Streamable HTTP ASGI app and run it",
+          "score": 0.0312,
+          "matched": false,
+          "preview": "Build the Streamable HTTP ASGI app and run it app = mcp.streamable_http_app()  # exposes a single /mcp endpoint  if __na"
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**Step 5 — `server.py`**",
+          "score": 0.0306,
+          "matched": false,
+          "preview": "**Step 5 — `server.py`** Build the MCP server last, after all tools are verified. The server is just a thin registration"
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Scalability**",
+          "score": 0.0299,
+          "matched": false,
+          "preview": "**Scalability**    - Easy to add new tool sources    - Multiple MCP servers can be connected  5. **Standardization**    "
+        },
+        {
+          "rank": 5,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "---",
+          "score": 0.0282,
+          "matched": false,
+          "preview": "---  ## 10. What's Next — Extending This Server  This project is a foundation. Here is how you could extend it for real-"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_2",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Function Signature:** Parameters become the tool's input s",
+          "score": 0.0331,
+          "score_key": "rrf",
+          "preview": "**Function Signature:** Parameters become the tool's input schema that LLM under",
+          "bm25_rank": 1,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "MCP_Documentation.md_16",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Build the Streamable HTTP ASGI app and run it",
+          "score": 0.0312,
+          "score_key": "rrf",
+          "preview": "Build the Streamable HTTP ASGI app and run it app = mcp.streamable_http_app()  #",
+          "bm25_rank": 0,
+          "vector_rank": 9
+        },
+        {
+          "doc_id": "MCP_Documentation.md_20",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**Step 5 — `server.py`**",
+          "score": 0.0306,
+          "score_key": "rrf",
+          "preview": "**Step 5 — `server.py`** Build the MCP server last, after all tools are verified",
+          "bm25_rank": 8,
+          "vector_rank": 3
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_16",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Scalability**",
+          "score": 0.0299,
+          "score_key": "rrf",
+          "preview": "**Scalability**    - Easy to add new tool sources    - Multiple MCP servers can ",
+          "bm25_rank": 9,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "MCP_Documentation.md_22",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "---",
+          "score": 0.0282,
+          "score_key": "rrf",
+          "preview": "---  ## 10. What's Next — Extending This Server  This project is a foundation. H",
+          "bm25_rank": 25,
+          "vector_rank": 1
+        }
+      ],
+      "missing_terms": [
+        "lists",
+        "strings"
+      ]
+    },
+    {
+      "id": "7f9cc51e",
+      "kind": "section",
+      "question": "What is the default value for the optional `mode` parameter and what type does it have?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.7,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 685,
+      "generate_ms": 4409,
+      "total_ms": 5094,
+      "n_retrieved": 5,
+      "answer_preview": "The optional **`mode`** parameter is a **string** (`str`) and its default value is **`\"driving\"`**.  \n\n[Source: DOCUMENTATION.md, Section: Function Signature]",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: Function Signature]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Function Signature:** Parameters become the tool's input s",
+          "score": 0.0333,
+          "matched": false,
+          "preview": "**Function Signature:** Parameters become the tool's input schema that LLM understands    - `origin: str` → Required inp"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0309,
+          "matched": false,
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `jsonrpc`: Protocol version - `method`: The a"
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building a Custom MCP Server — Healthcare Patient Records",
+          "score": 0.0306,
+          "matched": false,
+          "preview": "# Building a Custom MCP Server — Healthcare Patient Records ### A Step-by-Step Technical Guide  ---  ## 1. What Is MCP ("
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "The MCP Communication Flow",
+          "score": 0.0268,
+          "matched": false,
+          "preview": "### The MCP Communication Flow  ``` USER          AGENT              MCP SERVER         MAPS API  │               │     "
+        },
+        {
+          "rank": 5,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Create the server instance",
+          "score": 0.0267,
+          "matched": false,
+          "preview": "Create the server instance mcp = FastMCP(name=\"healthcare-mcp-server\")  # 2. Register a tool with the decorator @mcp.too"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_2",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Function Signature:** Parameters become the tool's input s",
+          "score": 0.0333,
+          "score_key": "rrf",
+          "preview": "**Function Signature:** Parameters become the tool's input schema that LLM under",
+          "bm25_rank": 0,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_13",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0309,
+          "score_key": "rrf",
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `json",
+          "bm25_rank": 9,
+          "vector_rank": 1
+        },
+        {
+          "doc_id": "MCP_Documentation.md_0",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building a Custom MCP Server — Healthcare Patient Records",
+          "score": 0.0306,
+          "score_key": "rrf",
+          "preview": "# Building a Custom MCP Server — Healthcare Patient Records ### A Step-by-Step T",
+          "bm25_rank": 8,
+          "vector_rank": 3
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_9",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "The MCP Communication Flow",
+          "score": 0.0268,
+          "score_key": "rrf",
+          "preview": "### The MCP Communication Flow  ``` USER          AGENT              MCP SERVER ",
+          "bm25_rank": 34,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "MCP_Documentation.md_15",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Create the server instance",
+          "score": 0.0267,
+          "score_key": "rrf",
+          "preview": "Create the server instance mcp = FastMCP(name=\"healthcare-mcp-server\")  # 2. Reg",
+          "bm25_rank": 22,
+          "vector_rank": 9
+        }
+      ],
+      "missing_terms": [
+        "defaults",
+        "provided",
+        "lets"
+      ]
+    },
+    {
+      "id": "4a4b6a08",
+      "kind": "section",
+      "question": "What information does FunctionTool automatically extract from the wrapped Python function?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.9,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 169,
+      "generate_ms": 6995,
+      "total_ms": 7164,
+      "n_retrieved": 5,
+      "answer_preview": "FunctionTool pulls three pieces of metadata from the wrapped Python function:\n\n* **Function name** – used as the tool’s name.  \n* **Type hints** – converted into a JSON‑style parameter schema for the tool.  \n* **Docstring** – turned into the tool’s description that the LLM sees.  \n\n[Source: DOCUMENTATION.md, Section: HTTP Request – Direct API call to Google Maps Directions]",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: HTTP Request – Direct API call to Google Maps Directions]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.0333,
+          "matched": false,
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response Parsing:** Extract and format relevant da"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0325,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Build the Streamable HTTP ASGI app and run it",
+          "score": 0.031,
+          "matched": false,
+          "preview": "Build the Streamable HTTP ASGI app and run it app = mcp.streamable_http_app()  # exposes a single /mcp endpoint  if __na"
+        },
+        {
+          "rank": 4,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building the MCP Server with FastMCP",
+          "score": 0.0306,
+          "matched": false,
+          "preview": "Building the MCP Server with FastMCP  The MCP Python SDK provides a high-level class called `FastMCP` that handles all t"
+        },
+        {
+          "rank": 5,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Add more tools",
+          "score": 0.0292,
+          "matched": false,
+          "preview": "### Add more tools Using the same pattern — a standalone Python function + `@mcp.tool()` — you can add: - `get_medicatio"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_3",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.0333,
+          "score_key": "rrf",
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response P",
+          "bm25_rank": 0,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0325,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 1,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "MCP_Documentation.md_16",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Build the Streamable HTTP ASGI app and run it",
+          "score": 0.031,
+          "score_key": "rrf",
+          "preview": "Build the Streamable HTTP ASGI app and run it app = mcp.streamable_http_app()  #",
+          "bm25_rank": 5,
+          "vector_rank": 4
+        },
+        {
+          "doc_id": "MCP_Documentation.md_14",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building the MCP Server with FastMCP",
+          "score": 0.0306,
+          "score_key": "rrf",
+          "preview": "Building the MCP Server with FastMCP  The MCP Python SDK provides a high-level c",
+          "bm25_rank": 3,
+          "vector_rank": 8
+        },
+        {
+          "doc_id": "MCP_Documentation.md_23",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Add more tools",
+          "score": 0.0292,
+          "score_key": "rrf",
+          "preview": "### Add more tools Using the same pattern — a standalone Python function + `@mcp",
+          "bm25_rank": 10,
+          "vector_rank": 7
+        }
+      ],
+      "missing_terms": [
+        "uses"
+      ]
+    },
+    {
+      "id": "e819864d",
+      "kind": "section",
+      "question": "Which model is configured for the root_agent and what does its instruction specify about responding to direction requests?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 1.0,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 115,
+      "generate_ms": 6526,
+      "total_ms": 6641,
+      "n_retrieved": 5,
+      "answer_preview": "The `root_agent` is configured to use the **Gemini 2.0 Flash** model:\n\n```python\nroot_agent = LlmAgent(\n    model=\"gemini-2.0-flash\",\n    …\n)\n```\n\nIts system instruction tells the agent to act as a helpful Maps assistant and, **whenever a user asks for directions, the agent must include a Google Maps link in its final response** (i.e., return the answer together with a link to the map).  \n\n[Source",
+      "citations": [],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0328,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.032,
+          "matched": false,
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response Parsing:** Extract and format relevant da"
+        },
+        {
+          "rank": 3,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0315,
+          "matched": false,
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│                 │  │               │  (format"
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0308,
+          "matched": false,
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Function Tools vs Model Context Protocol (MCP)*"
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "The MCP Communication Flow",
+          "score": 0.0287,
+          "matched": false,
+          "preview": "### The MCP Communication Flow  ``` USER          AGENT              MCP SERVER         MAPS API  │               │     "
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0328,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 0,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_3",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.032,
+          "score_key": "rrf",
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response P",
+          "bm25_rank": 4,
+          "vector_rank": 1
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_12",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0315,
+          "score_key": "rrf",
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│      ",
+          "bm25_rank": 3,
+          "vector_rank": 4
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_0",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0308,
+          "score_key": "rrf",
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Functio",
+          "bm25_rank": 7,
+          "vector_rank": 3
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_9",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "The MCP Communication Flow",
+          "score": 0.0287,
+          "score_key": "rrf",
+          "preview": "### The MCP Communication Flow  ``` USER          AGENT              MCP SERVER ",
+          "bm25_rank": 23,
+          "vector_rank": 0
+        }
+      ],
+      "missing_terms": []
+    },
+    {
+      "id": "667a4b43",
+      "kind": "section",
+      "question": "What are the seven steps outlined for adding a new tool?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.6667,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 73,
+      "generate_ms": 11610,
+      "total_ms": 11683,
+      "n_retrieved": 5,
+      "answer_preview": "The documentation lists the following **seven steps** for adding a new tool:\n\n1. **Research the API** – Understand the Google Places Nearby Search API.  \n2. **Write HTTP logic** – Construct the request with the correct parameters.  \n3. **Handle errors** – Plan for what to do if the API call fails.  \n4. **Parse responses** – Extract the needed data from the nested JSON returned by the API.  \n5. **D",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: “What’s Required to Add a Second Tool?”]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**Step 5 — `server.py`**",
+          "score": 0.0323,
+          "matched": false,
+          "preview": "**Step 5 — `server.py`** Build the MCP server last, after all tools are verified. The server is just a thin registration"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "What's Required to Add a Second Tool? To add this one new ca",
+          "score": 0.0321,
+          "matched": false,
+          "preview": "### What's Required to Add a Second Tool? To add this one new capability, we must:  1. ✍️ **Research the API** — Underst"
+        },
+        {
+          "rank": 3,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0313,
+          "matched": false,
+          "preview": "---  ## 🚨 The Problem: Adding More Tools  Now imagine a user asks: *\"Find me gas stations on my way from Chennai to Bang"
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0309,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0296,
+          "matched": false,
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│                 │  │               │  (format"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "MCP_Documentation.md_20",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**Step 5 — `server.py`**",
+          "score": 0.0323,
+          "score_key": "rrf",
+          "preview": "**Step 5 — `server.py`** Build the MCP server last, after all tools are verified",
+          "bm25_rank": 4,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_5",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "What's Required to Add a Second Tool? To add this one new ca",
+          "score": 0.0321,
+          "score_key": "rrf",
+          "preview": "### What's Required to Add a Second Tool? To add this one new capability, we mus",
+          "bm25_rank": 0,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_4",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0313,
+          "score_key": "rrf",
+          "preview": "---  ## 🚨 The Problem: Adding More Tools  Now imagine a user asks: *\"Find me gas",
+          "bm25_rank": 2,
+          "vector_rank": 6
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0309,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 1,
+          "vector_rank": 9
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_12",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0296,
+          "score_key": "rrf",
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│      ",
+          "bm25_rank": 7,
+          "vector_rank": 8
+        }
+      ],
+      "missing_terms": [
+        "process",
+        "consists",
+        "first",
+        "third"
+      ]
+    },
+    {
+      "id": "b2a5b73b",
+      "kind": "section",
+      "question": "What does the `search_places_on_route` function return when it cannot find any results for the requested place type?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.8889,
+      "refusal_correct": null,
+      "n_citations": 0,
+      "retrieve_ms": 153,
+      "generate_ms": 68185,
+      "total_ms": 68338,
+      "n_retrieved": 5,
+      "answer_preview": "When the `search_places_on_route` function does not find any matching results, it returns a dictionary containing an error message, e.g.:\n\n```python\n{\"error\": \"No <place_type> found along the route\"}\n```\n\nThis is produced by the early‑return clause that checks for an empty `\"results\"` list in the Places API response.  \n\n**Source:** [Chunk 1 – DOCUMENTATION.md, Section “Step 5: Adding the Places Se",
+      "citations": [],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "What's Required to Add a Second Tool? To add this one new ca",
+          "score": 0.0325,
+          "matched": false,
+          "preview": "### What's Required to Add a Second Tool? To add this one new capability, we must:  1. ✍️ **Research the API** — Underst"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0315,
+          "matched": false,
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│                 │  │               │  (format"
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "This means the AI can explore data but cannot modify or dest",
+          "score": 0.0313,
+          "matched": false,
+          "preview": "This means the AI can explore data but cannot modify or destroy it. **Return format:** ```python {     \"status\":    \"suc"
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.0311,
+          "matched": false,
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response Parsing:** Extract and format relevant da"
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0278,
+          "matched": false,
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Function Tools vs Model Context Protocol (MCP)*"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_5",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "What's Required to Add a Second Tool? To add this one new ca",
+          "score": 0.0325,
+          "score_key": "rrf",
+          "preview": "### What's Required to Add a Second Tool? To add this one new capability, we mus",
+          "bm25_rank": 2,
+          "vector_rank": 1
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_12",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0315,
+          "score_key": "rrf",
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│      ",
+          "bm25_rank": 5,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "MCP_Documentation.md_13",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "This means the AI can explore data but cannot modify or dest",
+          "score": 0.0313,
+          "score_key": "rrf",
+          "preview": "This means the AI can explore data but cannot modify or destroy it. **Return for",
+          "bm25_rank": 3,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_3",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.0311,
+          "score_key": "rrf",
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response P",
+          "bm25_rank": 1,
+          "vector_rank": 8
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_0",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0278,
+          "score_key": "rrf",
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Functio",
+          "bm25_rank": 19,
+          "vector_rank": 6
+        }
+      ],
+      "missing_terms": [
+        "nearby"
+      ]
+    },
+    {
+      "id": "0e64f4f6",
+      "kind": "section",
+      "question": "What four issues are listed as problems with the original agent code?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.0,
+      "refusal_correct": null,
+      "n_citations": 0,
+      "retrieve_ms": 109,
+      "generate_ms": 1944,
+      "total_ms": 2053,
+      "n_retrieved": 5,
+      "answer_preview": "I could not find an answer to this question in the provided documentation.",
+      "citations": [],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0308,
+          "matched": false,
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | MCP Approach | |---|---|---| | Coupling "
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Reusability**",
+          "score": 0.0299,
+          "matched": false,
+          "preview": "**Reusability**    - One MCP server can serve multiple agents    - Tools are standardized across different AI platforms "
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "We included:",
+          "score": 0.0284,
+          "matched": false,
+          "preview": "We included: - High-risk patients with multiple chronic conditions and abnormal labs (patients 1, 3, 4, 7) - Moderate-ri"
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0284,
+          "matched": false,
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Function Tools vs Model Context Protocol (MCP)*"
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Separation of Concerns**",
+          "score": 0.0275,
+          "matched": false,
+          "preview": "**Separation of Concerns**    - Agent developers focus on agent logic    - Tool developers focus on API integration  2."
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_18",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0308,
+          "score_key": "rrf",
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | ",
+          "bm25_rank": 8,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_15",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Reusability**",
+          "score": 0.0299,
+          "score_key": "rrf",
+          "preview": "**Reusability**    - One MCP server can serve multiple agents    - Tools are sta",
+          "bm25_rank": 14,
+          "vector_rank": 1
+        },
+        {
+          "doc_id": "MCP_Documentation.md_19",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "We included:",
+          "score": 0.0284,
+          "score_key": "rrf",
+          "preview": "We included: - High-risk patients with multiple chronic conditions and abnormal ",
+          "bm25_rank": 13,
+          "vector_rank": 8
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_0",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0284,
+          "score_key": "rrf",
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Functio",
+          "bm25_rank": 17,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_14",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Separation of Concerns**",
+          "score": 0.0275,
+          "score_key": "rrf",
+          "preview": "**Separation of Concerns**    - Agent developers focus on agent logic    - Tool ",
+          "bm25_rank": 32,
+          "vector_rank": 0
+        }
+      ],
+      "missing_terms": [
+        "text",
+        "lists",
+        "original",
+        "agent",
+        "code",
+        "becomes",
+        "harder",
+        "maintain",
+        "prone",
+        "bugs",
+        "tightly",
+        "coupled"
+      ]
+    },
+    {
+      "id": "5f7b08ba",
+      "kind": "section",
+      "question": "Which class is used for configuring the HTTP-based MCP connection in the provided code example?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.8333,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 117,
+      "generate_ms": 2251,
+      "total_ms": 2368,
+      "n_retrieved": 5,
+      "answer_preview": "The code example uses the **`StreamableHTTPConnectionParams`** class to configure the HTTP‑based MCP connection.  \n\n[Source: DOCUMENTATION.md, Section: “Step 1: Imports and Environment Setup”]",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: “Step 1: Imports and Environment Setup”]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building the MCP Server with FastMCP",
+          "score": 0.0328,
+          "matched": false,
+          "preview": "Building the MCP Server with FastMCP  The MCP Python SDK provides a high-level class called `FastMCP` that handles all t"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Your agent code becomes:",
+          "score": 0.0321,
+          "matched": false,
+          "preview": "Your agent code becomes: - Harder to maintain - More prone to bugs - Tightly coupled to external API changes - Difficult"
+        },
+        {
+          "rank": 3,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0308,
+          "matched": false,
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | MCP Approach | |---|---|---| | Coupling "
+        },
+        {
+          "rank": 4,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Build the Streamable HTTP ASGI app and run it",
+          "score": 0.0299,
+          "matched": false,
+          "preview": "Build the Streamable HTTP ASGI app and run it app = mcp.streamable_http_app()  # exposes a single /mcp endpoint  if __na"
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0294,
+          "matched": false,
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `jsonrpc`: Protocol version - `method`: The a"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "MCP_Documentation.md_14",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building the MCP Server with FastMCP",
+          "score": 0.0328,
+          "score_key": "rrf",
+          "preview": "Building the MCP Server with FastMCP  The MCP Python SDK provides a high-level c",
+          "bm25_rank": 1,
+          "vector_rank": 1
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_6",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Your agent code becomes:",
+          "score": 0.0321,
+          "score_key": "rrf",
+          "preview": "Your agent code becomes: - Harder to maintain - More prone to bugs - Tightly cou",
+          "bm25_rank": 0,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_18",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0308,
+          "score_key": "rrf",
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | ",
+          "bm25_rank": 8,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "MCP_Documentation.md_16",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Build the Streamable HTTP ASGI app and run it",
+          "score": 0.0299,
+          "score_key": "rrf",
+          "preview": "Build the Streamable HTTP ASGI app and run it app = mcp.streamable_http_app()  #",
+          "bm25_rank": 6,
+          "vector_rank": 8
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_13",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0294,
+          "score_key": "rrf",
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `json",
+          "bm25_rank": 10,
+          "vector_rank": 6
+        }
+      ],
+      "missing_terms": [
+        "http-based"
+      ]
+    },
+    {
+      "id": "fa780b63",
+      "kind": "section",
+      "question": "What URL is assigned to MAPS_MCP_URL and what purpose does it serve?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.2,
+      "must_term_coverage": 0.875,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 91,
+      "generate_ms": 1972,
+      "total_ms": 2063,
+      "n_retrieved": 5,
+      "answer_preview": "The code sets  \n\n```python\nMAPS_MCP_URL = \"https://mapstools.googleapis.com/mcp\"\n```  \n\nThis URL is the **Google‑hosted Maps MCP endpoint**. It is the address the `MCPToolset` uses to connect to the MCP server so it can discover the available Maps tools and invoke them on behalf of the agent.  \n\n[Source: DOCUMENTATION.md, Section: Step 2: MCP Server Connection]",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: Step 2: MCP Server Connection]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Step 2: MCP Server Connection",
+          "score": 0.0323,
+          "matched": false,
+          "preview": "### Step 2: MCP Server Connection  ```python MAPS_MCP_URL = \"https://mapstools.googleapis.com/mcp\"  # Google-hosted Maps"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0314,
+          "matched": false,
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│                 │  │               │  (format"
+        },
+        {
+          "rank": 3,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.031,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        },
+        {
+          "rank": 4,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building a Custom MCP Server — Healthcare Patient Records",
+          "score": 0.031,
+          "matched": false,
+          "preview": "# Building a Custom MCP Server — Healthcare Patient Records ### A Step-by-Step Technical Guide  ---  ## 1. What Is MCP ("
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Your agent code becomes:",
+          "score": 0.0288,
+          "matched": false,
+          "preview": "Your agent code becomes: - Harder to maintain - More prone to bugs - Tightly coupled to external API changes - Difficult"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_7",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Step 2: MCP Server Connection",
+          "score": 0.0323,
+          "score_key": "rrf",
+          "preview": "### Step 2: MCP Server Connection  ```python MAPS_MCP_URL = \"https://mapstools.g",
+          "bm25_rank": 4,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_12",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0314,
+          "score_key": "rrf",
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│      ",
+          "bm25_rank": 0,
+          "vector_rank": 8
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.031,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 6,
+          "vector_rank": 3
+        },
+        {
+          "doc_id": "MCP_Documentation.md_0",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building a Custom MCP Server — Healthcare Patient Records",
+          "score": 0.031,
+          "score_key": "rrf",
+          "preview": "# Building a Custom MCP Server — Healthcare Patient Records ### A Step-by-Step T",
+          "bm25_rank": 5,
+          "vector_rank": 4
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_6",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Your agent code becomes:",
+          "score": 0.0288,
+          "score_key": "rrf",
+          "preview": "Your agent code becomes: - Harder to maintain - More prone to bugs - Tightly cou",
+          "bm25_rank": 12,
+          "vector_rank": 7
+        }
+      ],
+      "missing_terms": [
+        "variable"
+      ]
+    },
+    {
+      "id": "97f9dd87",
+      "kind": "section",
+      "question": "How does the code provide authentication when initializing the MCPToolset?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.0,
+      "refusal_correct": null,
+      "n_citations": 0,
+      "retrieve_ms": 109,
+      "generate_ms": 1588,
+      "total_ms": 1697,
+      "n_retrieved": 5,
+      "answer_preview": "I could not find an answer to this question in the provided documentation.",
+      "citations": [],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "---",
+          "score": 0.0328,
+          "matched": false,
+          "preview": "---  ## 10. What's Next — Extending This Server  This project is a foundation. Here is how you could extend it for real-"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0301,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**Step 5 — `server.py`**",
+          "score": 0.029,
+          "matched": false,
+          "preview": "**Step 5 — `server.py`** Build the MCP server last, after all tools are verified. The server is just a thin registration"
+        },
+        {
+          "rank": 4,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building the MCP Server with FastMCP",
+          "score": 0.0285,
+          "matched": false,
+          "preview": "Building the MCP Server with FastMCP  The MCP Python SDK provides a high-level class called `FastMCP` that handles all t"
+        },
+        {
+          "rank": 5,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Create the server instance",
+          "score": 0.0268,
+          "matched": false,
+          "preview": "Create the server instance mcp = FastMCP(name=\"healthcare-mcp-server\")  # 2. Register a tool with the decorator @mcp.too"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "MCP_Documentation.md_22",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "---",
+          "score": 0.0328,
+          "score_key": "rrf",
+          "preview": "---  ## 10. What's Next — Extending This Server  This project is a foundation. H",
+          "bm25_rank": 0,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0301,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 13,
+          "vector_rank": 1
+        },
+        {
+          "doc_id": "MCP_Documentation.md_20",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "**Step 5 — `server.py`**",
+          "score": 0.029,
+          "score_key": "rrf",
+          "preview": "**Step 5 — `server.py`** Build the MCP server last, after all tools are verified",
+          "bm25_rank": 21,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "MCP_Documentation.md_14",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building the MCP Server with FastMCP",
+          "score": 0.0285,
+          "score_key": "rrf",
+          "preview": "Building the MCP Server with FastMCP  The MCP Python SDK provides a high-level c",
+          "bm25_rank": 16,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "MCP_Documentation.md_15",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Create the server instance",
+          "score": 0.0268,
+          "score_key": "rrf",
+          "preview": "Create the server instance mcp = FastMCP(name=\"healthcare-mcp-server\")  # 2. Reg",
+          "bm25_rank": 26,
+          "vector_rank": 6
+        }
+      ],
+      "missing_terms": [
+        "authentication",
+        "supplied",
+        "http",
+        "header",
+        "named",
+        "x-goog-api-key",
+        "whose",
+        "value",
+        "maps_api_key",
+        "constant"
+      ]
+    },
+    {
+      "id": "f1b730f9",
+      "kind": "section",
+      "question": "What decoupling benefits does the MCPToolset provide according to the documentation?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.6667,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 142,
+      "generate_ms": 1833,
+      "total_ms": 1975,
+      "n_retrieved": 5,
+      "answer_preview": "The MCPToolset decouples the agent from the underlying APIs by:\n\n- Eliminating the need to write any HTTP request logic.  \n- Removing the requirement to parse raw API responses.  \n- Taking away the responsibility for error handling of API calls.  \n- Allowing tools to be discovered dynamically at runtime.  \n\nThese benefits are listed under the “Decoupling Benefits” section of the documentation.  \n\n",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: Decoupling Benefits]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0315,
+          "matched": false,
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│                 │  │               │  (format"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0314,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        },
+        {
+          "rank": 3,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0311,
+          "matched": false,
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `jsonrpc`: Protocol version - `method`: The a"
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0287,
+          "matched": false,
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | MCP Approach | |---|---|---| | Coupling "
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Scalability**",
+          "score": 0.0274,
+          "matched": false,
+          "preview": "**Scalability**    - Easy to add new tool sources    - Multiple MCP servers can be connected  5. **Standardization**    "
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_12",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "TOOL RESULT    │                 │",
+          "score": 0.0315,
+          "score_key": "rrf",
+          "preview": "TOOL RESULT    │                 │  │               │◄───────────────────│      ",
+          "bm25_rank": 1,
+          "vector_rank": 6
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0314,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 8,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_13",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0311,
+          "score_key": "rrf",
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `json",
+          "bm25_rank": 2,
+          "vector_rank": 7
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_18",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0287,
+          "score_key": "rrf",
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | ",
+          "bm25_rank": 15,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_16",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Scalability**",
+          "score": 0.0274,
+          "score_key": "rrf",
+          "preview": "**Scalability**    - Easy to add new tool sources    - Multiple MCP servers can ",
+          "bm25_rank": 29,
+          "vector_rank": 2
+        }
+      ],
+      "missing_terms": [
+        "removes",
+        "eliminates",
+        "parsing",
+        "takes"
+      ]
+    },
+    {
+      "id": "69b1e665",
+      "kind": "section",
+      "question": "In the agent definition example, which model and agent name are used, and how are the tools specified?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.625,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 104,
+      "generate_ms": 2722,
+      "total_ms": 2826,
+      "n_retrieved": 5,
+      "answer_preview": "The example shows the agent being created with:\n\n* **Model:** `\"gemini-2.0-flash\"`  \n* **Agent name:** `\"maps_mcp_agent\"`  \n* **Tools:** passed as a list – `tools=[maps_toolset]` (the single MCP toolset that provides multiple tools)  \n\nThese values are defined in the “Step 3: Agent Definition” code block.  \n\n[Source: DOCUMENTATION.md, Section: MCPToolset]",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: MCPToolset]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0331,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.0325,
+          "matched": false,
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response Parsing:** Extract and format relevant da"
+        },
+        {
+          "rank": 3,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0313,
+          "matched": false,
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Function Tools vs Model Context Protocol (MCP)*"
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Reusability**",
+          "score": 0.0299,
+          "matched": false,
+          "preview": "**Reusability**    - One MCP server can serve multiple agents    - Tools are standardized across different AI platforms "
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0296,
+          "matched": false,
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | MCP Approach | |---|---|---| | Coupling "
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.0331,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 1,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_3",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.0325,
+          "score_key": "rrf",
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response P",
+          "bm25_rank": 0,
+          "vector_rank": 3
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_0",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0313,
+          "score_key": "rrf",
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Functio",
+          "bm25_rank": 6,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_15",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**Reusability**",
+          "score": 0.0299,
+          "score_key": "rrf",
+          "preview": "**Reusability**    - One MCP server can serve multiple agents    - Tools are sta",
+          "bm25_rank": 8,
+          "vector_rank": 6
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_18",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0296,
+          "score_key": "rrf",
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | ",
+          "bm25_rank": 7,
+          "vector_rank": 8
+        }
+      ],
+      "missing_terms": [
+        "creates",
+        "llmagent",
+        "argume"
+      ]
+    },
+    {
+      "id": "ac5ffdf0",
+      "kind": "section",
+      "question": "What request does the user submit in the MCP communication flow diagram?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.2,
+      "must_term_coverage": 0.5,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 126,
+      "generate_ms": 1759,
+      "total_ms": 1885,
+      "n_retrieved": 5,
+      "answer_preview": "The user submits a request for directions – e.g., “Directions from NYC to Boston.” [Source: DOCUMENTATION.md, Section: The MCP Communication Flow]",
+      "citations": [
+        "[Source: DOCUMENTATION.md, Section: The MCP Communication Flow]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "The MCP Communication Flow",
+          "score": 0.0333,
+          "matched": false,
+          "preview": "### The MCP Communication Flow  ``` USER          AGENT              MCP SERVER         MAPS API  │               │     "
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.03,
+          "matched": false,
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `jsonrpc`: Protocol version - `method`: The a"
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Transport Options: Stdio vs Streamable HTTP",
+          "score": 0.0296,
+          "matched": false,
+          "preview": "Transport Options: Stdio vs Streamable HTTP  The MCP spec supports two transport mechanisms:  ### Stdio (Local) - Server"
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0284,
+          "matched": false,
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | MCP Approach | |---|---|---| | Coupling "
+        },
+        {
+          "rank": 5,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building a Custom MCP Server — Healthcare Patient Records",
+          "score": 0.0278,
+          "matched": false,
+          "preview": "# Building a Custom MCP Server — Healthcare Patient Records ### A Step-by-Step Technical Guide  ---  ## 1. What Is MCP ("
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_9",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "The MCP Communication Flow",
+          "score": 0.0333,
+          "score_key": "rrf",
+          "preview": "### The MCP Communication Flow  ``` USER          AGENT              MCP SERVER ",
+          "bm25_rank": 0,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_13",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.03,
+          "score_key": "rrf",
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `json",
+          "bm25_rank": 12,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "MCP_Documentation.md_4",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Transport Options: Stdio vs Streamable HTTP",
+          "score": 0.0296,
+          "score_key": "rrf",
+          "preview": "Transport Options: Stdio vs Streamable HTTP  The MCP spec supports two transport",
+          "bm25_rank": 8,
+          "vector_rank": 7
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_18",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "---",
+          "score": 0.0284,
+          "score_key": "rrf",
+          "preview": "---  ## Summary  ### Traditional vs MCP at a Glance  | | Traditional Approach | ",
+          "bm25_rank": 13,
+          "vector_rank": 8
+        },
+        {
+          "doc_id": "MCP_Documentation.md_0",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building a Custom MCP Server — Healthcare Patient Records",
+          "score": 0.0278,
+          "score_key": "rrf",
+          "preview": "# Building a Custom MCP Server — Healthcare Patient Records ### A Step-by-Step T",
+          "bm25_rank": 28,
+          "vector_rank": 1
+        }
+      ],
+      "missing_terms": [
+        "york",
+        "city",
+        "shown",
+        "initial",
+        "message"
+      ]
+    },
+    {
+      "id": "8a6590cf",
+      "kind": "section",
+      "question": "Which component receives the user’s request immediately after it is sent?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.2,
+      "must_term_coverage": 0.25,
+      "refusal_correct": null,
+      "n_citations": 1,
+      "retrieve_ms": 101,
+      "generate_ms": 2064,
+      "total_ms": 2165,
+      "n_retrieved": 5,
+      "answer_preview": "The request is received first by the **server** – it is the final layer that wraps the functions and exposes them over the network, so it gets the user’s request as soon as it is sent.  \n\n[Source: MCP_Documentation.md, Section: The server is just the final layer that wraps these function]",
+      "citations": [
+        "[Source: MCP_Documentation.md, Section: The server is just the final layer that wraps these function]"
+      ],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Anything else — `INSERT`, `UPDATE`, `DELETE`, `DROP` — is re",
+          "score": 0.0318,
+          "matched": false,
+          "preview": "Anything else — `INSERT`, `UPDATE`, `DELETE`, `DROP` — is rejected immediately with a clear error message."
+        },
+        {
+          "rank": 2,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Build the Streamable HTTP ASGI app and run it",
+          "score": 0.0304,
+          "matched": false,
+          "preview": "Build the Streamable HTTP ASGI app and run it app = mcp.streamable_http_app()  # exposes a single /mcp endpoint  if __na"
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Deploy to the cloud",
+          "score": 0.03,
+          "matched": false,
+          "preview": "### Deploy to the cloud Since the server uses Streamable HTTP over standard HTTP/HTTPS, you can deploy it to any cloud p"
+        },
+        {
+          "rank": 4,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "The server is just the final layer that wraps these function",
+          "score": 0.0292,
+          "matched": false,
+          "preview": "The server is just the final layer that wraps these functions and exposes them over the network. ---  ## 5. Database Des"
+        },
+        {
+          "rank": 5,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "---",
+          "score": 0.0287,
+          "matched": false,
+          "preview": "---  ## 10. What's Next — Extending This Server  This project is a foundation. Here is how you could extend it for real-"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "MCP_Documentation.md_12",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Anything else — `INSERT`, `UPDATE`, `DELETE`, `DROP` — is re",
+          "score": 0.0318,
+          "score_key": "rrf",
+          "preview": "Anything else — `INSERT`, `UPDATE`, `DELETE`, `DROP` — is rejected immediately w",
+          "bm25_rank": 1,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "MCP_Documentation.md_16",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Build the Streamable HTTP ASGI app and run it",
+          "score": 0.0304,
+          "score_key": "rrf",
+          "preview": "Build the Streamable HTTP ASGI app and run it app = mcp.streamable_http_app()  #",
+          "bm25_rank": 3,
+          "vector_rank": 9
+        },
+        {
+          "doc_id": "MCP_Documentation.md_24",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Deploy to the cloud",
+          "score": 0.03,
+          "score_key": "rrf",
+          "preview": "### Deploy to the cloud Since the server uses Streamable HTTP over standard HTTP",
+          "bm25_rank": 11,
+          "vector_rank": 3
+        },
+        {
+          "doc_id": "MCP_Documentation.md_7",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "The server is just the final layer that wraps these function",
+          "score": 0.0292,
+          "score_key": "rrf",
+          "preview": "The server is just the final layer that wraps these functions and exposes them o",
+          "bm25_rank": 9,
+          "vector_rank": 8
+        },
+        {
+          "doc_id": "MCP_Documentation.md_22",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "---",
+          "score": 0.0287,
+          "score_key": "rrf",
+          "preview": "---  ## 10. What's Next — Extending This Server  This project is a foundation. H",
+          "bm25_rank": 14,
+          "vector_rank": 6
+        }
+      ],
+      "missing_terms": [
+        "agent",
+        "component",
+        "directly",
+        "after",
+        "sends",
+        "flow",
+        "diagram",
+        "arrow",
+        "points"
+      ]
+    },
+    {
+      "id": "bf087c0a",
+      "kind": "multi-hop",
+      "question": "According to the comprehensive documentation on AI Agents with Google Maps, what role do the parameters described in the function signature play when the agent interacts with the Google Maps tool?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": 0.0,
+      "must_term_coverage": 0.5455,
+      "refusal_correct": null,
+      "n_citations": 0,
+      "retrieve_ms": 141,
+      "generate_ms": 3006,
+      "total_ms": 3147,
+      "n_retrieved": 5,
+      "answer_preview": "The parameters you declare in a tool’s Python function (e.g., `origin: str`, `destination: str`, `place_type: str`) are **converted into the tool’s parameter schema**.  \nWhen the function is wrapped with `FunctionTool`, the ADK automatically reads the type hints and builds a JSON‑RPC‑compatible description of each argument. The LLM then uses that schema to know **what inputs it must supply** when ",
+      "citations": [],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0333,
+          "matched": false,
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Function Tools vs Model Context Protocol (MCP)*"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.0328,
+          "matched": false,
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response Parsing:** Extract and format relevant da"
+        },
+        {
+          "rank": 3,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.032,
+          "matched": false,
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server  > ✅ **Decoupling Benefits:** > - No HTT"
+        },
+        {
+          "rank": 4,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "What's Required to Add a Second Tool? To add this one new ca",
+          "score": 0.0313,
+          "matched": false,
+          "preview": "### What's Required to Add a Second Tool? To add this one new capability, we must:  1. ✍️ **Research the API** — Underst"
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0305,
+          "matched": false,
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `jsonrpc`: Protocol version - `method`: The a"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "DOCUMENTATION.md_0",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Comprehensive Documentation: AI Agents with Google Maps",
+          "score": 0.0333,
+          "score_key": "rrf",
+          "preview": "# Comprehensive Documentation: AI Agents with Google Maps  **Traditional Functio",
+          "bm25_rank": 0,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_3",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**HTTP Request:** Direct API call to Google Maps Directions ",
+          "score": 0.0328,
+          "score_key": "rrf",
+          "preview": "**HTTP Request:** Direct API call to Google Maps Directions API  4. **Response P",
+          "bm25_rank": 1,
+          "vector_rank": 1
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_8",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "**MCPToolset:** Automatically discovers and registers all to",
+          "score": 0.032,
+          "score_key": "rrf",
+          "preview": "**MCPToolset:** Automatically discovers and registers all tools from the server ",
+          "bm25_rank": 3,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_5",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "What's Required to Add a Second Tool? To add this one new ca",
+          "score": 0.0313,
+          "score_key": "rrf",
+          "preview": "### What's Required to Add a Second Tool? To add this one new capability, we mus",
+          "bm25_rank": 2,
+          "vector_rank": 6
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_13",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0305,
+          "score_key": "rrf",
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `json",
+          "bm25_rank": 6,
+          "vector_rank": 5
+        }
+      ],
+      "missing_terms": [
+        "agents",
+        "perform",
+        "location",
+        "based",
+        "tasks"
+      ]
+    },
+    {
+      "id": "0dcc5df8",
+      "kind": "negative",
+      "question": "How can I export the data to CSV using the command-line interface?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": null,
+      "must_term_coverage": null,
+      "refusal_correct": 1.0,
+      "n_citations": 0,
+      "retrieve_ms": 141,
+      "generate_ms": 1707,
+      "total_ms": 1848,
+      "n_retrieved": 5,
+      "answer_preview": "I could not find an answer to this question in the provided documentation.",
+      "citations": [],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Add more tools",
+          "score": 0.0306,
+          "matched": false,
+          "preview": "### Add more tools Using the same pattern — a standalone Python function + `@mcp.tool()` — you can add: - `get_medicatio"
+        },
+        {
+          "rank": 2,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Install Dependencies**",
+          "score": 0.0305,
+          "matched": false,
+          "preview": "Install Dependencies**  ```bash pip install -r requirements.txt ```  **2. Set Environment Variables**  Create a `.env` f"
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Running and Testing the Server",
+          "score": 0.0295,
+          "matched": false,
+          "preview": "Running and Testing the Server  ### Start the server  ```bash python server.py # Output: Starting Healthcare MCP Server "
+        },
+        {
+          "rank": 4,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Add resource and prompt primitives",
+          "score": 0.0275,
+          "matched": false,
+          "preview": "### Add resource and prompt primitives MCP supports three primitives: **Tools** (what we built), **Resources** (read-onl"
+        },
+        {
+          "rank": 5,
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0275,
+          "matched": false,
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `jsonrpc`: Protocol version - `method`: The a"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "MCP_Documentation.md_23",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Add more tools",
+          "score": 0.0306,
+          "score_key": "rrf",
+          "preview": "### Add more tools Using the same pattern — a standalone Python function + `@mcp",
+          "bm25_rank": 2,
+          "vector_rank": 9
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_17",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Install Dependencies**",
+          "score": 0.0305,
+          "score_key": "rrf",
+          "preview": "Install Dependencies**  ```bash pip install -r requirements.txt ```  **2. Set En",
+          "bm25_rank": 6,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "MCP_Documentation.md_21",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Running and Testing the Server",
+          "score": 0.0295,
+          "score_key": "rrf",
+          "preview": "Running and Testing the Server  ### Start the server  ```bash python server.py #",
+          "bm25_rank": 15,
+          "vector_rank": 2
+        },
+        {
+          "doc_id": "MCP_Documentation.md_25",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Add resource and prompt primitives",
+          "score": 0.0275,
+          "score_key": "rrf",
+          "preview": "### Add resource and prompt primitives MCP supports three primitives: **Tools** ",
+          "bm25_rank": 24,
+          "vector_rank": 4
+        },
+        {
+          "doc_id": "DOCUMENTATION.md_13",
+          "doc_title": "DOCUMENTATION.md",
+          "section_title": "Protocol Format (JSON-RPC 2.0)",
+          "score": 0.0275,
+          "score_key": "rrf",
+          "preview": "Protocol Format (JSON-RPC 2.0)  MCP uses JSON-RPC 2.0 for communication: - `json",
+          "bm25_rank": 18,
+          "vector_rank": 8
+        }
+      ],
+      "missing_terms": []
+    },
+    {
+      "id": "9b31cd38",
+      "kind": "negative",
+      "question": "How can I configure custom logging levels for the application?",
+      "strategy": "current-corpus",
+      "retriever": "hybrid",
+      "expected_sections": [],
+      "matched_sections": [],
+      "recall_at_k": null,
+      "first_relevant_rank": null,
+      "citation_coverage": null,
+      "must_term_coverage": null,
+      "refusal_correct": 1.0,
+      "n_citations": 0,
+      "retrieve_ms": 138,
+      "generate_ms": 1695,
+      "total_ms": 1833,
+      "n_retrieved": 5,
+      "answer_preview": "I could not find an answer to this question in the provided documentation.",
+      "citations": [],
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "---",
+          "score": 0.0314,
+          "matched": false,
+          "preview": "---  ## 10. What's Next — Extending This Server  This project is a foundation. Here is how you could extend it for real-"
+        },
+        {
+          "rank": 2,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building a Custom MCP Server — Healthcare Patient Records",
+          "score": 0.0313,
+          "matched": false,
+          "preview": "# Building a Custom MCP Server — Healthcare Patient Records ### A Step-by-Step Technical Guide  ---  ## 1. What Is MCP ("
+        },
+        {
+          "rank": 3,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Out-of-the-box AI assistants can browse the web, run code, a",
+          "score": 0.0309,
+          "matched": false,
+          "preview": "Out-of-the-box AI assistants can browse the web, run code, and read files. But in enterprise and healthcare settings, yo"
+        },
+        {
+          "rank": 4,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Using `sqlite3.Row` as the row factory means all query resul",
+          "score": 0.0301,
+          "matched": false,
+          "preview": "Using `sqlite3.Row` as the row factory means all query results can be accessed by column name, making the code much more"
+        },
+        {
+          "rank": 5,
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Add more tools",
+          "score": 0.03,
+          "matched": false,
+          "preview": "### Add more tools Using the same pattern — a standalone Python function + `@mcp.tool()` — you can add: - `get_medicatio"
+        }
+      ],
+      "trace": [
+        {
+          "doc_id": "MCP_Documentation.md_22",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "---",
+          "score": 0.0314,
+          "score_key": "rrf",
+          "preview": "---  ## 10. What's Next — Extending This Server  This project is a foundation. H",
+          "bm25_rank": 8,
+          "vector_rank": 0
+        },
+        {
+          "doc_id": "MCP_Documentation.md_0",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Building a Custom MCP Server — Healthcare Patient Records",
+          "score": 0.0313,
+          "score_key": "rrf",
+          "preview": "# Building a Custom MCP Server — Healthcare Patient Records ### A Step-by-Step T",
+          "bm25_rank": 3,
+          "vector_rank": 5
+        },
+        {
+          "doc_id": "MCP_Documentation.md_3",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Out-of-the-box AI assistants can browse the web, run code, a",
+          "score": 0.0309,
+          "score_key": "rrf",
+          "preview": "Out-of-the-box AI assistants can browse the web, run code, and read files. But i",
+          "bm25_rank": 1,
+          "vector_rank": 9
+        },
+        {
+          "doc_id": "MCP_Documentation.md_18",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Using `sqlite3.Row` as the row factory means all query resul",
+          "score": 0.0301,
+          "score_key": "rrf",
+          "preview": "Using `sqlite3.Row` as the row factory means all query results can be accessed b",
+          "bm25_rank": 9,
+          "vector_rank": 4
+        },
+        {
+          "doc_id": "MCP_Documentation.md_23",
+          "doc_title": "MCP_Documentation.md",
+          "section_title": "Add more tools",
+          "score": 0.03,
+          "score_key": "rrf",
+          "preview": "### Add more tools Using the same pattern — a standalone Python function + `@mcp",
+          "bm25_rank": 12,
+          "vector_rank": 2
+        }
+      ],
+      "missing_terms": []
+    }
+  ],
+  "elapsed_ms": 180265
+}

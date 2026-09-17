@@ -1,0 +1,93 @@
+{
+  "ingest": {
+    "load": {
+      "file_pattern": ".md",
+      "encoding": "utf-8"
+    },
+    "chunk": {
+      "strategy": "semantic",
+      "char_chunk_size": 500,
+      "char_chunk_overlap": 50,
+      "semantic_max_words": 400,
+      "sem_buffer_size": 1,
+      "sem_percentile": 95,
+      "sem_min_chunk_size": 100
+    },
+    "embed": {
+      "embed_model": "nomic-embed-text",
+      "embed_base_url": "http://localhost:11434/v1"
+    },
+    "store": {
+      "chroma_path": "chroma_data",
+      "collection_name": "rag_docs"
+    }
+  },
+  "query": {
+    "embed_query": {
+      "embed_model": "nomic-embed-text",
+      "embed_base_url": "http://localhost:11434/v1"
+    },
+    "retrieve": {
+      "retriever": "hybrid",
+      "top_k": 5,
+      "overfetch_factor": 2
+    },
+    "rerank": {
+      "rrf_k": 60
+    },
+    "augment": {
+      "system_prompt": "You are a documentation assistant. Answer ONLY using the information in the provided document chunks.\n\nIf the answer is not present in the chunks, respond with:\n'I could not find an answer to this question in the provided documentation.'\n\nDo not infer, guess, or use external knowledge.\n\nFor every claim in your answer, cite the source using this format:\n[Source: <doc_title>, Section: <section_title>]"
+    },
+    "generate": {
+      "chat_model": "gpt-oss:120b",
+      "chat_base_url": "https://ollama.com/v1",
+      "max_tokens": 2048,
+      "temperature": 1
+    }
+  },
+  "eval": {
+    "generate_pairs": {
+      "gen_chat_model": "gpt-oss:120b",
+      "gen_chat_base_url": "https://ollama.com/v1",
+      "pairs_per_section": 2,
+      "max_sections": 8
+    },
+    "filter": {
+      "judge_model": "gpt-oss:120b",
+      "do_filters": "yes",
+      "dedupe_threshold": 0.9,
+      "dedupe_model": "nomic-embed-text"
+    },
+    "review": {
+      "freeze_action": "manual"
+    }
+  },
+  "suite": {
+    "setup": {
+      "mode": "single",
+      "label": ""
+    },
+    "retrieve": {
+      "retriever": "hybrid",
+      "top_k": 5,
+      "overfetch_factor": 2,
+      "rrf_k": 60
+    },
+    "generate": {
+      "chat_model": "gpt-oss:120b",
+      "chat_base_url": "https://ollama.com/v1",
+      "max_tokens": 2048,
+      "temperature": 0
+    },
+    "ragas": {
+      "include_ragas": "yes",
+      "judge_model": "glm-5.3-flash",
+      "judge_base_url": "https://ollama.com/v1",
+      "embed_model": "nomic-embed-text",
+      "embed_base_url": "http://localhost:11434/v1",
+      "metrics": "faithfulness,context_precision,context_recall",
+      "max_workers": 2,
+      "max_wait": 300
+    }
+  }
+}

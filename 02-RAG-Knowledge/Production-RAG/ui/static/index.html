@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Pipeline Visualizer</title>
+<link rel="stylesheet" href="/static/style.css?v=health3">
+</head>
+<body>
+<header id="app-header">
+  <div class="brand">
+    <span class="brand-icon">🔎</span>
+    <div>
+      <h1>RAG Pipeline Visualizer</h1>
+      <p class="subtitle">Ingestion &amp; Inference workflow with live per-step inspection</p>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div id="collection-badge" class="badge badge-gray" title="Chunks stored in the vector store">
+      <span class="badge-dot"></span><span id="collection-count">–</span> chunks
+    </div>
+    <button id="reset-config" class="btn btn-ghost" title="Reset all UI configuration to settings.py defaults">Reset config</button>
+  </div>
+</header>
+
+<nav id="tabs">
+  <button class="tab active" data-tab="ingest">📥 Ingestion</button>
+  <button class="tab" data-tab="query">💬 Inference</button>
+  <button class="tab" data-tab="eval">📊 Evaluation</button>
+</nav>
+
+<main>
+  <!-- ══════════════════ INGESTION TAB ══════════════════ -->
+  <section class="tab-panel active" id="panel-ingest">
+    <div class="controls-bar">
+      <button id="browse-btn" class="btn">📂 Browse files…</button>
+      <div id="selected-files" class="selected-files" title="Files selected for ingestion"></div>
+      <span class="spacer"></span>
+      <button id="ingest-run" class="btn btn-primary" disabled>▶ Run ingestion</button>
+    </div>
+    <div class="layout">
+      <div class="workflow-col">
+        <div class="workflow" id="workflow-ingest"></div>
+        <div class="config-panel" id="config-ingest"></div>
+      </div>
+      <div class="detail-panel" id="detail-ingest">
+        <div class="detail-empty">Click a workflow node to inspect its data.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ INFERENCE TAB ══════════════════ -->
+  <section class="tab-panel" id="panel-query">
+    <div class="controls-bar">
+      <textarea id="query-input" rows="2" placeholder="Ask a question about the ingested docs… (Ctrl+Enter to run)"></textarea>
+      <button id="query-run" class="btn btn-primary">▶ Run query</button>
+    </div>
+    <div class="layout">
+      <div class="workflow-col">
+        <div class="workflow" id="workflow-query"></div>
+        <div class="config-panel" id="config-query"></div>
+      </div>
+      <div class="detail-panel" id="detail-query">
+        <div class="detail-empty">Click a workflow node to inspect its data.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ EVALUATION TAB ══════════════════ -->
+  <section class="tab-panel" id="panel-eval">
+    <div class="controls-bar">
+      <button id="eval-run" class="btn btn-primary">▶ Run golden-set generation</button>
+      <button id="eval-freeze" class="btn" disabled>✔ Freeze checked items</button>
+      <span class="spacer"></span>
+      <button id="suite-run" class="btn btn-primary" title="Run the frozen golden set through the live pipeline, score deterministic metrics and write a snapshot">▶ Run evaluation suite</button>
+    </div>
+    <div class="layout">
+      <div class="workflow-col">
+        <div class="workflow" id="workflow-eval"></div>
+        <div class="config-panel" id="config-eval"></div>
+        <h2 class="col-heading">⚖️ Regression suite — deterministic metrics</h2>
+        <div class="workflow" id="workflow-suite"></div>
+        <div class="config-panel" id="config-suite"></div>
+      </div>
+      <div class="eval-detail-col">
+        <div class="detail-panel" id="detail-eval" style="display:none">
+          <div class="detail-empty">Click a workflow node to inspect its data.</div>
+        </div>
+        <details class="detail-panel collapsible" id="golden-panel">
+          <summary>📋 Frozen golden set <span class="panel-count" id="golden-count">0</span><span class="chev">▸</span></summary>
+          <div class="panel-body" id="golden-list"></div>
+        </details>
+        <details class="detail-panel collapsible" id="suite-panel">
+          <summary>📊 Evaluation results <span class="panel-count" id="suite-count">0</span><span class="chev">▸</span></summary>
+          <div class="panel-body">
+            <div id="suite-list"></div>
+            <div id="diff-view"></div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- File browser modal -->
+<div id="browse-modal" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Select files for ingestion</h2>
+      <button class="modal-close" id="browse-close">✕</button>
+    </div>
+    <div class="modal-path" id="browse-path"></div>
+    <div class="modal-body" id="browse-list"></div>
+    <div class="modal-footer">
+      <button class="btn" id="browse-up">⬆ Up</button>
+      <span class="spacer"></span>
+      <button class="btn" id="browse-cancel">Cancel</button>
+      <button class="btn btn-primary" id="browse-ok">Add selected</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="/static/app.js?v=health3"></script>
+</body>
+</html>

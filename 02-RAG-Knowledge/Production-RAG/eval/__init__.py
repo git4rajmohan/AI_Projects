@@ -1,0 +1,1 @@
+"""Evaluation package: golden set, metrics, runner, gate (Phases 0-1)."""

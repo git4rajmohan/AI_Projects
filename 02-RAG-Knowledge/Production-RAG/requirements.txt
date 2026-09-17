@@ -1,0 +1,24 @@
+# RAG Production — dependencies (install into .venv)
+# Chat LLM: Ollama Cloud via OpenAI-compatible https://ollama.com/v1
+# Embeddings: local Ollama via OpenAI-compatible http://localhost:11434/v1
+openai
+chromadb
+langgraph
+rank-bm25
+python-dotenv
+typing-extensions
+numpy
+# UI (FastAPI pipeline visualizer)
+fastapi
+uvicorn[standard]
+pydantic
+# Phase 2 — Ragas LLM-judged evaluation (optional but pinned: ragas 0.2.6
+# needs the langchain 0.3.x line; langchain-community 0.4.x removed the
+# vertexai module ragas imports, and langchain-core 1.x breaks it too)
+ragas==0.2.6
+langchain>=0.3,<1.0
+langchain-core>=0.3,<1.0
+langchain-community>=0.3,<0.4
+langchain-openai>=0.2,<1.0
+datasets>=3.1.0
+nest-asyncio

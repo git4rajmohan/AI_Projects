@@ -1,0 +1,1 @@
+"""UI package: FastAPI server + step runners + config store for the RAG pipeline visualizer."""

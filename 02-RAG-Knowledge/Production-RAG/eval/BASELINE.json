@@ -1,0 +1,30 @@
+{
+  "snapshot_id": "438b82f3",
+  "created_at": "2026-09-11T13:19:56",
+  "config": {
+    "strategy": "current-corpus",
+    "retriever": "hybrid",
+    "top_k": 5,
+    "overfetch_factor": 2,
+    "rrf_k": 60,
+    "chat_model": "gpt-oss:120b",
+    "embed_model": "nomic-embed-text",
+    "corpus_strategy": "semantic-embedding",
+    "corpus_size": 46
+  },
+  "aggregate": {
+    "n_questions": 19,
+    "n_answerable": 17,
+    "n_negative": 2,
+    "recall_at_k": 1.0,
+    "recall_section": 1.0,
+    "recall_multihop": 1.0,
+    "first_relevant_rank": 1.1765,
+    "citation_coverage": 0.0824,
+    "must_term_coverage": 0.6667,
+    "refusal_accuracy": 0.5,
+    "mean_total_ms": 2190,
+    "p95_total_ms": 3196
+  },
+  "golden_count": 19
+}

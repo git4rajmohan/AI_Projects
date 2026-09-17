@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Documentation Assistant — User Guide</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --muted: #5b6b7c;
+    --accent: #2563eb;
+    --accent-soft: #e8effd;
+    --green: #16a34a;
+    --green-soft: #e7f7ee;
+    --red: #dc2626;
+    --red-soft: #fdeaea;
+    --amber: #d97706;
+    --amber-soft: #fdf3e3;
+    --grey-soft: #eef1f6;
+    --border: #dbe2ec;
+    --radius: 14px;
+    --mono: "Cascadia Code", "Consolas", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(120deg, #1e3a8a 0%, #2563eb 60%, #3b82f6 100%);
+    color: #fff;
+    padding: 34px 24px 0;
+  }
+  .head-inner { max-width: 1100px; margin: 0 auto; }
+  header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: .2px; }
+  header p.sub { color: #cfe0ff; margin-top: 6px; font-size: .98rem; }
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .tab-btn {
+    appearance: none; border: none; cursor: pointer;
+    padding: 12px 26px; font-size: 1rem; font-weight: 600;
+    border-radius: 12px 12px 0 0;
+    background: rgba(255,255,255,.15); color: #dbe9ff;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,.28); }
+  .tab-btn.active { background: var(--bg); color: var(--accent); }
+  main { max-width: 1100px; margin: 0 auto; padding: 34px 24px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  h2 { font-size: 1.35rem; margin: 38px 0 14px; padding-top: 8px; }
+  h2:first-child { margin-top: 0; }
+  h3 { font-size: 1.08rem; margin: 24px 0 10px; }
+  h4 { font-size: 1rem; }
+  p { margin: 10px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px; margin: 16px 0;
+    box-shadow: 0 1px 3px rgba(20,40,80,.05);
+  }
+  .lead { font-size: 1.05rem; color: var(--muted); }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 6px 0; }
+  code {
+    font-family: var(--mono); font-size: .88em;
+    background: var(--grey-soft); border-radius: 5px; padding: 2px 6px;
+  }
+  pre {
+    font-family: var(--mono); font-size: .85rem;
+    background: #0f172a; color: #e2e8f0; border-radius: 10px;
+    padding: 14px 18px; overflow-x: auto; margin: 14px 0; line-height: 1.65;
+  }
+  pre code { background: none; padding: 0; color: inherit; font-size: .85rem; }
+  .pill {
+    display: inline-block; padding: 2px 12px; border-radius: 999px;
+    font-size: .82rem; font-weight: 600; white-space: nowrap;
+  }
+  .pill.green  { background: var(--green-soft);  color: var(--green); }
+  .pill.amber  { background: var(--amber-soft);  color: var(--amber); }
+  .pill.red    { background: var(--red-soft);    color: var(--red); }
+  .pill.blue   { background: var(--accent-soft); color: var(--accent); }
+  .pill.grey   { background: var(--grey-soft);   color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; background: var(--card);
+          border-radius: 10px; overflow: hidden; font-size: .93rem; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--accent-soft); color: #1e3a8a; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .note {
+    border-left: 4px solid var(--accent); background: var(--accent-soft);
+    padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: .95rem;
+  }
+  .note.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+  .note.ok   { border-left-color: var(--green); background: var(--green-soft); }
+  .note.danger { border-left-color: var(--red); background: var(--red-soft); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  .stat { text-align: center; }
+  .stat .kicker { text-transform: uppercase; letter-spacing: 1.5px; font-size: .72rem; color: var(--muted); }
+  .stat .val { font-size: 2rem; font-weight: 700; color: var(--green); margin: 2px 0; }
+  .stat .lbl { font-size: .85rem; color: var(--muted); }
+  .diagram { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+             padding: 18px; margin: 16px 0; overflow-x: auto; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .diagram figcaption { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 10px; }
+  .step { display: flex; gap: 14px; margin: 14px 0; align-items: flex-start; }
+  .step .num {
+    flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: .95rem;
+  }
+  .step h4 { font-size: 1rem; margin-bottom: 2px; }
+  .step p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .kbd { font-family: var(--mono); background: #fff; border: 1px solid var(--border);
+         border-bottom-width: 3px; border-radius: 6px; padding: 1px 7px; font-size: .82rem; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 26px; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <h1>📚 RAG Documentation Assistant — From Raw Markdown to a Cited, Hallucination-Proof Answer</h1>
+    <p class="sub">Python · LangGraph · ChromaDB · Ollama Cloud: an end-to-end Retrieval-Augmented Generation pipeline
+    — three chunking strategies (character, structural/hybrid, embedding-semantic), <code>nomic-embed-text</code>
+    embeddings in a persistent ChromaDB store, hybrid retrieval that fuses BM25 keyword scores with vector similarity
+    via Reciprocal Rank Fusion, and a strictly grounded generator that cites
+    <code>[Source: doc, Section]</code> on every claim — or refuses. Wrapped in a FastAPI visualizer that shows every
+    step, every ranked list and every regression gate diff. Evaluation is two-phase: a 19-question frozen golden set
+    scored with deterministic LLM-free metrics, plus optional Ragas LLM-judged scoring.</p>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-btn-pitch" onclick="showTab('pitch')">🚀 Elevator Pitch</button>
+      <button class="tab-btn" id="tab-btn-nontechnical" onclick="showTab('nontechnical')">📖 Non-Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-technical" onclick="showTab('technical')">⚙️ Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-glossary" onclick="showTab('glossary')">📚 Glossary</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================================================================== -->
+<!-- TAB 0 — ELEVATOR PITCH                                               -->
+<!-- ==================================================================== -->
+<section class="panel active" id="panel-pitch">
+
+  <h2>The 30-second pitch</h2>
+  <div class="card">
+    <p class="lead">
+      Ask an LLM a question about <em>your</em> documentation and two things go wrong: it has never
+      read your docs, and when it doesn't know, it invents an answer with total confidence. Fine-tuning
+      won't fix it, and re-training is out of reach. You need the model to look the answer up — and
+      <em>prove</em> where it looked.
+    </p>
+    <p>
+      <strong>This project is that lookup, built properly.</strong> Two Markdown documents are split into
+      retrievable chunks three different ways — naive fixed-size windows, header-respecting structural
+      chunks with a hybrid <code>###</code> sub-split gate, or embedding-similarity "semantic" windows —
+      embedded with <code>nomic-embed-text</code> and stored in a persistent ChromaDB collection. At query
+      time a hybrid retriever runs <strong>BM25 keyword search and vector similarity in parallel</strong> and
+      merges the two ranked lists with Reciprocal Rank Fusion. The top-5 chunks are injected into a strict
+      grounding prompt, and <code>gpt-oss:120b</code> (Ollama Cloud) answers <em>only</em> from that context —
+      citing <code>[Source: doc, Section: …]</code> per claim, or saying "I could not find an answer…"
+      instead of hallucinating. The whole thing is a three-node LangGraph <code>StateGraph</code> with an
+      error short-circuit, and a FastAPI visualizer that runs every step one at a time so you can watch
+      chunk previews, per-stage ranking traces and stored vectors. And it doesn't just <em>claim</em> to
+      work: a frozen 19-question golden set is scored with deterministic metrics (recall@k, citation
+      coverage, must-term coverage, refusal accuracy) and diffed against a baseline — a red/green regression
+      gate that stays LLM-free, with optional Ragas LLM-judged scoring on top.
+    </p>
+    <p><strong>The line that matters: retrieve honestly, answer only from what was retrieved, cite everything — and keep a scoreboard that turns green into red the moment quality slips.</strong></p>
+  </div>
+
+  <h2>The one-line principle</h2>
+  <div class="grid3">
+    <div class="card">
+      <h3>✂️ Chunks are the atoms of retrieval</h3>
+      <p>A 500-character window slices through code blocks and merges unrelated topics; splitting at
+      <code>##</code> headers keeps every chunk a complete, self-contained section. The demo proves the
+      same query returns fragments under one strategy and a clean, cited answer under the other.
+      Chunking is not plumbing — it decides what the retriever <em>can</em> find.</p>
+    </div>
+    <div class="card">
+      <h3>🔀 Two retrievers beat one</h3>
+      <p>Vectors find <em>meaning</em> ("auth setup") but miss exact tokens; BM25 finds exact tokens
+      (<code>MCPToolset</code>, <code>X-Goog-Api-Key</code>) but misses paraphrases. Reciprocal Rank Fusion
+      merges both ranked lists with <code>1/(rank + 60)</code> — no score calibration needed, ranks are
+      all that matter.</p>
+    </div>
+    <div class="card">
+      <h3>⚖️ Measure or it didn't happen</h3>
+      <p>Every pipeline change is a hypothesis. A frozen golden set + deterministic metrics + a
+      regression gate (🟢 ≤0.05 drop · 🟡 ≤0.15 · 🔴 &gt;0.15) turns "feels better" into a verdict —
+      and the UI diff table shows exactly which question regressed and why.</p>
+    </div>
+  </div>
+
+  <h2>How it works in one picture</h2>
+  <figure class="diagram">
+    <svg viewBox="0 0 980 260" width="980" role="img" aria-label="RAG ingestion and query pipelines">
+      <defs>
+        <marker id="ar0" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <text x="80" y="36" fill="#5b6b7c" font-size="12">INGESTION (offline)</text>
+        <rect x="15" y="46" width="140" height="56" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="85" y="70" fill="#334155">📄 docs/*.md</text>
+        <text x="85" y="90" fill="#5b6b7c" font-weight="400" font-size="11">2 source documents</text>
+
+        <rect x="175" y="46" width="150" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="70" fill="#1e3a8a">✂️ Chunk</text>
+        <text x="250" y="90" fill="#5b6b7c" font-weight="400" font-size="11">3 strategies</text>
+
+        <rect x="345" y="46" width="150" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="420" y="70" fill="#1e3a8a">🧮 Embed</text>
+        <text x="420" y="90" fill="#5b6b7c" font-weight="400" font-size="11">nomic-embed-text</text>
+
+        <rect x="515" y="46" width="160" height="56" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="595" y="70" fill="#14532d">💾 ChromaDB</text>
+        <text x="595" y="90" fill="#5b6b7c" font-weight="400" font-size="11">id + text + vector + meta</text>
+
+        <text x="80" y="136" fill="#5b6b7c" font-size="12">QUERY TIME (online)</text>
+        <rect x="15" y="146" width="140" height="56" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="85" y="170" fill="#334155">❓ Question</text>
+        <text x="85" y="190" fill="#5b6b7c" font-weight="400" font-size="11">typed in the UI</text>
+
+        <rect x="175" y="146" width="150" height="56" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="250" y="170" fill="#92400e">🔍 Hybrid search</text>
+        <text x="250" y="190" fill="#5b6b7c" font-weight="400" font-size="11">BM25 + vector + RRF</text>
+
+        <rect x="345" y="146" width="150" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="420" y="170" fill="#1e3a8a">🧩 Prompt</text>
+        <text x="420" y="190" fill="#5b6b7c" font-weight="400" font-size="11">grounded context</text>
+
+        <rect x="515" y="146" width="160" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="595" y="170" fill="#1e3a8a">💬 Generate</text>
+        <text x="595" y="190" fill="#5b6b7c" font-weight="400" font-size="11">gpt-oss:120b (cloud)</text>
+
+        <rect x="695" y="146" width="140" height="56" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="765" y="170" fill="#14532d">✅ Cited answer</text>
+        <text x="765" y="190" fill="#5b6b7c" font-weight="400" font-size="11">[Source: doc, Section]</text>
+
+        <rect x="855" y="146" width="110" height="56" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="910" y="170" fill="#334155">🛑 or refuse</text>
+        <text x="910" y="190" fill="#5b6b7c" font-weight="400" font-size="11">no invention</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="155" y1="74" x2="173" y2="74" marker-end="url(#ar0)"/>
+        <line x1="325" y1="74" x2="343" y2="74" marker-end="url(#ar0)"/>
+        <line x1="495" y1="74" x2="513" y2="74" marker-end="url(#ar0)"/>
+        <line x1="155" y1="174" x2="173" y2="174" marker-end="url(#ar0)"/>
+        <line x1="325" y1="174" x2="343" y2="174" marker-end="url(#ar0)"/>
+        <line x1="495" y1="174" x2="513" y2="174" marker-end="url(#ar0)"/>
+        <line x1="675" y1="174" x2="693" y2="174" marker-end="url(#ar0)"/>
+        <line x1="835" y1="174" x2="853" y2="174" marker-end="url(#ar0)"/>
+        <line x1="595" y1="102" x2="250" y2="144" stroke="#16a34a" stroke-width="2" marker-end="url(#ar0)"/>
+      </g>
+      <g>
+        <rect x="330" y="228" width="320" height="26" rx="13" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+        <text x="490" y="246" text-anchor="middle" fill="#14532d" font-size="12" font-weight="bold">🔗 the store ingested is the store queried — one collection</text>
+      </g>
+    </svg>
+    <figcaption>Figure 0 — Two pipelines, one store. Offline: documents become chunks, vectors, metadata. Online: a question becomes a fused retrieval, a grounded prompt, and a cited answer — or an honest refusal.</figcaption>
+  </figure>
+
+  <h2>Numbers from the shipped build</h2>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">Chunking strategies</div><div class="val">3</div><div class="lbl">character · structural · embedding-semantic</div></div>
+    <div class="card stat"><div class="kicker">Golden questions</div><div class="val">19</div><div class="lbl">15 section · 2 multi-hop · 2 negative</div></div>
+    <div class="card stat"><div class="kicker">Retrieval recall@k</div><div class="val">1.0</div><div class="lbl">every answerable question hit its section</div></div>
+  </div>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">LangGraph nodes</div><div class="val">3</div><div class="lbl">retrieve → prompt → generate</div></div>
+    <div class="card stat"><div class="kicker">Ranking signals</div><div class="val">2</div><div class="lbl">BM25 + cosine vectors, fused by RRF</div></div>
+    <div class="card stat"><div class="kicker">Snapshot history</div><div class="val">30</div><div class="lbl">recorded eval runs vs. one baseline</div></div>
+  </div>
+
+  <div class="note ok">
+    <strong>The signal:</strong> nothing here is a monolith. Chunking, embedding, storage, retrieval,
+    ranking, prompting, generation and evaluation are each one small file with one job — and the UI runs
+    them <em>one step at a time</em> so you can see the intermediate state at every seam. Swap any piece
+    (e.g. ChromaDB → Qdrant for tunable HNSW) without touching the rest. The architecture is the lesson;
+    the models are interchangeable parts.
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 1 — NON-TECHNICAL                                                -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-nontechnical">
+
+  <h2>What is this project?</h2>
+  <div class="card">
+    <p class="lead">
+      The <strong>RAG Documentation Assistant</strong> is a question-answering system for your own
+      documentation. You feed it Markdown files; it learns them by splitting, embedding and storing them;
+      then you ask questions in plain English and it answers <em>using only those files</em> — quoting the
+      exact document and section behind every claim. If the answer isn't in the files, it says so instead
+      of making something up.
+    </p>
+    <p>Using it is three moves:</p>
+    <ol>
+      <li><strong>Ingest</strong> — pick your Markdown files, choose a chunking strategy, press Run. Four steps later the knowledge base is built.</li>
+      <li><strong>Ask</strong> — type a question and watch five steps light up: embed the question, retrieve candidates, fuse the rankings, build the prompt, generate the cited answer.</li>
+      <li><strong>Check</strong> — run the evaluation suite: 19 frozen questions go through the live pipeline and are scored against a stored baseline. Green means the system is still as good as the day you measured it.</li>
+    </ol>
+    <p>
+      Think of it as a librarian who has read exactly two binders. Ask about something in the binders and
+      you get the answer <em>with the page number</em>. Ask about anything else — the Stripe API rate
+      limit, say — and the librarian doesn't guess: "I could not find an answer to this question in the
+      provided documentation."
+    </p>
+  </div>
+
+  <h2>What does working with it look like?</h2>
+  <p>
+    The app is a FastAPI web app served at <code>http://localhost:8000</code> with three tabs —
+    <strong>📥 Ingestion</strong>, <strong>💬 Inference</strong> and <strong>📊 Evaluation</strong>.
+    Each tab draws its workflow as a chain of node cards; you run them one at a time (or all at once) and
+    each node opens a detail panel showing exactly what it produced.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 300" width="980" role="img" aria-label="UI tabs and their step chains">
+      <defs>
+        <marker id="ar1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <rect x="15" y="20" width="290" height="250" rx="14" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="160" y="48" fill="#1e3a8a" font-size="14">📥 Ingestion tab</text>
+        <rect x="35" y="66" width="250" height="34" rx="9" fill="#ffffff" stroke="#93b4f0"/>
+        <text x="160" y="88" fill="#334155" font-size="12">📄 Load Documents</text>
+        <rect x="35" y="112" width="250" height="34" rx="9" fill="#ffffff" stroke="#93b4f0"/>
+        <text x="160" y="134" fill="#334155" font-size="12">✂️ Chunk — pick a strategy</text>
+        <rect x="35" y="158" width="250" height="34" rx="9" fill="#ffffff" stroke="#93b4f0"/>
+        <text x="160" y="180" fill="#334155" font-size="12">🧮 Embed — nomic-embed-text</text>
+        <rect x="35" y="204" width="250" height="34" rx="9" fill="#ffffff" stroke="#93b4f0"/>
+        <text x="160" y="226" fill="#334155" font-size="12">💾 Store — upsert into ChromaDB</text>
+        <text x="160" y="260" fill="#5b6b7c" font-size="11" font-weight="400">chunk previews · dims · stored rows</text>
+
+        <rect x="345" y="20" width="290" height="250" rx="14" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="490" y="48" fill="#92400e" font-size="14">💬 Inference tab</text>
+        <rect x="365" y="66" width="250" height="30" rx="9" fill="#ffffff" stroke="#e7b98a"/>
+        <text x="490" y="86" fill="#334155" font-size="12">🧭 Embed Query</text>
+        <rect x="365" y="104" width="250" height="30" rx="9" fill="#ffffff" stroke="#e7b98a"/>
+        <text x="490" y="124" fill="#334155" font-size="12">🔍 Retrieve — candidates</text>
+        <rect x="365" y="142" width="250" height="30" rx="9" fill="#ffffff" stroke="#e7b98a"/>
+        <text x="490" y="162" fill="#334155" font-size="12">📊 Rerank — RRF fusion</text>
+        <rect x="365" y="180" width="250" height="30" rx="9" fill="#ffffff" stroke="#e7b98a"/>
+        <text x="490" y="200" fill="#334155" font-size="12">🧩 Augment — prompt</text>
+        <rect x="365" y="218" width="250" height="30" rx="9" fill="#ffffff" stroke="#e7b98a"/>
+        <text x="490" y="238" fill="#334155" font-size="12">💬 Generate — cited answer</text>
+        <text x="490" y="262" fill="#5b6b7c" font-size="11" font-weight="400">BM25 / vector / fused trace tables</text>
+
+        <rect x="675" y="20" width="290" height="250" rx="14" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="820" y="48" fill="#14532d" font-size="14">📊 Evaluation tab</text>
+        <rect x="695" y="66" width="250" height="34" rx="9" fill="#ffffff" stroke="#9ed4b4"/>
+        <text x="820" y="88" fill="#334155" font-size="12">🤖 Generate golden Q/A pairs</text>
+        <rect x="695" y="112" width="250" height="34" rx="9" fill="#ffffff" stroke="#9ed4b4"/>
+        <text x="820" y="134" fill="#334155" font-size="12">🧪 Auto-filter (closed-book · grounding)</text>
+        <rect x="695" y="158" width="250" height="34" rx="9" fill="#ffffff" stroke="#9ed4b4"/>
+        <text x="820" y="180" fill="#334155" font-size="12">✔️ Review &amp; freeze the golden set</text>
+        <rect x="695" y="204" width="250" height="34" rx="9" fill="#ffffff" stroke="#9ed4b4"/>
+        <text x="820" y="226" fill="#334155" font-size="12">⚖️ Run suite → snapshot → gate diff</text>
+        <text x="820" y="260" fill="#5b6b7c" font-size="11" font-weight="400">🟢 PASS · 🟡 WARN · 🔴 FAIL vs baseline</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="305" y1="145" x2="343" y2="145" marker-end="url(#ar1)"/>
+        <line x1="635" y1="145" x2="673" y2="145" marker-end="url(#ar1)"/>
+      </g>
+    </svg>
+    <figcaption>Figure 1 — Three tabs, three workflows. Ingestion builds the store, Inference answers a question, Evaluation keeps the whole thing honest over time.</figcaption>
+  </figure>
+
+  <h3>Step 1 — Build the knowledge base (Ingestion)</h3>
+  <p>
+    Pick files from <code>docs/</code> (two are included: the healthcare MCP server guide and the
+    AI-agents-vs-MCP documentation). Choose the chunking strategy — this is the single most important
+    knob in the whole app — then run the four steps. The <strong>Chunk</strong> node shows a preview of
+    every chunk with its word count and whether it contains a code block or table; the <strong>Store</strong>
+    node shows the actual rows ChromaDB keeps: chunk id, metadata, an 8-value peek at the embedding vector,
+    and the first 300 characters of text.
+  </p>
+
+  <h3>Step 2 — Ask a question (Inference)</h3>
+  <p>
+    Type a question like <em>"What Python code do I need to connect an agent to the Maps MCP server?"</em>.
+    The <strong>Retrieve</strong> node shows both candidate lists side by side — the BM25 keyword ranking
+    and the vector-distance ranking — and the <strong>Rerank</strong> node shows the fused list with each
+    chunk's rank in each list. The <strong>Generate</strong> node returns the answer with inline
+    <code>[Source: DOCUMENTATION.md, Section: …]</code> citations, plus the extracted citation list and
+    timing per step.
+  </p>
+
+  <h3>Step 3 — Prove it doesn't hallucinate</h3>
+  <p>
+    Ask about something the documents never mention — <em>"What is the rate limit on the Stripe API?"</em>.
+    The retrieved chunks will be irrelevant, and the model, constrained by its system prompt, replies:
+    <em>"I could not find an answer to this question in the provided documentation."</em> This refusal is
+    a designed, measured behavior — the evaluation suite has dedicated <strong>negative questions</strong>
+    whose only passing answer is a refusal.
+  </p>
+
+  <h3>Step 4 — Keep it honest over time (Evaluation)</h3>
+  <p>
+    The golden set is generated by the LLM from your actual corpus (2 pairs per section), then hardened
+    by three auto-filters: a <strong>closed-book check</strong> (if the LLM can answer the question with
+    no context, it doesn't measure retrieval — reject), a <strong>grounding check</strong> (a judge pass
+    verifies the reference answer is entailed by the source text — reject otherwise), and a
+    <strong>dedupe pass</strong> (embed the questions locally; drop pairs &gt;0.9 cosine-similar).
+    You review and freeze the survivors — 19 pairs made the shipped set. From then on, every
+    <strong>suite run</strong> replays them through the live pipeline and writes a snapshot; the
+    <strong>gate</strong> diffs each snapshot against the stored baseline and emits
+    🟢 PASS / 🟡 WARN / 🔴 FAIL.
+  </p>
+
+  <div class="note warn">
+    <strong>The one rule that matters:</strong> the generator is forbidden from using outside knowledge.
+    Every claim must trace to a retrieved chunk, and every claim must carry a citation. That single
+    constraint is what turns "an LLM that sounds right" into "a system you can actually trust" — and the
+    citation-coverage metric checks the model kept its promise.
+  </div>
+
+  <h2>The 4-step workflow</h2>
+
+  <div class="card">
+    <div class="step"><div class="num">1</div><div><h4>Ingest — chunks are born here</h4>
+      <p>Load → Chunk → Embed → Store. Choose the strategy first; everything downstream inherits its quality.</p></div></div>
+    <p>
+      <strong>Character splitting</strong> cuts at fixed 500-char intervals with 50 overlap — the "bad"
+      baseline that slices through code blocks and mixes topics. <strong>Structural (semantic) splitting</strong>
+      cuts at <code>##</code> headers, and any section over 400 words is sub-split at <code>###</code>
+      boundaries — every chunk is a complete section, code blocks and tables stay intact. The
+      <strong>embedding-semantic</strong> strategy groups sentences by cosine similarity percentile with no
+      headers required. Two included documents yield ~60–70 character chunks vs ~18–22 structural chunks —
+      fewer pieces, each one whole.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">2</div><div><h4>Ask — retrieval does the heavy lifting</h4>
+      <p>Embed query → retrieve candidates → RRF rerank → augment → generate.</p></div></div>
+    <p>
+      The question is embedded with the same model as the corpus, then two searches race: BM25 over all
+      chunk texts (exact tokens win) and cosine vector search with a 2× overfetch (meaning wins). RRF
+      merges the rankings — a chunk ranked #1 by BM25 and #2 by vector gets a better fused score than a
+      chunk ranked #1 by only one list. Top-5 survive into the prompt with their source labels attached.
+    </p>
+    <table>
+      <tr><th>Retriever</th><th>What it's good at</th><th>What it misses</th></tr>
+      <tr><td>🔎 Vector only</td><td>Paraphrases, meaning, "how do I…" questions</td><td>Exact identifiers like <code>MCPToolset</code> or <code>X-Goog-Api-Key</code></td></tr>
+      <tr><td>🔤 BM25 only</td><td>Exact function names, config keys, error strings</td><td>Synonyms, conceptual matches</td></tr>
+      <tr><td>🔀 Hybrid + RRF</td><td>Both — a top hit in <em>either</em> list surfaces in the fused list</td><td>Nothing material — this is the default</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">3</div><div><h4>Ground — the prompt is a cage</h4>
+      <p>System prompt forbids inference; user message carries every chunk with its source label.</p></div></div>
+    <p>
+      The prompt builder labels every chunk <code>[Chunk 1 - doc | section]</code> and appends the
+      question. The system prompt states the citation format, the refusal sentence, and "do not infer,
+      guess, or use external knowledge." In the UI you can edit this prompt live — which is exactly how
+      you A/B a stricter or looser grounding policy, then re-run the suite to see if citation coverage
+      moved.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">4</div><div><h4>Gate — snapshots vs. baseline</h4>
+      <p>Run the suite → snapshot JSON → diff → 🟢🟡🔴 verdict.</p></div></div>
+    <p>
+      Each snapshot freezes the full config (strategy, retriever, top_k, models, corpus size), the
+      per-question metric rows and the latency profile. The gate watches recall, citation coverage,
+      must-term coverage, refusal accuracy (drops) and latency (slowdowns): any quality metric down more
+      than 0.05 is a 🟡, more than 0.15 a 🔴. LLM-judged Ragas metrics ride along for information but
+      <em>never</em> influence the verdict — the gate stays deterministic and reproducible.
+    </p>
+    <div class="note ok">
+      <strong>Why this matters:</strong> RAG systems degrade silently — a new document, a swapped embedding
+      model, an "innocent" prompt tweak. The gate turns each of those into a red flag the day it happens,
+      not the day a user complains.
+    </div>
+  </div>
+
+  <h2>Try it in five commands</h2>
+  <div class="card">
+<pre><code># 1) install
+pip install -r requirements.txt
+
+# 2) put your Ollama Cloud key in .env
+OLLAMA_API_KEY=sk-or-your-ollama-key
+
+# 3) make sure local Ollama is running (it serves the embeddings model)
+#    http://localhost:11434 with nomic-embed-text pulled
+
+# 4) start the visualizer
+python -m uvicorn ui.server:app --port 8000
+#    → open http://localhost:8000
+
+# optional CLI demo of the chunking story:
+python demo/01_chunking_comparison.py</code></pre>
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 2 — TECHNICAL                                                    -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-technical">
+
+  <h2>Architecture</h2>
+  <p>
+    Every concept owns one file. The LangGraph graph composes three of them at runtime; the UI calls the
+    same functions step-by-step through a FastAPI layer.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 320" width="980" role="img" aria-label="Module map">
+      <defs>
+        <marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="12" font-weight="600" text-anchor="middle">
+        <rect x="15" y="20" width="220" height="120" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="125" y="42" fill="#334155">chunking/</text>
+        <text x="125" y="64" fill="#5b6b7c" font-weight="400" font-size="11">character_splitter.py — 500-char windows</text>
+        <text x="125" y="84" fill="#5b6b7c" font-weight="400" font-size="11">semantic_splitter.py — H2 + H3 gate</text>
+        <text x="125" y="104" fill="#5b6b7c" font-weight="400" font-size="11">embedding_splitter.py — similarity</text>
+        <text x="125" y="124" fill="#5b6b7c" font-weight="400" font-size="11">comparison.py — stats side-by-side</text>
+
+        <rect x="255" y="20" width="220" height="120" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="365" y="42" fill="#1e3a8a">vectorstore/</text>
+        <text x="365" y="64" fill="#5b6b7c" font-weight="400" font-size="11">embedder.py — OpenAI-compatible client</text>
+        <text x="365" y="84" fill="#5b6b7c" font-weight="400" font-size="11">store.py — PersistentClient, upsert,</text>
+        <text x="365" y="104" fill="#5b6b7c" font-weight="400" font-size="11">id = doc_title + "_" + chunk_index</text>
+        <text x="365" y="124" fill="#5b6b7c" font-weight="400" font-size="11">stale-chunk delete before re-ingest</text>
+
+        <rect x="495" y="20" width="220" height="120" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="605" y="42" fill="#92400e">retrieval/</text>
+        <text x="605" y="64" fill="#5b6b7c" font-weight="400" font-size="11">semantic_search.py — pure vector</text>
+        <text x="605" y="84" fill="#5b6b7c" font-weight="400" font-size="11">hybrid_search.py — BM25 + vector + RRF</text>
+        <text x="605" y="104" fill="#5b6b7c" font-weight="400" font-size="11">search_with_trace() → per-stage trace</text>
+        <text x="605" y="124" fill="#5b6b7c" font-weight="400" font-size="11">overfetch ×2 → fuse → top-5</text>
+
+        <rect x="735" y="20" width="230" height="120" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="850" y="42" fill="#14532d">generation/</text>
+        <text x="850" y="64" fill="#5b6b7c" font-weight="400" font-size="11">prompt_builder.py — grounded prompt</text>
+        <text x="850" y="84" fill="#5b6b7c" font-weight="400" font-size="11">answer_generator.py — Ollama Cloud</text>
+        <text x="850" y="104" fill="#5b6b7c" font-weight="400" font-size="11">regex-extracts [Source: …, Section: …]</text>
+        <text x="850" y="124" fill="#5b6b7c" font-weight="400" font-size="11">Answer(text, citations, chunks_used)</text>
+
+        <rect x="135" y="190" width="300" height="110" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="285" y="212" fill="#1e3a8a">pipeline/ — LangGraph</text>
+        <text x="285" y="234" fill="#5b6b7c" font-weight="400" font-size="11">state.py — RAGState TypedDict</text>
+        <text x="285" y="254" fill="#5b6b7c" font-weight="400" font-size="11">nodes.py — 3 pure functions (try/except)</text>
+        <text x="285" y="274" fill="#5b6b7c" font-weight="400" font-size="11">graph.py — StateGraph + conditional edge</text>
+        <text x="285" y="294" fill="#5b6b7c" font-weight="400" font-size="11">run_query(query) → Answer</text>
+
+        <rect x="475" y="190" width="230" height="110" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="590" y="212" fill="#14532d">eval/ — two-phase harness</text>
+        <text x="590" y="234" fill="#5b6b7c" font-weight="400" font-size="11">golden_generator.py — LLM + filters</text>
+        <text x="590" y="254" fill="#5b6b7c" font-weight="400" font-size="11">metrics.py / runner.py / gate.py</text>
+        <text x="590" y="274" fill="#5b6b7c" font-weight="400" font-size="11">ragas_eval.py — optional LLM judge</text>
+        <text x="590" y="294" fill="#5b6b7c" font-weight="400" font-size="11">snapshots/ · BASELINE.json · golden_set.jsonl</text>
+
+        <rect x="745" y="190" width="220" height="110" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="855" y="212" fill="#334155">ui/ — FastAPI visualizer</text>
+        <text x="855" y="234" fill="#5b6b7c" font-weight="400" font-size="11">server.py — JSON API + static SPA</text>
+        <text x="855" y="254" fill="#5b6b7c" font-weight="400" font-size="11">runners.py — step-by-step runs</text>
+        <text x="855" y="274" fill="#5b6b7c" font-weight="400" font-size="11">config_store.py — PARAM_META</text>
+        <text x="855" y="294" fill="#5b6b7c" font-weight="400" font-size="11">static/ — vanilla JS frontend</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="235" y1="80" x2="253" y2="80" marker-end="url(#ar2)"/>
+        <line x1="475" y1="80" x2="493" y2="80" marker-end="url(#ar2)"/>
+        <line x1="715" y1="80" x2="733" y2="80" marker-end="url(#ar2)"/>
+        <line x1="605" y1="140" x2="360" y2="188" marker-end="url(#ar2)"/>
+        <line x1="855" y1="140" x2="640" y2="188" marker-end="url(#ar2)"/>
+        <line x1="590" y1="188" x2="760" y2="230" stroke-dasharray="4 3" marker-end="url(#ar2)"/>
+      </g>
+    </svg>
+    <figcaption>Figure 2 — Module map. Row 1 is the data path (chunk → store → retrieve → generate); row 2 is orchestration (LangGraph), verification (eval) and observability (UI).</figcaption>
+  </figure>
+
+  <table>
+    <tr><th>Module</th><th>File</th><th>Responsibility</th></tr>
+    <tr><td><code>config/</code></td><td><code>settings.py</code></td><td>All constants: paths, models, endpoints, chunk sizes, TOP_K. Reads <code>.env</code> via python-dotenv; env vars <code>OLLAMA_CHAT_MODEL</code>, <code>OLLAMA_EMBED_MODEL</code>, <code>OLLAMA_CHAT_BASE_URL</code>, <code>OLLAMA_EMBED_BASE_URL</code> override defaults.</td></tr>
+    <tr><td><code>chunking/</code></td><td><code>character_splitter.py</code>, <code>semantic_splitter.py</code>, <code>embedding_splitter.py</code>, <code>comparison.py</code></td><td>Three splitters producing a common <code>Chunk</code> dataclass (content, metadata, word_count, has_code_block, has_table) + a stats comparator.</td></tr>
+    <tr><td><code>vectorstore/</code></td><td><code>embedder.py</code>, <code>store.py</code></td><td><code>EmbeddingModel.encode(texts) → np.ndarray</code> against any OpenAI-compatible endpoint; ChromaDB <code>PersistentClient</code> with upsert/load and clear RuntimeError on missing collection.</td></tr>
+    <tr><td><code>retrieval/</code></td><td><code>semantic_search.py</code>, <code>hybrid_search.py</code></td><td>Pure vector query; hybrid search with full per-stage ranking trace for the UI.</td></tr>
+    <tr><td><code>generation/</code></td><td><code>prompt_builder.py</code>, <code>answer_generator.py</code></td><td>Prompt assembly with grounding + citations; OpenAI-compatible chat call with citation regex extraction; returns <code>Answer(text, citations, query, chunks_used)</code>.</td></tr>
+    <tr><td><code>pipeline/</code></td><td><code>state.py</code>, <code>nodes.py</code>, <code>graph.py</code></td><td><code>RAGState</code> TypedDict, three pure-function nodes each with try/except error capture, compiled <code>StateGraph</code> with a conditional edge, <code>run_query()</code> entry point.</td></tr>
+    <tr><td><code>eval/</code></td><td>6 files + <code>snapshots/</code></td><td>Golden-set generation with LLM + auto-filters, deterministic metrics, snapshot runner, regression gate, optional Ragas phase.</td></tr>
+    <tr><td><code>ui/</code></td><td><code>server.py</code>, <code>runners.py</code>, <code>config_store.py</code>, <code>static/</code></td><td>FastAPI at <code>:8000</code> serving the SPA; step-by-step runners with an in-memory RUNS store; declarative parameter metadata persisted to <code>ui_config.json</code>.</td></tr>
+  </table>
+
+  <h2>The LangGraph pipeline</h2>
+  <p>
+    The whole query-time flow is a compiled <code>StateGraph</code> over one shared <code>RAGState</code>
+    TypedDict (<code>query, retrieved_chunks, prompt, answer, error</code>). Each node is a pure function
+    <code>state → partial state</code>, each wrapped in try/except that writes a human-readable
+    <code>error</code> string instead of raising. A conditional edge after <code>retrieve_node</code>
+    short-circuits to <code>END</code> when retrieval failed — the graph fails fast and the caller gets
+    one clean <code>RuntimeError(state["error"])</code>.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 190" width="980" role="img" aria-label="LangGraph StateGraph with conditional edge">
+      <defs>
+        <marker id="ar3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <circle cx="60" cy="95" r="22" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+        <text x="60" y="100" fill="#334155" font-size="11">START</text>
+
+        <rect x="120" y="63" width="190" height="64" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="215" y="90" fill="#1e3a8a">retrieve_node</text>
+        <text x="215" y="110" fill="#5b6b7c" font-weight="400" font-size="11">load collection + embedder → search</text>
+
+        <rect x="380" y="63" width="210" height="64" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="485" y="90" fill="#1e3a8a">build_prompt_node</text>
+        <text x="485" y="110" fill="#5b6b7c" font-weight="400" font-size="11">chunks + sources → PromptMessages</text>
+
+        <rect x="660" y="63" width="180" height="64" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="750" y="90" fill="#14532d">generate_node</text>
+        <text x="750" y="110" fill="#5b6b7c" font-weight="400" font-size="11">Ollama Cloud → Answer</text>
+
+        <circle cx="920" cy="95" r="18" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+        <text x="920" y="100" fill="#334155" font-size="11">END</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="82" y1="95" x2="118" y2="95" marker-end="url(#ar3)"/>
+        <line x1="310" y1="95" x2="378" y2="95" marker-end="url(#ar3)"/>
+        <line x1="590" y1="95" x2="658" y2="95" marker-end="url(#ar3)"/>
+        <line x1="840" y1="95" x2="900" y2="95" marker-end="url(#ar3)"/>
+        <path d="M 215 61 L 215 45 L 920 45 L 920 75" stroke="#dc2626" stroke-dasharray="5 4" marker-end="url(#ar3)"/>
+      </g>
+      <g>
+        <rect x="405" y="30" width="220" height="30" rx="15" fill="#ffffff" stroke="#dc2626" stroke-width="1.5"/>
+        <text x="515" y="50" text-anchor="middle" fill="#dc2626" font-size="12" font-weight="bold">error? → END (fail fast)</text>
+        <text x="215" y="152" text-anchor="middle" fill="#5b6b7c" font-size="11">conditional edge: _route_after_retrieve() → END | build_prompt_node</text>
+      </g>
+    </svg>
+    <figcaption>Figure 3 — The compiled StateGraph. Nodes never throw; they set <code>error</code> in state. The router sends a failed retrieval straight to END.</figcaption>
+  </figure>
+
+  <pre><code># pipeline/graph.py — the whole wiring
+graph.add_edge(START, "retrieve_node")
+graph.add_conditional_edges("retrieve_node", _route_after_retrieve)
+graph.add_edge("build_prompt_node", "generate_node")
+graph.add_edge("generate_node", END)
+return graph.compile()
+
+def run_query(query: str) -&gt; Answer:
+    final_state = rag_graph.invoke({"query": query, "retrieved_chunks": [],
+                                    "prompt": None, "answer": None, "error": ""})
+    if final_state.get("error"):
+        raise RuntimeError(final_state["error"])
+    return final_state["answer"]</code></pre>
+
+  <h2>Chunking: three strategies, one contract</h2>
+  <p>
+    Every splitter returns the same <code>Chunk</code> dataclass, so downstream code never cares which
+    strategy produced a chunk. The structural splitter is the production default:
+  </p>
+  <pre><code># chunking/semantic_splitter.py — structural + hybrid gate
+h2_parts  = re.split(r'\n(?=## )', text)          # cut ONLY at header boundaries
+h3_parts  = re.split(r'\n(?=### )', part)          # sub-split sections &gt; max_words
+# metadata per chunk: doc_title, section_title, subsection_title,
+#                     chunk_index, strategy, word_count
+# flags per chunk:    has_code_block ("```" in content),
+#                     has_table ("|---|" in content)</code></pre>
+  <table>
+    <tr><th>Strategy</th><th>Cut rule</th><th>Params (defaults)</th><th>Trade-off</th></tr>
+    <tr><td><span class="pill red">character</span></td><td>Fixed windows, content-blind</td><td>500 chars, overlap 50</td><td>Breaks code blocks and tables mid-syntax; mixes topics. The deliberate "bad" baseline.</td></tr>
+    <tr><td><span class="pill green">structural</span></td><td>At <code>##</code> headers; oversized sections re-cut at <code>###</code></td><td>max 400 words/section</td><td>Whole sections, code intact — ~3× fewer, far better chunks.</td></tr>
+    <tr><td><span class="pill blue">semantic (embedding)</span></td><td>Sentence windows grouped by cosine-similarity percentile</td><td>buffer 1 · percentile 95 · min 100</td><td>No headers needed; slower (embeds during chunking); sections become derived labels, not real headings.</td></tr>
+  </table>
+  <div class="note">
+    <strong>The comparator makes the cost visible:</strong> <code>chunking/comparison.py</code> runs both
+    strategies over one document and counts <em>broken code blocks</em> (odd number of <code>```</code>
+    fences) and <em>broken tables</em> (no complete header+separator row) per strategy — the two
+    statistics that predict bad retrieval before you ever run a query.
+  </div>
+
+  <h2>Embeddings & storage</h2>
+  <p>
+    <code>EmbeddingModel</code> mirrors the SentenceTransformer interface (<code>.encode(texts)</code> →
+    2-D numpy array) but is backed by any OpenAI-compatible <code>/v1/embeddings</code> endpoint — by
+    default <strong>local Ollama</strong> (<code>http://localhost:11434/v1</code>, model
+    <code>nomic-embed-text</code>). Chat goes to <strong>Ollama Cloud</strong>
+    (<code>https://ollama.com/v1</code>, <code>gpt-oss:120b</code>) — the split exists because the cloud
+    plan serves chat models only, embeddings stay local.
+  </p>
+  <p>
+    ChromaDB stores each chunk as four fields — the store node shows the real rows so the claim is
+    concrete:
+  </p>
+  <pre><code>id:        "DOCUMENTATION.md_7"                    # doc_title + "_" + chunk_index
+document:  "&lt;first 300 chars of the chunk text…&gt;"
+embedding: [ 0.01234, -0.05678, … ]                 # full n-dim vector (768 for nomic)
+metadata:  { doc_title, section_title, subsection_title,
+             chunk_index, strategy, word_count }</code></pre>
+  <ul>
+    <li><strong>Upsert semantics:</strong> re-ingesting a document first deletes its stale chunks (by <code>doc_title</code>) so no orphans survive from a previous strategy.</li>
+    <li><strong>Persistence:</strong> <code>PersistentClient(path="chroma_data")</code> — the index survives restarts; <code>load_collection()</code> raises a clear <em>"Run demo/02_ingest.py first"</em> if empty.</li>
+    <li><strong>Index:</strong> ChromaDB's built-in HNSW (auto-tuned <code>m</code>/<code>ef_construct</code> here) — see the swap-to-Qdrant note at the end for explicit control.</li>
+  </ul>
+
+  <h2>Hybrid retrieval: BM25 + vectors + RRF</h2>
+  <p>
+    One pass over the collection does three ranked lists. BM25 is rebuilt per query from all chunk texts
+    (<code>BM25Okapi</code> over lowercase whitespace tokens — cheap at this corpus size, brutally
+    effective on identifiers). Vector search overfetches <code>top_k × 2</code> candidates. Reciprocal
+    Rank Fusion then merges <em>ranks</em>, never raw scores:
+  </p>
+  <pre><code>rrf_score(d) = Σ  1 / (k + rank_list(d))        # k = 60, ranks 1-indexed
+             = 1/(60 + rank_bm25) + 1/(60 + rank_vector)</code></pre>
+  <figure class="diagram">
+    <svg viewBox="0 0 980 230" width="980" role="img" aria-label="RRF fusion of BM25 and vector rankings">
+      <defs>
+        <marker id="ar4" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="12" font-weight="600" text-anchor="middle">
+        <rect x="15" y="88" width="130" height="52" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="80" y="110" fill="#334155">❓ query</text>
+        <text x="80" y="128" fill="#5b6b7c" font-weight="400" font-size="11">"…connect agent…"</text>
+
+        <rect x="185" y="20" width="240" height="70" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="305" y="44" fill="#92400e">🔤 BM25 ranked list</text>
+        <text x="305" y="62" fill="#5b6b7c" font-weight="400" font-size="11">exact tokens win · full corpus</text>
+        <text x="305" y="80" fill="#5b6b7c" font-weight="400" font-size="11">rank 1: MCPToolset chunk</text>
+
+        <rect x="185" y="140" width="240" height="70" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="305" y="144" fill="#1e3a8a">🧭 Vector ranked list</text>
+        <text x="305" y="162" fill="#5b6b7c" font-weight="400" font-size="11">cosine distance · overfetch ×2</text>
+        <text x="305" y="180" fill="#5b6b7c" font-weight="400" font-size="11">rank 1: connection-params chunk</text>
+
+        <rect x="485" y="60" width="200" height="110" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="585" y="88" fill="#14532d">📊 RRF fusion</text>
+        <text x="585" y="110" fill="#5b6b7c" font-weight="400" font-size="11">Σ 1/(60 + rank)</text>
+        <text x="585" y="130" fill="#5b6b7c" font-weight="400" font-size="11">both lists vote; a chunk</text>
+        <text x="585" y="148" fill="#5b6b7c" font-weight="400" font-size="11">high in either list rises</text>
+
+        <rect x="745" y="60" width="210" height="110" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="850" y="88" fill="#1e3a8a">🏆 top-5 final</text>
+        <text x="850" y="110" fill="#5b6b7c" font-weight="400" font-size="11">each row carries its</text>
+        <text x="850" y="128" fill="#5b6b7c" font-weight="400" font-size="11">bm25_rank + vector_rank</text>
+        <text x="850" y="148" fill="#5b6b7c" font-weight="400" font-size="11">+ preview — shown live</text>
+        <text x="850" y="166" fill="#5b6b7c" font-weight="400" font-size="11">in the Rerank node</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="145" y1="104" x2="183" y2="60" marker-end="url(#ar4)"/>
+        <line x1="145" y1="118" x2="183" y2="172" marker-end="url(#ar4)"/>
+        <line x1="425" y1="55" x2="483" y2="95" marker-end="url(#ar4)"/>
+        <line x1="425" y1="172" x2="483" y2="135" marker-end="url(#ar4)"/>
+        <line x1="685" y1="115" x2="743" y2="115" marker-end="url(#ar4)"/>
+      </g>
+    </svg>
+    <figcaption>Figure 4 — Reciprocal Rank Fusion. No score calibration needed: only ranks matter, and k=60 dampens the influence of any single top rank.</figcaption>
+  </figure>
+  <div class="note">
+    <strong>Why hybrid is the default:</strong> ask <em>"How is authentication configured for the
+    MCPToolset?"</em> and vector search ranks a paraphrased chunk high but may drop the chunk literally
+    containing <code>X-Goog-Api-Key</code>; BM25 does the opposite. RRF's fused list contains the union —
+    the UI's Rerank node prints all three stages (bm25 / vector / fused, with per-chunk rank
+    contributions) so you can see a chunk climb <em>because</em> two lists agreed.
+  </div>
+
+  <h2>Grounded generation & citations</h2>
+  <pre><code># generation/prompt_builder.py — the cage
+system = ("You are a documentation assistant. "
+          "Answer ONLY using the information in the provided document chunks.\n\n"
+          "If the answer is not present in the chunks, respond with:\n"
+          "'I could not find an answer to this question in the provided documentation.'\n\n"
+          "Do not infer, guess, or use external knowledge.\n\n"
+          "For every claim in your answer, cite the source using this format:\n"
+          "[Source: &lt;doc_title&gt;, Section: &lt;section_title&gt;]")
+
+# user message: one labeled block per chunk, then the question
+[Chunk 1 - DOCUMENTATION.md | Step 2: MCP Server Connection]
+&lt;chunk content&gt;
+---
+Question: {query}</code></pre>
+  <p>
+    <code>answer_generator.py</code> calls the OpenAI-compatible chat endpoint (<code>max_tokens=2048</code> —
+    gpt-oss is a reasoning model, thinking tokens count toward the budget; temperature defaults to the
+    provider's, suite runs pin it to 0 for reproducibility) and regex-extracts every
+    <code>[Source: …, Section: …]</code> tag into <code>Answer.citations</code>. The UI's generate node
+    shows answer, citation list, chunks used, and per-step latency.
+  </p>
+
+  <h2>Evaluation: a two-phase harness</h2>
+  <h3>Phase 1 — deterministic, LLM-free</h3>
+  <table>
+    <tr><th>Metric</th><th>Computed</th><th>Direction</th></tr>
+    <tr><td><code>recall_at_k</code></td><td>1.0 if any top-k chunk matches an expected <code>doc_title + section_title</code> (headerless strategies fall back to doc-title match)</td><td>higher</td></tr>
+    <tr><td><code>first_relevant_rank</code></td><td>1-indexed rank of the first matching chunk (shipped baseline: 1.18 — the right section is nearly always rank 1)</td><td>lower</td></tr>
+    <tr><td><code>citation_coverage</code></td><td>fraction of retrieved chunks the answer actually cites via the citation regex</td><td>higher</td></tr>
+    <tr><td><code>must_term_coverage</code></td><td>fraction of significant reference-answer terms (≥4 chars, stopword-filtered, max 12) present in the answer</td><td>higher</td></tr>
+    <tr><td><code>refusal_accuracy</code></td><td>negative cases only: refusal regex (<code>could not find / no relevant / not covered / don't know</code>) fired instead of a hallucination</td><td>higher</td></tr>
+    <tr><td><code>mean / p95_total_ms</code></td><td>retrieve_ms + generate_ms per question, aggregated</td><td>lower</td></tr>
+  </table>
+
+  <h3>The golden set</h3>
+  <p>
+    Generated <em>from your corpus</em>, not written by hand: 2 pairs per section (cap 8 sections), plus
+    multi-hop pairs requiring two sections of the same doc, plus negative cases about plausible-but-absent
+    topics. Then three auto-filters run before anything is saved: <strong>closed-book</strong> (LLM must
+    answer <code>NOT_IN_GENERAL_KNOWLEDGE</code> with no context, else the question tests memory, not
+    retrieval), <strong>grounding</strong> (a judge pass must rate the reference answer
+    <code>SUPPORTED</code> by the source), <strong>dedupe</strong> (local embeddings, drop &gt;0.9 cosine).
+    Survivors go to a review list; <strong>freeze</strong> writes <code>eval/golden_set.jsonl</code> —
+    19 frozen pairs in the shipped set (15 section · 2 multi-hop · 2 negative), generated by
+    <code>gpt-oss:120b</code>.
+  </p>
+
+  <h3>The regression gate</h3>
+  <figure class="diagram">
+    <svg viewBox="0 0 980 200" width="980" role="img" aria-label="Regression gate flow">
+      <defs>
+        <marker id="ar5" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="12" font-weight="600" text-anchor="middle">
+        <rect x="15" y="55" width="180" height="70" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="105" y="80" fill="#1e3a8a">🏃 suite run</text>
+        <text x="105" y="100" fill="#5b6b7c" font-weight="400" font-size="11">19 questions → live pipeline</text>
+
+        <rect x="235" y="55" width="180" height="70" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="325" y="80" fill="#334155">📸 snapshot JSON</text>
+        <text x="325" y="100" fill="#5b6b7c" font-weight="400" font-size="11">config + aggregates + per-question</text>
+
+        <rect x="455" y="55" width="180" height="70" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="545" y="80" fill="#92400e">⚖️ gate diff</text>
+        <text x="545" y="100" fill="#5b6b7c" font-weight="400" font-size="11">vs eval/BASELINE.json</text>
+
+        <rect x="675" y="20" width="120" height="44" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="735" y="47" fill="#14532d">🟢 PASS</text>
+        <rect x="675" y="68" width="120" height="44" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="735" y="95" fill="#92400e">🟡 WARN</text>
+        <rect x="675" y="120" width="120" height="44" rx="12" fill="#fdeaea" stroke="#dc2626" stroke-width="2"/>
+        <text x="735" y="147" fill="#dc2626">🔴 FAIL</text>
+
+        <rect x="835" y="55" width="130" height="70" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="900" y="80" fill="#334155">exit code</text>
+        <text x="900" y="100" fill="#5b6b7c" font-weight="400" font-size="11">FAIL → CI non-zero</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="195" y1="90" x2="233" y2="90" marker-end="url(#ar5)"/>
+        <line x1="415" y1="90" x2="453" y2="90" marker-end="url(#ar5)"/>
+        <line x1="635" y1="70" x2="673" y2="47" marker-end="url(#ar5)"/>
+        <line x1="635" y1="90" x2="673" y2="90" marker-end="url(#ar5)"/>
+        <line x1="635" y1="110" x2="673" y2="137" marker-end="url(#ar5)"/>
+        <line x1="795" y1="90" x2="833" y2="90" marker-end="url(#ar5)"/>
+      </g>
+      <g>
+        <text x="490" y="188" text-anchor="middle" fill="#5b6b7c" font-size="11">quality: drop ≤0.05 pass · ≤0.15 warn · &gt;0.15 fail · latency: +25% warn · +60% fail (Ragas rows are informational only)</text>
+      </g>
+    </svg>
+    <figcaption>Figure 5 — Gate flow. Any snapshot can also be diffed against any other snapshot (<code>python -m eval.gate &lt;id&gt; --against &lt;other-id&gt;</code>), not just the baseline.</figcaption>
+  </figure>
+  <p>
+    The shipped baseline (<code>snapshot 438b82f3</code>, corpus = 46 embedding-semantic chunks, hybrid,
+    top-5): <strong>recall_at_k 1.0</strong>, recall_section 1.0, recall_multihop 1.0,
+    first_relevant_rank 1.18, must_term_coverage 0.67, refusal_accuracy 0.5, mean 2.2 s / p95 3.2 s per
+    question — 30 snapshots of history sit alongside it in <code>eval/snapshots/</code>.
+  </p>
+
+  <h3>Phase 2 — Ragas (optional, off by default)</h3>
+  <p>
+    Opt-in LLM judging adds <strong>faithfulness</strong>, <strong>context_precision</strong> and
+    <strong>context_recall</strong> (judge model, default <code>glm-5.3-flash</code> on Ollama Cloud —
+    fast and non-reasoning) and <strong>answer_relevancy</strong> (embedding-based, local
+    <code>nomic-embed-text</code>). Hardened for Ollama quirks: sequential workers on Windows, per-metric
+    fallback (one bad judge row yields null, never kills the suite), <code>/v1</code> must be in the base
+    URL because LangChain's <code>ChatOpenAI</code> posts verbatim. Ragas rows land in the snapshot and
+    the diff table — but <em>never</em> move the gate verdict, by design.
+  </p>
+
+  <h2>The HTTP API</h2>
+  <table>
+    <tr><th>Endpoint</th><th>Purpose</th></tr>
+    <tr><td><code>GET /api/config</code> · <code>POST /api/config</code> · <code>POST /api/config/reset</code></td><td>Parameter metadata + current values (persisted to <code>ui_config.json</code>)</td></tr>
+    <tr><td><code>GET /api/browse?path=</code> · <code>GET /api/docs</code></td><td>Server-side file browser; default <code>docs/</code> listing</td></tr>
+    <tr><td><code>GET /api/collection/status</code> · <code>DELETE /api/collection</code></td><td>Chunk count + doc ids; clear the store</td></tr>
+    <tr><td><code>POST /api/ingest/start</code> → <code>/api/ingest/step</code></td><td>Drive the 4 ingestion steps one at a time</td></tr>
+    <tr><td><code>POST /api/query/start</code> → <code>/api/query/step</code></td><td>Drive the 5 query steps one at a time</td></tr>
+    <tr><td><code>POST /api/suite/start</code> → <code>/api/suite/step</code></td><td>Run the golden suite (single or A/B over all three strategies), with live progress + cancel</td></tr>
+    <tr><td><code>GET /api/eval/snapshots</code> · <code>/api/eval/snapshot/{id}</code> · <code>DELETE …</code></td><td>Snapshot summaries, full per-question rows, delete</td></tr>
+    <tr><td><code>POST /api/eval/baseline</code> · <code>GET /api/eval/diff?id=…</code></td><td>Pin a snapshot as baseline; gate diff vs baseline (or <code>?against=</code>)</td></tr>
+    <tr><td><code>POST /api/runs/reset</code></td><td>Drop a run's in-memory state</td></tr>
+  </table>
+
+  <h2>Run it</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🖥️ Visualizer (recommended)</h3>
+      <pre><code>pip install -r requirements.txt
+# .env:  OLLAMA_API_KEY=&lt;your ollama key&gt;
+python -m uvicorn ui.server:app --port 8000
+# open http://localhost:8000
+# keep local Ollama running for embeddings
+# (nomic-embed-text)</code></pre>
+      <p style="font-size:.9rem;color:var(--muted)">Every step is clickable and inspectable; configs persist across restarts.</p>
+    </div>
+    <div class="card">
+      <h3>⌨️ CLI demo sequence</h3>
+      <pre><code>python demo/02_ingest_char.py        # bad chunks in
+python demo/03_query.py "…?"        # poor answer
+# wipe chroma_data/ …
+python demo/02_ingest.py            # good chunks in
+python demo/03_query.py "…?"        # cited answer
+python demo/01_chunking_comparison.py  # stats only</code></pre>
+      <p style="font-size:.9rem;color:var(--muted)">Or the graph directly: <code>from pipeline.graph import run_query</code>. Gate from CLI: <code>python -m eval.gate &lt;snapshot_id&gt;</code>.</p>
+    </div>
+  </div>
+
+  <h2>Design decisions & trade-offs</h2>
+  <ul>
+    <li><strong>BM25 rebuilt per query over the full corpus</strong> — trivially correct and fast at this scale (tens of chunks); a real deployment would move to an indexed keyword engine. The trade is deliberate: one file, zero infra.</li>
+    <li><strong>RRF over raw score blending</strong> — BM25 scores and cosine distances aren't comparable; ranks are. Fusion needs no calibration, which is why <code>rrf_k=60</code> is the only knob.</li>
+    <li><strong>Deterministic gate first, LLM judge second</strong> — Phase 1 runs in seconds, costs nothing, and is reproducible; the expensive judge rides along optionally and can't flip a verdict.</li>
+    <li><strong>Error strings over exceptions inside nodes</strong> — a failed retrieval ends the graph with one readable message instead of a stack trace through LangGraph internals; the UI surfaces it on the failing node.</li>
+    <li><strong>Models as config, not code</strong> — chat (<code>gpt-oss:120b</code> @ ollama.com/v1) and embeddings (<code>nomic-embed-text</code> @ localhost:11434/v1) are both plain OpenAI-compatible HTTP; swapping either is a one-line env change.</li>
+    <li><strong>HNSW auto-tuned (ChromaDB) today, tunable (Qdrant) tomorrow</strong> — production would pin <code>m</code>/<code>ef_construct</code> explicitly; the <code>store.py</code> interface makes that a drop-in swap with zero changes to nodes, graph or demos.</li>
+  </ul>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 3 — GLOSSARY                                                     -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-glossary">
+
+  <h2>Glossary</h2>
+
+  <h3>Core RAG & Chunking</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>RAG</td><td>Retrieval-Augmented Generation</td><td>Retrieve relevant passages from your own data, inject them into the prompt, generate only from them</td><td>The whole pipeline; <code>pipeline/graph.py</code></td></tr>
+    <tr><td>Chunking</td><td>—</td><td>Splitting documents into retrievable pieces; the granularity of every downstream match</td><td><code>chunking/</code> (three splitters + comparator)</td></tr>
+    <tr><td>Structural chunking</td><td>—</td><td>Splitting at <code>##</code> headers, with <code>###</code> sub-splitting for sections over 400 words (the "hybrid gate")</td><td><code>chunking/semantic_splitter.py</code></td></tr>
+    <tr><td>Character splitting</td><td>—</td><td>Fixed-interval splitting (500 chars, 50 overlap) that ignores meaning — the broken baseline</td><td><code>chunking/character_splitter.py</code></td></tr>
+    <tr><td>Embedding-semantic chunking</td><td>—</td><td>Grouping sentence windows by cosine-similarity percentile when no headers exist</td><td><code>chunking/embedding_splitter.py</code></td></tr>
+    <tr><td>Overlap</td><td>—</td><td>Repeating characters between adjacent windows so cut sentences appear whole in at least one chunk</td><td><code>CHAR_CHUNK_OVERLAP=50</code></td></tr>
+  </table>
+
+  <h3>Embeddings & Vector Store</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Embedding</td><td>—</td><td>A fixed-size vector capturing text meaning; similar texts → nearby vectors</td><td><code>vectorstore/embedder.py</code>, nomic-embed-text (768-d)</td></tr>
+    <tr><td>Vector database</td><td>—</td><td>A store indexing vectors for nearest-neighbour search, with text and metadata alongside</td><td>ChromaDB <code>PersistentClient</code> in <code>vectorstore/store.py</code></td></tr>
+    <tr><td>HNSW</td><td>Hierarchical Navigable Small World</td><td>Approximate-nearest-neighbour graph index — fast recall with a small accuracy cost</td><td>ChromaDB's built-in index; auto-tuned here, tunable in Qdrant</td></tr>
+    <tr><td>Cosine similarity</td><td>—</td><td>Angle between two vectors (1 = same direction); how "distance" is judged here</td><td>Vector retrieval stage; <code>semantic_search.py</code></td></tr>
+    <tr><td>Upsert</td><td>Update-or-insert</td><td>Write by id, overwriting any previous row with that id</td><td><code>store.upsert_chunks()</code>, ids are <code>doc_title_N</code></td></tr>
+    <tr><td>Metadata</td><td>—</td><td>Per-chunk labels (doc, section, index, strategy) stored beside the vector — what makes citations possible</td><td>Every <code>Chunk.metadata</code> dict</td></tr>
+  </table>
+
+  <h3>Retrieval & Ranking</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>BM25</td><td>Best Match 25</td><td>Classic keyword ranking: term frequency, inverse document frequency, length normalization</td><td><code>rank_bm25.BM25Okapi</code> in <code>hybrid_search.py</code></td></tr>
+    <tr><td>Hybrid search</td><td>—</td><td>Running keyword and vector search in parallel and merging their results</td><td>Default retriever in the Inference tab</td></tr>
+    <tr><td>RRF</td><td>Reciprocal Rank Fusion</td><td>Merge by rank: score = Σ 1/(k + rank); k=60 smooths a single lucky top rank</td><td><code>rrf_k=60</code>, <code>hybrid_search.search_with_trace()</code></td></tr>
+    <tr><td>Overfetch</td><td>—</td><td>Fetching more vector candidates than needed (top_k × 2) so fusion has material to work with</td><td><code>overfetch_factor=2</code></td></tr>
+    <tr><td>top-k</td><td>—</td><td>Number of chunks kept after ranking (5) — the prompt's context budget</td><td><code>TOP_K</code> in <code>config/settings.py</code></td></tr>
+    <tr><td>Ranking trace</td><td>—</td><td>The per-stage list (bm25 / vector / fused) with scores and rank contributions</td><td>Rerank node detail panel</td></tr>
+  </table>
+
+  <h3>Generation & Grounding</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Grounding</td><td>—</td><td>Constraining the answer to the retrieved context only</td><td>Default system prompt in <code>prompt_builder.py</code></td></tr>
+    <tr><td>Hallucination</td><td>—</td><td>Confident invention of facts absent from the context — what the refusal line exists to prevent</td><td>Measured by <code>refusal_accuracy</code> on negative cases</td></tr>
+    <tr><td>Citation</td><td>—</td><td>Inline provenance marker: <code>[Source: doc, Section: …]</code>, regex-extracted per answer</td><td><code>answer_generator.py</code> → <code>Answer.citations</code></td></tr>
+    <tr><td>System prompt</td><td>—</td><td>The standing instruction defining behaviour, refusal sentence and citation format</td><td>Editable in the Augment node / <code>ui_config.json</code></td></tr>
+    <tr><td>Temperature</td><td>—</td><td>Randomness of sampling; suite runs pin 0.0 for reproducibility</td><td><code>answer_generator.generate()</code></td></tr>
+    <tr><td>Max tokens</td><td>—</td><td>Response budget (2048); gpt-oss spends thinking tokens from the same budget</td><td><code>max_tokens</code> in the Generate step config</td></tr>
+  </table>
+
+  <h3>LangGraph & Pipeline</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>LangGraph</td><td>—</td><td>Graph orchestration for LLM workflows: nodes, edges, shared state, conditional routing</td><td><code>pipeline/graph.py</code> (<code>StateGraph</code>)</td></tr>
+    <tr><td>Node</td><td>—</td><td>A pure function <code>state → partial state</code> — no globals, no side effects</td><td><code>retrieve_node</code>, <code>build_prompt_node</code>, <code>generate_node</code></td></tr>
+    <tr><td>State</td><td>—</td><td>The shared <code>RAGState</code> TypedDict flowing through the graph: query → chunks → prompt → answer → error</td><td><code>pipeline/state.py</code></td></tr>
+    <tr><td>Conditional edge</td><td>—</td><td>A routing function choosing the next node — here, END on retrieval error</td><td><code>_route_after_retrieve()</code></td></tr>
+    <tr><td>TypedDict</td><td>Typed Dictionary</td><td>Dict with declared keys/types — the state schema LangGraph validates against</td><td><code>typing_extensions.TypedDict</code></td></tr>
+  </table>
+
+  <h3>Evaluation</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Golden set</td><td>—</td><td>Frozen question/reference pairs with expected sections; the yardstick every suite run measures against</td><td><code>eval/golden_set.jsonl</code> (19 pairs)</td></tr>
+    <tr><td>Recall@k</td><td>—</td><td>Did any of the top-k chunks hit an expected section? (baseline: 1.0)</td><td><code>eval/metrics.py</code></td></tr>
+    <tr><td>Must-term coverage</td><td>—</td><td>Share of significant reference-answer words present in the generated answer</td><td>Stopword-filtered, max 12 terms</td></tr>
+    <tr><td>Negative case</td><td>—</td><td>A question about an absent topic whose only correct answer is the refusal sentence</td><td>2 negative pairs in the golden set</td></tr>
+    <tr><td>Regression gate</td><td>—</td><td>🟢/🟡/🔴 diff of a snapshot vs baseline: drop ≤0.05 pass, ≤0.15 warn, &gt;0.15 fail</td><td><code>eval/gate.py</code>, <code>BASELINE.json</code></td></tr>
+    <tr><td>Snapshot</td><td>—</td><td>Immutable JSON record of one suite run: config, aggregates, per-question rows, latency</td><td><code>eval/snapshots/*.json</code> (30 files)</td></tr>
+    <tr><td>Closed-book check</td><td>—</td><td>Rejects generated questions the LLM can answer without context — they don't test retrieval</td><td><code>eval/golden_generator.py</code> filter</td></tr>
+    <tr><td>Grounding check</td><td>—</td><td>Judge pass verifying the reference answer is entailed by the source text</td><td>SUPPORTED / UNSUPPORTED filter</td></tr>
+    <tr><td>Ragas</td><td>—</td><td>LLM-judged RAG metrics (faithfulness, context precision/recall, answer relevancy) — informational only here</td><td><code>eval/ragas_eval.py</code>, Phase 2, off by default</td></tr>
+  </table>
+
+  <h3>Models & Serving</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Ollama</td><td>—</td><td>Local model runtime (<code>localhost:11434</code>) and its cloud service (<code>ollama.com</code>)</td><td>Embeddings local, chat on Ollama Cloud</td></tr>
+    <tr><td>OpenAI-compatible API</td><td>—</td><td>The <code>/v1/chat/completions</code> + <code>/v1/embeddings</code> HTTP contract any provider can serve</td><td>Both endpoints here speak it; <code>openai</code> client throughout</td></tr>
+    <tr><td>gpt-oss:120b</td><td>—</td><td>Open-weights reasoning LLM serving as the chat/answer generator via Ollama Cloud</td><td><code>OLLAMA_CHAT_MODEL</code></td></tr>
+    <tr><td>nomic-embed-text</td><td>—</td><td>768-dimension embedding model served by local Ollama</td><td><code>OLLAMA_EMBED_MODEL</code></td></tr>
+    <tr><td>Judge model</td><td>—</td><td>The LLM that scores answers in Phase 2 (default glm-5.3-flash — fast, non-reasoning)</td><td><code>ragas_eval.DEFAULT_JUDGE_MODEL</code></td></tr>
+    <tr><td>Corpus</td><td>—</td><td>The set of chunks currently in the collection — golden sets are only valid against the corpus they were frozen on</td><td>Reported as <code>corpus_strategy</code> in every snapshot</td></tr>
+  </table>
+
+</section>
+
+</main>
+
+<footer>
+  RAG Documentation Assistant · Python · LangGraph · ChromaDB · Ollama Cloud + local Ollama · docs updated 2026-09-17
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    document.getElementById('tab-btn-' + name).classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+</script>
+
+</body>
+</html>
