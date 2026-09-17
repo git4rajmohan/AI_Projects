@@ -4,7 +4,7 @@
 
 **Design principle:** *AI reads, code decides, humans own risk.*
 
-## 🎯 What This Project Demonstrates
+## What This Project Demonstrates
 
 - Document intelligence (OCR + structured extraction)
 - Per-field confidence scoring
@@ -12,14 +12,11 @@
 - Human-in-the-loop review
 - Audit trail
 
-## 🧠 AI / Technical Focus
+## Why This Project Exists
 
-- PyMuPDF text extraction with Tesseract OCR fallback
-- LLM structured JSON extraction (OpenAI-compatible client for Ollama)
-- Per-field confidence scoring feeding validation rules
-- Pydantic v2 schema enforcement
+Demonstrates a production-style document AI workflow where the LLM reads and extracts, but deterministic validation and policy rules make the financial decisions — with humans owning the risk through review gates.
 
-## 🏗️ Architecture
+## Architecture
 
 ```text
 Invoice PDF / Image
@@ -41,11 +38,11 @@ Human Review when Required
 Audit Trail
 ```
 
-## 🔄 Workflow
+## Workflow
 
 *To be verified from code.*
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Area | Technology |
 |---|---|
@@ -56,41 +53,37 @@ Audit Trail
 | Validation | Pydantic v2 |
 | Testing | pytest |
 
-*To be verified against requirements files during Phase 3.*
+*To be verified against the project's requirements files.*
 
-## ⭐ Key AI Engineering Concepts
+## Demo
+
+*Screenshots/demo assets to be added when project code is copied into this repository.*
+
+## How to Run
+
+*To be verified from the project's actual installation and execution instructions.*
+
+## Key AI Engineering Concepts
 
 - Document AI with confidence scoring
 - Deterministic financial/business validation
 - Human-in-the-loop approval
 - Audit trail
 
-## 🛡️ Safety / Reliability
+## Safety / Reliability
 
 - Deterministic validation + policy rules
 - Human review when required
 - Sample accuracy/review-time numbers, if present, are **sample/project evaluation results**, not general production performance claims.
 
-## 🧪 Testing / Evaluation
+## Testing / Evaluation
 
 *To be verified — pytest suite to be documented from code.*
 
-## 🚀 How to Run
-
-*To be verified from the project's actual instructions.*
-
-## 📁 Project Structure
-
-*To be verified after code is copied in.*
-
-## 💡 Engineering Notes
-
-*To be verified.*
-
-## 🔍 How This Project Differs
+## How This Project Differs
 
 Document AI combined with deterministic financial/business validation and approval policy.
 
-## 🤖 AI-Assisted Development
+## AI-Assisted Development
 
 This project was developed using AI-assisted coding workflows. Architecture, implementation decisions, testing, debugging and validation were reviewed and refined during development.

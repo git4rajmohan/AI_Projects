@@ -10,6 +10,10 @@ The core idea: the LLM is the **brain**, the MCP tool servers are the **hands**.
 `user → agent → tool call → tool result → agent → answer`, and the agent loop can chain up to 20 tool rounds
 to accomplish multi-step work ("read this workbook, chart it, and explain the trend").
 
+## Why This Project Exists
+
+Demonstrates how an AI agent can discover and orchestrate external tools through the Model Context Protocol — a controlled, retry-capable tool-calling layer between the LLM and 14 real tool servers.
+
 ---
 
 ## ✨ What It Does
