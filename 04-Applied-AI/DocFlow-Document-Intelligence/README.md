@@ -109,17 +109,38 @@ tested with **zero LLM dependency**; flip one env var for live Ollama.
 
 ## Demo
 
-Screenshots from a real run of the shipped app (FastAPI + Streamlit reviewer):
+Screenshots from a real run of the shipped app (FastAPI + Streamlit reviewer). The sidebar sets the
+API address and the reviewer's name — the name gates the action buttons, because *who approved
+what* is part of the audit record.
 
-| | |
-|---|---|
-| ![Reviewer landing: exception inbox + sidebar](docs/screenshots/ui_allinvoices.png) | ![Quantity mismatch review with per-line evidence](docs/screenshots/ui_review_mismatch.png) |
-| ![Missing-PO exception with workflow strips](docs/screenshots/ui_review_missing_po.png) | |
+**All Invoices** — every scenario's final status at a glance: approved (d1, d4, d10), rejected
+(d2, d8), auto-approved (d9 — never entered the inbox), info-requested (d5), finance-parked (d7):
+
+![All Invoices page with per-invoice statuses](docs/screenshots/ui_allinvoices.png)
+
+**Decision banner + workflow strips** — invoice d2 (billed 150, PO says 100) shows the fired rule,
+the reasons list, and two strips rendered from the audit events: 🤖 robot steps all green, 🧍
+human loop ending at **rejected**:
+
+![Quantity-mismatch decision banner with workflow strips](docs/screenshots/ui_review_banner.png)
+
+**Evidence-first review** — the reviewer never reads a raw PDF and guesses: document and extracted
+fields on one side, all 9 validation checks and the match report on the other:
+
+![Evidence panel: document, extracted fields, validation checks](docs/screenshots/ui_review_evidence.png)
+
+**Invoice vs PO — per line** — the exact mismatch, side by side: Product A 🚨 150 vs 100, Product
+B ✅ 150 vs 150:
+
+![Per-line invoice vs PO comparison table](docs/screenshots/ui_review_mismatch_table.png)
+
+**Human loop on the missing-PO exception (d5)** — the strip parks at *info_requested* until the
+real PO number arrives:
+
+![Missing-PO exception parked at info_requested](docs/screenshots/ui_review_missing_po_banner.png)
 
 - **Exception inbox** lists only invoices waiting on a human — safe small invoices never appear
-- **Evidence-first review page**: original document next to extracted fields, all 9 validation
-  checks, the invoice-vs-PO per-line table (✅ mapped / 🚨 mismatched / ❓ unmapped), the fired
-  rule, and two workflow strips (🤖 agent steps / 🧍 human steps) rendered from audit events
+- **Audit timeline** expander: one timestamped event per stage, replayable months later
 
 **Full guide:** [`userguide.html`](./userguide.html) — 4-tab walkthrough (pitch, non-technical,
 technical, glossary). **Scenario walkthroughs:** [`demo_script.md`](./demo_script.md);
