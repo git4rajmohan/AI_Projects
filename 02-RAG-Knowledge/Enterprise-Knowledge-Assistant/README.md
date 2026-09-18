@@ -14,6 +14,11 @@ Languages: **English** | [日本語](README.ja.md)
 ![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-30_automated-4ade80)
 
+
+## Demo Video
+
+[![Enterprise Knowledge Assistant Demo](https://img.youtube.com/vi/xhG9u-uPp8Y/0.jpg)](https://youtu.be/xhG9u-uPp8Y)
+
 ## Why This Project Exists
 
 Demonstrates hybrid vector + lexical + graph retrieval where grounding isn't a prompt instruction — it's a mechanical gate: a hallucinated answer is impossible by construction, not by hoping the prompt behaves.
