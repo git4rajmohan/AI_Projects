@@ -6,6 +6,11 @@ Languages: **English** | [日本語](README.ja.md)
 
 **Production-grade AI ticket triage with a live pipeline visualizer — safety rails (PII redaction, prompt-injection guard, validation, fallback) wrapped around an LLM classifier, with every node's output inspectable in the UI.**
 
+
+## Demo Video
+
+[![Safe Support Ticket Demo](https://img.youtube.com/vi/KqG39BdxUxc/0.jpg)](https://youtu.be/KqG39BdxUxc)
+
 ## Why This Project Exists
 
 Demonstrates security controls embedded inside a practical AI business workflow — PII redaction before the model sees data, and a dedicated judge LLM vetoing injection attempts — rather than safety as an isolated demo.
