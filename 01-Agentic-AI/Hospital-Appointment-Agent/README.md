@@ -27,11 +27,10 @@ Demonstrates how an LLM can extract structured intent from free-form natural lan
 | **Booking History** | **SMS Sent History** |
 | ![Booking History](docs/screenshots/03-bookings.png) | ![SMS History](docs/screenshots/04-sms-history.png) |
 
-
-
 ## Demo Video
 
 [![Hospital Appointment Scheduler Demo](https://img.youtube.com/vi/sgDtnwn00KU/0.jpg)](https://youtu.be/sgDtnwn00KU)
+
 ## Features
 
 ### Conversational Chat Bot
