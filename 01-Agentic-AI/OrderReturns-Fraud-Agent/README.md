@@ -17,6 +17,11 @@ return-reason classifier, and SQLite-checkpointed **human-in-the-loop**
 manager approval gates for high-value refunds (`interrupt()`-based, per
 `INSTRUCTIONS.md`).
 
+
+## Demo Video
+
+[![Order Returns & Fraud Agent Demo](https://img.youtube.com/vi/X6S-7u6hg2s/0.jpg)](https://youtu.be/X6S-7u6hg2s)
+
 ## Why This Project Exists
 
 Demonstrates a stateful business-process agent where AI interprets the request but deterministic code makes the policy and refund decisions — with human approval gates and checkpointing for high-risk cases.
@@ -268,3 +273,4 @@ equivalence).
 
 Customers: `CUST-A` has 3 returns in the trailing 30 days (velocity fraud flag),
 `CUST-B`/`CUST-C`/`CUST-D` do not trigger it.
+
