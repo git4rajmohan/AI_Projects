@@ -12,6 +12,7 @@ Languages: **English** | [日本語](README.ja.md)
 ## Demo Video
 
 [![AI Guardrails Demo](https://img.youtube.com/vi/0UmvF_G9XSY/0.jpg)](https://youtu.be/0UmvF_G9XSY)
+[![AI Guardrails Demo 2](https://img.youtube.com/vi/G3HVkxtRBPo/0.jpg)](https://youtu.be/G3HVkxtRBPo)
 
 ## Why This Project Exists
 
