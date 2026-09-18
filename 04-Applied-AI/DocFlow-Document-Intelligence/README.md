@@ -11,6 +11,11 @@ invoices reach a human reviewer, with the full evidence side-by-side.
 
 > FastAPI · Streamlit · SQLite · PyMuPDF · Tesseract OCR · Ollama (live or mock) · pytest
 
+
+## Demo Video
+
+[![DocFlow Document Intelligence Demo](https://img.youtube.com/vi/C2iYbkT2brU/0.jpg)](https://youtu.be/C2iYbkT2brU)
+
 ## What This Project Demonstrates
 
 - **Document intelligence** — PDF text-layer extraction (PyMuPDF) with a Tesseract OCR fallback
