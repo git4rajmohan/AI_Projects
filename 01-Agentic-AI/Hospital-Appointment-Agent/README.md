@@ -27,10 +27,6 @@ Demonstrates how an LLM can extract structured intent from free-form natural lan
 | **Booking History** | **SMS Sent History** |
 | ![Booking History](docs/screenshots/03-bookings.png) | ![SMS History](docs/screenshots/04-sms-history.png) |
 
-## Demo Video
-
-[![Hospital Appointment Scheduler Demo](https://img.youtube.com/vi/sgDtnwn00KU/0.jpg)](https://youtu.be/sgDtnwn00KU)
-
 ## Features
 
 ### Conversational Chat Bot
@@ -256,4 +252,5 @@ To change the model, edit `OLLAMA_MODEL` in `.env`.
 - **No LangGraph / no vector retrievers**  Estrictly linear LCEL pipeline per spec.
 - **Mock services**  ECalendar and SMS are mock by default. Set real Twilio creds in `.env` to enable actual SMS.
 - **Proxy required**  EThe Ollama Cloud proxy must be running before the app can make LLM calls.
+
 
