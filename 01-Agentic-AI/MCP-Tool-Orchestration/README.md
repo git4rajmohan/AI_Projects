@@ -11,15 +11,15 @@ Languages: **English** | [日本語](README.ja.md)
 [![MCP Tool Orchestration Demo](https://img.youtube.com/vi/lk8tUGTuk-E/0.jpg)](https://youtu.be/lk8tUGTuk-E)
 [![MCP Tool Orchestration Demo 2](https://img.youtube.com/vi/AIMl9B_d6Yg/0.jpg)](https://youtu.be/AIMl9B_d6Yg)
 
-## Why This Project Exists
-
 <div align="center">
   <img src="docs/architecture.png" alt="Agentic AI MCP Tool Orchestration — architecture" width="820">
 </div>
 
 The core idea: the LLM is the **brain**, the MCP tool servers are the **hands**. A single chat turn flows
-`user → agent → tool call → tool result → agent → answer`, and the agent loop can chain up to 20 tool rounds
+user → agent → tool call → tool result → agent → answer, and the agent loop can chain up to 20 tool rounds
 to accomplish multi-step work ("read this workbook, chart it, and explain the trend").
+
+## Why This Project Exists
 
 
 Demonstrates how an AI agent can discover and orchestrate external tools through the Model Context Protocol — a controlled, retry-capable tool-calling layer between the LLM and 14 real tool servers.
