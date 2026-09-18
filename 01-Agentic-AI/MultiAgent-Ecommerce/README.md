@@ -6,6 +6,11 @@ Languages: **English** | [日本語](README.ja.md)
 
 A multi-agent e-commerce assistant built on **Google ADK (Agent Development Kit)**: a root orchestrator agent collaborates with three specialist agents (catalog → checkout → order summary) to take a shopper from *"I want a new phone"* to a complete, Amazon-style order summary — with all workflow data flowing through **shared session state**.
 
+
+## Demo Video
+
+[![Multi-Agent E-Commerce Demo](https://img.youtube.com/vi/3BAo1_u-L9k/0.jpg)](https://youtu.be/3BAo1_u-L9k)
+
 ## Why This Project Exists
 
 Demonstrates a fixed hierarchical multi-agent architecture with specialized domain agents and handoffs — the orchestrator delegates, specialists execute — as a contrast to dynamically generated agent workflows.
