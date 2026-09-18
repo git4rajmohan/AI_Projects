@@ -12,6 +12,12 @@ Languages: **English** | [日本語](README.ja.md)
 
 A **Streamlit evaluation workbench** for RAG systems, built on the [RAGAS](https://docs.ragas.io/) library. Point it at any RAG endpoint and any OpenAI-compatible judge LLM, step through a two-phase workflow (query the RAG → review the retrieved context → judge the quality), and get LLM-judged scores with pass/fail thresholds, per-metric reasoning, and saved run history — **no embedding models required**.
 
+
+## Demo Video
+
+[![RAG Evaluation Harness Demo](https://img.youtube.com/vi/CWLI7SwQfIQ/0.jpg)](https://youtu.be/CWLI7SwQfIQ)
+[![RAG Evaluation Harness Demo 2](https://img.youtube.com/vi/FvUk3OKzRgU/0.jpg)](https://youtu.be/FvUk3OKzRgU)
+
 ## Why This Project Exists
 
 Demonstrates how RAG systems can be evaluated systematically — LLM-as-a-judge metrics, thresholds and run history — rather than relying only on subjective inspection of responses.
