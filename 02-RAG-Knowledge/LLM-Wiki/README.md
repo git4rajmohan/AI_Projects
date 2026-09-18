@@ -13,6 +13,11 @@ Languages: **English** | [日本語](README.ja.md)
 ![LLM](https://img.shields.io/badge/LLM-8_providers_%2B_local_GGUF-8B5CF6)
 ![Storage](https://img.shields.io/badge/Storage-Plain_Markdown-16a34a)
 
+
+## Demo Video
+
+[![LLM Wiki Demo](https://img.youtube.com/vi/dayj8CjGDhM/0.jpg)](https://youtu.be/dayj8CjGDhM)
+
 ## Why This Project Exists
 
 Demonstrates that LLM output can become a persistent, navigable knowledge base — Git-friendly Markdown with wiki links and graph visualization — instead of answers that disappear when the chat ends. The wiki-building intelligence isn't in the app: it's in the contract (`AGENTS.md` schema + a strict `===FILE:===` output format + post-processing guards), so the same pipeline runs from a 2 GB local GGUF model to a frontier cloud model.
