@@ -11,6 +11,11 @@ script, and speaks it into an MP3 — with every tool call streamed live into th
 > Google ADK · Ollama Cloud (`gpt-oss:120b` via an embedded OpenAI→Ollama proxy) · FastAPI ·
 > ddgs · yfinance · edge-tts · faster-whisper
 
+
+## Demo Video
+
+[![Research Voice Agent Demo](https://img.youtube.com/vi/5eGyakxnZzg/0.jpg)](https://youtu.be/5eGyakxnZzg)
+
 ## What This Project Demonstrates
 
 - **Multi-agent orchestration on Google ADK** — a producer agent (research/tools) delegating to a
