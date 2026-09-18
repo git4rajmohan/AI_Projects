@@ -13,6 +13,11 @@ Languages: **English** | [日本語](README.ja.md)
 ![Ollama](https://img.shields.io/badge/LLM-Ollama%20Cloud%20gpt--oss%3A120b-white?logo=ollama)
 ![BM25](https://img.shields.io/badge/Retrieval-BM25%20%2B%20Vectors%20%2B%20RRF-orange)
 
+
+## Demo Video
+
+[![Production RAG Demo](https://img.youtube.com/vi/nK-iQ_vPdX0/0.jpg)](https://youtu.be/nK-iQ_vPdX0)
+
 ## Why This Project Exists
 
 Demonstrates retrieval engineering as a discipline rather than a chat UI: honest hybrid retrieval, answers generated only from retrieved context with per-claim citations, designed refusal behavior — and a frozen golden set + regression gate so quality changes are measured, not felt.
