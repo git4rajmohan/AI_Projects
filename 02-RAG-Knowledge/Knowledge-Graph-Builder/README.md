@@ -5,6 +5,11 @@ Languages: **English** | [日本語](README.ja.md)
 # 🔗 Knowledge Graph Builder
 
 > Turn spreadsheets and text documents into an interactive, queryable knowledge graph  Epowered by AI agents, Neo4j, and Google ADK.
+
+## Demo Video
+
+[![Knowledge Graph Builder Demo](https://img.youtube.com/vi/sLEjyoeSjuU/0.jpg)](https://youtu.be/sLEjyoeSjuU)
+
 ## Why This Project Exists
 
 Demonstrates graph-native knowledge representation: AI agents refine the schema (propose ↁEcritique ↁEvalidate) while deterministic code generates the Cypher, so the LLM never writes raw graph queries.
