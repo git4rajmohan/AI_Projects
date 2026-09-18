@@ -8,6 +8,11 @@ Languages: **English** | [日本語](README.ja.md)
 
 **An interactive Streamlit playground that teaches NeMo Guardrails — 7 progressive experiments that layer safety rails onto a raw LLM, from zero protection to a production-grade guarded assistant.**
 
+
+## Demo Video
+
+[![AI Guardrails Demo](https://img.youtube.com/vi/0UmvF_G9XSY/0.jpg)](https://youtu.be/0UmvF_G9XSY)
+
 ## Why This Project Exists
 
 Demonstrates AI safety as a dedicated discipline — jailbreak defense, injection detection, topic control and output sanitization layered progressively onto a raw LLM, with each rail observable in isolation.
