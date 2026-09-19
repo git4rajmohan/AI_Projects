@@ -4,9 +4,14 @@
 
 <div align="center">
 
-# 🛡️ AI Guardrails Demo
+# 🛡️ AI ガードレール デモ
 
 **NeMo Guardrails を学べるインタラクティブな Streamlit プレイグラウンド — 生の LLM に安全レールを段階的に重ねていく 7 つの実験で、保護ゼロの状態から実運用レベルのガード付きアシスタントまでを体験できます。**
+
+## デモ動画
+
+[![AI Guardrails Demo](https://img.youtube.com/vi/0UmvF_G9XSY/0.jpg)](https://youtu.be/0UmvF_G9XSY)
+[![AI Guardrails Demo 2](https://img.youtube.com/vi/G3HVkxtRBPo/0.jpg)](https://youtu.be/G3HVkxtRBPo)
 
 ## なぜこのプロジェクトが存在するのか
 
