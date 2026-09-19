@@ -54,34 +54,32 @@
 
 ## 🤖 マルチエージェント ワークフロー
 
-```mermaid
 sequenceDiagram
     participant P as run_agent_pipeline()
-    participant C as Agent 1 · Schema Creator
-    participant V as Agent 2 · Schema Reviewer
-    participant M as Agent 3 · Mindmap Creator
+    participant C as エージェント 1 · スキーマ作成 (Schema Creator)
+    participant V as エージェント 2 · スキーマレビュー (Schema Reviewer)
+    participant M as エージェント 3 · マインドマップ作成 (Mindmap Creator)
     participant O as Ollama LLM
 
-    P->>C: source text
-    C->>O: create schema (JSON)
-    O-->>C: schema v1
-    loop until approved OR max_iterations (default 3)
-        P->>V: schema + source text
-        V->>O: grade on 6 criteria
-        O-->>V: {approved, feedback}
-        alt not approved
-            V-->>P: feedback
-            P->>C: revise schema w/ feedback
-            C->>O: revised schema (JSON)
-            O-->>C: schema v(n+1)
+    P->>C: 元テキスト (source text)
+    C->>O: スキーマ作成リクエスト (JSON)
+    O-->>C: スキーマ v1
+    loop 承認されるか、または最大反復回数 (デフォルト3回) に達するまで繰り返し
+        P->>V: スキーマ + 元テキスト
+        V->>O: 6つの基準で評価・採点
+        O-->>V: {承認ステータス, フィードバック}
+        alt 未承認の場合 (not approved)
+            V-->>P: フィードバック返却
+            P->>C: フィードバックを反映して修正指示
+            C->>O: 修正版スキーマ作成 (JSON)
+            O-->>C: スキーマ v(n+1)
         end
     end
-    V-->>P: approved
-    P->>M: approved schema
-    Note over M: schema_to_markdown()<br/>deterministic · no LLM call
-    M-->>P: # ## ### markdown
-    P-->>P: return result dict
-```
+    V-->>P: 承認完了 (approved)
+    P->>M: 承認済みスキーマ渡す
+    Note over M: schema_to_markdown()<br/>決定論的処理 · LLM呼び出しなし
+    M-->>P: # ## ### マークダウン出力
+    P-->>P: 実行結果辞書 (result dict) を返却
 
 > 💡 **設計ノート:** エージェント 3 は意図的に LLM 呼び出しでは*ありません*。承認済み JSON スキーマから Markdown への変換は純 Python 関数(`schema_to_markdown()`)が行います — 決定論的、即時、しかも LLM の書き換えで起こりうる内容の欠落・変異を免れます。
 
@@ -133,20 +131,20 @@ Agent Mode では**最大レビュー反復回数**(1〜5、デフォルト 3)�
 
 ```
 agentic-ai-mindmap-orchestrator/
-├── app.py                     # Streamlit entry point — tabs, inputs, downloads
+├── app.py                     # Streamlit エントリーポイント — タブUI、入力フォーム、ダウンロード制御
 ├── src/
-│   ├── input_handler.py       # File decode chain · YouTube ID regex · transcript fetch
-│   ├── mindmap_generator.py   # Fast Mode — single-pass LLM call → Markdown
-│   ├── agent_pipeline.py      # Agent Mode — Creator/Reviewer/Reviser review loop
-│   └── renderer.py            # Markdown → standalone markmap HTML
+│   ├── input_handler.py       # ファイルデコード処理 · YouTube ID 正規表現抽出 · 字幕データ取得
+│   ├── mindmap_generator.py   # 高速モード — 1パス LLM 呼び出し → マークダウン変換
+│   ├── agent_pipeline.py      # エージェントモード — 作成/レビュー/修正のループ処理
+│   └── renderer.py            # マークダウン → スタンドアロン markmap HTML 変換
 ├── templates/
-│   └── markmap_template.html  # HTML skeleton with markmap.js CDN + {{MARKDOWN_JSON}} slot
+│   └── markmap_template.html  # markmap.js CDN と {{MARKDOWN_JSON}} 挿入枠を持つ HTML 骨格
 ├── docs/
-│   └── architecture.svg       # System architecture diagram
-├── images/                    # Screenshots for README
-├── userguide.html             # Interactive 2-tab user guide (self-contained)
+│   └── architecture.svg       # システムアーキテクチャ図
+├── images/                    # README 用のスクリーンショット画像
+├── userguide.html             # インタラクティブな2タブ構成のユーザーガイド (単一ファイル完結型)
 ├── requirements.txt
-├── .env.example               # Template — safe to commit, no secrets
+├── .env.example               # 環境変数テンプレート — シークレット情報なし (コミット可能)
 └── README.md
 ```
 
