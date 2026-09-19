@@ -13,6 +13,10 @@
 ![Ollama](https://img.shields.io/badge/LLM-Ollama%20Cloud%20gpt--oss%3A120b-white?logo=ollama)
 ![BM25](https://img.shields.io/badge/Retrieval-BM25%20%2B%20Vectors%20%2B%20RRF-orange)
 
+##デモ動画
+
+[![Production RAG Demo](https://img.youtube.com/vi/nK-iQ_vPdX0/0.jpg)](https://youtu.be/nK-iQ_vPdX0)
+
 ## なぜこのプロジェクトが存在するのか
 
 検索エンジニアリングを、チャット UI ではなく一つの規律として示すプロジェクトです。誠実なハイブリッド検索、取得コンテキストからのみ生成され主張ごとに引用が付く回答、設計された拒否動作 — そして凍結済みゴールデンセット + リグレッションゲートにより、品質の変化を「感覚」ではなく「測定」で扱います。
