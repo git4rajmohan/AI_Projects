@@ -13,6 +13,11 @@
 
 E コマースの返品/返金ワークフロー向け LangGraph + FastAPI サービス。循環する写真証憑ループ、決定論的な不正ヒューリスティクス、Ollama Cloud LLM による返品理由分類器、そして高額返金のための SQLite チェックポイント化された**ヒューマンインザループ(HITL)**マネージャー承認ゲート(`interrupt()` ベース、`INSTRUCTIONS.md` 準拠)を備えています。
 
+
+## デモ動画
+
+[![Order Returns & Fraud Agent Demo](https://img.youtube.com/vi/X6S-7u6hg2s/0.jpg)](https://youtu.be/X6S-7u6hg2s)
+
 ## なぜこのプロジェクトが存在するのか
 
 AI がリクエストを解釈する一方で、ポリシーと返金の判断は決定論的なコードが下すステートフルな業務プロセス エージェントを実証します — 高リスク案件にはヒューマン承認ゲートとチェックポイント化を併用します。
