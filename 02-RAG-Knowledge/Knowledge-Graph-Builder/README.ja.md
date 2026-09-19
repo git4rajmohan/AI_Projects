@@ -172,31 +172,30 @@ python -m uvicorn app.main:app --reload --port 8080
 
 ## 📂 プロジェクト構成
 
-```
 KnowledgegraphUIapp/
 ├── app/
-━E  ├── __init__.py
-━E  ├── main.py              # FastAPI Web サーバーと REST エンドポイント
-━E  ├── agents.py            # Google ADK エージェント (LoopAgent + LlmAgent)
-━E  ├── graph_builder.py     # Cypher LOAD CSV によるグラフ構築
-━E  ├── query_engine.py      # 直接 LLM クエリ(フォールバック経路)
-━E  └── static/
-━E      └── index.html       # シングルページフロントエンド(バニラ JS)
-├── input_files/             # 6 つのサンプルデータセット
-━E  ├── project1_furniture/  # 製品、サプライヤー、部品、アセンブリ
-━E  ├── project2_tech/       # 企業、顧客、製品、購入
-━E  ├── project3_reviews/    # Markdown 製品レビュー(10 ファイル)
-━E  ├── project4_healthcare/ # 医師、病院、患者、処方
-━E  ├── project5_ecommerce/  # 購入者、販売者、注文、製品、レビュー
-━E  └── project6_education/  # 学生、教授、講座、大学
+│   ├── __init__.py
+│   ├── main.py             # FastAPI Web サーバーと REST エンドポイント
+│   ├── agents.py           # Google ADK エージェント (LoopAgent + LlmAgent)
+│   ├── graph_builder.py    # Cypher LOAD CSV によるグラフ構築
+│   ├── query_engine.py     # 直接 LLM クエリ (フォールバック経路)
+│   └── static/
+│       └── index.html      # シングルページフロントエンド (バニラ JS)
+├── input_files/            # 6 つのサンプルデータセット
+│   ├── project1_furniture/ # 製品、サプライヤー、部品、アセンブリ
+│   ├── project2_tech/      # 企業、顧客、製品、購入
+│   ├── project3_reviews/   # Markdown 製品レビュー (10 ファイル)
+│   ├── project4_healthcare/# 医師、病院、患者、処方
+│   ├── project5_ecommerce/ # 購入者、販売者、注文、製品、レビュー
+│   └── project6_education/ # 学生、教授、講座、大学
 ├── tests/
-━E  ├── test_app.py          # ユニットテスト
-━E  ├── e2e_test.py          # E2E テスト(プロジェクト 1)
-━E  └── e2e_test_project2.py # E2E テスト(プロジェクト 2)
-├── images/                  # ドキュメント用スクリーンショット
-├── userguide.html           # インタラクティブなユーザーガイド(2 タブ)
+│   ├── test_app.py         # ユニットテスト
+│   ├── e2e_test.py         # E2E テスト (プロジェクト 1)
+│   └── e2e_test_project2.py# E2E テスト (プロジェクト 2)
+├── images/                 # ドキュメント用スクリーンショット
+├── userguide.html          # インタラクティブなユーザーガイド (2 タブ)
 ├── requirements.txt
-├── .env.example             # 環境変数テンプレート(コミット可能)
+├── .env.example            # 環境変数テンプレート (コミット可能)
 └── .gitignore
 ```
 
