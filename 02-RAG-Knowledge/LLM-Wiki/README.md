@@ -8,8 +8,8 @@ Languages: **English** | [日本語](README.ja.md)
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/React-18-Vite-61DAFB?logo=react&logoColor=white)
-![D3](https://img.shields.io/badge/D3-7-Graph--View-F9A03C?logo=d3&logoColor=white)
+![React](https://img.shields.io/badge/React-18_Vite-61DAFB?logo=react&logoColor=black)
+![D3.js](https://img.shields.io/badge/D3-7_Graph_View-F9A03C?logo=d3.js&logoColor=white)
 ![LLM](https://img.shields.io/badge/LLM-8_providers_%2B_local_GGUF-8B5CF6)
 ![Storage](https://img.shields.io/badge/Storage-Plain_Markdown-16a34a)
 
