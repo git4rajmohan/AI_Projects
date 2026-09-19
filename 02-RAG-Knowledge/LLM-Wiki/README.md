@@ -35,13 +35,19 @@ Demonstrates that LLM output can become a persistent, navigable knowledge base �
 
 ```text
 Documents (Clippings/ — .md .docx .xlsx .pdf .pptx, never modified)
+
    ↓  single streaming LLM call per source (AGENTS.md schema + current index.md in context)
+
 ===FILE:=== protocol → thinking-strip → path slugify/type-inference → guards
+
    ↓
+
 Source / Entity / Concept Pages + index.md  (plain .md + YAML frontmatter)
    ↓
+
 [[Wiki Links]] → folder tree view · D3 force graph
    ↓
+
 Query (SSE): keyword/semantic page retrieval → grounded streaming answer
              → confidence score + citation chips ("wiki mode" only answers from the wiki)
 ```
