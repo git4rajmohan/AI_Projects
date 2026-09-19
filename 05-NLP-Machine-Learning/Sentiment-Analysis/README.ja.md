@@ -4,9 +4,9 @@
 
 <div align="center">
 
-# 📝 NLP Machine Learning Sentiment Analysis
+# 📝 NLP 機械学習 感情分析 (NLP Machine Learning Sentiment Analysis)
 
-**約 2,000 件の製品レビューからなる独自データセットで 3 クラス感情分析（Positive / Neutral / Negative）を行う、NLP パイプライン全体を示す完全な教育用 Jupyter ノートブックです — 生テキストのクリーニングから、学習・解釈・保存済みの ML モデルまで。**
+**約 2,000 件の製品レビューからなる独自データセットで 3 クラス感情分析（ポジティブ / ニュートラル / ネガティブ）を行う、NLP パイプライン全体を示す完全な教育用 Jupyter ノートブックです — 生テキストのクリーニングから、モデルの学習・解釈、そして保存済みの ML モデル構築まで網羅しています。**
 
 ## デモ動画
 
