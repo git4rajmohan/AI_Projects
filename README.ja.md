@@ -33,11 +33,11 @@
 
 | プロジェクト | プロジェクト名（日本語） | 実証内容 |
 |---|---|---|
-| [AgentFlow — Dynamic Multi-Agent Workflow & Skill Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) | エージェントフロー — 動的マルチエージェント・ワークフロー＆スキル・オーケストレーター | 動的マルチエージェント・オーケストレーション |
-| [Agentic AI MCP Tool Orchestration Platform](./01-Agentic-AI/MCP-Tool-Orchestration/) | エージェント AI MCP ツール・オーケストレーション・プラットフォーム | MCP とツール・オーケストレーション |
-| [Production RAG Documentation Assistant](./02-RAG-Knowledge/Production-RAG/) | 本番指向 RAG ドキュメントアシスタント | 検索エンジニアリング |
-| [LLM Guardrails & AI Safety Defense Lab](./03-AI-Safety-Quality/LLM-Guardrails/) | LLM ガードレール＆AI セーフティ・ディフェンスラボ | AI セーフティ |
-| [RAG Evaluation & LLM Quality Engineering Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/) | RAG 評価＆LLM 品質エンジニアリング・ハーネス | AI 品質/評価 |
+| [AgentFlow — Dynamic Multi-Agent Workflow & Skill Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/README.ja.md/) | エージェントフロー — 動的マルチエージェント・ワークフロー＆スキル・オーケストレーター | 動的マルチエージェント・オーケストレーション |
+| [Agentic AI MCP Tool Orchestration Platform](./01-Agentic-AI/MCP-Tool-Orchestration/README.ja.md/) | エージェント AI MCP ツール・オーケストレーション・プラットフォーム | MCP とツール・オーケストレーション |
+| [Production RAG Documentation Assistant](./02-RAG-Knowledge/Production-RAG/README.ja.md/) | 本番指向 RAG ドキュメントアシスタント | 検索エンジニアリング |
+| [LLM Guardrails & AI Safety Defense Lab](./03-AI-Safety-Quality/LLM-Guardrails/README.ja.md/) | LLM ガードレール＆AI セーフティ・ディフェンスラボ | AI セーフティ |
+| [RAG Evaluation & LLM Quality Engineering Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/README.ja.md/) | RAG 評価＆LLM 品質エンジニアリング・ハーネス | AI 品質/評価 |
 
 ## カテゴリ別プロジェクト
 
@@ -45,36 +45,36 @@
 
 | プロジェクト | プロジェクト名（日本語） | 実証する AI 機能 | 技術 |
 |---|---|---|---|
-| [AgentFlow Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) | エージェントフロー・オーケストレーター | 動的マルチエージェント・ワークフロー/DAG 生成 | Google ADK, FastAPI, React |
-| [MCP Tool Orchestration](./01-Agentic-AI/MCP-Tool-Orchestration/) | MCP ツール・オーケストレーション | MCP ツールエコシステムとツール呼び出し | MCP, Agno, Streamlit |
-| [E-Commerce Multi-Agent](./01-Agentic-AI/MultiAgent-Ecommerce/) | EC マルチエージェント | 階層型の専門エージェント | Google ADK, LiteLLM |
-| [Order Returns & Fraud Agent](./01-Agentic-AI/OrderReturns-Fraud-Agent/) | 注文返品・不正検出エージェント | ステートフルな業務ワークフロー + HITL | LangGraph, FastAPI, SQLite |
-| [Hospital Appointment Agent](./01-Agentic-AI/Hospital-Appointment-Agent/) | 病院予約エージェント | LLM による抽出 + 決定論的なカレンダー処理 | LangChain LCEL, Twilio SMS |
-| [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/) | マルチエージェント・マインドマップ | 3 エージェントによる反復レビュー/改善 | Streamlit, Ollama, markmap.js |
+| [AgentFlow Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/README.ja.md/) | エージェントフロー・オーケストレーター | 動的マルチエージェント・ワークフロー/DAG 生成 | Google ADK, FastAPI, React |
+| [MCP Tool Orchestration](./01-Agentic-AI/MCP-Tool-Orchestration/README.ja.md/) | MCP ツール・オーケストレーション | MCP ツールエコシステムとツール呼び出し | MCP, Agno, Streamlit |
+| [E-Commerce Multi-Agent](./01-Agentic-AI/MultiAgent-Ecommerce/README.ja.md/) | EC マルチエージェント | 階層型の専門エージェント | Google ADK, LiteLLM |
+| [Order Returns & Fraud Agent](./01-Agentic-AI/OrderReturns-Fraud-Agent/README.ja.md/) | 注文返品・不正検出エージェント | ステートフルな業務ワークフロー + HITL | LangGraph, FastAPI, SQLite |
+| [Hospital Appointment Agent](./01-Agentic-AI/Hospital-Appointment-Agent/README.ja.md/) | 病院予約エージェント | LLM による抽出 + 決定論的なカレンダー処理 | LangChain LCEL, Twilio SMS |
+| [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/README.ja.md/) | マルチエージェント・マインドマップ | 3 エージェントによる反復レビュー/改善 | Streamlit, Ollama, markmap.js |
 
 ### 📚 RAG & ナレッジエンジニアリング
 
 | プロジェクト | プロジェクト名（日本語） | 実証する AI 機能 | 技術 |
 |---|---|---|---|
-| [Production RAG Assistant](./02-RAG-Knowledge/Production-RAG/) | 本番指向 RAG アシスタント | 検索エンジニアリング + 回帰評価 | LangGraph, ChromaDB, BM25 |
-| [Enterprise Knowledge Assistant](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/) | エンタープライズ・ナレッジアシスタント | ハイブリッド検索（ベクトル + BM25 + グラフ） | LlamaIndex, Qdrant, Cognee |
-| [RAG Evaluation Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/) | RAG 評価ハーネス | RAG/LLM 品質の測定 | RAGAS, pytest, LLM judge |
-| [LLM Wiki](./02-RAG-Knowledge/LLM-Wiki/) | LLM ウィキ | ドキュメントからナレッジベース生成 | FastAPI, React, D3 |
-| [Knowledge Graph Builder](./02-RAG-Knowledge/Knowledge-Graph-Builder/) | ナレッジグラフ・ビルダー | グラフネイティブな構築とクエリ | Google ADK, Neo4j, SSE |
+| [Production RAG Assistant](./02-RAG-Knowledge/Production-RAG/README.ja.md/) | 本番指向 RAG アシスタント | 検索エンジニアリング + 回帰評価 | LangGraph, ChromaDB, BM25 |
+| [Enterprise Knowledge Assistant](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/README.ja.md/) | エンタープライズ・ナレッジアシスタント | ハイブリッド検索（ベクトル + BM25 + グラフ） | LlamaIndex, Qdrant, Cognee |
+| [RAG Evaluation Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/README.ja.md/) | RAG 評価ハーネス | RAG/LLM 品質の測定 | RAGAS, pytest, LLM judge |
+| [LLM Wiki](./02-RAG-Knowledge/LLM-Wiki/README.ja.md/) | LLM ウィキ | ドキュメントからナレッジベース生成 | FastAPI, React, D3 |
+| [Knowledge Graph Builder](./02-RAG-Knowledge/Knowledge-Graph-Builder/README.ja.md/) | ナレッジグラフ・ビルダー | グラフネイティブな構築とクエリ | Google ADK, Neo4j, SSE |
 
 ### 🛡️ AI セーフティ & 品質エンジニアリング
 
 | プロジェクト | プロジェクト名（日本語） | 実証する AI 機能 | 技術 |
 |---|---|---|---|
-| [LLM Guardrails Defense Lab](./03-AI-Safety-Quality/LLM-Guardrails/) | LLM ガードレール・ディフェンスラボ | 専用の AI セーフティ制御 | NeMo Guardrails, Colang, Groq |
-| [AI-Safe Support Ticket Classifier](./03-AI-Safety-Quality/Safe-Support-Ticket/) | AI セーフ・サポートチケット分類器 | AI ワークフローへのセキュリティ制御組み込み | LangGraph, PII redaction, judge LLM |
+| [LLM Guardrails Defense Lab](./03-AI-Safety-Quality/LLM-Guardrails/README.ja.md/) | LLM ガードレール・ディフェンスラボ | 専用の AI セーフティ制御 | NeMo Guardrails, Colang, Groq |
+| [AI-Safe Support Ticket Classifier](./03-AI-Safety-Quality/Safe-Support-Ticket/README.ja.md/) | AI セーフ・サポートチケット分類器 | AI ワークフローへのセキュリティ制御組み込み | LangGraph, PII redaction, judge LLM |
 
 ### 🏭 応用 AI
 
 | プロジェクト | プロジェクト名（日本語） | 実証する AI 機能 | 技術 |
 |---|---|---|---|
-| [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) | ドックフロー・ドキュメントインテリジェンス | 請求書は AI が読み取り、判断は決定論的なポリシーが行う | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
-| [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) | リサーチ・ボイスエージェント | エージェントが計画し、ツールが実行 → 完成したポッドキャスト | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
+| [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/README.ja.md/) | ドックフロー・ドキュメントインテリジェンス | 請求書は AI が読み取り、判断は決定論的なポリシーが行う | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
+| [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/README.ja.md/) | リサーチ・ボイスエージェント | エージェントが計画し、ツールが実行 → 完成したポッドキャスト | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
 
 ### 🧠 NLP & 機械学習
 
