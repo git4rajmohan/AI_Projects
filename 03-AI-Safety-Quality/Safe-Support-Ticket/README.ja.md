@@ -66,27 +66,34 @@
                     ┌─────────────────────────────────────────────┐
                     │              FastAPI (main.py)              │
                     │   POST /classify   GET /prompts  /docs      │
-                    │         serves demo_ui/ at "/"              │
+                    │         "/" で demo_ui/ を提供               │
                     └────────────────────┬────────────────────────┘
                                          │
                                          ▼
                     ┌─────────────────────────────────────────────┐
-                    │        LangGraph StateGraph (graph.py)      │
+                    │      LangGraph StateGraph (graph.py)        │
                     │       run_pipeline_traced(...)              │
                     │   graph.stream(stream_mode="updates")       │
                     └────────────────────┬────────────────────────┘
                                          │
-      START ──► pii_redact ──► injection_check ──► classify ──► validate ──┬──► cost_log ──► END
-                                                    │          │           ▲
-                                                    │          │ fail      │
-                                                    │          ▼           │
-                                                    │        fallback ─────┘
-                                                    │   (validation fail only —
-                                                    │    injection block routes
-                                                    │    straight to cost_log)
-                                                    │
-                                                    ▼
-                                          production_modules/
+                                         ▼
+ START ──► PIIマスキング ──► インジェクションチェック ──► 分類 ──► 検証 ──┬──► コストログ記録 ──► END
+              │                    │                    │       │          ▲
+              │                    │                    │       │ 失敗     │
+              │                    │                    │       ▼          │
+              │                    │                    │   フォールバック ─┘
+              │                    │                    │   （バリデーション失敗時のみ）
+              │                    │                    │
+              │                    │                    │   ※インジェクションブロック時は
+              │                    │                    │      直接コストログ記録へ
+              │                    │                    │
+              │                    │                    ▼
+              │                    │             production_modules/
+              │                    │                （本番モジュール）
+              │                    │
+              │                    └─ プロンプトインジェクション検出
+              │
+              └─ 個人情報（PII）のマスキング
 ```
 
 **各ノードは独立した本番用モジュールに委譲します：**
@@ -175,27 +182,27 @@ python -m pytest tests/ -v     # 8 tests — LLM calls mocked, runs offline
 
 ```
 AI-Safe-Support-Ticket-Classifier/
-├── main.py                      # FastAPI app: /classify (+trace), /prompts, /health, static UI
-├── graph.py                     # LangGraph pipeline + run_pipeline_traced() trace capture
-├── schema.py                    # Pydantic enums + TicketClassification + TicketState
+├── main.py                     # FastAPI アプリ: /classify (+トレース), /prompts, /health, 静的 UI
+├── graph.py                    # LangGraph パイプライン + run_pipeline_traced() トレース取得
+├── schema.py                   # Pydantic enum 定義 + TicketClassification + TicketState
 ├── requirements.txt
-├── .env.example                 # credential template (real .env is git-ignored)
+├── .env.example                 # 認証情報テンプレート (実際の .env は git-ignore 指定)
 ├── production_modules/
-│   ├── pii_redaction.py         # regex PII scrubber
-│   ├── prompt_injection.py      # LLM-judge injection guard
-│   ├── structured_output.py     # JSON-mode classifier (function-calling variant included)
-│   ├── validate_response.py     # schema + business-rule validation
-│   ├── fallback_retry.py        # tenacity retry + SAFE_CLASSIFICATION
-│   ├── cost_calculator.py       # token/cost accounting + session tracker
-│   ├── prompt_versioning.py     # versioned prompt registry
-│   └── non_determinism.py       # temperature/seed experimentation demo
+│   ├── pii_redaction.py        # 正規表現による PII (個人識別情報) スクラバー
+│   ├── prompt_injection.py     # LLM 判定によるプロンプトインジェクションガード
+│   ├── structured_output.py    # JSON モード分類器 (Function Calling バリアントを含む)
+│   ├── validate_response.py    # スキーマ + ビジネスルール検証
+│   ├── fallback_retry.py       # tenacity リトライ + SAFE_CLASSIFICATION (安全代替分類)
+│   ├── cost_calculator.py      # トークン / コスト計算 + セッショントラッカー
+│   ├── prompt_versioning.py    # バージョン管理されたプロンプトレジストリ
+│   └── non_determinism.py      # Temperature / Seed 実験デモ
 ├── demo_ui/
-│   ├── index.html               # single-file UI: workflow strip, drawer, replay animation
-│   └── userguide.html           # two-tab docs (non-tech / tech)
+│   ├── index.html              # 単一ファイル UI: ワークフロー表示、ドロワー、リプレイアニメーション
+│   └── userguide.html          # 2 タブ構成ドキュメント (非エンジニア向け / 技術者向け)
 ├── tests/
-│   └── test_classifier.py       # 8 offline tests (mocked LLM)
+│   └── test_classifier.py      # 8 件のオフラインテスト (モック LLM)
 └── docs/
-    └── images/                  # screenshots used in this README
+    └── images/                 # この README で使用されているスクリーンショット画像
 ```
 
 ## 🔒 セキュリティとプライバシーに関する注意
