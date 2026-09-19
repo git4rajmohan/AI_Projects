@@ -13,7 +13,9 @@
 ![LLM](https://img.shields.io/badge/LLM-8_providers_%2B_local_GGUF-8B5CF6)
 ![Storage](https://img.shields.io/badge/Storage-Plain_Markdown-16a34a)
 
+## デモ動画
 
+[![LLM Wiki Demo](https://img.youtube.com/vi/dayj8CjGDhM/0.jpg)](https://youtu.be/dayj8CjGDhM)
 
 ## なぜこのプロジェクトが存在するのか
 
