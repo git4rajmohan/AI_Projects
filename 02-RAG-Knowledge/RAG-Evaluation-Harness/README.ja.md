@@ -81,27 +81,27 @@ RAG システム向けの **Streamlit 評価ワークベンチ**。[RAGAS](https
 
 ```text
 rag-evaluation-harness/
-├── Test5_allwithUI.py        # Main Streamlit UI (single-turn, all metrics)
-├── MultiturnUI.py            # Multi-turn evaluation UI (Topic Adherence + Faithfulness)
-├── Test1_contextprecision.py # Context precision pytest
-├── Test2_contextrecall.py    # Context recall pytest
-├── Test3_framework.py        # Context recall via ragas collections API
-├── Test4_faithfullness.py    # Faithfulness pytest
-├── Test5_all.py              # All metrics in one pytest run
-├── Test5_factualcorrectness.py # Factual correctness pytest
-├── Test6.py                  # Multi-turn: Topic Adherence + Agent Goal Accuracy
-├── Test7.py                  # Rubrics score (5-point scale) pytest
-├── Test1_contextprecisionaria.py # Aria-endpoint variant (context precision)
-├── Test5_allwithUI_aria.py   # Aria-endpoint variant (full UI)
-├── conftest.py               # Shared RAGAS llm_factory fixture (reads 1.env)
-├── utils.py                  # RAG endpoint client (retries, mock mode) + test-data loader
-├── eval_history_io.py        # JSON-file persistence for run history
-├── testdata/                 # Test sets (CSV/JSON question + reference pairs)
-├── runs/                     # Saved evaluation runs (timestamped JSON, gitignored)
+├── Test5_allwithUI.py        # メイン Streamlit UI (シングルターン、全メトリクス対応)
+├── MultiturnUI.py            # マルチターン評価 UI (トピック順守度 + 忠実性)
+├── Test1_contextprecision.py # コンテキスト適合率 (Context precision) の pytest
+├── Test2_contextrecall.py    # コンテキスト再現率 (Context recall) の pytest
+├── Test3_framework.py        # ragas コレクション API 経由のコンテキスト再現率テスト
+├── Test4_faithfullness.py    # 忠実性 (Faithfulness) の pytest
+├── Test5_all.py              # 1回の pytest 実行で全メトリクスを検証
+├── Test5_factualcorrectness.py # 事実の正確性 (Factual correctness) の pytest
+├── Test6.py                  # マルチターン: トピック順守度 + エージェント目標到達率
+├── Test7.py                  # ルーブリック評価スコア (5段階評価) の pytest
+├── Test1_contextprecisionaria.py # Aria エンドポイント対応版 (コンテキスト適合率)
+├── Test5_allwithUI_aria.py   # Aria エンドポイント対応版 (フル UI)
+├── conftest.py               # 共有 RAGAS llm_factory フィクスチャ (1.env を読み込み)
+├── utils.py                  # RAG エンドポイントクライアント (リトライ機能、モックモード) + テストデータローダー
+├── eval_history_io.py        # 評価実行履歴の JSON ファイル保存処理
+├── testdata/                 # テストデータセット (CSV/JSON の質問と正解データのペア)
+├── runs/                     # 保存された評価実行ログ (タイムスタンプ付き JSON、gitignored 対象)
 ├── docs/
-│   ├── guides/               # HTML user guide + metrics guide
+│   ├── guides/               # HTML ユーザーガイド + メトリクスガイド
 │   └── screenshots/
-├── .env.example              # Template for 1.env
+├── .env.example              # 1.env 用のテンプレート
 └── requirements.txt
 ```
 
@@ -109,11 +109,11 @@ rag-evaluation-harness/
 
 ```mermaid
 flowchart LR
-    A([Test questions]) --> B["Step 1: Query RAG endpoint"]
-    B --> C[Review / edit answer + retrieved contexts]
-    C --> D["Step 2: Judge LLM scores via RAGAS"]
-    D --> E([Score dashboard + per-metric reasoning])
-    E --> F[(Save run to runs/ as JSON)]
+    A([テスト質問]) --> B["ステップ1：RAGエンドポイントにクエリを送信"]
+    B --> C[回答と取得コンテキストを確認・編集]
+    C --> D["ステップ2：RAGASによるLLM評価スコア"]
+    D --> E([スコアダッシュボード + メトリック別の評価理由])
+    E --> F[(runs/ にJSON形式で評価結果を保存)]
 ```
 
 ## セットアップ
