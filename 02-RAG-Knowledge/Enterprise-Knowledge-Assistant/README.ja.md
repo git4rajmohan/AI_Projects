@@ -2,7 +2,7 @@
 
 ---
 
-# Enterprise Knowledge Assistant — ハイブリッド Graph RAG
+# エンタープライズナレッジアシスタント — ハイブリッド Graph RAG
 
 > 11 冊の社内 HR/ポリシー PDF を対象とする完全ローカルの RAG チャットボット。ハイブリッドリトリーバーがセマンティックベクトル検索、BM25 キーワード検索、ナレッジグラフの関係性を融合し、較正済みの **evidence gate** がドキュメントが質問を裏付けない場合は *LLM を一度も呼び出す前に* 回答を拒否します。すべての主張には実際のファイル名が付きます。
 
@@ -13,6 +13,10 @@
 ![Ollama](https://img.shields.io/badge/LLM-Ollama%20Cloud%20gpt--oss%3A120b-white?logo=ollama)
 ![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-30_automated-4ade80)
+
+## デモ動画
+
+[![Enterprise Knowledge Assistant Demo](https://img.youtube.com/vi/xhG9u-uPp8Y/0.jpg)](https://youtu.be/xhG9u-uPp8Y)
 
 ## なぜこのプロジェクトが存在するのか
 
