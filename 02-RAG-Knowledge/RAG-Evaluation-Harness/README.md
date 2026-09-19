@@ -23,7 +23,7 @@ A **Streamlit evaluation workbench** for RAG systems, built on the [RAGAS](https
 Demonstrates how RAG systems can be evaluated systematically — LLM-as-a-judge metrics, thresholds and run history — rather than relying only on subjective inspection of responses.
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![RAGAS](https://img.shields.io/badge/🤖 RAGAS-LLM%20judged-5B21B6)](https://docs.ragas.io/)
+[![RAGAS](https://img.shields.io/badge/🤖_RAGAS-LLM_judged-5B21B6)](https://docs.ragas.io/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![pytest](https://img.shields.io/badge/pytest-tests-green?logo=pytest&logoColor=white)](https://docs.pytest.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
