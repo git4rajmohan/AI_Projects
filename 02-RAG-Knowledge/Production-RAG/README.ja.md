@@ -32,16 +32,16 @@
 ## アーキテクチャ
 
 ```text
-INGESTION (offline)
-docs/*.md → Chunk (3 strategies) → Embed (nomic-embed-text) → ChromaDB
+データ取り込み (オフライン)
+docs/*.md → チャンク分割 (3つの戦略) → 埋め込みベクター化 (nomic-embed-text) → ChromaDB
 
-QUERY TIME (online)
-Question → Hybrid search (BM25 + vector + RRF) → Grounded prompt
-         → Generate (gpt-oss:120b) → Cited answer | Refusal
+クエリ処理 (オンライン)
+質問入力 → ハイブリッド検索 (BM25 + ベクター + RRF) → 根拠付きプロンプト
+         → 回答生成 (gpt-oss:120b) → 引用付き回答 | 回答拒否
 
-EVALUATION
-19-question frozen golden set → live pipeline → snapshot JSON
-→ gate diff vs baseline → 🟢 PASS / 🟡 WARN / 🔴 FAIL (exit code for CI)
+評価・テスト
+19問の固定ゴールデンデータセット → パイプライン実行 → スナップショット JSON 出力
+→ 基準値 (ベースライン) との差分チェック → 🟢 PASS / 🟡 WARN / 🔴 FAIL (CI用終了コード)
 ```
 
 クエリパスは 3 ノードの LangGraph `StateGraph`(`retrieve → build_prompt → generate`)で構成され、検索エラー時に END へショートサーキットする条件エッジを持ちます — ノードは決して例外を投げず、読み取れるエラー文字列を state に設定します。
@@ -133,17 +133,17 @@ python -m eval.gate <snapshot_id>
 
 ```text
 Production-RAG/
-├── chunking/          # character · structural (H2+H3 gate) · embedding-semantic · comparison
-├── vectorstore/       # embedder (OpenAI-compatible) · ChromaDB store (upsert, stale delete)
-├── retrieval/         # pure vector search · hybrid BM25+vector+RRF with per-stage trace
-├── generation/        # grounded prompt builder · answer generator with citation regex
-├── pipeline/          # LangGraph StateGraph: state · nodes (try/except) · graph (conditional edge)
-├── eval/              # golden_generator (LLM + 3 filters) · metrics · runner · gate · ragas_eval
-│   └── snapshots/     # 30 recorded runs + BASELINE.json + golden_set.jsonl (19 pairs)
-├── ui/                # FastAPI visualizer: step-by-step runners, param config, static SPA
-├── docs/              # 2 source Markdown documents (healthcare MCP guide, AI-agents-vs-MCP)
-├── demo/              # CLI demo sequence proving the chunking story
-├── main.py            # demo sequence entry point
+├── chunking/          # 文字数ベース · 構造化 (H2+H3 ゲート) · 埋め込みセマンティック · 比較機能
+├── vectorstore/       # ベクター変換器 (OpenAI互換) · ChromaDB ストア (アップサート、古くなったデータの削除)
+├── retrieval/         # 単一ベクター検索 · 各ステージのトレース付きハイブリッド検索 (BM25+ベクター+RRF)
+├── generation/        # 根拠付きプロンプト構築 · 引用正規表現付き回答生成器
+├── pipeline/          # LangGraph StateGraph: 状態定義 · ノード (try/except) · グラフ (条件付きエッジ)
+├── eval/              # ゴールデンデータ作成 (LLM + 3つのフィルター) · メトリクス評価 · 実行環境 · ゲート判定 · RAGAS評価
+│   └── snapshots/     # 30回分の記録データ + BASELINE.json + golden_set.jsonl (19ペア)
+├── ui/                # FastAPI ビジュアライザー: ステップバイステップ実行環境、パラメータ設定、静的 SPA
+├── docs/              # 2つのソース Markdown ドキュメント (ヘルスケア MCP ガイド、AI-agents-vs-MCP)
+├── demo/              # チャンク分割の検証プロセスを示す CLI デモシーケンス
+├── main.py            # デモシーケンスのエントリーポイント
 └── RAG_Production_Userguide.html
 ```
 
