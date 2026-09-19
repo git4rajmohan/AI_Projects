@@ -220,7 +220,7 @@ Raw Text ──▶ ➊ [ChatPromptTemplate | ChatOpenAI | PydanticOutputParser] 
                                                                         │                                      │
                                                                    Available? (空きあり)             Not Available? (空きなし)
                                                                         │                                      │
-                                                                   Book Slot (枠を予約)           Find Next Available (次の空き枠を検索)
+                                                                   Book Slot (予約)           Find Next Available (次の空きを検索)
                                                                         │                                      │
                                                                         └─────────── SMS (通知送信) ───────────┘
                                                                                     │
