@@ -118,17 +118,15 @@ ai-guardrails-demo/
 
 **完全にガードされた実験で 1 つのメッセージが流れる様子：**
 
-```mermaid
 flowchart TD
-    A([User Message]) --> B[Systematic Input Rails\nPII scan · urgency · injection detector]
-    B --> C{Intent Classification\nGuard LLM Call 1}
-    C -- "off-topic / jailbreak / sensitive" --> D[Refuse — scripted response\n0 answer tokens spent]
-    C -- passed --> E[LLM generates answer\nChat LLM Call 2]
-    D --> F[Output Rail Sanitizer\nevery response]
+    A([ユーザーメッセージ]) --> B[システム入力ガード\nPIIスキャン · 緊急度チェック · プロンプトインジェクション検出]
+    B --> C{意図分類\nガードLLM 呼び出し1}
+    C -- "トピック外 / ジェイルブレイク / センシティブ" --> D[拒否 — 定型レスポンス\n回答生成トークン 0]
+    C -- 合格 --> E[LLMが回答を生成\nチャットLLM 呼び出し2]
+    D --> F[出力ガード・サニタイズ\nすべてのレスポンスに適用]
     E --> F
-    F -- credentials / exploits found --> G([Response withheld])
-    F -- clean --> H([Response to User])
-```
+    F -- 認証情報 / エクスプロイトを検出 --> G([レスポンスをブロック])
+    F -- 問題なし --> H([ユーザーへの回答])
 
 **実装のポイント：**
 
