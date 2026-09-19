@@ -2,11 +2,15 @@
 
 ---
 
-# DocFlow — AI Document Intelligence & Invoice Approval Engine
+# DocFlow — AI 文書解析・請求書承認プラットフォーム
 
 **AI が読み取り、コードが判断し、人間がリスクを担う**請求書承認ワークフローです。請求書 PDF（画像のみのスキャンでも）は LLM がフィールドごとの信頼度付きで読み取りますが、金銭に関する判断はすべて決定論的な検証と順序付きポリシールールが行い、本当にリスクの高い請求書だけが、証拠一式と並べて提示された状態で人間のレビュアーに届きます。
 
 > FastAPI · Streamlit · SQLite · PyMuPDF · Tesseract OCR · Ollama (live or mock) · pytest
+
+## デモ動画
+
+[![DocFlow Document Intelligence Demo](https://img.youtube.com/vi/C2iYbkT2brU/0.jpg)](https://youtu.be/C2iYbkT2brU)
 
 ## このプロジェクトが示すもの
 
@@ -23,32 +27,33 @@ LLM が読み取り・抽出を担当し、決定論的な検証とポリシー�
 ## アーキテクチャ
 
 ```text
-                INVOICE (.pdf, even image-only)
-                          ↓
-              PyMuPDF text load (quality-graded)
-                          ↓
-              AI Field Extraction (Ollama or mock)
-                structured JSON + per-field confidence
-                          ↓
-        ┌─────────────────┴─────────────────┐
-        ↓                                   ↓
- Vendor Validation (9 checks)    Line-Item Arithmetic (recomputed in code)
-        ↓                                   ↓
-        └─────────────────┬─────────────────┘
-                          ↓
-              Invoice ↔ PO Match (two-way + AI line map, code-verified)
-                          ↓
-              Optional Goods-Receipt Match (three-way)
-                          ↓
-              Deterministic Policy Engine (R001–R008, first trigger wins)
-                          ↓
-              ┌───────────┴───────────┐
-              ↓                       ↓
-        AUTO_APPROVE          HUMAN_REVIEW / EXCEPTION / REJECT
-              (¥<100k green)          ↓
-                          Human Reviewer (Streamlit, evidence-first)
-                          ↓
-              Systems of Record (SQLite) + append-only Audit Trail
+               請求書 (.pdf / 画像のみを含む)
+                            ↓
+            PyMuPDF テキスト抽出 (品質スコア判定付き)
+                            ↓
+             AI フィールド抽出 (Ollama または モック)
+             構造化 JSON + 項目ごとの信頼度スコア
+                            ↓
+        ┌───────────────────┴───────────────────┐
+        ↓                                       ↓
+取引先検証 (9項目のチェック)          明細行の自動計算 (コードによる再計算)
+        ↓                                       ↓
+        └───────────────────┬───────────────────┘
+                            ↓
+             請求書 ↔ 発注書 (PO) 照合
+         (2 Way マッチング + AI明細マッピング / コード検証)
+                            ↓
+             任意：受領書 (GR) 照合 (3 Way マッチング)
+                            ↓
+             決定論的ポリシーエンジン (ルール R001–R008 / 初回検知優先)
+                            ↓
+        ┌───────────────────┴───────────────────┐
+        ↓                                       ↓
+     自動承認                                手動確認 / 例外 / 却下
+ (10万円未満 / 正常)                            ↓
+                                      手動レビュー画面 (Streamlit / 根拠優先表示)
+                                                ↓
+                                      基幹システム (SQLite) + 追記型監査ログ
 ```
 
 **ポリシーエンジンは（検証レポート、マッチングレポート、抽出済み請求書）の純粋関数**であり、AI を一切使わずにユニットテストされています。唯一の AI コンポーネントは抽出（`app/extraction/`）で、OpenAI 互換の LLM 呼び出しで構造化 JSON を返します。LLM はデータベースには触れず、金銭に関する判断も一切行いません。
