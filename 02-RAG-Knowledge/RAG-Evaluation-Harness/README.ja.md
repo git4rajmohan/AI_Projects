@@ -12,6 +12,11 @@
 
 RAG システム向けの **Streamlit 評価ワークベンチ**。[RAGAS](https://docs.ragas.io/) ライブラリ上に構築されています。任意の RAG エンドポイントと任意の OpenAI 互換ジャッジ LLM を指定し、2 フェーズのワークフロー(RAG へのクエリ → 取得コンテキストの確認 → 品質の判定)を進めると、合格/不合格の閾値、メトリクスごとの判断理由、保存された実行履歴付きの LLM 判定スコアが得られます — **埋め込みモデルは不要**です。
 
+## デモ動画
+
+[![RAG Evaluation Harness Demo](https://img.youtube.com/vi/CWLI7SwQfIQ/0.jpg)](https://youtu.be/CWLI7SwQfIQ)
+[![RAG Evaluation Harness Demo 2](https://img.youtube.com/vi/FvUk3OKzRgU/0.jpg)](https://youtu.be/FvUk3OKzRgU)
+
 ## なぜこのプロジェクトが存在するのか
 
 回答の主観的な目視確認だけに頼るのではなく、RAG システムを体系的に評価する方法 — LLM-as-a-judge メトリクス、閾値、実行履歴 — を示すプロジェクトです。
