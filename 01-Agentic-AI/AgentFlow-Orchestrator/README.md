@@ -15,7 +15,6 @@ Languages: **English** | [日本語](README.ja.md)
 ![Tests](https://img.shields.io/badge/Tests-222_passing-4ade80)
 
 ## Demo Video
-
 [![Agent Flow Orchestrator Demo](https://img.youtube.com/vi/nuW9I_9GJpI/0.jpg)](https://youtu.be/nuW9I_9GJpI)
 
 
