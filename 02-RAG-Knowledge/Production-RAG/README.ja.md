@@ -2,7 +2,7 @@
 
 ---
 
-# Production RAG ドキュメントアシスタント
+# 本番環境向け RAG ドキュメントアシスタント
 
 > 本番指向の Retrieval-Augmented Generation パイプライン。3 つのチャンキング戦略、RRF で融合した BM25 + ベクトルのハイブリッド検索、主張ごとの引用付きの厳密なグラウンディング生成、誠実な拒否動作 — そして品質が低下した瞬間に 🟢 が反転する決定論的リグレッションゲート。
 
@@ -13,7 +13,7 @@
 ![Ollama](https://img.shields.io/badge/LLM-Ollama%20Cloud%20gpt--oss%3A120b-white?logo=ollama)
 ![BM25](https://img.shields.io/badge/Retrieval-BM25%20%2B%20Vectors%20%2B%20RRF-orange)
 
-##デモ動画
+## デモ動画
 
 [![Production RAG Demo](https://img.youtube.com/vi/nK-iQ_vPdX0/0.jpg)](https://youtu.be/nK-iQ_vPdX0)
 
