@@ -54,6 +54,7 @@
 
 ## 🤖 マルチエージェント ワークフロー
 
+```mermaid
 sequenceDiagram
     participant P as run_agent_pipeline()
     participant C as エージェント 1 · スキーマ作成 (Schema Creator)
@@ -80,6 +81,7 @@ sequenceDiagram
     Note over M: schema_to_markdown()<br/>決定論的処理 · LLM呼び出しなし
     M-->>P: # ## ### マークダウン出力
     P-->>P: 実行結果辞書 (result dict) を返却
+```
 
 > 💡 **設計ノート:** エージェント 3 は意図的に LLM 呼び出しでは*ありません*。承認済み JSON スキーマから Markdown への変換は純 Python 関数(`schema_to_markdown()`)が行います — 決定論的、即時、しかも LLM の書き換えで起こりうる内容の欠落・変異を免れます。
 
