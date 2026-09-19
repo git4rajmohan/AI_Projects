@@ -2,9 +2,13 @@
 
 ---
 
-# 🛡️ AI-Safe Support Ticket Classifier
+# 🛡️ AI 安全型サポートチケット分類機能
 
 **ライブパイプラインビジュアライザー付きの実運用レベル AI チケットトリアージ — LLM 分類器の周りに安全レール（PII マスキング、プロンプトインジェクションガード、検証、フォールバック）を施し、各ノードの出力を UI で確認できます。**
+
+## デモ動画
+
+[![Safe Support Ticket Demo](https://img.youtube.com/vi/KqG39BdxUxc/0.jpg)](https://youtu.be/KqG39BdxUxc)
 
 ## なぜこのプロジェクトが存在するのか
 
