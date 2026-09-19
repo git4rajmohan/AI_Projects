@@ -171,7 +171,7 @@ python -m uvicorn app.main:app --reload --port 8080
 ---
 
 ## 📂 プロジェクト構成
-
+```
 KnowledgegraphUIapp/
 ├── app/
 │   ├── __init__.py
