@@ -59,16 +59,16 @@ AI エージェントが Model Context Protocol を通じて外部ツールを�
 
 ```mermaid
 flowchart TB
-    U([User]) <--> UI["Streamlit UI<br/>chat · expanders · st.status · upload · settings"]
-    UI <--> BR["Async Bridge<br/>(background thread + asyncio loop)"]
-    BR --> CE["Chat Engine<br/>session · ServerManager · ToolRegistry · ToolRouter"]
-    CE --> AO{"Agno Orchestrator<br/>turn routing"}
-    AO -->|default| MA["Main Agent<br/>gpt-oss:120b · all tools"]
-    AO -->|image attached| VA["Vision Agent<br/>glm-5.3-flash"]
-    AO -->|.xlsx turn| XA["Main Agent<br/>Excel-only tools"]
-    MA & VA & XA --> SM["Server Manager<br/>14 MCP servers (stdio subprocesses)"]
+    U([ユーザー]) <--> UI["Streamlit UI<br/>チャット · エクスパンダー · st.status · アップロード · 設定"]
+    UI <--> BR["非同期ブリッジ<br/>(バックグラウンドスレッド + asyncio イベントループ)"]
+    BR --> CE["チャットエンジン<br/>セッション管理 · ServerManager · ToolRegistry · ToolRouter"]
+    CE --> AO{"Agno オーケストレーター<br/>ターンルーティング"}
+    AO -->|デフォルト| MA["メインエージェント<br/>gpt-oss:120b · 全ツール対応"]
+    AO -->|画像添付時| VA["ビジョンエージェント<br/>glm-5.3-flash"]
+    AO -->|.xlsx 処理時| XA["メインエージェント<br/>Excel 専用ツール"]
+    MA & VA & XA --> SM["サーバーマネージャー<br/>14個の MCP サーバー (stdio サブプロセス)"]
     SM --> T["time_srv · mock_srv · excel · filesystem<br/>playwright(_enhanced) · web-fetch · drawio<br/>analytics · sql · agilepoint(_docs) · jira"]
-    MA & VA & XA -.->|retry_async ×2 on transient errors| SM
+    MA & VA & XA -.->|一時的エラー発生時に retry_async ×2| SM
 ```
 
 **ターン ルーティング ロジック**(`core/agno_orchestrator.py` 内):
@@ -84,30 +84,35 @@ flowchart TB
 
 ```
 Agentic-AI-MCP-Tool-Orchestration/
-├── config/                       # All runtime configuration (YAML)
-│   ├── app_settings.yaml         #   LLM provider/model, limits, timeouts, UI
-│   ├── mcp_servers.yaml          #   the 14 tool servers + commands + timeouts
-│   └── policies.yaml             #   global tool allow/deny rules
+├── config/                       # すべての実行時設定ファイル (YAML)
+│   ├── app_settings.yaml         #   LLM プロバイダー/モデル、制限値、タイムアウト、UI設定
+│   ├── mcp_servers.yaml          #   14個のツールサーバー定義、実行コマンド、タイムアウト設定
+│   └── policies.yaml             #   グローバルなツールの許可/拒否ルール
 ├── src/mcp_app/
-│   ├── ui/                       # Streamlit app, async bridge, launcher
-│   ├── core/                     # ChatEngine, AgnoOrchestrator, ToolRouter, registry, session
-│   ├── llm/                      # Ollama + OpenAI-compat adapters, system prompting
-│   ├── mcp/                      # ServerManager, MCP client, stdio/http/ws transports
-│   ├── config/                   # Pydantic v2 schemas + YAML/env loader
-│   ├── storage/                  # SQLite sessions, JSONL traces, secret redaction
-│   ├── observability/            # Structured logging + tracing
-│   ├── cli/                      # `mcp chat` terminal interface (click)
-│   └── utils/                    # retry, timeouts
-├── servers/                      # Bundled custom MCP servers (stdio JSON-RPC)
-│   ├── excel/  drawio/  analytics/  agilepoint/  agilepoint_docs/
-│   ├── playwright/  sql/
-├── tests/                        # pytest suite + mock MCP server
-├── docs/                         # architecture diagram (SVG + PNG)
-├── images/                       # GitHub social preview
-├── userguide.html                # Interactive 2-tab guide (everyday + technical)
-├── howtotest.md                  # Full manual E2E test plan + test-data generators
-├── pyproject.toml
-└── .env.example
+│   ├── ui/                       # Streamlit アプリ、非同期ブリッジ、ランチャー
+│   ├── core/                     # ChatEngine, AgnoOrchestrator, ToolRouter, レジストリ, セッション管理
+│   ├── llm/                      # Ollama / OpenAI 互換アダプター、システムプロンプト生成
+│   ├── mcp/                      # ServerManager, MCP クライアント, stdio/http/ws トランスポート層
+│   ├── config/                   # Pydantic v2 スキーマ、YAML/環境変数ローダー
+│   ├── storage/                  # SQLite セッション保存、JSONL トレース、機密情報の伏字処理
+│   ├── observability/            # 構造化ログ記録、トレース機能
+│   ├── cli/                      # `mcp chat` ターミナルインターフェース (Click 実装)
+│   └── utils/                    # リトライ処理、タイムアウト制御
+├── servers/                      # 同梱されたカスタム MCP サーバー群 (stdio JSON-RPC)
+│   ├── excel/                    # Excel 操作自動化サーバー
+│   ├── drawio/                   # ダイアグラム生成サーバー
+│   ├── analytics/                # データ分析サーバー
+│   ├── agilepoint/               # AgilePoint 連携サーバー
+│   ├── agilepoint_docs/          # AgilePoint ドキュメント検索サーバー
+│   ├── playwright/               # Web 自動化サーバー
+│   └── sql/                      # データベースクエリ実行サーバー
+├── tests/                        # pytest テストスイート、モック MCP サーバー
+├── docs/                         # システムアーキテクチャ図 (SVG + PNG)
+├── images/                       # GitHub ソーシャルプレビュー用画像
+├── userguide.html                # インタラクティブな2タブ構成ガイド (日常利用 + 技術詳細)
+├── howtotest.md                  # 完全手動 E2E テスト計画、テストデータ生成スクリプト
+├── pyproject.toml                # プロジェクトのビルドメタデータおよび依存関係定義
+└── .env.example                  # 環境変数のテンプレートファイル
 ```
 
 ---
@@ -183,25 +188,22 @@ mcpapp chat
 ## 💬 サンプル会話
 
 ```
-You:    What time is it now?
-        🔧 time_srv.get_current_time
-Agent:  It's currently 7:38 AM (Eastern Daylight Time, America/New_York).
+ユーザー:   現在の時刻を教えてください。
+🔧 time_srv.get_current_time
+エージェント: 現在時刻は 7:38 AM (米国東部夏時間、America/New_York) です。
 
-You:    List the sheets in "C:\Temp\mcp_test_data\sales.xlsx" and show the first
-        10 rows of the Sales sheet.
-        🔧 excel.read_sheet_names → [Sales, Regions]
-        🔧 excel.read_sheet_data  → 5 columns × rows
-Agent:  The workbook has two sheets. Sales contains Month/Region/Product/
-        Units/Revenue; here are the first 10 rows …
+ユーザー:   "C:\Temp\mcp_test_data\sales.xlsx" 内のシート一覧を取得し、Sales シートの最初の10行を表示してください。
+🔧 excel.read_sheet_names → [Sales, Regions]
+🔧 excel.read_sheet_data  → 5列 × 行
+エージェント: ワークブックには2つのシートがあります。Sales シートには Month/Region/Product/Units/Revenue の項目が含まれています。最初の10行は以下の通りです…
 
-You:    Now chart Revenue by Month.
-        🔧 excel.read_sheet_data · analytics.create_chart
-Agent:  Chart written to ./.mcp_app_logs/chart_20260908_103812.html — open it
-        in a browser to see the bars.
+ユーザー:   月別の Revenue (売上) をグラフ化してください。
+🔧 excel.read_sheet_data · analytics.create_chart
+エージェント: グラフを ./.mcp_app_logs/chart_20260908_103812.html に出力しました — ブラウザで開いて棒グラフを確認できます。
 
-You:    (attach image) What do you see in this image?
-        👁️ routed to vision model
-Agent:  A yellow circle on a red background, with the number 742.
+ユーザー:   (画像を添付) この画像には何が写っていますか？
+👁️ ビジョンモデルへルーティング
+エージェント: 赤色の背景に黄色の円があり、その中に数字の 742 が描かれています。
 ```
 
 ---
