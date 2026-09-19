@@ -211,20 +211,22 @@ curl http://127.0.0.1:8000/api/health
 
 ## How It Works
 
-```mermaid
-flowchart TD
-    A[Raw Text] --> B["ChatPromptTemplate | ChatOpenAI | PydanticOutputParser"]
-    B --> C[ExtractedAppointment]
-    C --> D{Calendar Check}
-    
-    D -->|Available| E[Book Slot]
-    D -->|Not Available| F[Find Next Available]
-    
-    E --> G[SMS]
-    F --> G
-    
-    G --> H[ExecutionSummary]
 ```
+Raw Text ➊ [ChatPromptTemplate | ChatOpenAI | PydanticOutputParser] ➋ ExtractedAppointment
+                                                                         │
+                                                                         ▼
+                                                              ┌─── Calendar Check ────┐
+                                                              │                       │
+                                                         Available?            Not Available?
+                                                              │                       │
+                                                         Book Slot          Find Next Available
+                                                              │                       │
+                                                              └────── SMS ────────────┘
+                                                                         │
+                                                                         ▼
+                                                                  ExecutionSummary
+```
+
 
 ## Configuration
 
