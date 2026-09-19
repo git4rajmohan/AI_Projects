@@ -76,29 +76,29 @@ LLM が自由形式の自然言語から構造化された意図を抽出し、�
 ```text
 ├── app/
 │   ├── __init__.py
-│   ├── main.py              # FastAPI entry point + web UI serving
-│   ├── schemas.py           # Pydantic schemas (input/output/extraction)
-│   ├── chain.py             # LangChain LCEL pipeline + orchestrator
-│   ├── services.py          # Mock Calendar & SMS services
-│   ├── config.py            # Environment configuration (pydantic-settings)
+│   ├── main.py              # FastAPI エントリーポイント + Web UI 配信
+│   ├── schemas.py           # Pydantic スキーマ定義 (入力 / 出力 / 抽出)
+│   ├── chain.py             # LangChain LCEL パイプライン + オーケストレーター
+│   ├── services.py          # モックの Google カレンダー & SMS サービス
+│   ├── config.py            # 環境変数設定 (pydantic-settings)
 │   └── static/
-│       └── index.html       # Enterprise web console (single-file, no build step)
+│       └── index.html       # エンタープライズ Web コンソール (単一ファイル、ビルドステップ不要)
 ├── tests/
 │   ├── __init__.py
-│   ├── conftest.py          # Shared fixtures
-│   ├── test_chain.py        # Extraction & orchestrator tests
-│   └── test_api.py          # FastAPI endpoint tests
+│   ├── conftest.py          # 共通フィクスチャ (テスト用共有設定)
+│   ├── test_chain.py        # 抽出機能 & オーケストレーターのテスト
+│   └── test_api.py          # FastAPI エンドポイントのテスト
 ├── docs/
-│   └── screenshots/         # UI screenshots for README
+│   └── screenshots/         # README 用 UI スクリーンショット
 ├── data/
-│   └── appointments.db      # SQLite store (bookings, SMS records)
-├── ollama_cloud_proxy.py    # OpenAI→Ollama format translator
-├── .env                     # API keys (gitignored)
-├── .env.example             # Template for .env
+│   └── appointments.db      # SQLite データベース (予約情報、SMS 記録)
+├── ollama_cloud_proxy.py    # OpenAI→Ollama フォーマット変換プロキシ
+├── .env                     # API キー設定 (.gitignore 対象)
+├── .env.example             # .env 用のテンプレート
 ├── .gitignore
 ├── requirements.txt
 ├── pytest.ini
-├── Instruction.md           # Original spec
+├── Instruction.md           # 元の仕様書
 └── README.md
 ```
 
@@ -213,19 +213,19 @@ curl http://127.0.0.1:8000/api/health
 ## 動作の仕組み
 
 ```
-Raw Text ➊ [ChatPromptTemplate | ChatOpenAI | PydanticOutputParser] ➋ ExtractedAppointment
-                                                                         │
-                                                                         ▼
-                                                              ┌─── Calendar Check ────┐
-                                                              │                       │
-                                                         Available?            Not Available?
-                                                              │                       │
-                                                         Book Slot          Find Next Available
-                                                              │                       │
-                                                              └────── SMS ────────────┘
-                                                                         │
-                                                                         ▼
-                                                                  ExecutionSummary
+Raw Text ──▶ ➊ [ChatPromptTemplate | ChatOpenAI | PydanticOutputParser] ──▶ ➋ ExtractedAppointment (抽出された予約データ)
+                                                                                    │
+                                                                                    ▼
+                                                                        ┌─── Calendar Check (カレンダー確認) ───┐
+                                                                        │                                      │
+                                                                   Available? (空きあり)             Not Available? (空きなし)
+                                                                        │                                      │
+                                                                   Book Slot (枠を予約)           Find Next Available (次の空き枠を検索)
+                                                                        │                                      │
+                                                                        └─────────── SMS (通知送信) ───────────┘
+                                                                                    │
+                                                                                    ▼
+                                                                        ExecutionSummary (実行サマリー)
 ```
 
 ## 設定
