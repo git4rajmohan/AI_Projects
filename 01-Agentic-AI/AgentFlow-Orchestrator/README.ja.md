@@ -29,12 +29,12 @@
 ## アーキテクチャ
 
 ```text
-Intent → Intent Parser → Skill Discovery (reuse if match ≥ 0.5)
-       → LLM Planner (PlanSpec JSON) → User Approval
-       → Agent Factory → DAG Orchestrator (levels · parallel · retry)
-       → Tool Runtime (python · files · web · HTTP)
-       → Evaluation Engine (score vs criteria 0–1)
-       → fail → Replanner (≤ 2) | success → Skill Library (versioned)
+インテント (ユーザーの意図) → インテントパーサー (意図解析) → スキル検出・探索 (類似度 ≥ 0.5 の場合に再利用)
+                      → LLM プランナー (PlanSpec JSON 生成) → ユーザー承認
+                      → エージェントファクトリー → DAG オーケストレーター (階層化・並列処理・リトライ)
+                      → ツール実行環境 (Python · ファイル操作 · Web · HTTP API)
+                      → 評価エンジン (基準に対するスコアリング 0〜1)
+                      → 失敗時 → 再計画/リプランナー (最大2回まで) | 成功時 → スキルライブラリ (バージョン管理)
 ```
 
 - **バックエンド**: Google ADK ランナーをラップする FastAPI — プランナー、オーケストレーター、ポリシー、評価、スキルの 5 つの独立したエンジン
@@ -127,22 +127,22 @@ Ollama Cloud の API キー(ollama.com/settings/keys)が必要です。オプシ
 ```text
 AgentFlow-Orchestrator/
 ├── backend/app/
-│   ├── main.py               # FastAPI + lifespan + 10 routers + /health
-│   ├── planner/              # intent · planner (ADK output_schema) · plan_validator
-│   ├── factory/              # agent_factory · base_agent (ADK loop) · runtime
-│   ├── orchestrator/         # engine · dag (Kahn + DFS cycle check) · state · events (SSE)
-│   ├── policy/               # permission engine · approval pause/resume
-│   ├── evaluation/           # structural + criteria scoring · replanner
-│   ├── skills/               # registry · discovery · creation · import/export · recommender
-│   ├── tools/builtins/       # file_reader · file_writer · python_executor · calculator · http_request · web_search
-│   ├── memory/               # working / long-term / skill scopes
-│   ├── llm/                  # LiteLLM config · model router
-│   └── models/               # Pydantic schemas (PlanSpec, AgentSpec, SkillSpec…)
-├── frontend/src/             # React workspace: timeline, PlanCard, AgentActivityCard, ApprovalInlineCard, EvaluationBadge
-├── skills/                   # builtin skill YAMLs (csv-to-excel-converter, document-summarization, web-research)
-├── tests/                    # 222 pytest tests
-├── docs/screenshots/         # real UI captures
-├── instruction.md            # 65-section platform specification
+│   ├── main.py               # FastAPI + ライフサイクル管理 (lifespan) + 10個のルーター + /health エンドポイント
+│   ├── planner/              # インテント解析 · プランナー (ADK output_schema) · 計画検証 (plan_validator)
+│   ├── factory/              # エージェントファクトリー · ベースエージェント (ADK ループ) · 実行環境
+│   ├── orchestrator/         # 実行エンジン · DAG 制御 (Kahnのアルゴリズム + DFS循環検出) · 状態管理 · イベント配信 (SSE)
+│   ├── policy/               # 権限管理エンジン · 承認プロセスにおける一時停止/再開制御
+│   ├── evaluation/           # 構造的評価 + 評価基準スコアリング · 再計画 (replanner)
+│   ├── skills/               # スキルレジストリ · 検出 · 作成 · インポート/エクスポート · スキルレコメンダー
+│   ├── tools/builtins/       # ファイル読み込み · ファイル書き込み · Python実行 · 計算機 · HTTPリクエスト · Web検索
+│   ├── memory/               # ワーキングメモリ / 記憶 (長期記憶) / スキルスコープ
+│   ├── llm/                  # LiteLLM 設定 · モデルルーティング
+│   └── models/               # Pydantic スキーマ群 (PlanSpec, AgentSpec, SkillSpec など)
+├── frontend/src/             # React ワークスペース: タイムライン, PlanCard, AgentActivityCard, ApprovalInlineCard, EvaluationBadge
+├── skills/                   # ビルトインスキル定義 YAML群 (csv-to-excel-converter, document-summarization, web-research)
+├── tests/                    # 222 件の pytest テストスイート
+├── docs/screenshots/         # 実際の UI キャプチャ画像
+├── instruction.md            # 65 セクションで構成されたプラットフォーム仕様書
 └── AI_AgentFlow Orchestrator_userguide.html
 ```
 
