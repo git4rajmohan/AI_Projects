@@ -103,7 +103,7 @@ streamlit run app.py
 ---
 
 ## 🏗️ アーキテクチャ
-```mermaid
+
 ```
 ai-guardrails-demo/
 ├── app.py              ← Streamlit UI: sidebar BYOK, tabs, chat, model selection
@@ -117,7 +117,7 @@ ai-guardrails-demo/
 ```
 
 **完全にガードされた実験で 1 つのメッセージが流れる様子：**
-
+```mermaid
 flowchart TD
     A([ユーザーメッセージ]) --> B[システム入力ガード\nPIIスキャン · 緊急度チェック · プロンプトインジェクション検出]
     B --> C{意図分類\nガードLLM 呼び出し1}
@@ -127,7 +127,7 @@ flowchart TD
     E --> F
     F -- 認証情報 / エクスプロイトを検出 --> G([レスポンスをブロック])
     F -- 問題なし --> H([ユーザーへの回答])
-
+```
 **実装のポイント：**
 
 - **2 つの LLM、2 つの役割** — `llama-3.1-8b-instant` が回答を生成し、`llama-3.3-70b-versatile` がガードレール用の意図分類を担当します。より強力なガードモデルは、より巧妙なジェイルブレイクを捉えます。
