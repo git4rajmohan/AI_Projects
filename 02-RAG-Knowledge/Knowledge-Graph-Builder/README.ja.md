@@ -2,7 +2,7 @@
 
 ---
 
-# 🔗 Knowledge Graph Builder
+# 🔗 ナレッジグラフビルダー
 
 > スプレッドシートとテキストドキュメントを、AI エージェント・Neo4j・Google ADK で動くインタラクティブでクエリ可能なナレッジグラフに変換します。
 ## なぜこのプロジェクトが存在するのか
@@ -16,9 +16,13 @@
 
 ---
 
+## デモ動画
+
+[![Knowledge Graph Builder Demo](https://img.youtube.com/vi/sLEjyoeSjuU/0.jpg)](https://youtu.be/sLEjyoeSjuU)
+
 ## 📖 概要
 
-**Knowledge Graph Builder** は、構造化データファイル(CSV)と非構造化テキスト(Markdown)からナレッジグラフの作成を自動化する Web アプリケーションです。グラフスキーマを手動で設計し Cypher クエリを書く代わりに、次の操作だけで済みます:
+**ナレッジグラフビルダー** は、構造化データファイル(CSV)と非構造化テキスト(Markdown)からナレッジグラフの作成を自動化する Web アプリケーションです。グラフスキーマを手動で設計し Cypher クエリを書く代わりに、次の操作だけで済みます:
 
 1. データファイルを**選択**する
 2. グラフに何を捉えさせたいかを**記述**する
@@ -45,33 +49,33 @@
 ## 🏗️ アーキテクチャ
 
 ```
-┌─────────────────────────────────────────────────────────━E
-━E             Browser (Vanilla HTML/JS/CSS)               ━E
-━E   4-step wizard · Canvas graph viz · SSE progress       ━E
-└────────────────────┬────────────────────────────────────━E
-                     ━EREST API + SSE
-┌────────────────────▼────────────────────────────────────━E
-━E             FastAPI Backend (main.py)                    ━E
-━E  /api/browse · /api/propose · /api/build · /api/query   ━E
-└─────┬──────────────┬──────────────────┬─────────────────━E
-      ━E             ━E                 ━E
-┌─────▼─────━E┌──────▼───────━E┌────────▼──────────━E
-━E Neo4j    ━E━E agents.py   ━E━E graph_builder.py ━E
-━E Database ━E━E (ADK agents)━E━E (Cypher builder) ━E
-━E          ━E━E             ━E━E                   ━E
-━Ebolt://   ━E━ELoopAgent:   ━E━ELOAD CSV ↁEMERGE   ━E
-━E:7687     ━E━E Proposer    ━E━E docker cp         ━E
-━E          ━E━E Critic      ━E━E auto-detect       ━E
-━E          ━E━E Checker     ━E━E stats/graph data  ━E
-━E          ━E━ELlmAgent:    ━E└────────────────────━E
-━E          ━E━E QueryAgent  ━E
-└───────────━E└──────┬───────━E
-                     ━E
-              ┌──────▼───────━E
-              ━E LLM (LiteLLm)━E
-              ━E Ollama Cloud ━E
-              ━E via proxy    ━E
-              └──────────────━E
+┌─────────────────────────────────────────────────────────────────┐
+│              ブラウザ (バニラ HTML / JS / CSS)                   │
+│       4ステップウィザード  ·  Canvas グラフ描画  ·  SSE 進捗表示   │
+└────────────────────────────────┬────────────────────────────────┘
+                                 │ REST API + SSE
+┌────────────────────────────────▼────────────────────────────────┐
+│                   FastAPI バックエンド (main.py)                 │
+│      /api/browse  ·  /api/propose  ·  /api/build  ·  /api/query │
+└──────┬─────────────────────────┬─────────────────────────┬──────┘
+       │                         │                         │
+┌──────▼──────┐           ┌──────▼──────┐           ┌──────▼──────┐
+│   Neo4j     │           │  agents.py  │           │graph_builder│
+│データベース  │           │(ADK エージェント)│       │  (Cypher)   │
+│             │           │             │           │             │
+│ bolt://     │           │ LoopAgent:  │           │ LOAD CSV    │
+│ :7687       │           │   Proposer  │           │ MERGE       │
+│             │           │   Critic    │           │ docker cp   │
+│             │           │   Checker   │           │ 自動検知     │
+│             │           │ LlmAgent:   │           │ 統計・データ │
+│             │           │   QueryAgent│           └─────────────┘
+└─────────────┘           └──────┬──────┘
+                                 │
+                          ┌──────▼──────┐
+                          │LLM (LiteLLM)│
+                          │Ollama Cloud │
+                          │ プロキシ経由 │
+                          └─────────────┘
 ```
 
 ### AI エージェントパイプライン
