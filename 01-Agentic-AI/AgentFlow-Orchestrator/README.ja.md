@@ -14,6 +14,9 @@
 ![SQLite](https://img.shields.io/badge/Persistence-SQLite%20(async)-003B57?logo=sqlite&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-222_passing-4ade80)
 
+## デモ動画
+[![Agent Flow Orchestrator Demo](https://img.youtube.com/vi/nuW9I_9GJpI/0.jpg)](https://youtu.be/nuW9I_9GJpI)
+
 ## なぜこのプロジェクトが存在するのか
 
 ワークフローを固定されたエージェント列としてハードコードするのではなく、ユーザーの意図から生成する動的マルチエージェント オーケストレーションの実証です。同一のエンジンがどんなタスクにも対応します — プランはデータであり、プラットフォームこそがプロダクトです。
