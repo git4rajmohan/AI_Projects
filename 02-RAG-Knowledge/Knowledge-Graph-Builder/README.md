@@ -1,18 +1,16 @@
-Languages: **English** | [日本語](README.ja.md)
-
----
-
 # 🔗 Knowledge Graph Builder
-
-> Turn spreadsheets and text documents into an interactive, queryable knowledge graph  Epowered by AI agents, Neo4j, and Google ADK.
+- Email: svrajmohan@gmail.com
+- GitHub: [@git4rajmohan](https://github.com/git4rajmohan)
 
 ## Demo Video
 
 [![Knowledge Graph Builder Demo](https://img.youtube.com/vi/sLEjyoeSjuU/0.jpg)](https://youtu.be/sLEjyoeSjuU)
 
-## Why This Project Exists
+- Email: svrajmohan@gmail.com
+# 🔗 Knowledge Graph Builder
 
-Demonstrates graph-native knowledge representation: AI agents refine the schema (propose ↁEcritique ↁEvalidate) while deterministic code generates the Cypher, so the LLM never writes raw graph queries.
+> Turn spreadsheets and text documents into an interactive, queryable knowledge graph — powered by AI agents, Neo4j, and Google ADK.
+
 [![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688.svg)](https://fastapi.tiangolo.com)
 [![Neo4j](https://img.shields.io/badge/Neo4j-5.x-008CC1.svg)](https://neo4j.com)
@@ -28,55 +26,55 @@ The **Knowledge Graph Builder** is a web application that automates the creation
 1. **Select** your data files
 2. **Describe** what you want the graph to capture
 3. **Let AI agents** propose and refine the schema
-4. **Review, approve, and build**  Ethen ask questions in plain English
+4. **Review, approve, and build** — then ask questions in plain English
 
-The app uses a team of AI agents (Google ADK `LoopAgent`) that iteratively propose, critique, and validate a graph schema, then constructs the graph in Neo4j, and finally lets you query it using natural language  Eall through a clean web UI.
+The app uses a team of AI agents (Google ADK `LoopAgent`) that iteratively propose, critique, and validate a graph schema, then constructs the graph in Neo4j, and finally lets you query it using natural language — all through a clean web UI.
 
 ---
 
 ## ✨ Features
 
-- 🤁E**AI-Powered Schema Proposal**  EA 3-agent refinement loop (Proposer ↁECritic ↁEChecker) proposes the optimal graph structure from your data
-- 📁 **File Browser**  ENavigate your filesystem and select CSV, Markdown, or JSON files
-- 🏗�E�E**One-Click Graph Building**  EAutomatically creates Neo4j databases, copies CSVs, and executes Cypher `LOAD CSV` to build nodes and relationships
-- 🔍 **Natural Language Q&A**  EAsk questions in plain English; an AI agent translates them to Cypher, executes the query, and summarizes the results
-- 📊 **Interactive Graph Visualization**  ECanvas-based graph explorer with zoom, pan, and drag
-- 📡 **Live Agent Progress**  ESSE streaming shows real-time agent activity as the schema proposal loop runs
-- 🗄�E�E**Multi-Database Support**  EEach project gets its own isolated Neo4j database
-- 📋 **6 Sample Datasets**  EFurniture, Tech, Reviews, Healthcare, E-commerce, and Education
+- 🤖 **AI-Powered Schema Proposal** — A 3-agent refinement loop (Proposer → Critic → Checker) proposes the optimal graph structure from your data
+- 📁 **File Browser** — Navigate your filesystem and select CSV, Markdown, or JSON files
+- 🏗️ **One-Click Graph Building** — Automatically creates Neo4j databases, copies CSVs, and executes Cypher `LOAD CSV` to build nodes and relationships
+- 🔍 **Natural Language Q&A** — Ask questions in plain English; an AI agent translates them to Cypher, executes the query, and summarizes the results
+- 📊 **Interactive Graph Visualization** — Canvas-based graph explorer with zoom, pan, and drag
+- 📡 **Live Agent Progress** — SSE streaming shows real-time agent activity as the schema proposal loop runs
+- 🗄️ **Multi-Database Support** — Each project gets its own isolated Neo4j database
+- 📋 **6 Sample Datasets** — Furniture, Tech, Reviews, Healthcare, E-commerce, and Education
 
 ---
 
-## 🏗�E�EArchitecture
+## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────━E
-━E             Browser (Vanilla HTML/JS/CSS)               ━E
-━E   4-step wizard · Canvas graph viz · SSE progress       ━E
-└────────────────────┬────────────────────────────────────━E
-                     ━EREST API + SSE
-┌────────────────────▼────────────────────────────────────━E
-━E             FastAPI Backend (main.py)                    ━E
-━E  /api/browse · /api/propose · /api/build · /api/query   ━E
-└─────┬──────────────┬──────────────────┬─────────────────━E
-      ━E             ━E                 ━E
-┌─────▼─────━E┌──────▼───────━E┌────────▼──────────━E
-━E Neo4j    ━E━E agents.py   ━E━E graph_builder.py ━E
-━E Database ━E━E (ADK agents)━E━E (Cypher builder) ━E
-━E          ━E━E             ━E━E                   ━E
-━Ebolt://   ━E━ELoopAgent:   ━E━ELOAD CSV ↁEMERGE   ━E
-━E:7687     ━E━E Proposer    ━E━E docker cp         ━E
-━E          ━E━E Critic      ━E━E auto-detect       ━E
-━E          ━E━E Checker     ━E━E stats/graph data  ━E
-━E          ━E━ELlmAgent:    ━E└────────────────────━E
-━E          ━E━E QueryAgent  ━E
-└───────────━E└──────┬───────━E
-                     ━E
-              ┌──────▼───────━E
-              ━E LLM (LiteLLm)━E
-              ━E Ollama Cloud ━E
-              ━E via proxy    ━E
-              └──────────────━E
+┌─────────────────────────────────────────────────────────┐
+│              Browser (Vanilla HTML/JS/CSS)               │
+│    4-step wizard · Canvas graph viz · SSE progress       │
+└────────────────────┬────────────────────────────────────┘
+                     │ REST API + SSE
+┌────────────────────▼────────────────────────────────────┐
+│              FastAPI Backend (main.py)                    │
+│   /api/browse · /api/propose · /api/build · /api/query   │
+└─────┬──────────────┬──────────────────┬─────────────────┘
+      │              │                  │
+┌─────▼─────┐ ┌──────▼───────┐ ┌────────▼──────────┐
+│  Neo4j    │ │  agents.py   │ │  graph_builder.py │
+│  Database │ │  (ADK agents)│ │  (Cypher builder) │
+│           │ │              │ │                    │
+│ bolt://   │ │ LoopAgent:   │ │ LOAD CSV → MERGE   │
+│ :7687     │ │  Proposer    │ │  docker cp         │
+│           │ │  Critic      │ │  auto-detect       │
+│           │ │  Checker     │ │  stats/graph data  │
+│           │ │ LlmAgent:    │ └────────────────────┘
+│           │ │  QueryAgent  │
+└───────────┘ └──────┬───────┘
+                     │
+              ┌──────▼───────┐
+              │  LLM (LiteLLm)│
+              │  Ollama Cloud │
+              │  via proxy    │
+              └──────────────┘
 ```
 
 ### AI Agent Pipeline
@@ -86,19 +84,19 @@ The app uses a team of AI agents (Google ADK `LoopAgent`) that iteratively propo
 | `schema_proposal_agent` | LlmAgent | Reads files, proposes node & relationship construction rules |
 | `schema_critic_agent` | LlmAgent | Validates proposal, returns "valid" or "retry" with feedback |
 | `CheckStatusAndEscalate` | BaseAgent | Stops loop when critic says "valid" (max 3 iterations) |
-| `query_agent` | LlmAgent | Translates NL questions ↁECypher ↁEexecutes ↁEsummarizes answer |
+| `query_agent` | LlmAgent | Translates NL questions → Cypher → executes → summarizes answer |
 
 ---
 
 ## 📸 Screenshots
 
-### User Guide  EHow It Works (Tab 1)
+### User Guide — How It Works (Tab 1)
 
-![User Guide Tab 1  EHow It Works](images/userguide-tab1-full.png)
+![User Guide Tab 1 — How It Works](images/userguide-tab1-full.png)
 
-### User Guide  ETechnical Details (Tab 2)
+### User Guide — Technical Details (Tab 2)
 
-![User Guide Tab 2  ETechnical Details](images/userguide-tab2-full.png)
+![User Guide Tab 2 — Technical Details](images/userguide-tab2-full.png)
 
 ---
 
@@ -180,24 +178,24 @@ Navigate to **http://localhost:8080** in your browser.
 ```
 KnowledgegraphUIapp/
 ├── app/
-━E  ├── __init__.py
-━E  ├── main.py              # FastAPI web server & REST endpoints
-━E  ├── agents.py            # Google ADK agents (LoopAgent + LlmAgent)
-━E  ├── graph_builder.py     # Cypher LOAD CSV graph construction
-━E  ├── query_engine.py      # Direct LLM query (fallback path)
-━E  └── static/
-━E      └── index.html       # Single-page frontend (vanilla JS)
+│   ├── __init__.py
+│   ├── main.py              # FastAPI web server & REST endpoints
+│   ├── agents.py            # Google ADK agents (LoopAgent + LlmAgent)
+│   ├── graph_builder.py     # Cypher LOAD CSV graph construction
+│   ├── query_engine.py      # Direct LLM query (fallback path)
+│   └── static/
+│       └── index.html       # Single-page frontend (vanilla JS)
 ├── input_files/             # 6 sample datasets
-━E  ├── project1_furniture/  # Products, suppliers, components, assemblies
-━E  ├── project2_tech/       # Companies, customers, products, purchases
-━E  ├── project3_reviews/    # Markdown product reviews (10 files)
-━E  ├── project4_healthcare/ # Doctors, hospitals, patients, prescriptions
-━E  ├── project5_ecommerce/  # Buyers, sellers, orders, products, reviews
-━E  └── project6_education/  # Students, professors, courses, universities
+│   ├── project1_furniture/  # Products, suppliers, components, assemblies
+│   ├── project2_tech/       # Companies, customers, products, purchases
+│   ├── project3_reviews/    # Markdown product reviews (10 files)
+│   ├── project4_healthcare/ # Doctors, hospitals, patients, prescriptions
+│   ├── project5_ecommerce/  # Buyers, sellers, orders, products, reviews
+│   └── project6_education/  # Students, professors, courses, universities
 ├── tests/
-━E  ├── test_app.py          # Unit tests
-━E  ├── e2e_test.py          # End-to-end test (project 1)
-━E  └── e2e_test_project2.py # End-to-end test (project 2)
+│   ├── test_app.py          # Unit tests
+│   ├── e2e_test.py          # End-to-end test (project 1)
+│   └── e2e_test_project2.py # End-to-end test (project 2)
 ├── images/                  # Screenshots for documentation
 ├── userguide.html           # Interactive user guide (2 tabs)
 ├── requirements.txt
@@ -228,7 +226,7 @@ Ask questions in natural language. The `query_agent` (ADK `LlmAgent`) retrieves 
 
 ---
 
-## 🛠�E�ETech Stack
+## 🛠️ Tech Stack
 
 | Component | Technology |
 |-----------|-----------|
@@ -274,16 +272,16 @@ pydantic
 
 ## 🔒 Security
 
-- **`.env` is gitignored**  Enever commit real API keys or passwords
+- **`.env` is gitignored** — never commit real API keys or passwords
 - Use `.env.example` as a template for configuration
-- The Ollama cloud proxy uses a dummy `OPENAI_API_KEY`  Ethe real key (`OLLAMA_API_KEY`) stays in `.env`
+- The Ollama cloud proxy uses a dummy `OPENAI_API_KEY` — the real key (`OLLAMA_API_KEY`) stays in `.env`
 - Neo4j credentials are read from environment variables, not hardcoded
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License  Esee [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
@@ -291,3 +289,4 @@ This project is licensed under the MIT License  Esee [LICENSE](LICENSE) for de
 
 **Raj Mohan**
 - GitHub: [@git4rajmohan](https://github.com/git4rajmohan)
+- Email: svrajmohan@gmail.com
