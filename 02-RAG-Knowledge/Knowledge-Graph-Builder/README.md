@@ -45,24 +45,24 @@ The app uses a team of AI agents (Google ADK `LoopAgent`) that iteratively propo
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│              Browser (Vanilla HTML/JS/CSS)               │
-│    4-step wizard · Canvas graph viz · SSE progress       │
+│              Browser (Vanilla HTML/JS/CSS)              │
+│    4-step wizard · Canvas graph viz · SSE progress      │
 └────────────────────┬────────────────────────────────────┘
                      │ REST API + SSE
 ┌────────────────────▼────────────────────────────────────┐
-│              FastAPI Backend (main.py)                    │
-│   /api/browse · /api/propose · /api/build · /api/query   │
+│              FastAPI Backend (main.py)                  │
+│   /api/browse · /api/propose · /api/build · /api/query  │
 └─────┬──────────────┬──────────────────┬─────────────────┘
       │              │                  │
 ┌─────▼─────┐ ┌──────▼───────┐ ┌────────▼──────────┐
 │  Neo4j    │ │  agents.py   │ │  graph_builder.py │
 │  Database │ │  (ADK agents)│ │  (Cypher builder) │
-│           │ │              │ │                    │
-│ bolt://   │ │ LoopAgent:   │ │ LOAD CSV → MERGE   │
-│ :7687     │ │  Proposer    │ │  docker cp         │
-│           │ │  Critic      │ │  auto-detect       │
-│           │ │  Checker     │ │  stats/graph data  │
-│           │ │ LlmAgent:    │ └────────────────────┘
+│           │ │              │ │                   │
+│ bolt://   │ │ LoopAgent:   │ │ LOAD CSV → MERGE  │
+│ :7687     │ │  Proposer    │ │  docker cp        │
+│           │ │  Critic      │ │  auto-detect      │
+│           │ │  Checker     │ │  stats/graph data │
+│           │ │ LlmAgent:    │ └───────────────────┘
 │           │ │  QueryAgent  │
 └───────────┘ └──────┬───────┘
                      │
