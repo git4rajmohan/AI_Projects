@@ -1,3 +1,4 @@
+言語 / Languages: [English](README.md) | **日本語**
 # 🔗 Knowledge Graph Builder
 
 > Turn spreadsheets and text documents into an interactive, queryable knowledge graph — powered by AI agents, Neo4j, and Google ADK.
