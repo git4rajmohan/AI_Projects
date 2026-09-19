@@ -103,7 +103,7 @@ streamlit run app.py
 ---
 
 ## 🏗️ アーキテクチャ
-
+```mermaid
 ```
 ai-guardrails-demo/
 ├── app.py              ← Streamlit UI: sidebar BYOK, tabs, chat, model selection
