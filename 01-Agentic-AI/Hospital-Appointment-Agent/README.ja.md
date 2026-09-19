@@ -8,6 +8,11 @@
 
 **LangChain (LCEL)**、**FastAPI**、**Pydantic** で構築された軽量かつ決定論的なバックエンド サービス。患者/クライアントからの予約リクエストを処理し、会話形式の予約と管理者向け管理のためのフル **エンタープライズ グレードの Web コンソール** を備えています。
 
+
+## デモ動画
+
+[![Hospital Appointment Scheduler Demo](https://img.youtube.com/vi/sgDtnwn00KU/0.jpg)](https://youtu.be/sgDtnwn00KU)
+
 ## なぜこのプロジェクトが存在するのか
 
 LLM が自由形式の自然言語から構造化された意図を抽出し、実際の予約判断 — カレンダー ルール、スロット選択、確認処理 — は決定論的な Python コードが担う仕組みを実証します。AI がビジネス上の判断を下すことはありません。
