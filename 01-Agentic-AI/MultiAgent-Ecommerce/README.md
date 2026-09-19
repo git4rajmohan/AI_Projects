@@ -9,7 +9,7 @@ A multi-agent e-commerce assistant built on **Google ADK (Agent Development Kit)
 
 ## Demo Video
 
-[![Multi-Agent E-Commerce Demo](https://img.youtube.com/vi/3BAo1_u-L9k/0.jpg)](https://youtu.be/3BAo1_u-L9k)
+[![Multi-Agent E-Commerce Demo](https://img.youtube.com/vi/nuW9I_9GJpI/0.jpg)](https://youtu.be/nuW9I_9GJpI)
 
 ## Why This Project Exists
 
