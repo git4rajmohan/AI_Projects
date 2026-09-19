@@ -54,13 +54,13 @@ RAG システム向けの **Streamlit 評価ワークベンチ**。[RAGAS](https
 
 | ステージ | メトリック | 必要な入力 |
 |-------|--------|----------|
-| 検索 (Retrieval) | Context relevance | contexts |
-| 検索 (Retrieval)| Context precision (with reference) | contexts + reference |
-| 検索 (Retrieval) | Context recall | contexts + reference |
-| 拡張 (Augmentation) | Response groundedness | response + contexts |
-| 拡張 (Augmentation) | Faithfulness | response + contexts |
-| 生成 (Generation)| Factual correctness | response + reference |
-| 生成 (Generation) | Rubrics score | response + reference |
+| 検索 (Retrieval) | コンテキストの関連性 (Context relevance) | contexts |
+| 検索 (Retrieval)| コンテキストの適合率 (Context precision with reference) | contexts + reference |
+| 検索 (Retrieval) | コンテキストの再現率 (Context recall) | contexts + reference |
+| 拡張 (Augmentation) | 回答の根拠性 (Response groundedness) | response + contexts |
+| 拡張 (Augmentation) | 忠実性 (Faithfulness) | response + contexts |
+| 生成 (Generation)| 事実の正確性 (Factual correctness)| response + reference |
+| 生成 (Generation) | ルーブリック評価スコア (Rubrics score | response + reference |
 
 マルチターン評価にも対応しています(`MultiturnUI.py` / `Test6.py`):
 
