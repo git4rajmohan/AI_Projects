@@ -1,13 +1,4 @@
 # 🔗 Knowledge Graph Builder
-- Email: svrajmohan@gmail.com
-- GitHub: [@git4rajmohan](https://github.com/git4rajmohan)
-
-## Demo Video
-
-[![Knowledge Graph Builder Demo](https://img.youtube.com/vi/sLEjyoeSjuU/0.jpg)](https://youtu.be/sLEjyoeSjuU)
-
-- Email: svrajmohan@gmail.com
-# 🔗 Knowledge Graph Builder
 
 > Turn spreadsheets and text documents into an interactive, queryable knowledge graph — powered by AI agents, Neo4j, and Google ADK.
 
@@ -18,6 +9,11 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
+
+
+## Demo Video
+
+[![Knowledge Graph Builder Demo](https://img.youtube.com/vi/sLEjyoeSjuU/0.jpg)](https://youtu.be/sLEjyoeSjuU)
 
 ## 📖 Overview
 
