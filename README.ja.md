@@ -80,7 +80,7 @@
 
 | プロジェクト | プロジェクト名（日本語） | 実証する AI 機能 | 技術 |
 |---|---|---|---|
-| [Sentiment Analysis Pipeline](./05-NLP-Machine-Learning/Sentiment-Analysis/) | センチメント分析パイプライン | 古典的な NLP/ML | scikit-learn, TF-IDF, NLTK, spaCy |
+| [Sentiment Analysis Pipeline](./05-NLP-Machine-Learning/Sentiment-Analysis/README.ja.md/) | センチメント分析パイプライン | 古典的な NLP/ML | scikit-learn, TF-IDF, NLTK, spaCy |
 
 ## 技術カバレッジ
 
