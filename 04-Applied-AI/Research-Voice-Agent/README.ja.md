@@ -9,6 +9,10 @@
 > Google ADK · Ollama Cloud（`gpt-oss:120b`、組み込みの OpenAI→Ollama プロキシ経由） · FastAPI ·
 > ddgs · yfinance · edge-tts · faster-whisper
 
+## デモ動画
+
+[![Research Voice Agent Demo](https://img.youtube.com/vi/5eGyakxnZzg/0.jpg)](https://youtu.be/5eGyakxnZzg)
+
 ## このプロジェクトが示すもの
 
 - **Google ADK 上でのマルチエージェントオーケストレーション** — producer エージェント（リサーチ/ツール担当）が `AgentTool` を使って podcaster エージェントに委譲します。`AgentTool` は関数のように呼び出せるサブエージェントです
