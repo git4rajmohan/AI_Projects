@@ -2,7 +2,7 @@
 
 ---
 
-# Research Voice Agent — From a One-Line Prompt to a Finished Podcast
+# リサーチボイスエージェント — 1行のプロンプトから完成版ポッドキャストを生成
 
 3 つのモードを持つ音声 AI パイプラインです。プロンプト、会議の文字起こし、または音声録音を与えると、少数精鋭の AI エージェントチームがリサーチし、レポートを書き、会話形式のスクリプトに変換し、MP3 として読み上げます — すべてのツール呼び出しがブラウザにライブでストリーミングされます。
 
@@ -42,20 +42,29 @@
 ## アーキテクチャ
 
 ```text
-Browser (single-page UI, served by FastAPI)
-   polls /api/status every 1.5 s · stepper · live log · report viewer · audio player
-        ↓
-podcast_ui.py — FastAPI + uvicorn on 127.0.0.1:8000
-   REST endpoints · config.json persistence · artifact archiving (_old_*)
-   lock-guarded STATE · one worker thread per run · 409 if busy
-        ↓  imports engine as a module (same process)
-lesson6_podcast_agent.py — ADK agent engine
-   producer Agent (preset-built, 4 tools, guardrail callbacks)
-   podcaster Agent reachable through AgentTool
-   embedded OpenAI→Ollama proxy (FastAPI on 127.0.0.1:11435, daemon thread)
-        ↓                              ↓                        ↓
-   ddgs (whitelist + freshness)   yfinance (stock context)   edge-tts (MP3 per host)
-                                   audio path only → faster-whisper in _transcribe_sub.py subprocess
+ブラウザ (シングルページ UI / FastAPI により配信)
+  1.5秒ごとに /api/status をポーリング · ステッパー · ライブログ · レポート閲覧 · 音声プレイヤー
+
+                                     ↓
+
+            podcast_ui.py — FastAPI + uvicorn (127.0.0.1:8000)
+    REST エンドポイント · config.json 永続化 · アーティファクトのアーカイブ保存 (_old_*)
+    ロック保護された STATE · 1実行につき1ワーカーコンテキスト · ビジー時は 409 エラー
+
+                                     ↓ (同一プロセス内でモジュールとしてインポート)
+
+
+           lesson6_podcast_agent.py — ADK エージェントエンジン
+    producer Agent (プリセット構築 / 4つのツール / ガードレールコールバック)
+    AgentTool 経由でアクセス可能な podcaster Agent
+    組み込み OpenAI→Ollama プロキシ (127.0.0.1:11435 上の FastAPI / デーモンスレッド)
+
+        ↓                            ↓                            ↓
+
+ddgs (ホワイトリスト + 鮮度フィルター)   yfinance (株価コンテキスト)      edge-tts (パーソナリティ別 MP3)
+                                                                  ↓ (音声パスのみ)
+                                                  _transcribe_sub.py サブプロセス内の
+                                                  faster-whisper
 ```
 
 **コード上の 2 つのエージェント** — producer は実行ごとにアクティブなトピックプリセット（目標、範囲、応答確認、金融ステップのバリエーション、ホストへの指示）から再構築されます。podcaster はツールを 1 つだけ持つスペシャリストです：
