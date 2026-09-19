@@ -14,6 +14,11 @@ Languages: **English** | [日本語](README.ja.md)
 ![SQLite](https://img.shields.io/badge/Persistence-SQLite%20(async)-003B57?logo=sqlite&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-222_passing-4ade80)
 
+## Demo Video
+
+[![Agent Flow Orchestrator Demo](https://img.youtube.com/vi/nuW9I_9GJpI/0.jpg)](https://youtu.be/nuW9I_9GJpI)
+
+
 ## Why This Project Exists
 
 Demonstrates dynamic multi-agent orchestration where the workflow is generated from user intent rather than being hard-coded into a fixed sequence of agents. The same engine handles any task — the plan is data, the platform is the product.
