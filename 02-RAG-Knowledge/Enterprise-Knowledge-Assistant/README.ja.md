@@ -33,16 +33,18 @@
 ## アーキテクチャ
 
 ```text
-INGESTION (one-time)
-11 HR PDFs → Cognee (chunk → graph → embed) → Qdrant (131 chunks · 768-d)
-                                            → Knowledge graph (1,604 nodes · 4,605 rels)
-                                            → Hash ledger (skip duplicates)
+データ取り込み (初回のみ)
+11件のHR関連PDF → Cognee (チャンク分割 → グラフ化 → 埋め込みベクター化)
+                 → Qdrant (131チャンク · 768次元)
+                 → ナレッジグラフ (1,604ノード · 4,605リレーション)
+                 → ハッシュ台帳 (重複スキップ)
 
-QUERY TIME
-Question (Streamlit chat)
-  → Hybrid retriever (vector + BM25 + graph triplets → RRF fusion)
-  → Evidence gate (best cosine ≥ 0.55?) ── no → refuse, LLM never called
-  → Ollama LLM (grounded prompt) → Answer + file citations
+クエリ処理 (オンライン)
+質問入力 (Streamlit チャット)
+  → ハイブリッド検索 (ベクター + BM25 + グラフ三つ組(トリプレット) → RRF統合)
+  → エビデンスゲート (最高コサイン類似度 ≥ 0.55?)
+      └── いいえ (No) → 回答拒否 (LLMは呼び出されません)
+      └── はい (Yes)  → Ollama LLM (根拠付きプロンプト) → 回答 + ファイル引用情報
 ```
 
 ## ワークフロー
@@ -135,23 +137,23 @@ python scripts/evaluate_rag.py
 ```text
 Enterprise-Knowledge-Assistant/
 ├── app/
-│   ├── main.py             # Streamlit entry point
-│   ├── config/             # settings from .env (models, thresholds, paths)
-│   ├── ingestion/          # Cognee ingestion + hash ledger
-│   ├── knowledge/          # knowledge-graph access (nodes, edges, triplets)
-│   ├── retrieval/          # hybrid retriever: vector + BM25 + graph → RRF fusion
-│   ├── llm/                # Ollama local/cloud client + grounded prompt
-│   ├── evaluation/         # evidence gate + quality-gates evaluation
-│   ├── vectorstore/        # Qdrant adapter (6 collections)
-│   ├── ui/                 # Streamlit components (chat, sidebar, debug panel)
-│   └── static/             # graph visualization assets
+│   ├── main.py              # Streamlit エントリーポイント
+│   ├── config/              # .env から設定を読み込み (モデル、しきい値、パス)
+│   ├── ingestion/           # Cognee によるデータ取り込み + ハッシュ台帳
+│   ├── knowledge/           # ナレッジグラフ アクセス制御 (ノード、エッジ、三つ組)
+│   ├── retrieval/           # ハイブリッド検索エンジン: ベクター + BM25 + グラフ → RRF統合
+│   ├── llm/                 # Ollama (ローカル/クラウド) クライアント + 根拠付きプロンプト
+│   ├── evaluation/          # エビデンスゲート + クオリティゲート評価
+│   ├── vectorstore/         # Qdrant アダプター (6つのコレクション)
+│   ├── ui/                  # Streamlit UI コンポーネント (チャット、サイドバー、デバッグパネル)
+│   └── static/              # グラフ可視化用アセット
 ├── data/
-│   ├── documents/          # the 11-file HR/policy PDF corpus
-│   └── eval/               # golden_dataset.jsonl (58 questions) + quality_gates.yaml
-├── evaluation/             # evaluation run outputs (results.csv/json)
-├── scripts/                # ingest, evaluate, visualize graph, probes, judges
-├── tests/                  # 12 test modules / 30 tests
-├── docs/screenshots/       # 13 real UI captures
+│   ├── documents/           # 人事・規定関連 PDF コーパス (11ファイル)
+│   └── eval/                # golden_dataset.jsonl (ゴールデンデータセット: 58の質問) + quality_gates.yaml
+├── evaluation/              # 評価実行ログ・出力結果 (results.csv/json)
+├── scripts/                 # データ取り込み、評価実行、グラフ可視化、各種プローブ・判定スクリプト
+├── tests/                   # 12のテストモジュール / 計30件のテストケース
+├── docs/screenshots/        # 実際の UI キャプチャ画像 (13点)
 └── Enterprise Knowledge Assistant_Userguide.html
 ```
 
