@@ -44,32 +44,32 @@
 
 ```mermaid
 flowchart LR
-    U([User]) <--> R["ecommerce_agent<br/>(root orchestrator)<br/>save_user_info"]
-    R -->|transfer| C["catalog_agent<br/>save_cart"]
-    C -->|transfer| K["checkout_agent<br/>save_shipping_address"]
-    K -->|transfer| S["order_summary_agent<br/>reads state, renders summary"]
-    R & C & K & S -.-> ST[("Shared Session State<br/>name · email · mobile<br/>cart · item · quantity · price<br/>shipping_address")]
+    U([ユーザー]) <--> R["ecommerce_agent<br/>(ルート オーケストレーター)<br/>save_user_info (ユーザー情報保存)"]
+    R -->|転送| C["catalog_agent<br/>save_cart (カート保存)"]
+    C -->|転送| K["checkout_agent<br/>save_shipping_address (配送先住所保存)"]
+    K -->|転送| S["order_summary_agent<br/>状態読み取り & サマリー表示"]
+    R & C & K & S -.-> ST[("共有セッション状態 (Shared Session State)<br/>氏名 · メールアドレス · 携帯番号<br/>カート · 商品 · 数量 · 価格<br/>配送先住所")]
 ```
 
 ## 📁 プロジェクト構成
 
 ```
 Agentic-AI-Ecommerce-Orchestrator/
-├── ecommerce_agent/          # Root orchestrator — user profile, routing
+├── ecommerce_agent/          # ルートオーケストレーター — ユーザープロファイル、ルーティング
 │   ├── agent.py
 │   └── __init__.py
-├── catalog_agent/            # Products, prices, cart management
+├── catalog_agent/            # 商品カタログ、価格管理、カート管理
 │   ├── agent.py
 │   └── __init__.py
-├── checkout_agent/           # Shipping address collection
+├── checkout_agent/           # 配送先住所情報の収集
 │   ├── agent.py
 │   └── __init__.py
-├── order_summary_agent/      # Order summary from session state
+├── order_summary_agent/      # セッション状態からの注文サマリー生成
 │   ├── agent.py
 │   └── __init__.py
 ├── docs/
-│   └── screenshots/          # ADK dev-UI walkthrough (8 screenshots)
-├── userguide.html            # Interactive plain-language user guide
+│   └── screenshots/          # ADK 開発用 UI の操作手順画面 (スクリーンショット8点)
+├── userguide.html            # インタラクティブな平易な言葉によるユーザーガイド
 ├── requirements.txt
 └── .env.example
 ```
@@ -131,32 +131,29 @@ adk web
 ## 💬 サンプル会話
 
 ```
-You:    Hi
-Agent:  Hello! I'm your e-commerce assistant. I can help you explore our catalog,
-        place items in your cart, checkout, or track an existing order.
-        Could I start by getting your name, please?
+ユーザー:   こんにちは
+エージェント: こんにちは！Eコマースアシスタントです。商品カタログの閲覧、カートへの追加、お会計、ご注文の追跡をお手伝いいたします。
+まずは、お名前を教えていただけますか？
 
-You:    Raj Mohan → Agent: Thanks, Raj. Could you also provide your email address?
-You:    raj.mohan@example.com → Agent: Great, thank you. Lastly, could you share your mobile number?
-You:    9876543210
-Agent:  ✔ save_user_info called → "I've saved your details. How can I assist you today?"
+ユーザー:   山田 太郎 → エージェント: 山田様、ありがとうございます。次にメールアドレスを教えていただけますか？
+ユーザー:   taro.yamada@example.com → エージェント: ありがとうございます。最後に、お電話番号を教えていただけますか？
+ユーザー:   09012345678
+エージェント: ✔ save_user_info を実行 → 「お客様情報を保存いたしました。本日はどのようなご要件でしょうか？」
 
-You:    I want to buy a new phone
-Agent:  → transfers to catalog_agent → "We have three product categories:
-        Smartphones, Laptops, Headphones. Which would you like to explore?"
+ユーザー:   新しいスマートフォンを買いたいです
+エージェント: → catalog_agent へ転送 → 「スマートフォン、ノートPC、ヘッドホンの3つのカテゴリーがございます。どれをご覧になりますか？」
 
-You:    Smartphones please
-Agent:  Pixel 9 — Rs.70,000 · iPhone 16 — Rs.90,000 · Galaxy S25 — Rs.75,000
+ユーザー:   スマートフォンをお願いします
+エージェント: Pixel 9 — 70,000円 · iPhone 16 — 90,000円 · Galaxy S25 — 75,000円
 
-You:    Add 1 Pixel 9 to cart and checkout
-Agent:  ✔ save_cart called → "Pixel 9 added (1 × Rs.70,000). Handing you off to checkout."
+ユーザー:   Pixel 9 を1台カートに追加して、チェックアウトへ進んでください
+エージェント: ✔ save_cart を実行 → 「Pixel 9 を追加しました (1台 × 70,000円)。チェックアウトへご案内します。」
 
-You:    Ship to 42 MG Road, Bangalore 560001
-Agent:  → checkout_agent → ✔ save_shipping_address called
+ユーザー:   配送先は 〒100-0005 東京都千代田区丸の内1-1-1 にしてください
+エージェント: → checkout_agent → ✔ save_shipping_address を実行
 
-You:    Yes, show my order summary
-Agent:  → order_summary_agent → renders Order Summary table with
-        item, shipping address, contact details, and Order Total: Rs. 70,000
+ユーザー:   はい、注文のサマリーを表示してください
+エージェント: → order_summary_agent → 注文品目、配送先住所、連絡先情報、および合計金額: 70,000円 を含む注文サマリーテーブルを表示
 ```
 
 | | |
