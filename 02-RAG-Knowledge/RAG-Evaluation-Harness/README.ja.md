@@ -4,7 +4,7 @@
 
 <div align="center">
 
-# 📊 RAG Evaluation Harness
+# 📊 RAG 評価ハーネス
 
 </div>
 
@@ -17,7 +17,7 @@ RAG システム向けの **Streamlit 評価ワークベンチ**。[RAGAS](https
 回答の主観的な目視確認だけに頼るのではなく、RAG システムを体系的に評価する方法 — LLM-as-a-judge メトリクス、閾値、実行履歴 — を示すプロジェクトです。
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![RAGAS](https://img.shields.io/badge/🤖 RAGAS-LLM%20judged-5B21B6)](https://docs.ragas.io/)
+[![RAGAS](https://img.shields.io/badge/🤖_RAGAS-LLM_judged-5B21B6)](https://docs.ragas.io/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![pytest](https://img.shields.io/badge/pytest-tests-green?logo=pytest&logoColor=white)](https://docs.pytest.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
