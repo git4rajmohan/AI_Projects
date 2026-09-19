@@ -35,7 +35,7 @@ Demonstrates how an LLM can extract structured intent from free-form natural lan
 
 ### Conversational Chat Bot
 - 💬 Natural-language booking: *"I want to book a cardiology appointment for John Doe next Monday at 2pm"*
-- 🤁ELLM-powered intent extraction ↁEstructured appointment fields via LangChain LCEL + Pydantic
+- LLM-powered intent extraction structured appointment fields via LangChain LCEL + Pydantic
 - 📋 Booking confirmation cards with patient, department, scheduled time, masked phone, and SMS SID
 - ⚡ Quick-action chips (Book / Reschedule / Cancel / Inquiry) and session-aware multi-turn chat
 
@@ -211,21 +211,18 @@ curl http://127.0.0.1:8000/api/health
 
 ## How It Works
 
-```
-Raw Text ↁE[ChatPromptTemplate | ChatOpenAI | PydanticOutputParser] ↁEExtractedAppointment
-                                                                         ━E
-                                                                         ▼
-                                                              ┌─── Calendar Check ───━E
-                                                              ━E                     ━E
-                                                         Available?            Not Available?
-                                                              ━E                     ━E
-                                                         Book Slot          Find Next Available
-                                                              ━E                     ━E
-                                                              └────── SMS ──────────━E
-                                                                         ━E
-                                                                         ▼
-                                                                  ExecutionSummary
-```
+flowchart TD
+    A[Raw Text] --> B[ChatPromptTemplate | ChatOpenAI | PydanticOutputParser]
+    B --> C[ExtractedAppointment]
+    C --> D{Calendar Check}
+    
+    D -->|Available| E[Book Slot]
+    D -->|Not Available| F[Find Next Available]
+    
+    E --> G[SMS]
+    F --> G
+    
+    G --> H[ExecutionSummary]
 
 ## Configuration
 
