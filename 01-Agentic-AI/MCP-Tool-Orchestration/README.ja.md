@@ -6,6 +6,12 @@
 
 **14 個の MCP(Model Context Protocol)ツール サーバーを任意の LLM の背後でオーケストレーションする、本番スタイルの AI チャット アシスタント** — 時刻、Excel、ファイルシステム、ブラウザ自動化、図、チャート、SQL、Jira、ドキュメント検索、画像理解を、プロバイダーを切り替え可能なレイヤー(Ollama Cloud / ローカル Ollama / 任意の OpenAI 互換エンドポイント)とともに Streamlit チャット UI の背後に提供します。
 
+## デモ動画
+
+[![MCP Tool Orchestration Demo](https://img.youtube.com/vi/lk8tUGTuk-E/0.jpg)](https://youtu.be/lk8tUGTuk-E)
+[![MCP Tool Orchestration Demo 2](https://img.youtube.com/vi/AIMl9B_d6Yg/0.jpg)](https://youtu.be/AIMl9B_d6Yg)
+
+
 <div align="center">
   <img src="docs/architecture.png" alt="Agentic AI MCP Tool Orchestration — architecture" width="820">
 </div>
