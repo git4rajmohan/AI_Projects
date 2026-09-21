@@ -2,7 +2,7 @@ Languages: **English** | [日本語](README.ja.md)
 
 ---
 
-# AI / ML Engineering Portfolio
+# AI / ML Engineering Portfolio  | [Click here for Quick Summary](AI_Projects_16_Project_Portfolio_QuickExplanation.html)
 
 A collection of 16 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, RAG, knowledge engineering, AI safety, document intelligence, voice AI and classical NLP/ML.
 
