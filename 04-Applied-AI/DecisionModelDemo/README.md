@@ -1,3 +1,5 @@
+Languages: **English** | [日本語](README.ja.md)
+
 # MaintAI Decision Platform
 
 **From machine signals to explainable maintenance decisions.**

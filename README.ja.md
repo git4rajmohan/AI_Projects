@@ -75,7 +75,7 @@
 |---|---|---|---|
 | [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/README.ja.md/) | ドックフロー・ドキュメントインテリジェンス | 請求書は AI が読み取り、判断は決定論的なポリシーが行う | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
 | [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/README.ja.md/) | リサーチ・ボイスエージェント | エージェントが計画し、ツールが実行 → 完成したポッドキャスト | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
-| [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/) | MaintAI 保全判断プラットフォーム | センサー検証、決定モデル、決定論的ポリシー、根拠付き説明 | Streamlit, SQLite, Ollama TEV1, Pydantic |
+| [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/README.ja.md) | MaintAI 保全判断プラットフォーム | センサー検証、決定モデル、決定論的ポリシー、根拠付き説明 | Streamlit, SQLite, Ollama TEV1, Pydantic |
 
 ### 🧠 NLP & 機械学習
 
@@ -137,7 +137,7 @@ FastAPI · Streamlit · React · SQLite
 - [LLM Guardrails](./03-AI-Safety-Quality/LLM-Guardrails/) · [AI-Safe Support Ticket](./03-AI-Safety-Quality/Safe-Support-Ticket/)
 
 ### 応用 AI をお探しですか？
-- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/)
+- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/README.ja.md)
 
 ### 古典 NLP/ML をお探しですか？
 - [Sentiment Analysis](./05-NLP-Machine-Learning/Sentiment-Analysis/)
