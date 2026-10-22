@@ -2,18 +2,18 @@ Languages: **English** | [日本語](README.ja.md)
 
 # AI / ML Engineering Portfolio  | [Download Quick Summary](AI_Projects_16_Project_Portfolio_QuickExplanation.html)
 
-A collection of 17 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, RAG, knowledge engineering, AI safety, document intelligence, maintenance decision support, voice AI and classical NLP/ML.
+A collection of 18 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, RAG, knowledge engineering, AI safety, document intelligence, computer vision, maintenance decision support, voice AI and classical NLP/ML.
 
 ## Portfolio Map
 
-5 categories · 17 projects
+5 categories · 18 projects
 
 | Category | Projects | Key Technologies |
 |---|---:|---|
 | 🤖 [Agentic AI & Multi-Agent Systems](./01-Agentic-AI/) | 6 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL |
 | 📚 [RAG & Knowledge Engineering](./02-RAG-Knowledge/) | 5 | LangGraph, LlamaIndex, ChromaDB, Qdrant, Neo4j |
 | 🛡️ [AI Safety & Quality Engineering](./03-AI-Safety-Quality/) | 2 | NeMo Guardrails, LLM Judges, PII Detection |
-| 🏭 [Applied AI](./04-Applied-AI/) | 3 | OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite |
+| 🏭 [Applied AI](./04-Applied-AI/) | 4 | YOLO, OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite |
 | 🧠 [NLP & Machine Learning](./05-NLP-Machine-Learning/) | 1 | scikit-learn, NLTK, spaCy |
 
 ## What I Build
@@ -24,6 +24,7 @@ A collection of 17 practical AI/ML projects demonstrating agentic AI, multi-agen
 - 📏 LLM/RAG evaluation and quality engineering
 - 🛡️ AI safety and prompt-injection defenses
 - 📄 Document intelligence and validation workflows
+- 👁️ Computer vision: detection, tracking and counting
 - 🎙️ Voice and multimodal AI pipelines
 - 🧠 Classical NLP and machine-learning systems
 
@@ -74,6 +75,7 @@ A collection of 17 practical AI/ML projects demonstrating agentic AI, multi-agen
 | [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) | Invoice AI reads, deterministic policy decides | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
 | [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) | Agents plan, tools act → finished podcast | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
 | [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/) | Sensor evidence + decision model + deterministic policy + grounded explanations | Streamlit, SQLite, Ollama TEV1, Pydantic |
+| [VisionFlow Video Analytics](./04-Applied-AI/VisionFlow/) | YOLO detection + tracking + honest counting | Ultralytics YOLO11, ByteTrack, OpenCV, Streamlit |
 
 ### 🧠 NLP & Machine Learning
 
@@ -99,7 +101,7 @@ RAGAS · LLM-as-a-Judge · pytest · Golden Datasets
 NeMo Guardrails · Colang · Prompt Injection · PII Detection
 
 **Applied AI**
-OCR · Document Intelligence · STT · TTS · Voice AI
+OCR · Document Intelligence · Computer Vision · STT · TTS · Voice AI
 
 **Application**
 FastAPI · Streamlit · React · SQLite
@@ -135,7 +137,7 @@ FastAPI · Streamlit · React · SQLite
 - [LLM Guardrails](./03-AI-Safety-Quality/LLM-Guardrails/) · [AI-Safe Support Ticket](./03-AI-Safety-Quality/Safe-Support-Ticket/)
 
 ### Looking for Applied AI?
-- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/)
+- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/) · [VisionFlow Video Analytics](./04-Applied-AI/VisionFlow/)
 
 ### Looking for Classical NLP/ML?
 - [Sentiment Analysis](./05-NLP-Machine-Learning/Sentiment-Analysis/)
@@ -145,7 +147,7 @@ FastAPI · Streamlit · React · SQLite
 | Document | Purpose |
 |---|---|
 | **README.md** (this file) | Recruiter landing page — portfolio overview and navigation |
-| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | Detailed catalog — all 17 projects with architecture, differentiation and links |
+| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | Detailed catalog — all 18 projects with architecture, differentiation and links |
 | **Project READMEs** | Implementation details per project |
 
 ## AI-Assisted Development

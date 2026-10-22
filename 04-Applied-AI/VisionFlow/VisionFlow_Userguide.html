@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VisionFlow — User Guide</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --muted: #5b6b7c;
+    --accent: #2563eb;
+    --accent-soft: #e8effd;
+    --green: #16a34a;
+    --green-soft: #e7f7ee;
+    --red: #dc2626;
+    --red-soft: #fdeaea;
+    --amber: #d97706;
+    --amber-soft: #fdf3e3;
+    --grey-soft: #eef1f6;
+    --border: #dbe2ec;
+    --radius: 14px;
+    --mono: "Cascadia Code", "Consolas", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(120deg, #172554 0%, #2563eb 60%, #60a5fa 100%);
+    color: #fff;
+    padding: 34px 24px 0;
+  }
+  .head-inner { max-width: 1100px; margin: 0 auto; }
+  header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: .2px; }
+  header p.sub { color: #dbeafe; margin-top: 6px; font-size: .98rem; }
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .tab-btn {
+    appearance: none; border: none; cursor: pointer;
+    padding: 12px 26px; font-size: 1rem; font-weight: 600;
+    border-radius: 12px 12px 0 0;
+    background: rgba(255,255,255,.15); color: #e0eaff;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,.28); }
+  .tab-btn.active { background: var(--bg); color: var(--accent); }
+  main { max-width: 1100px; margin: 0 auto; padding: 34px 24px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  h2 { font-size: 1.35rem; margin: 38px 0 14px; padding-top: 8px; }
+  h2:first-child { margin-top: 0; }
+  h3 { font-size: 1.08rem; margin: 24px 0 10px; }
+  h4 { font-size: 1rem; }
+  p { margin: 10px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px; margin: 16px 0;
+    box-shadow: 0 1px 3px rgba(20,40,80,.05);
+  }
+  .lead { font-size: 1.05rem; color: var(--muted); }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 6px 0; }
+  code {
+    font-family: var(--mono); font-size: .88em;
+    background: var(--grey-soft); border-radius: 5px; padding: 2px 6px;
+  }
+  pre {
+    font-family: var(--mono); font-size: .85rem;
+    background: #0f172a; color: #e2e8f0; border-radius: 10px;
+    padding: 14px 18px; overflow-x: auto; margin: 14px 0; line-height: 1.65;
+  }
+  pre code { background: none; padding: 0; color: inherit; font-size: .85rem; }
+  .pill {
+    display: inline-block; padding: 2px 12px; border-radius: 999px;
+    font-size: .82rem; font-weight: 600; white-space: nowrap;
+  }
+  .pill.green  { background: var(--green-soft);  color: var(--green); }
+  .pill.amber  { background: var(--amber-soft);  color: var(--amber); }
+  .pill.red    { background: var(--red-soft);    color: var(--red); }
+  .pill.blue   { background: var(--accent-soft); color: var(--accent); }
+  .pill.grey   { background: var(--grey-soft);   color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; background: var(--card);
+          border-radius: 10px; overflow: hidden; font-size: .93rem; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--accent-soft); color: #1e3a8a; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .note {
+    border-left: 4px solid var(--accent); background: var(--accent-soft);
+    padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: .95rem;
+  }
+  .note.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+  .note.ok   { border-left-color: var(--green); background: var(--green-soft); }
+  .note.danger { border-left-color: var(--red); background: var(--red-soft); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  .stat { text-align: center; }
+  .stat .kicker { text-transform: uppercase; letter-spacing: 1.5px; font-size: .72rem; color: var(--muted); }
+  .stat .val { font-size: 2rem; font-weight: 700; color: var(--accent); margin: 2px 0; }
+  .stat .lbl { font-size: .85rem; color: var(--muted); }
+  .diagram { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+             padding: 18px; margin: 16px 0; overflow-x: auto; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .diagram figcaption { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 10px; }
+  .step { display: flex; gap: 14px; margin: 14px 0; align-items: flex-start; }
+  .step .num {
+    flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: .95rem;
+  }
+  .step h4 { font-size: 1rem; margin-bottom: 2px; }
+  .step p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .kbd { font-family: var(--mono); background: #fff; border: 1px solid var(--border);
+         border-bottom-width: 3px; border-radius: 6px; padding: 1px 7px; font-size: .82rem; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 26px; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <h1>🎥 VisionFlow — From Video Frames to Counted, Tracked Objects</h1>
+    <p class="sub">Python · Streamlit · Ultralytics YOLO11 · OpenCV: an uploaded video streams through a YOLO
+    detector, objects are followed across frames with persistent track IDs (ByteTrack or BoT-SORT), and the app
+    counts them two honest ways — <em>current</em> (visible in this frame) and <em>unique</em> (distinct track IDs
+    seen over the run). Everything lands in one result screen: the annotated video with boxes, labels and a live
+    count HUD, two per-class count tables, bar and line charts, a download button, and a frame viewer that replays
+    any processed frame with its exact per-frame detections from the <code>.jsonl</code> sidecar. All controls live
+    in one sidebar — model, confidence, IoU, classes, frame skip, box-area and track-length filters, preview FPS,
+    tracking on/off, and the one button that starts everything.</p>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-btn-pitch" onclick="showTab('pitch')">🚀 Elevator Pitch</button>
+      <button class="tab-btn" id="tab-btn-nontechnical" onclick="showTab('nontechnical')">📖 Non-Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-technical" onclick="showTab('technical')">⚙️ Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-glossary" onclick="showTab('glossary')">📚 Glossary</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================================================================== -->
+<!-- TAB 0 — ELEVATOR PITCH                                               -->
+<!-- ==================================================================== -->
+<section class="panel active" id="panel-pitch">
+
+  <h2>The 30-second pitch</h2>
+  <div class="card">
+    <p class="lead">
+      Ask a person to "count the cars in this hour of traffic video" and two things go wrong: they get tired
+      by frame 2,000, and they count the <em>same car</em> several times because it appears in many frames.
+      The naive script fix — counting detections per frame and adding them up — is worse: a car crossing 40
+      frames becomes a fleet of 40. What you actually need is a counter that knows which detections belong
+      to <em>the same physical object</em>.
+    </p>
+    <p>
+      <strong>VisionFlow is that counter, built properly.</strong> YOLO detects objects per frame; ByteTrack
+      (or BoT-SORT) threads those detections into persistent track IDs across frames; and the count of
+      interest is taken from <em>distinct track IDs seen during the run</em>, per class — detections are
+      never summed per frame. A live side shows the current frame with boxes, labels
+      (<code>CAR #12 0.87</code>) and a counts overlay; below it, the two tables keep the current and unique
+      counts visibly separate, so nobody quotes the wrong number. Each frame's raw detections are written to
+      a <code>.jsonl</code> sidecar next to the annotated video, which is exactly what the built-in frame
+      viewer replays — every box, ID and confidence you saw live is auditable afterwards.
+    </p>
+    <p><strong>The line that matters: the detector finds things, the tracker gives them an identity, and the counter only believes the identity — never the raw per-frame detections.</strong></p>
+  </div>
+
+  <h2>The one-line principle</h2>
+  <div class="grid3">
+    <div class="card">
+      <h3>🆔 Count identities, not frames</h3>
+      <p><strong>Current objects</strong> = detections visible in this frame (good for "how busy is it right
+      now"). <strong>Unique tracked objects</strong> = how many <em>distinct</em> track IDs the run has seen,
+      per class. Two tables, side by side, so the useful number is never confused with the easy number.</p>
+    </div>
+    <div class="card">
+      <h3>🌊 Stream, never hoard</h3>
+      <p>Frames flow one at a time from <code>cv2.VideoCapture</code> through detection, counting and
+      annotation to the output writer. The whole video is never in RAM, so a long recording processes the
+      same as a short one — the progress bar and live preview update as each frame completes.</p>
+    </div>
+    <div class="card">
+      <h3>🧾 Fail loudly, in plain words</h3>
+      <p>Typed errors (<code>VideoValidationError</code>, <code>ModelError</code>, <code>TrackerError</code>,
+      <code>VideoWriteError</code>) carry one-sentence human messages shown via <code>st.error</code> — a
+      corrupt file, a GPU that ran out of memory, a missing CUDA build — while technical detail goes to the
+      log only, never to a stack trace on screen.</p>
+    </div>
+  </div>
+
+  <h2>How it works in one picture</h2>
+  <figure class="diagram">
+    <svg viewBox="0 0 980 250" width="980" role="img" aria-label="VisionFlow processing pipeline">
+      <defs>
+        <marker id="ar0" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <text x="80" y="36" fill="#5b6b7c" font-size="12">INPUT</text>
+        <rect x="15" y="46" width="140" height="56" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="85" y="70" fill="#334155">📁 Upload video</text>
+        <text x="85" y="90" fill="#5b6b7c" font-weight="400" font-size="11">mp4 · avi · mov · mkv</text>
+
+        <rect x="175" y="46" width="150" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="70" fill="#1e3a8a">✅ Validate + metadata</text>
+        <text x="250" y="90" fill="#5b6b7c" font-weight="400" font-size="11">resolution · fps · frame count</text>
+
+        <rect x="345" y="46" width="150" height="56" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="420" y="70" fill="#92400e">🧠 YOLO detect/track</text>
+        <text x="420" y="90" fill="#5b6b7c" font-weight="400" font-size="11">boxes · classes · confidences</text>
+
+        <rect x="515" y="46" width="150" height="56" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="590" y="70" fill="#92400e">🔍 Filter</text>
+        <text x="590" y="90" fill="#5b6b7c" font-weight="400" font-size="11">conf · classes · min box area</text>
+
+        <rect x="685" y="46" width="130" height="56" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="750" y="70" fill="#14532d">🏷️ Tracker IDs</text>
+        <text x="750" y="90" fill="#5b6b7c" font-weight="400" font-size="11">bytetrack / botsort</text>
+
+        <rect x="835" y="46" width="130" height="56" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="900" y="70" fill="#14532d">🔢 Counter</text>
+        <text x="900" y="90" fill="#5b6b7c" font-weight="400" font-size="11">current + unique</text>
+
+        <text x="965" y="136" text-anchor="end" fill="#5b6b7c" font-size="12">OUTPUT</text>
+        <rect x="15" y="146" width="180" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="105" y="170" fill="#1e3a8a">🎨 Annotator</text>
+        <text x="105" y="190" fill="#5b6b7c" font-weight="400" font-size="11">boxes · labels · count HUD</text>
+
+        <rect x="215" y="146" width="170" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="300" y="170" fill="#1e3a8a">🎬 Annotated video</text>
+        <text x="300" y="190" fill="#5b6b7c" font-weight="400" font-size="11">H.264 re-encode via ffmpeg</text>
+
+        <rect x="405" y="146" width="170" height="56" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="490" y="170" fill="#334155">📋 .jsonl sidecar</text>
+        <text x="490" y="190" fill="#5b6b7c" font-weight="400" font-size="11">per-frame detections</text>
+
+        <rect x="595" y="146" width="180" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="685" y="170" fill="#1e3a8a">📊 Dashboard</text>
+        <text x="685" y="190" fill="#5b6b7c" font-weight="400" font-size="11">stats · count tables · charts</text>
+
+        <rect x="795" y="146" width="170" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="880" y="170" fill="#1e3a8a">🎞️ Frame viewer</text>
+        <text x="880" y="190" fill="#5b6b7c" font-weight="400" font-size="11">prev / play / next + detections</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="155" y1="74" x2="173" y2="74" marker-end="url(#ar0)"/>
+        <line x1="325" y1="74" x2="343" y2="74" marker-end="url(#ar0)"/>
+        <line x1="495" y1="74" x2="513" y2="74" marker-end="url(#ar0)"/>
+        <line x1="665" y1="74" x2="683" y2="74" marker-end="url(#ar0)"/>
+        <line x1="815" y1="74" x2="833" y2="74" marker-end="url(#ar0)"/>
+        <path d="M900,102 V131 H105 V144" marker-end="url(#ar0)"/>
+        <line x1="197" y1="174" x2="213" y2="174" marker-end="url(#ar0)"/>
+        <line x1="387" y1="174" x2="403" y2="174" marker-end="url(#ar0)"/>
+        <line x1="577" y1="174" x2="593" y2="174" marker-end="url(#ar0)"/>
+        <line x1="777" y1="174" x2="793" y2="174" marker-end="url(#ar0)"/>
+      </g>
+      <g>
+        <rect x="230" y="228" width="520" height="26" rx="13" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+        <text x="490" y="246" text-anchor="middle" fill="#14532d" font-size="12" font-weight="bold">🔗 current counts and unique counts are displayed — and counted — as two different things</text>
+      </g>
+    </svg>
+    <figcaption>Figure 0 — One processing pipeline. Uploaded video → validation → YOLO → filter → tracker → counter
+    → annotated output, sidecar and dashboard; the frame viewer replays what the sidecar recorded.</figcaption>
+  </figure>
+
+  <h2>Numbers from the shipped build</h2>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">Streamlit pages</div><div class="val">1</div><div class="lbl">single-page app — sidebar controls + results area</div></div>
+    <div class="card stat"><div class="kicker">Trackers</div><div class="val">2</div><div class="lbl">bytetrack · botsort, config-selected</div></div>
+    <div class="card stat"><div class="kicker">Default classes</div><div class="val">6</div><div class="lbl">person · car · bus · truck · motorcycle · bicycle</div></div>
+  </div>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">Video formats</div><div class="val">4</div><div class="lbl">.mp4 · .avi · .mov · .mkv uploads</div></div>
+    <div class="card stat"><div class="kicker">Models</div><div class="val">4+</div><div class="lbl">yolo11n/s/m + any configured weights</div></div>
+    <div class="card stat"><div class="kicker">Tests</div><div class="val">50</div><div class="lbl">offline pytest suite — no GPU, model download or internet</div></div>
+  </div>
+
+  <div class="note ok">
+    <strong>The signal:</strong> nothing here is a monolith. Reader, detector, tracker, counter, annotator,
+    writer and dashboard are each one small module with one job, composed by a single <code>process_video()</code>
+    generator — and any component that only needs <code>frame → detections</code> is swappable without touching
+    the rest. The architecture is the lesson; YOLO is an interchangeable part.
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 1 — NON-TECHNICAL                                                -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-nontechnical">
+
+  <h2>What is this project?</h2>
+  <div class="card">
+    <p class="lead">
+      <strong>VisionFlow</strong> is a video analysis demo: you give it a recorded video, it finds the objects
+      you care about (people, cars, trucks…), follows each one across frames with an ID, and counts them —
+      both how many are visible in any given frame and how many <em>distinct</em> objects appeared overall.
+      You get an annotated video back where every detection is boxed, labelled and given its track ID, plus
+      tables and charts of the counts, and a frame viewer to inspect any moment closely.
+    </p>
+    <p>Using it is three moves:</p>
+    <ol>
+      <li><strong>Feed</strong> — upload a video in the sidebar. The app validates it and shows file name,
+      resolution, FPS, frame count and duration before anything else happens.</li>
+      <li><strong>Run</strong> — pick the model, adjust the sliders, tick the classes you care about, and
+      press <strong>Start Processing</strong>. The live frame, stats and count tables update while it runs.</li>
+      <li><strong>Review</strong> — watch or download the annotated video, read the count tables and charts,
+      and step through any processed frame in the frame viewer with its exact detections.</li>
+    </ol>
+    <p>
+      Think of it as a traffic-analysis booth staffed by three specialists: a <em>librarian</em> who accepts
+      only legitimate video files and catalogues their metadata; a <em>spotter</em> with eagle eyes who
+      finds and names every object; and a <em>tally clerk</em> who refuses to double-count the same car and
+      keeps two columns — what's visible now, and what's been seen all run. The tally clerk is the one whose
+      numbers you quote; the annotated video is the proof.
+    </p>
+    <div class="note warn">
+      <strong>The honest limits:</strong> track IDs are only stable <em>within one run</em>. If the tracker
+      loses an object behind a truck and re-finds it, that one object may be counted as two — occlusion and
+      low confidence are the known failure mode. Frame skipping makes the video process faster but makes
+      both problems more likely. The app warns about this on-screen rather than pretending it can't happen.
+    </div>
+  </div>
+
+  <h2>What does working with it look like?</h2>
+  <p>
+    The app is a single-page Streamlit app at <code>http://localhost:8501</code>. Everything you configure
+    lives in the sidebar; everything you watch lives in the main area. The <strong>Start Processing</strong>
+    button stays disabled until a video is uploaded, the model is loaded and at least one class is ticked —
+    so a half-finished setup can't start a doomed run.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 320" width="980" role="img" aria-label="Sidebar controls and results area">
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <rect x="15" y="20" width="300" height="285" rx="14" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+        <text x="165" y="46" fill="#334155" font-size="14">🎛️ Sidebar</text>
+        <text x="165" y="74" fill="#334155" font-size="11.5" font-weight="400">Input · Upload Video</text>
+        <text x="165" y="96" fill="#334155" font-size="11.5" font-weight="400">Detection · model select · confidence · IoU</text>
+        <text x="165" y="118" fill="#334155" font-size="11.5" font-weight="400">Object Classes · 6 checkboxes</text>
+        <text x="165" y="140" fill="#334155" font-size="11.5" font-weight="400">Processing · frame skip · min box area</text>
+        <text x="165" y="162" fill="#334155" font-size="11.5" font-weight="400">• min track length · display FPS</text>
+        <text x="165" y="184" fill="#334155" font-size="11.5" font-weight="400">• tracking on/off · Start button</text>
+        <text x="165" y="214" fill="#5b6b7c" font-size="11" font-weight="400">sliders show live warnings when set</text>
+        <text x="165" y="236" fill="#5b6b7c" font-size="11" font-weight="400">to values that hurt accuracy</text>
+        <text x="165" y="264" fill="#5b6b7c" font-size="11" font-weight="400">Start disabled until upload +</text>
+        <text x="165" y="286" fill="#5b6b7c" font-size="11" font-weight="400">model + ≥1 class are ready</text>
+
+        <rect x="355" y="20" width="290" height="135" rx="14" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="500" y="48" fill="#1e3a8a" font-size="14">📼 During a run</text>
+        <text x="500" y="74" fill="#334155" font-size="11.5" font-weight="400">progress bar · live annotated frame</text>
+        <text x="500" y="96" fill="#334155" font-size="11.5" font-weight="400">frame / FPS / processed / elapsed</text>
+        <text x="500" y="118" fill="#334155" font-size="11.5" font-weight="400">Current + Unique count tables</text>
+        <text x="500" y="140" fill="#5b6b7c" font-size="11" font-weight="400">preview rate throttled by Display FPS slider</text>
+
+        <rect x="665" y="20" width="300" height="135" rx="14" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="815" y="48" fill="#14532d" font-size="14">🏆 Results</text>
+        <text x="815" y="74" fill="#334155" font-size="11.5" font-weight="400">final stats · count tables · analytics</text>
+        <text x="815" y="96" fill="#334155" font-size="11.5" font-weight="400">annotated video + download button</text>
+        <text x="815" y="118" fill="#334155" font-size="11.5" font-weight="400">bar chart (counts) · line chart (time)</text>
+        <text x="815" y="140" fill="#5b6b7c" font-size="11" font-weight="400">ffmpeg missing → warning + download still works</text>
+
+        <rect x="355" y="175" width="610" height="130" rx="14" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="660" y="203" fill="#92400e" font-size="14">🎞️ Frame viewer (after a run)</text>
+        <text x="660" y="229" fill="#334155" font-size="11.5" font-weight="400">Previous / Play-Stop / Next / frame number box</text>
+        <text x="660" y="251" fill="#334155" font-size="11.5" font-weight="400">shows: this frame's image · current counts · every detection (class, ID, confidence, box)</text>
+        <text x="660" y="273" fill="#5b6b7c" font-size="11" font-weight="400">data comes from the .jsonl sidecar, so what you inspect is exactly what was detected</text>
+        <text x="660" y="295" fill="#5b6b7c" font-size="11" font-weight="400">Play steps at your Display FPS and stops at the last frame</text>
+      </g>
+    </svg>
+    <figcaption>Figure 1 — The whole app in one screen: sidebar controls, live run view, results, and the frame
+    viewer that audits the run frame by frame.</figcaption>
+  </figure>
+
+  <h2>The 6-step workflow</h2>
+
+  <div class="card">
+    <div class="step"><div class="num">1</div><div><h4>Set up — once</h4>
+      <p><code>.venv</code> → <code>pip install -r requirements.txt</code> → copy <code>.env.example</code> to <code>.env</code>.</p></div></div>
+    <p>
+      Python 3.11+. On GPU machines, force the CUDA build of PyTorch (pip may claim the CPU wheel is already
+      satisfied — it isn't what you want); optional <code>ffmpeg</code> on PATH upgrades the output video to
+      browser-playable H.264. Without ffmpeg everything still works — the output just may not play inline.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">2</div><div><h4>Upload — the video earns its way in</h4>
+      <p>Sidebar → Upload Video → metadata card appears.</p></div></div>
+    <p>
+      Drop in a <code>.mp4</code>, <code>.avi</code>, <code>.mov</code> or <code>.mkv</code>. The reader
+      validates it before anything else: file exists, extension recognised, video actually opens, frames
+      readable, resolution and FPS present. A broken upload fails in one plain sentence — and stops the app
+      right there so you never wait for a pipeline run that can't start.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">3</div><div><h4>Configure — the sidebar is the lab bench</h4>
+      <p>Model · confidence · IoU · classes · frame skip · min box area · min track length · display FPS · tracking.</p></div></div>
+    <p>
+      <strong>Model</strong>: YOLO11 nano/small/medium (or whatever <code>MODEL_NAME</code> you configured) —
+      smaller is faster, bigger catches more. <strong>Confidence</strong> and <strong>IoU</strong> sliders set
+      what counts as a detection and how boxes are deduplicated. <strong>Classes</strong>: tick what you count;
+      unticked classes are filtered out entirely. <strong>Frame skip</strong> processes every N-th frame for
+      speed (with a live warning that it can break track IDs); <strong>Min Box Area</strong> drops tiny boxes
+      (distant signs misread as cars); <strong>Min Track Length</strong> filters 1–2 frame flicker IDs out of
+      the unique counts; <strong>Display FPS</strong> only throttles the pretty preview, never the processing.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">4</div><div><h4>Run — press Start Processing</h4>
+      <p>Progress bar · live frame · stats · both count tables.</p></div></div>
+    <p>
+      While the run progresses you see the annotated frame at your chosen preview rate, a stats bar (frame
+      index, video FPS, processing FPS, processed/total frames, elapsed), and the two count tables refreshing
+      in place. Errors mid-run — a GPU memory hit, a failed write — appear as one readable sentence and the
+      run stops cleanly; resources are released even when the browser tab walks away mid-run.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">5</div><div><h4>Review — quotes come from the unique table</h4>
+      <p>Final stats · count tables · bar + line charts · annotated video · download.</p></div></div>
+    <p>
+      After the run: the <strong>Analytics</strong> section shows the full counts table with a bar chart, and
+      a line chart of current-object totals across the run. The <strong>unique</strong> column is the headline
+      number — <em>how many different objects</em> moved through the video per class. The annotated video plays
+      inline (with an honest warning if ffmpeg was missing) and always offers a download.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">6</div><div><h4>Audit — the frame viewer</h4>
+      <p>Step or play through processed frames; each shows its exact detections.</p></div></div>
+    <p>
+      The viewer reads frame images from the output video and detections from the <code>.jsonl</code> sidecar —
+      the same record written during the run, not a re-inference. For any frame you get the image
+      (<code>Output frame 42 (source frame 84)</code> when frame skip is active), this-frame current counts,
+      and a table of every detection: class, track ID, confidence and box coordinates. Play steps at your
+      Display FPS and stops itself at the last frame.
+    </p>
+  </div>
+
+  <h2>Try it in five commands</h2>
+  <div class="card">
+<pre><code># 1) install (Windows PowerShell, from the repo root)
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+# 2) configure: copy .env.example to .env (defaults are fine to start)
+Copy-Item .env.example .env
+
+# 3) GPU only: force the CUDA build of PyTorch
+.\.venv\Scripts\python.exe -m pip install --force-reinstall --no-deps torch torchvision --index-url https://download.pytorch.org/whl/cu128
+.\.venv\Scripts\python.exe -m pip install "setuptools&lt;82"
+
+# 4) run the app
+.\.venv\Scripts\python.exe -m streamlit run app.py
+#    → open http://localhost:8501
+
+# 5) upload a video in the sidebar and press Start Processing</code></pre>
+    <p style="font-size:.9rem;color:var(--muted)">Optional: put <code>ffmpeg</code> on PATH so the annotated
+    video re-encodes to H.264 and plays in the browser. The first run downloads the YOLO weights automatically.</p>
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 2 — TECHNICAL                                                    -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-technical">
+
+  <h2>Architecture</h2>
+  <p>
+    Every concept owns one file. <code>process_video()</code> composes them as a generator; the Streamlit
+    page (<code>app.py</code>) only wires UI to the same functions the pipeline uses — no page has its own
+    private logic. Nothing holds the whole video in RAM: frames are streamed one at a time.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 320" width="980" role="img" aria-label="Module map">
+      <defs>
+        <marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="12" font-weight="600" text-anchor="middle">
+        <rect x="15" y="20" width="220" height="140" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="125" y="42" fill="#334155">config/settings.py</text>
+        <text x="125" y="64" fill="#5b6b7c" font-weight="400" font-size="11">the ONLY .env reader</text>
+        <text x="125" y="84" fill="#5b6b7c" font-weight="400" font-size="11">frozen dataclass Settings</text>
+        <text x="125" y="104" fill="#5b6b7c" font-weight="400" font-size="11">model · thresholds · device</text>
+        <text x="125" y="124" fill="#5b6b7c" font-weight="400" font-size="11">tracker · output dir</text>
+
+        <rect x="255" y="20" width="220" height="140" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="365" y="42" fill="#1e3a8a">models/model_manager.py</text>
+        <text x="365" y="64" fill="#5b6b7c" font-weight="400" font-size="11">load YOLO · resolve device</text>
+        <text x="365" y="84" fill="#5b6b7c" font-weight="400" font-size="11">detect() / track() / reset()</text>
+        <text x="365" y="104" fill="#5b6b7c" font-weight="400" font-size="11">results → Detection dataclass</text>
+        <text x="365" y="124" fill="#5b6b7c" font-weight="400" font-size="11">OOM → actionable ModelError</text>
+
+        <rect x="495" y="20" width="220" height="140" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="605" y="42" fill="#92400e">video/video_reader.py</text>
+        <text x="605" y="64" fill="#5b6b7c" font-weight="400" font-size="11">validate + VideoMetadata</text>
+        <text x="605" y="84" fill="#5b6b7c" font-weight="400" font-size="11">read_frames() generator</text>
+        <text x="605" y="104" fill="#5b6b7c" font-weight="400" font-size="11">.mp4 .avi .mov .mkv</text>
+        <text x="605" y="124" fill="#5b6b7c" font-weight="400" font-size="11">typed VideoValidationError</text>
+
+        <rect x="735" y="20" width="230" height="140" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="850" y="42" fill="#1e3a8a">tracking/</text>
+        <text x="850" y="64" fill="#5b6b7c" font-weight="400" font-size="11">tracker.py — Tracker ABC +</text>
+        <text x="850" y="84" fill="#5b6b7c" font-weight="400" font-size="11">UltralyticsTracker (ByteTrack/BoT-SORT)</text>
+        <text x="850" y="104" fill="#5b6b7c" font-weight="400" font-size="11">track_state.py — per-class ID sets</text>
+        <text x="850" y="124" fill="#5b6b7c" font-weight="400" font-size="11">IDs never stable across runs</text>
+
+        <rect x="15" y="180" width="220" height="120" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="125" y="202" fill="#14532d">video/frame_processor.py</text>
+        <text x="125" y="224" fill="#5b6b7c" font-weight="400" font-size="11">process_video(): the whole product</text>
+        <text x="125" y="244" fill="#5b6b7c" font-weight="400" font-size="11">read → detect → filter → count →</text>
+        <text x="125" y="264" fill="#5b6b7c" font-weight="400" font-size="11">annotate → write → yield FrameResult</text>
+        <text x="125" y="284" fill="#5b6b7c" font-weight="400" font-size="11">generator closes clean on abort</text>
+
+        <rect x="255" y="180" width="220" height="120" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="365" y="202" fill="#14532d">counting/</text>
+        <text x="365" y="224" fill="#5b6b7c" font-weight="400" font-size="11">counter.py — count_current()</text>
+        <text x="365" y="244" fill="#5b6b7c" font-weight="400" font-size="11">update_unique() via TrackState</text>
+        <text x="365" y="264" fill="#5b6b7c" font-weight="400" font-size="11">statistics.py — ProcessingStats</text>
+        <text x="365" y="284" fill="#5b6b7c" font-weight="400" font-size="11">history of per-frame counts</text>
+
+        <rect x="495" y="180" width="220" height="120" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="605" y="202" fill="#334155">video/video_writer.py</text>
+        <text x="605" y="224" fill="#5b6b7c" font-weight="400" font-size="11">fps/(skip+1) keeps true duration</text>
+        <text x="605" y="244" fill="#5b6b7c" font-weight="400" font-size="11">_annotated.mp4 + sidecar writer</text>
+        <text x="605" y="264" fill="#5b6b7c" font-weight="400" font-size="11">to_browser_mp4(): H.264 via ffmpeg</text>
+        <text x="605" y="284" fill="#5b6b7c" font-weight="400" font-size="11">playable flag, never a crash</text>
+
+        <rect x="735" y="180" width="230" height="120" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="850" y="202" fill="#1e3a8a">visualization/ + app.py</text>
+        <text x="850" y="224" fill="#5b6b7c" font-weight="400" font-size="11">annotator.py — boxes · labels · HUD</text>
+        <text x="850" y="244" fill="#5b6b7c" font-weight="400" font-size="11">dashboard.py — metrics · tables · charts</text>
+        <text x="850" y="264" fill="#5b6b7c" font-weight="400" font-size="11">frame_viewer.py — sidecar replay</text>
+        <text x="850" y="284" fill="#5b6b7c" font-weight="400" font-size="11">app.py — Streamlit wiring only</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none" marker-end="url(#ar2)">
+        <line x1="235" y1="90" x2="253" y2="90"/>
+        <line x1="475" y1="90" x2="493" y2="90"/>
+        <line x1="715" y1="90" x2="733" y2="90"/>
+        <path d="M605,160 V170 H125 V178"/>
+        <line x1="237" y1="240" x2="252" y2="240"/>
+        <line x1="475" y1="240" x2="493" y2="240"/>
+        <line x1="715" y1="240" x2="733" y2="240"/>
+      </g>
+    </svg>
+    <figcaption>Figure 2 — Module map. Configuration lives in exactly one file; <code>process_video()</code> only
+    needs a <code>frame → detections</code> callable plus an optional reset, so detector and tracker are the
+    swappable seams; pages stay thin by calling pipeline functions directly.</figcaption>
+  </figure>
+
+  <h2>The processing pipeline</h2>
+  <p>
+    <code>process_video(src, dst, detect_fn)</code> is the whole product in one generator call. Each frame
+    yields a <code>FrameResult</code> (annotated image, detections, current counts, unique counts, stats) that
+    the UI renders live; the sidecar line for output frame N holds the detections plus the source frame index.
+  </p>
+  <table>
+    <tr><th>Stage</th><th>Module</th><th>Produces</th><th>Failure mode</th></tr>
+    <tr><td>Read metadata + validate</td><td>video_reader.read_metadata</td><td>resolution, fps, frame count</td><td>Typed <code>VideoValidationError</code>, one plain sentence, app stops</td></tr>
+    <tr><td>Detect / track</td><td>ModelManager.detect / track</td><td>list of <code>Detection</code> with optional track_id</td><td>OOM or inference failure → <code>ModelError</code>, run stops cleanly</td></tr>
+    <tr><td>Filter</td><td>detection.filter_detections</td><td>detections passing conf, class and min-area gates</td><td>Pure code — cannot fail silently</td></tr>
+    <tr><td>Track</td><td>UltralyticsTracker.update</td><td>persistent track IDs on detections</td><td><code>TrackerError</code>; IDs reset at start/end of each run</td></tr>
+    <tr><td>Count</td><td>Counter.count_current / update_unique</td><td>per-class current + unique totals</td><td>Pure code; unique empty when tracking off</td></tr>
+    <tr><td>Annotate + write</td><td>annotator.annotate + open_writer</td><td>labelled frame + mp4 + <code>.jsonl</code> line</td><td><code>VideoWriteError</code>; writer closed even on early abort</td></tr>
+    <tr><td>Report</td><td>dashboard.render_*</td><td>metrics, both count tables, charts</td><td>Read-only; cannot corrupt anything</td></tr>
+  </table>
+  <p>
+    Frame-skip subtlety: skipped frames are neither processed nor written, and the output writer runs at
+    <code>fps / (frame_skip + 1)</code> so the annotated video keeps its true real-world duration. Detection
+    boxes carry the <em>source</em> frame index even when the output frame counter differs.
+  </p>
+
+  <h2>Counting discipline: current vs unique</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Current objects</h3>
+      <ul>
+        <li>Detections of a class in <em>this</em> frame, period.</li>
+        <li>Meaningful with tracking off — it's the "how busy is this scene" number.</li>
+        <li>Drives the per-frame line chart of current totals across the run.</li>
+        <li>Computed by <code>Counter.count_current</code> — no state, nothing remembered.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Unique tracked objects</h3>
+      <ul>
+        <li>Length of the per-class set of track IDs accumulated over the run (<code>TrackState</code>).</li>
+        <li>Detections with <code>track_id = None</code> never add — an unidentified box can't inflate it.</li>
+        <li><strong>Min Track Length</strong> filter: an ID must survive N processed frames to count — kills 1–2 frame flicker IDs.</li>
+        <li>Reset at the start <em>and</em> end of every run; never compare IDs across runs.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note warn">
+    <strong>The known overcount:</strong> unique counts can exceed the true object total when the tracker loses
+    an object (occlusion, low confidence) and re-acquires it with a new ID. This is ByteTrack/BoT-SORT under
+    stress, and the app's warning on frame skip exists because skipping frames makes it worse. Line-crossing
+    counting (count on crossing a virtual line, once per object) is the post-MVP fix and is deliberately not
+    bolted on yet.
+  </div>
+
+  <h2>Model & tracking integration</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🧠 ModelManager</h3>
+      <p>
+        Wraps Ultralytics YOLO. <code>DEVICE=auto</code> resolves CUDA-vs-CPU at load and fails fast with an
+        actionable message if <code>cuda</code> is demanded of a CPU-only machine. Inference failures are
+        caught twice: <code>torch.cuda.OutOfMemoryError</code> becomes "try a smaller model, CPU, or a higher
+        frame skip", and anything else becomes a plain "Detection failed on this frame" — the stack stays in
+        the log. Results convert to a small <code>Detection</code> dataclass: class id, name, confidence,
+        box, optional track id.
+      </p>
+      <p><code>MODEL_NAME</code>, <code>DEVICE</code>, <code>CONFIDENCE_THRESHOLD</code>, <code>IOU_THRESHOLD</code>.</p>
+    </div>
+    <div class="card">
+      <h3>🏷️ UltralyticsTracker</h3>
+      <p>
+        Implements a two-method <code>Tracker</code> ABC: <code>update(frame)</code> and <code>reset()</code>.
+        Behind it, Ultralytics runs ByteTrack or BoT-SORT with <code>persist=True</code>. Because
+        <code>process_video</code> only needs <code>frame → detections</code> plus an optional reset, a new
+        tracker (or a different detector) is a new subclass — nothing else in the pipeline knows or cares.
+        Reset drops the model's predictor so Ultralytics builds fresh trackers next run.
+      </p>
+      <p><code>TRACKER=</code> <code>bytetrack</code> | <code>botsort</code>.</p>
+    </div>
+  </div>
+
+  <h2>Output artifacts</h2>
+  <p>
+    One run writes two files next to each other in <code>OUTPUT_DIR</code> (default <code>data/output</code>),
+    named after the upload:
+  </p>
+  <table>
+    <tr><th>File</th><th>Contents</th><th>Consumer</th></tr>
+    <tr><td><code>&lt;name&gt;_annotated.mp4</code></td><td>Video with boxes, <code>CLASS #ID conf</code> labels, frame number and current-count HUD</td><td>Inline player + download button; frame viewer steps through it</td></tr>
+    <tr><td><code>&lt;name&gt;_annotated.mp4.jsonl</code></td><td>One line per output frame: <code>{"frame": source_index, "detections": [...]}</code></td><td>The frame viewer's detection replay — exact record, no re-inference</td></tr>
+  </table>
+  <p>
+    By default the writer uses OpenCV's codec; if <code>ffmpeg</code> is on PATH, <code>to_browser_mp4()</code>
+    re-encodes to H.264 so browsers play it inline. No ffmpeg? The run still succeeds and the download button
+    still works — the UI just warns the inline player may not.
+  </p>
+
+  <h2>Configuration (all via .env, read in exactly one file)</h2>
+  <table>
+    <tr><th>Variable</th><th>Default</th><th>Meaning</th></tr>
+    <tr><td><code>MODEL_NAME</code></td><td><code>yolo11n.pt</code></td><td>Ultralytics weights file; the model dropdown offers n/s/m plus this</td></tr>
+    <tr><td><code>CONFIDENCE_THRESHOLD</code></td><td><code>0.50</code></td><td>Initial position of the confidence slider</td></tr>
+    <tr><td><code>IOU_THRESHOLD</code></td><td><code>0.50</code></td><td>Initial position of the IoU slider</td></tr>
+    <tr><td><code>DEVICE</code></td><td><code>auto</code></td><td><code>auto</code> / <code>cpu</code> / <code>cuda</code>; invalid combos fail fast</td></tr>
+    <tr><td><code>TRACKER</code></td><td><code>bytetrack</code></td><td><code>bytetrack</code> or <code>botsort</code>; anything else errors on construction</td></tr>
+    <tr><td><code>OUTPUT_DIR</code></td><td><code>data/output</code></td><td>Where annotated videos and sidecars are written</td></tr>
+    <tr><td><code>OLLAMA_API_KEY</code></td><td>—</td><td>Reserved for post-MVP LLM insights; kept out of <code>repr</code> so it can't leak to logs</td></tr>
+  </table>
+
+  <h2>Data hygiene</h2>
+  <ul>
+    <li><strong>Inputs are sandboxed:</strong> uploads save under <code>data/input/</code>; output paths are derived
+    from the saved name, so nothing outside <code>OUTPUT_DIR</code> is ever written.</li>
+    <li><strong>Nothing is auto-deleted:</strong> same-named uploads and outputs are overwritten in place; clear
+    <code>data/input/</code> and <code>data/output/</code> manually when you're done.</li>
+    <li><strong>Logs, not screens:</strong> every typed error shows one human sentence; the technical trace goes
+    only to the log via the shared logging util.</li>
+    <li><strong>Sidecar fidelity:</strong> the viewer's detections are the literal JSON lines written during the
+    run — an audit log you can diff, not a re-run of the model.</li>
+  </ul>
+
+  <h2>Run it</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🖥️ The app (recommended)</h3>
+<pre><code>python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env
+.\.venv\Scripts\streamlit.exe run app.py
+#    → http://localhost:8501</code></pre>
+      <p style="font-size:.9rem;color:var(--muted)">First run downloads the YOLO weights. GPU: force the CUDA
+      PyTorch build (see the Non-Technical tab). ffmpeg optional but nice for inline playback.</p>
+    </div>
+    <div class="card">
+      <h3>⌨️ Tests & troubleshooting</h3>
+<pre><code># offline suite — no GPU, no model download, no internet
+.\.venv\Scripts\python.exe -m pytest</code></pre>
+      <ul>
+        <li><strong>"CUDA was requested but is not available":</strong> set <code>DEVICE=cpu</code> or <code>auto</code>.</li>
+        <li><strong>"GPU ran out of memory":</strong> smaller model (yolo11n), <code>DEVICE=cpu</code>, or a higher frame skip.</li>
+        <li><strong>"Could not open the video / missing resolution or FPS":</strong> the file is corrupt or encoded oddly — try a re-encode.</li>
+        <li><strong>Video won't play inline:</strong> install <code>ffmpeg</code> on PATH; download always works.</li>
+        <li><strong>Sidebar error naming the model:</strong> weights can't load — check the name/connection.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Design decisions & trade-offs</h2>
+  <ul>
+    <li><strong>A stream, not a batch</strong> — <code>process_video()</code> is a generator yielding one
+    <code>FrameResult</code> at a time; memory stays flat for any video length, and the UI can render live
+    progress straight from the yield. An early browser close still releases reader, writer and tracker via
+    the generator's <code>finally</code>.</li>
+    <li><strong>Two count columns, visibly separate</strong> — current and unique sit in two tables so nobody
+    quotes a per-frame sum as "how many cars went by". The app's core lesson, and it's one line of code apart
+    (<code>count_current</code> vs <code>update_unique</code>).</li>
+    <li><strong>Detections as the interchange format</strong> — one small dataclass from detector to filter to
+    counter to annotator to sidecar; every stage is testable in isolation, and tests run offline with no model.</li>
+    <li><strong>Sidecar as audit log</strong> — the frame viewer replays recorded detections rather than
+    re-running YOLO, so what you inspect is exactly what happened during the run.</li>
+    <li><strong>Typed errors with human sentences</strong> — validation, model, tracking and writing each have
+    their own exception whose message is safe to show; the UI never greets the user with a stack trace.</li>
+    <li><strong>Config in one frozen dataclass</strong> — <code>config/settings.py</code> is the only .env
+    reader; the rest of the app reads <code>get_settings()</code> and stays honest.</li>
+    <li><strong>Tracker swap = one subclass</strong> — the pipeline consumes <code>frame → detections</code> +
+    optional reset, so ByteTrack today, a custom tracker tomorrow, zero pipeline edits.</li>
+  </ul>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 3 — GLOSSARY                                                     -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-glossary">
+
+  <h2>Glossary</h2>
+
+  <h3>Video & Detection</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Frame</td><td>—</td><td>One image of the video; VisionFlow processes them one at a time, streaming</td><td><code>video/video_reader.py</code> → <code>read_frames()</code></td></tr>
+    <tr><td>Frame skip</td><td>—</td><td>Process every N+1-th frame; skipped frames are neither analysed nor written to output</td><td>Sidebar "Frame Skip", <code>process_video()</code>; output fps rescaled to keep true duration</td></tr>
+    <tr><td>Detection</td><td>—</td><td>One YOLO output: class, confidence, bounding box, optional track ID</td><td><code>detection/detector.py</code> → <code>Detection</code> dataclass</td></tr>
+    <tr><td>Confidence threshold</td><td>—</td><td>Minimum detector score for a detection to count; below it, the box is filtered out</td><td>Sidebar slider, <code>filter_detections(min_conf)</code></td></tr>
+    <tr><td>IoU threshold</td><td>—</td><td>Intersection-over-Union setting that controls how overlapping boxes are merged (NMS)</td><td>Sidebar slider, passed to the model</td></tr>
+    <tr><td>Min box area</td><td>—</td><td>Detections with smaller bounding boxes are ignored — drops distant clutter misread as vehicles</td><td>Sidebar "Min Box Area (px²)", <code>filter_detections(min_area)</code></td></tr>
+    <tr><td>YOLO</td><td>You Only Look Once</td><td>Single-pass object detector; VisionFlow runs Ultralytics YOLO11 n/s/m models</td><td><code>models/model_manager.py</code></td></tr>
+  </table>
+
+  <h3>Tracking & Counting</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Track ID</td><td>Tracking identifier</td><td>Stable number the tracker assigns so the same physical object keeps one ID across frames</td><td><code>tracking/tracker.py</code>; <code>Detection.track_id</code>; shown as <code>CAR #12</code></td></tr>
+    <tr><td>ByteTrack</td><td>—</td><td>Default tracker: matches detections to tracks even at low confidence</td><td><code>TRACKER=bytetrack</code>, Ultralytics implementation</td></tr>
+    <tr><td>BoT-SORT</td><td>Bag-of-Tricks SORT</td><td>Alternative tracker adding camera-motion compensation and stronger association</td><td><code>TRACKER=botsort</code></td></tr>
+    <tr><td>Current objects</td><td>—</td><td>Per-class count of detections visible in the current frame; stateless</td><td><code>counting/counter.py</code> → <code>count_current()</code>, "Current" table column</td></tr>
+    <tr><td>Unique tracked objects</td><td>—</td><td>Per-class count of <em>distinct</em> track IDs seen during the run; never a per-frame sum</td><td><code>TrackState</code> ID sets, "Unique" table column, headline metric</td></tr>
+    <tr><td>Min track length</td><td>—</td><td>An ID must persist this many processed frames to enter the unique count — filters 1–2 frame flicker</td><td>Sidebar "Min Track Length (frames)", <code>Counter(min_track_frames)</code></td></tr>
+    <tr><td>ID reset</td><td>—</td><td>Track IDs are cleared at the start and end of each run; never stable between runs</td><td><code>Tracker.reset()</code>, <code>ModelManager.reset_tracking()</code></td></tr>
+  </table>
+
+  <h3>Output & App</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Annotated video</td><td>—</td><td>Output mp4 with boxes, <code>CLASS #ID conf</code> labels, frame number and counts HUD</td><td><code>visualization/annotator.py</code>; <code>data/output/&lt;name&gt;_annotated.mp4</code></td></tr>
+    <tr><td>Sidecar file</td><td>—</td><td><code>&lt;output&gt;.jsonl</code>: one JSON line per output frame with its detections and source frame index</td><td><code>frame_processor.detections_path()</code>; the frame viewer replays it verbatim</td></tr>
+    <tr><td>H.264 re-encode</td><td>—</td><td>Optional ffmpeg pass making the output playable inline in browsers; without it, download still works</td><td><code>video_writer.to_browser_mp4()</code>, playable flag</td></tr>
+    <tr><td>Frame viewer</td><td>—</td><td>Previous / Play / Next browser over processed frames showing each frame's exact recorded detections</td><td><code>visualization/frame_viewer.py</code>, driven by the sidecar</td></tr>
+    <tr><td>Display FPS</td><td>—</td><td>Max refresh rate of the live preview; never affects processing speed or results</td><td>Sidebar "Display FPS" slider, <code>app.py</code> preview throttle</td></tr>
+    <tr><td>Processing FPS</td><td>—</td><td>Frames actually analysed per second (vs video FPS, the file's native rate)</td><td><code>counting/statistics.py</code> → <code>ProcessingStats</code></td></tr>
+    <tr><td>Typed errors</td><td>—</td><td>Exceptions whose message is a plain sentence safe to show; technical detail stays in the log</td><td><code>VideoValidationError</code> · <code>ModelError</code> · <code>TrackerError</code> · <code>VideoWriteError</code></td></tr>
+    <tr><td>Streamlit</td><td>—</td><td>Python framework the UI is built with; this app is a single page with a sidebar</td><td><code>app.py</code>; <code>st.set_page_config(page_title="VisionFlow")</code></td></tr>
+    <tr><td>Line crossing</td><td>—</td><td>Post-MVP metric: count an object once when it crosses a drawn line, eliminating tracker re-acquisition overcounts</td><td>Deliberately not implemented (<code>Counter</code> marks it post-MVP)</td></tr>
+  </table>
+
+</section>
+
+</main>
+
+<footer>
+  VisionFlow · Python · Streamlit · Ultralytics YOLO11 · OpenCV · docs updated 2026-10-22
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    document.getElementById('tab-btn-' + name).classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+</script>
+
+</body>
+</html>

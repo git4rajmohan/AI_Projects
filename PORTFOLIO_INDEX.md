@@ -7,7 +7,7 @@ This portfolio demonstrates practical AI engineering across:
 1. **Agentic AI & Multi-Agent Systems** — dynamic workflow orchestration, tool protocols, hierarchical agents, stateful business agents
 2. **RAG & Knowledge Engineering** — hybrid retrieval, graph RAG, knowledge-base generation, RAG evaluation
 3. **AI Safety & Quality Engineering** — guardrails, injection defense, PII protection, LLM-as-a-judge
-4. **Applied AI** — document intelligence, voice pipelines, maintenance decision support
+4. **Applied AI** — document intelligence, computer vision, voice pipelines, maintenance decision support
 5. **NLP & Machine Learning** — classical supervised NLP
 
 Technology coverage was verified against the projects' code and requirements files; items not verifiable in the repository are marked `To be verified`.
@@ -341,9 +341,41 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 ---
 
+## 16. MaintAI Decision Platform
+
+**Folder:** [`04-Applied-AI/DecisionModelDemo/`](./04-Applied-AI/DecisionModelDemo/) · **User guide:** [`MaintAI_Userguide.html`](./04-Applied-AI/DecisionModelDemo/MaintAI_Userguide.html)
+
+**Purpose:** A local maintenance decision-support demonstration where validated synthetic sensor readings and engineering rules feed TEV1 classification, deterministic policy determines review requirements, and an optional generative LLM explains the established outcome.
+
+**Focus:** Structured decision models + deterministic policy + grounded explanations
+
+**Technologies:** Python · Streamlit · SQLite · Ollama TEV1 (`/v1/systemone`) · Ollama / Ollama Cloud · Pydantic · Pandas · Plotly · scikit-learn · pytest
+
+**Demonstrates:** Eight UI pages, versioned machine limits, CSV validation/quarantine, separate model and policy outputs, persisted audit and inspection history, and synthetic labelled evaluation with a confusion matrix.
+
+**How it differs:** Decision models classify, policy decides, and generative AI explains without overriding the outcome. Synthetic data and demonstration thresholds are not production evidence; this is not a machinery controller.
+
+---
+
+## 17. VisionFlow Video Analytics
+
+**Folder:** [`04-Applied-AI/VisionFlow/`](./04-Applied-AI/VisionFlow/) · **User guide:** [`VisionFlow_Userguide.html`](./04-Applied-AI/VisionFlow/VisionFlow_Userguide.html)
+
+**Purpose:** A computer-vision pipeline that streams an uploaded video through YOLO11 detection and ByteTrack/BoT-SORT tracking, counts objects two separate ways (current per-frame detections vs distinct track IDs over the run), and produces an annotated video, a per-frame JSONL audit sidecar, count tables/charts and a frame viewer.
+
+**Focus:** Object detection + tracking + counting discipline (never summing per-frame detections)
+
+**Technologies:** Ultralytics YOLO11 (n/s/m) · ByteTrack / BoT-SORT · OpenCV · Streamlit · NumPy · Pandas · pytest
+
+**Demonstrates:** Streaming frame-by-frame processing with flat memory, persistent track IDs on annotated frames (`CAR #12 0.87`), a JSONL detections sidecar replayed by the frame viewer without re-inference, a two-method tracker interface (swap = one new class), typed errors with human-readable UI messages, and a 50-test offline suite.
+
+**How it differs:** The counting discipline is the point — the detector finds things, the tracker gives them identity, and the counter believes only the identity. Known overcount failure modes (occlusion re-acquisition, frame skip) are documented on-screen rather than hidden.
+
+---
+
 # 5. NLP & Machine Learning
 
-## 17. NLP Machine Learning Sentiment Analysis Pipeline
+## 18. NLP Machine Learning Sentiment Analysis Pipeline
 
 **Folder:** [`05-NLP-Machine-Learning/Sentiment-Analysis/`](./05-NLP-Machine-Learning/Sentiment-Analysis/)
 
@@ -377,6 +409,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 | DocFlow | Document AI + deterministic validation/policy |
 | Research Voice Agent | Voice/multimodal AI pipeline |
 | MaintAI | Sensor validation + decision model + deterministic policy + grounded explanations |
+| VisionFlow | Detection + tracking + counting discipline with auditable sidecar replay |
 | Sentiment Analysis | Classical NLP/ML |
 
 # Technology Coverage Table
@@ -393,6 +426,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 | AI Safety | NeMo Guardrails, Colang, PII Detection, Injection Detection |
 | Document AI | PyMuPDF, Tesseract OCR, Pydantic |
 | Voice AI | faster-whisper, edge-tts |
+| Computer Vision | Ultralytics YOLO11, ByteTrack, BoT-SORT, OpenCV |
 | Backend | FastAPI |
 | UI | Streamlit, React, Vanilla JavaScript |
 | Databases | SQLite, ChromaDB, Qdrant, Neo4j |
