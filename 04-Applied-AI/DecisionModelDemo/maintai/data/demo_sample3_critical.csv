@@ -1,0 +1,4 @@
+machine_id,timestamp,temperature_c,vibration_mm_s,motor_load_percent,rpm,operating_hours,data_source
+BRG-001,2026-10-21 07:28:00,92.0,4.8,88.0,1700,1250.6,demo_sample3_critical
+BRG-001,2026-10-21 07:29:00,94.0,5.1,90.0,1680,1250.7,demo_sample3_critical
+BRG-001,2026-10-21 07:30:00,96.0,5.4,92.0,1660,1250.8,demo_sample3_critical

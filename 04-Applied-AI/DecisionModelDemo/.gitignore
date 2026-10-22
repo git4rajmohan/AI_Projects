@@ -1,0 +1,25 @@
+# Private configuration (only the placeholder template is published).
+.env*
+!.env.example
+.streamlit/secrets.toml
+*credentials*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local runtime state and development artifacts.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+*.db
+*.db-*
+*.sqlite*
+logs/
+exports/
+*.mp4
+docs/screenshots/

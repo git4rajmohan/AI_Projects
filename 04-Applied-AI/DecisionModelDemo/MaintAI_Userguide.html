@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaintAI Decision Platform — User Guide</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --muted: #5b6b7c;
+    --accent: #2563eb;
+    --accent-soft: #e8effd;
+    --green: #16a34a;
+    --green-soft: #e7f7ee;
+    --red: #dc2626;
+    --red-soft: #fdeaea;
+    --amber: #d97706;
+    --amber-soft: #fdf3e3;
+    --grey-soft: #eef1f6;
+    --border: #dbe2ec;
+    --radius: 14px;
+    --mono: "Cascadia Code", "Consolas", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(120deg, #14532d 0%, #16a34a 60%, #4ade80 100%);
+    color: #fff;
+    padding: 34px 24px 0;
+  }
+  .head-inner { max-width: 1100px; margin: 0 auto; }
+  header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: .2px; }
+  header p.sub { color: #d3f5df; margin-top: 6px; font-size: .98rem; }
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .tab-btn {
+    appearance: none; border: none; cursor: pointer;
+    padding: 12px 26px; font-size: 1rem; font-weight: 600;
+    border-radius: 12px 12px 0 0;
+    background: rgba(255,255,255,.15); color: #dff5e8;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,.28); }
+  .tab-btn.active { background: var(--bg); color: var(--green); }
+  main { max-width: 1100px; margin: 0 auto; padding: 34px 24px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  h2 { font-size: 1.35rem; margin: 38px 0 14px; padding-top: 8px; }
+  h2:first-child { margin-top: 0; }
+  h3 { font-size: 1.08rem; margin: 24px 0 10px; }
+  h4 { font-size: 1rem; }
+  p { margin: 10px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px; margin: 16px 0;
+    box-shadow: 0 1px 3px rgba(20,40,80,.05);
+  }
+  .lead { font-size: 1.05rem; color: var(--muted); }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 6px 0; }
+  code {
+    font-family: var(--mono); font-size: .88em;
+    background: var(--grey-soft); border-radius: 5px; padding: 2px 6px;
+  }
+  pre {
+    font-family: var(--mono); font-size: .85rem;
+    background: #0f172a; color: #e2e8f0; border-radius: 10px;
+    padding: 14px 18px; overflow-x: auto; margin: 14px 0; line-height: 1.65;
+  }
+  pre code { background: none; padding: 0; color: inherit; font-size: .85rem; }
+  .pill {
+    display: inline-block; padding: 2px 12px; border-radius: 999px;
+    font-size: .82rem; font-weight: 600; white-space: nowrap;
+  }
+  .pill.green  { background: var(--green-soft);  color: var(--green); }
+  .pill.amber  { background: var(--amber-soft);  color: var(--amber); }
+  .pill.red    { background: var(--red-soft);    color: var(--red); }
+  .pill.blue   { background: var(--accent-soft); color: var(--accent); }
+  .pill.grey   { background: var(--grey-soft);   color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; background: var(--card);
+          border-radius: 10px; overflow: hidden; font-size: .93rem; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--accent-soft); color: #1e3a8a; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .note {
+    border-left: 4px solid var(--accent); background: var(--accent-soft);
+    padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: .95rem;
+  }
+  .note.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+  .note.ok   { border-left-color: var(--green); background: var(--green-soft); }
+  .note.danger { border-left-color: var(--red); background: var(--red-soft); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  .stat { text-align: center; }
+  .stat .kicker { text-transform: uppercase; letter-spacing: 1.5px; font-size: .72rem; color: var(--muted); }
+  .stat .val { font-size: 2rem; font-weight: 700; color: var(--green); margin: 2px 0; }
+  .stat .lbl { font-size: .85rem; color: var(--muted); }
+  .diagram { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+             padding: 18px; margin: 16px 0; overflow-x: auto; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .diagram figcaption { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 10px; }
+  .step { display: flex; gap: 14px; margin: 14px 0; align-items: flex-start; }
+  .step .num {
+    flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: var(--green); color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: .95rem;
+  }
+  .step h4 { font-size: 1rem; margin-bottom: 2px; }
+  .step p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .kbd { font-family: var(--mono); background: #fff; border: 1px solid var(--border);
+         border-bottom-width: 3px; border-radius: 6px; padding: 1px 7px; font-size: .82rem; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 26px; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <h1>🏭 MaintAI Decision Platform — From Machine Signals to Explainable Maintenance Decisions</h1>
+    <p class="sub">Python · Streamlit · SQLite · Ollama: validated sensor readings feed a deterministic rules
+    engine, then the local <code>tev1:4b</code> decision model scores the situation on a non-standard
+    <code>POST /v1/systemone</code> endpoint, and a six-rung policy ladder turns evidence into one of four auditable
+    outcomes — with a strictly grounded generative LLM that <em>explains</em> the already-made decision and can
+    never override it. Eight Streamlit pages cover the full loop: fleet KPIs, sensor trends, a decision workbench,
+    a versioned machine registry, CSV import with quarantine, a labelled-model evaluation harness with a confusion
+    matrix, inspection history that closes the review loop, and a settings page with live connection checks.
+    Every decision is persisted with its inputs, rule alerts, model probabilities, policy version and audit trail.</p>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-btn-pitch" onclick="showTab('pitch')">🚀 Elevator Pitch</button>
+      <button class="tab-btn" id="tab-btn-nontechnical" onclick="showTab('nontechnical')">📖 Non-Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-technical" onclick="showTab('technical')">⚙️ Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-glossary" onclick="showTab('glossary')">📚 Glossary</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================================================================== -->
+<!-- TAB 0 — ELEVATOR PITCH                                               -->
+<!-- ==================================================================== -->
+<section class="panel active" id="panel-pitch">
+
+  <h2>The 30-second pitch</h2>
+  <div class="card">
+    <p class="lead">
+      Ask a generative LLM "should we stop this machine?" and two things go wrong: it answers in confident
+      prose with <em>no number attached</em>, and it makes that call inside its own black box — no evidence
+      trail, no reproducibility, no way to audit why. For maintenance you need the opposite: a decision you
+      can measure, explain and defend.
+    </p>
+    <p>
+      <strong>MaintAI is that split, built properly.</strong> Sensor readings are validated (freshness,
+      missing channels, plausibility) against per-machine limit versions, then a pure-Python rules engine
+      evaluates warning/critical thresholds, rate-of-change alerts and trends — zero LLM in the loop. The
+      local <code>tev1:4b</code> model classifies the situation into one of four actions
+      (<code>monitor / inspect / urgent_maintenance / insufficient_data</code>) with probabilities and
+      confidence. Then a deterministic six-rung policy ladder decides <em>what actually happens</em>:
+      bad data routes to review before the model is even consulted, critical breaches override any
+      <code>monitor</code> answer, a failed model call never becomes a safe decision, and low-confidence or
+      self-contradicting output is escalated to a human. <strong>The model is evidence; the policy is the
+      decision — they are never conflated.</strong> Only after the outcome exists does a generative LLM
+      write an explanation, constrained to the supplied evidence by prompt rules, with a deterministic
+      fallback when the LLM is down. Every run is persisted with its inputs, alerts, probabilities, policy
+      version and an audit row — and a recorded inspection closes the loop on the dashboard.
+    </p>
+    <p><strong>The line that matters: rules and a decision model make the call, the LLM explains it, a human closes it — and nothing in that chain can quietly replace the rung above it.</strong></p>
+  </div>
+
+  <h2>The one-line principle</h2>
+  <div class="grid3">
+    <div class="card">
+      <h3>🧮 Deterministic first, model second</h3>
+      <p>Thresholds, rate-of-change and trend checks are pure Python. A critical breach escalates to
+      urgent review <em>before</em> the model's opinion is even requested — a safety hard rule beats any
+      classifier. The model never gets the chance to talk a red machine back to green.</p>
+    </div>
+    <div class="card">
+      <h3>⚖️ The model is evidence, not the decision</h3>
+      <p>Tev1's <code>monitor at 90%</code> sits in one panel; the policy outcome sits in a separate panel,
+      computed by a fixed precedence ladder that can disagree. Invalid data, critical breaches, model
+      failure, low confidence and monitor-vs-anomaly contradictions all route to human review regardless
+      of what the model "wanted".</p>
+    </div>
+    <div class="card">
+      <h3>🧾 Explain, never authorize</h3>
+      <p>The LLM explains the established outcome using only supplied evidence — it cannot invent readings,
+      declare a failure, or override policy. Any LLM failure falls back to a deterministic explanation
+      <em>marked as a fallback</em>. Every decision is persisted with an audit trail; a recorded inspection
+      removes the machine from the live review count.</p>
+    </div>
+  </div>
+
+  <h2>How it works in one picture</h2>
+  <figure class="diagram">
+    <svg viewBox="0 0 980 250" width="980" role="img" aria-label="MaintAI decision pipeline">
+      <defs>
+        <marker id="ar0" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <text x="80" y="36" fill="#5b6b7c" font-size="12">EVIDENCE (deterministic)</text>
+        <rect x="15" y="46" width="140" height="56" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="85" y="70" fill="#334155">📈 Sensor reading</text>
+        <text x="85" y="90" fill="#5b6b7c" font-weight="400" font-size="11">CSV import or synthetic seed</text>
+
+        <rect x="175" y="46" width="150" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="70" fill="#1e3a8a">✅ Validate</text>
+        <text x="250" y="90" fill="#5b6b7c" font-weight="400" font-size="11">freshness · missing · plausibility</text>
+
+        <rect x="345" y="46" width="150" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="420" y="70" fill="#1e3a8a">📏 Rules</text>
+        <text x="420" y="90" fill="#5b6b7c" font-weight="400" font-size="11">thresholds · RoC · trends</text>
+
+        <rect x="515" y="46" width="160" height="56" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="595" y="70" fill="#92400e">🧠 Tev1 (/v1/systemone)</text>
+        <text x="595" y="90" fill="#5b6b7c" font-weight="400" font-size="11">action · probabilities · confidence</text>
+
+        <text x="965" y="136" text-anchor="end" fill="#5b6b7c" font-size="12">DECISION (deterministic) + NARRATIVE (LLM)</text>
+        <rect x="15" y="146" width="150" height="56" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="90" y="170" fill="#14532d">⚖️ Policy ladder</text>
+        <text x="90" y="190" fill="#5b6b7c" font-weight="400" font-size="11">6 rungs, hard rules first</text>
+
+        <rect x="185" y="146" width="150" height="56" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="260" y="170" fill="#14532d">🗂️ Persist + audit</text>
+        <text x="260" y="190" fill="#5b6b7c" font-weight="400" font-size="11">SQLite: inputs · alerts · version</text>
+
+        <rect x="355" y="146" width="160" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="435" y="170" fill="#1e3a8a">💬 LLM explanation</text>
+        <text x="435" y="190" fill="#5b6b7c" font-weight="400" font-size="11">grounded; fallback if down</text>
+
+        <rect x="535" y="146" width="140" height="56" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="605" y="170" fill="#334155">🧑‍🔧 Human review</text>
+        <text x="605" y="190" fill="#5b6b7c" font-weight="400" font-size="11">record the inspection outcome</text>
+
+        <rect x="695" y="146" width="130" height="56" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="760" y="170" fill="#14532d">🟢 Loop closed</text>
+        <text x="760" y="190" fill="#5b6b7c" font-weight="400" font-size="11">dashboard KPI updates</text>
+
+        <rect x="845" y="146" width="120" height="56" rx="12" fill="#fdeaea" stroke="#dc2626"/>
+        <text x="905" y="170" fill="#7f1d1d">🔴 or escalate</text>
+        <text x="905" y="190" fill="#5b6b7c" font-weight="400" font-size="11">stays flagged</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="155" y1="74" x2="173" y2="74" marker-end="url(#ar0)"/>
+        <line x1="325" y1="74" x2="343" y2="74" marker-end="url(#ar0)"/>
+        <line x1="495" y1="74" x2="513" y2="74" marker-end="url(#ar0)"/>
+        <path d="M595,102 V141 H90 V145" marker-end="url(#ar0)"/>
+        <line x1="165" y1="174" x2="183" y2="174" marker-end="url(#ar0)"/>
+        <line x1="335" y1="174" x2="353" y2="174" marker-end="url(#ar0)"/>
+        <line x1="515" y1="174" x2="533" y2="174" marker-end="url(#ar0)"/>
+        <line x1="675" y1="174" x2="693" y2="174" stroke="#16a34a" marker-end="url(#ar0)"/>
+        <line x1="825" y1="174" x2="843" y2="174" stroke="#dc2626" marker-end="url(#ar0)"/>
+      </g>
+      <g>
+        <rect x="230" y="228" width="520" height="26" rx="13" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+        <text x="490" y="246" text-anchor="middle" fill="#14532d" font-size="12" font-weight="bold">🔗 model output and policy outcome are stored — and shown — as two different things</text>
+      </g>
+    </svg>
+    <figcaption>Figure 0 — One decision pipeline. Deterministic evidence → model classification → policy ladder →
+    persisted, audited decision → grounded LLM narrative → human inspection that closes the review.</figcaption>
+  </figure>
+
+  <h2>Numbers from the shipped build</h2>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">Streamlit pages</div><div class="val">8</div><div class="lbl">dashboard · monitoring · workbench · registry · import · history · evaluation · settings</div></div>
+    <div class="card stat"><div class="kicker">Policy rungs</div><div class="val">6</div><div class="lbl">data → escalation → critical → model failure → low confidence → accept</div></div>
+    <div class="card stat"><div class="kicker">Final actions</div><div class="val">4</div><div class="lbl">monitor · inspect · urgent_maintenance · insufficient_data</div></div>
+  </div>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">Seeded machines</div><div class="val">5</div><div class="lbl">one per scenario: degrading · normal · critical · missing · excursion</div></div>
+    <div class="card stat"><div class="kicker">Tests</div><div class="val">137</div><div class="lbl">offline pytest suite, HTTP mocked; live smoke env-gated</div></div>
+    <div class="card stat"><div class="kicker">Eval cases</div><div class="val">100+</div><div class="lbl">deterministic labelled batch, sklearn metrics + confusion matrix</div></div>
+  </div>
+
+  <div class="note ok">
+    <strong>The signal:</strong> nothing here is a monolith. Validation, rules, model client, policy, explanation,
+    import and evaluation are each one small module with one job — and the Workbench shows model output and policy
+    outcome in <em>separate bordered panels</em> so the separation is visible, not just documented. Swap Tev1 or the
+    LLM via env vars without touching the ladder. The architecture is the lesson; the models are interchangeable parts.
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 1 — NON-TECHNICAL                                                -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-nontechnical">
+
+  <h2>What is this project?</h2>
+  <div class="card">
+    <p class="lead">
+      <strong>MaintAI</strong> is a maintenance decision-support demo for a fleet of machines. You feed it
+      sensor readings (from CSV or its built-in synthetic generator); it checks them, applies engineering
+      rules and asks a local decision model for a classification — then a fixed policy turns all of that
+      into one clear outcome: keep monitoring, inspect, urgent maintenance, or "not enough data, review".
+      A generative LLM writes the plain-language explanation of that outcome. A human inspects the machine
+      and records what they found, which closes the case.
+    </p>
+    <p>Using it is three moves:</p>
+    <ol>
+      <li><strong>Watch</strong> — pick a machine on Machine Monitoring: latest values, configured limits, trend charts and decision history at a glance.</li>
+      <li><strong>Decide</strong> — run the analysis. The Decision Workbench shows validated input, rule alerts, the model's probabilities, and the separate policy decision — every number the pipeline actually produced.</li>
+      <li><strong>Close</strong> — on Maintenance History, record what the inspection found and mark it closed. The dashboard review count drops.</li>
+    </ol>
+    <p>
+      Think of it as a plant control room staffed by three specialists: a <em>meter reader</em> who insists on
+      fresh, complete data; a <em>rulebook engineer</em> who escalates the moment a hard limit is crossed;
+      and a <em>storyteller</em> who writes the report — but can only quote what the other two found, and can
+      never change the decision. If the storyteller calls in sick, the meter reader's fallback report still ships.
+    </p>
+    <div class="note warn">
+      <strong>The one rule that matters:</strong> everything here runs on synthetic data and demonstration
+      thresholds. The app labels this on every screen. It does not control machinery, does not predict real
+      failures, and never assumes a model's confidence means correctness. The value of the demo is the
+      <em>discipline</em>: validate, rule-check, classify, decide by a fixed ladder, explain, audit, close.
+    </div>
+  </div>
+
+  <h2>What does working with it look like?</h2>
+  <p>
+    The app is a Streamlit multi-page app at <code>http://localhost:8501</code> with eight pages. The sidebar
+    shows both models and a live local-Ollama status pill; the home page links everything.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 300" width="980" role="img" aria-label="The eight pages and what each shows">
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <rect x="15" y="20" width="290" height="120" rx="14" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="160" y="48" fill="#1e3a8a" font-size="14">🏭 Executive Dashboard</text>
+        <text x="160" y="74" fill="#334155" font-size="11.5" font-weight="400">fleet KPIs · 7-day alert trend</text>
+        <text x="160" y="96" fill="#334155" font-size="11.5" font-weight="400">outcome mix · per-machine flags</text>
+        <text x="160" y="118" fill="#5b6b7c" font-size="11" font-weight="400">red / yellow / green per machine</text>
+
+        <rect x="345" y="20" width="290" height="120" rx="14" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="490" y="48" fill="#1e3a8a" font-size="14">📊 Machine Monitoring</text>
+        <text x="490" y="74" fill="#334155" font-size="11.5" font-weight="400">latest values · freshness badge</text>
+        <text x="490" y="96" fill="#334155" font-size="11.5" font-weight="400">trend charts · configured limits</text>
+        <text x="490" y="118" fill="#5b6b7c" font-size="11" font-weight="400">one-click decision run</text>
+
+        <rect x="675" y="20" width="290" height="120" rx="14" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="820" y="48" fill="#14532d" font-size="14">⚖️ Decision Workbench</text>
+        <text x="820" y="74" fill="#334155" font-size="11.5" font-weight="400">model panel vs policy panel</text>
+        <text x="820" y="96" fill="#334155" font-size="11.5" font-weight="400">rule alerts · LLM explanation</text>
+        <text x="820" y="118" fill="#5b6b7c" font-size="11" font-weight="400">raw input snapshot</text>
+
+        <rect x="15" y="160" width="290" height="120" rx="14" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="160" y="188" fill="#92400e" font-size="14">🔧 Machine Registry</text>
+        <text x="160" y="214" fill="#334155" font-size="11.5" font-weight="400">machine details · versioned limits</text>
+        <text x="160" y="236" fill="#334155" font-size="11.5" font-weight="400">escalation flag</text>
+        <text x="160" y="258" fill="#5b6b7c" font-size="11" font-weight="400">Viewer read-only · Engineer edits</text>
+
+        <rect x="345" y="160" width="290" height="120" rx="14" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="490" y="188" fill="#92400e" font-size="14">📥 Data Import</text>
+        <text x="490" y="214" fill="#334155" font-size="11.5" font-weight="400">CSV upload → preview → report</text>
+        <text x="490" y="236" fill="#334155" font-size="11.5" font-weight="400">valid vs quarantined rows</text>
+        <text x="490" y="258" fill="#5b6b7c" font-size="11" font-weight="400">3 demo files: healthy → critical</text>
+
+        <rect x="675" y="160" width="290" height="120" rx="14" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="820" y="188" fill="#14532d" font-size="14">🧾 Maintenance History</text>
+        <text x="820" y="214" fill="#334155" font-size="11.5" font-weight="400">decision history per machine</text>
+        <text x="820" y="236" fill="#334155" font-size="11.5" font-weight="400">record inspection outcome</text>
+        <text x="820" y="258" fill="#5b6b7c" font-size="11" font-weight="400">closing removes it from review KPI</text>
+      </g>
+    </svg>
+    <figcaption>Figure 1 — Six of the eight pages. The remaining two: <strong>📈 Model Evaluation</strong>
+    (labelled synthetic batch, sklearn metrics, confusion matrix) and <strong>⚙️ Settings</strong>
+    (configuration, connection checks, session overrides).</figcaption>
+  </figure>
+
+  <h2>The 6-step workflow</h2>
+
+  <div class="card">
+    <div class="step"><div class="num">1</div><div><h4>Seed — a fleet is born</h4>
+      <p><code>python -m maintai.seed</code> creates five machines, each a different story.</p></div></div>
+    <p>
+      Every machine ships with its own limit version and one of five synthetic scenarios: <code>BRG-001</code>
+      degrades gradually, <code>MIX-001</code> stays healthy, <code>PMP-001</code> spikes over critical at the
+      end of its window, <code>MTR-001</code> drops readings, and <code>CPR-001</code> throws a single sudden
+      excursion. Same base operating point, five shapes of trouble — each is a different exercise for the pipeline.
+    </p>
+    <table>
+      <tr><th>Machine</th><th>Scenario</th><th>What it demonstrates</th></tr>
+      <tr><td><code>BRG-001</code></td><td>degrading</td><td>Gradual drift crossing warning levels — trend detection</td></tr>
+      <tr><td><code>MIX-001</code></td><td>normal</td><td>Healthy baseline — the <code>monitor</code> acceptance path</td></tr>
+      <tr><td><code>PMP-001</code></td><td>critical</td><td>Critical breach overriding the model — policy rung 3</td></tr>
+      <tr><td><code>MTR-001</code></td><td>missing</td><td>Dropouts and gaps — data validation routing to review</td></tr>
+      <tr><td><code>CPR-001</code></td><td>excursion</td><td>One sudden sensor spike — rate-of-change alerting</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">2</div><div><h4>Import — data earns its way in</h4>
+      <p>Upload → preview → per-row validation report → confirm.</p></div></div>
+    <p>
+      The Data Import page takes a CSV with seven required columns
+      (<code>machine_id, timestamp, temperature_c, vibration_mm_s, motor_load_percent, rpm, operating_hours</code>).
+      Every row is validated before insertion: bad timestamps, wrong machine ids, stale readings and missing
+      channels are <strong>quarantined with a reason</strong> instead of silently dropped or silently accepted.
+      Three bundled demo files (<em>healthy → warning → critical</em>) let you replay a machine's worsening day
+      in order; run a decision after each import and watch the outcome move.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">3</div><div><h4>Decide — the ladder does the judging</h4>
+      <p>Validate → rules → Tev1 → six-rung policy → persist… → explanation.</p></div></div>
+    <p>
+      One click runs the whole pipeline. The Workbench then shows the two things the spec insists stay apart:
+      left panel, <strong>Model output</strong> — the action, its probability bars, confidence and measured
+      latency; right panel, <strong>Application decision</strong> — the policy outcome and whether human review
+      is required, with the policy (limits) version used. Below: the validated raw reading, each rule alert in
+      words, and the LLM's explanation with its evidence bullets and recommended checks.
+    </p>
+    <table>
+      <tr><th>Policy ladder (checked in order)</th><th>Outcome</th><th>Review?</th></tr>
+      <tr><td>1. Input failed validation (stale / missing / invalid)</td><td><code>data_review_required</code></td><td><span class="pill red">YES</span></td></tr>
+      <tr><td>2. Machine-level mandatory escalation flag</td><td><code>urgent_human_review</code></td><td><span class="pill red">YES</span></td></tr>
+      <tr><td>3. Critical threshold breached (any channel)</td><td><code>urgent_human_review</code></td><td><span class="pill red">YES</span></td></tr>
+      <tr><td>4. Tev1 unavailable or returned nothing usable</td><td><code>decision_unavailable_review_required</code></td><td><span class="pill red">YES</span></td></tr>
+      <tr><td>5. Low confidence, insufficient-data answer, or <code>monitor</code> contradicting anomaly evidence</td><td><code>human_review_required</code></td><td><span class="pill red">YES</span></td></tr>
+      <tr><td>6. Otherwise — the classification is accepted</td><td><code>policy_auto_decision</code></td><td><span class="pill green">no</span> (urgent still pages a human)</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">4</div><div><h4>Explain — prose with a leash</h4>
+      <p>The LLM gets the evidence, not the authority.</p></div></div>
+    <p>
+      The explanation prompt supplies the validated readings, the configured limits, the trend lines, the rule
+      alerts, the model line and the final policy outcome — and forbids the model from inventing measurements,
+      declaring failures without evidence, overriding the decision, or following instructions hidden in
+      inspection notes. Output is a strict JSON shape the app validates: a short summary, evidence bullets,
+      recommended checks and limitations. If the LLM is unreachable, a deterministic fallback explanation is
+      shown and <em>labelled as such</em> — the decision's record survives without prose.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">5</div><div><h4>Close — a human signs it off</h4>
+      <p>Record the inspection; the loop closes on the dashboard.</p></div></div>
+    <p>
+      On Maintenance History, an Engineer records findings, component condition, action taken and resolution
+      status, tied to the specific decision id. A closed inspection removes the machine from the dashboard's
+      live "requiring review" count — the KPI reflects reality, not stale alerts (the historical alert trend
+      stays put for the record). A Viewer role can read everything but submit nothing — the demo role selector
+      is the auth stand-in, and every write is audited with the acting role.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">6</div><div><h4>Measure — numbers, not vibes</h4>
+      <p>Labelled batch → accuracy, review rate, per-class precision/recall, confusion matrix.</p></div></div>
+    <p>
+      The Model Evaluation page generates 100+ deterministic labelled cases across the five machine types and
+      pushes each through the <em>real</em> validation → rules → policy ladder with an injectable Tev1 stub —
+      the same code the product runs, so the metrics measure the ladder, not a mock of it. Accuracy,
+      human-review rate and unavailable rate headline the page; per-class precision/recall and a
+      confusion matrix (expected × final action) show where the ladder and the model disagree.
+      The banner repeats the standing rule: these are synthetic demonstration results, never production performance.
+    </p>
+  </div>
+
+  <h2>Try it in five commands</h2>
+  <div class="card">
+<pre><code># 1) install (Windows PowerShell, from the repo root)
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+# 2) configure: copy .env.example to .env — set OLLAMA_API_KEY for the cloud LLM
+Copy-Item .env.example .env
+
+# 3) pull the local decision model
+ollama pull tev1:4b
+
+# 4) create the fleet (five machines, five scenarios, synthetic readings)
+.\.venv\Scripts\python.exe -m maintai.seed
+
+# 5) run the app
+$env:PYTHONPATH = (Get-Location).Path
+.\.venv\Scripts\python.exe -m streamlit run maintai/app.py
+#    → open http://localhost:8501</code></pre>
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 2 — TECHNICAL                                                    -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-technical">
+
+  <h2>Architecture</h2>
+  <p>
+    Every concept owns one file. <code>run_decision()</code> composes them; every Streamlit page calls the same
+    functions the pipeline uses — no page has its own private logic.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 320" width="980" role="img" aria-label="Module map">
+      <defs>
+        <marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="12" font-weight="600" text-anchor="middle">
+        <rect x="15" y="20" width="220" height="140" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="125" y="42" fill="#334155">config/</text>
+        <text x="125" y="64" fill="#5b6b7c" font-weight="400" font-size="11">settings.py — the ONLY .env reader</text>
+        <text x="125" y="84" fill="#5b6b7c" font-weight="400" font-size="11">models, thresholds, timeouts</text>
+        <text x="125" y="104" fill="#5b6b7c" font-weight="400" font-size="11">validate_settings() / is_configured()</text>
+        <text x="125" y="124" fill="#5b6b7c" font-weight="400" font-size="11">key names only — never values in UI</text>
+
+        <rect x="255" y="20" width="220" height="140" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="365" y="42" fill="#1e3a8a">maintai/models.py</text>
+        <text x="365" y="64" fill="#5b6b7c" font-weight="400" font-size="11">SensorReading · MachineLimits</text>
+        <text x="365" y="84" fill="#5b6b7c" font-weight="400" font-size="11">validate_reading() → status:</text>
+        <text x="365" y="104" fill="#5b6b7c" font-weight="400" font-size="11">valid / stale / missing_data / invalid</text>
+        <text x="365" y="124" fill="#5b6b7c" font-weight="400" font-size="11">Pydantic bounds on every field</text>
+
+        <rect x="495" y="20" width="220" height="140" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="605" y="42" fill="#92400e">maintai/rules_engine.py</text>
+        <text x="605" y="64" fill="#5b6b7c" font-weight="400" font-size="11">evaluate_machine(): threshold checks</text>
+        <text x="605" y="84" fill="#5b6b7c" font-weight="400" font-size="11">rate-of-change vs ROC env limits</text>
+        <text x="605" y="104" fill="#5b6b7c" font-weight="400" font-size="11">trend classification (last 12 readings)</text>
+        <text x="605" y="124" fill="#5b6b7c" font-weight="400" font-size="11">pure Python — no LLM anywhere</text>
+
+        <rect x="735" y="20" width="230" height="140" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="850" y="42" fill="#1e3a8a">services/ (shared)</text>
+        <text x="850" y="64" fill="#5b6b7c" font-weight="400" font-size="11">tev1_service.py — POST /v1/systemone</text>
+        <text x="850" y="84" fill="#5b6b7c" font-weight="400" font-size="11">never /api/chat — + typed errors</text>
+        <text x="850" y="104" fill="#5b6b7c" font-weight="400" font-size="11">llm_service.py — chat client</text>
+        <text x="850" y="144" fill="#5b6b7c" font-weight="400" font-size="11">result_processor.py — display only</text>
+
+        <rect x="15" y="180" width="220" height="120" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="125" y="202" fill="#14532d">maintai/maintenance_service.py</text>
+        <text x="125" y="224" fill="#5b6b7c" font-weight="400" font-size="11">apply_policy(): the 6-rung ladder</text>
+        <text x="125" y="244" fill="#5b6b7c" font-weight="400" font-size="11">run_decision(): validates → rules →</text>
+        <text x="125" y="264" fill="#5b6b7c" font-weight="400" font-size="11">Tev1 → policy → explanation →</text>
+        <text x="125" y="284" fill="#5b6b7c" font-weight="400" font-size="11">persist (input snapshot + audit row)</text>
+
+        <rect x="255" y="180" width="220" height="120" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="365" y="202" fill="#14532d">maintai/explanation_service.py</text>
+        <text x="365" y="224" fill="#5b6b7c" font-weight="400" font-size="11">strict evidence-only prompt</text>
+        <text x="365" y="244" fill="#5b6b7c" font-weight="400" font-size="11">Pydantic-validated JSON reply</text>
+        <text x="365" y="264" fill="#5b6b7c" font-weight="400" font-size="11">deterministic fallback, marked</text>
+        <text x="365" y="284" fill="#5b6b7c" font-weight="400" font-size="11">cannot override the outcome</text>
+
+        <rect x="495" y="180" width="220" height="120" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="605" y="202" fill="#334155">maintai/database/</text>
+        <text x="605" y="224" fill="#5b6b7c" font-weight="400" font-size="11">SQLite + repository layer</text>
+        <text x="605" y="244" fill="#5b6b7c" font-weight="400" font-size="11">machines · limit versions (append-only)</text>
+        <text x="605" y="264" fill="#5b6b7c" font-weight="400" font-size="11">readings · decisions · inspections · audit</text>
+
+        <rect x="735" y="180" width="230" height="120" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="850" y="202" fill="#334155">maintai/pages/ (8)</text>
+        <text x="850" y="224" fill="#5b6b7c" font-weight="400" font-size="11">1 Dashboard … 8 Settings</text>
+        <text x="850" y="244" fill="#5b6b7c" font-weight="400" font-size="11">thin UI over the same services</text>
+        <text x="850" y="264" fill="#5b6b7c" font-weight="400" font-size="11">tuning.py: session overrides read fresh</text>
+        <text x="850" y="284" fill="#5b6b7c" font-weight="400" font-size="11">per decision run</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none" marker-end="url(#ar2)">
+        <line x1="235" y1="90" x2="253" y2="90"/>
+        <line x1="475" y1="90" x2="493" y2="90"/>
+        <line x1="715" y1="90" x2="733" y2="90"/>
+        <path d="M605,160 V170 H125 V178"/>
+        <line x1="237" y1="240" x2="252" y2="240"/>
+        <line x1="475" y1="240" x2="493" y2="240"/>
+        <line x1="715" y1="240" x2="733" y2="240"/>
+      </g>
+    </svg>
+    <figcaption>Figure 2 — Module map. Configuration is load-bearing in one file; the ladder is testable pure code;
+    pages stay thin by calling the same functions.</figcaption>
+  </figure>
+
+  <h2>The decision pipeline</h2>
+  <p>
+    <code>run_decision(machine_id)</code> is the whole product in one function call. Each stage's artifacts are
+    persisted in a single decision row, so the Workbench is just reading back what actually happened:
+  </p>
+  <table>
+    <tr><th>Stage</th><th>Module</th><th>Produces</th><th>Failure mode</th></tr>
+    <tr><td>Load latest reading + active limits</td><td>repository</td><td><code>SensorReading</code>, <code>MachineLimits</code> (versioned)</td><td>No limits configured → actionable error, no run</td></tr>
+    <tr><td>Validate</td><td>models.validate_reading</td><td>status: valid / stale / missing / invalid + reasons</td><td>Not ok → pipeline continues, rung 1 forces review</td></tr>
+    <tr><td>Rules</td><td>rules_engine.evaluate_machine</td><td>alerts, critical channels, deviations, trends, RoC violations</td><td>Pure code — cannot fail silently</td></tr>
+    <tr><td>Classify (Tev1)</td><td>services/tev1_service</td><td>action + probabilities + confidence + measured latency</td><td>Error captured as status; never a fabricated decision</td></tr>
+    <tr><td>Policy</td><td>apply_policy</td><td>outcome rung + final action + review flag + reason</td><td>Deterministic — same inputs, same outcome</td></tr>
+    <tr><td>Explain (LLM)</td><td>explanation_service</td><td>summary / evidence / recommended_checks / limitations</td><td>Deterministic fallback, flagged in the record</td></tr>
+    <tr><td>Persist + audit</td><td>repository</td><td>decision row + audit row with user, event, entity</td><td>sqlite3 errors surface as actionable messages</td></tr>
+  </table>
+
+  <h2>The policy ladder: why each rung exists</h2>
+  <p>
+    <code>apply_policy()</code> is the safety story of the app, written in 40 lines of pure Python. It is ordered
+    so that nothing below a rung can override it:
+  </p>
+  <ul>
+    <li><strong>Rung 1 — data first.</strong> If the reading failed validation, the model is never consulted. Reviewing bad data is a data problem, not a maintenance problem; labelling it <code>data_review_required</code> tells the human which kind of review to do.</li>
+    <li><strong>Rung 2 — machine policy.</strong> A registry flag (<code>mandatory_escalation</code>) short-circuits everything; a machine that must always be escalated is.</li>
+    <li><strong>Rung 3 — hard limits.</strong> Any critical breach forces <code>urgent</code> even if the model said <code>monitor at 99%</code>. Deterministic evidence beats model opinion — that precedence is the whole point of the app.</li>
+    <li><strong>Rung 4 — failed model ≠ safe decision.</strong> A timeout or parse error becomes <code>decision_unavailable_review_required</code>, never "keep monitoring".</li>
+    <li><strong>Rung 5 — soft evidence contradictions.</strong> Confidence below the threshold (default 0.70), an insufficient-data answer, or a <code>monitor</code> verdict while anomaly probability exceeds 0.5 route to review. Confidence is used only as a review signal — never as correctness.</li>
+    <li><strong>Rung 6 — accept.</strong> Only a validated reading, no hard alerts and a coherent confident model answer produces an automatic decision — and even <code>urgent_maintenance</code> accepted here still requires review.</li>
+  </ul>
+
+  <h2>Model & LLM integration</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🧠 Tev1 — the decision model</h3>
+      <p>
+        Served by local Ollama, called on the <strong>non-standard <code>POST /v1/systemone</code></strong>
+        endpoint — deliberately never <code>/api/chat</code>. The prompt poses three structured questions
+        (<code>choice</code> maintenance action with the four allowed answers, anomaly present, severity score);
+        the parser reads back typed shapes — <code>{choice, probabilities{}, confidence}</code> etc. — and
+        fabricates nothing: absent fields stay <code>None</code> and the pipeline treats that honestly.
+      </p>
+      <p><code>TEV1_MODEL</code>, <code>OLLAMA_HOST</code>, <code>TEV1_TIMEOUT_SECONDS</code> (default 120).</p>
+    </div>
+    <div class="card">
+      <h3>💬 Generative LLM — the explanation voice</h3>
+      <p>
+        Any chat model over the shared LLM service: Ollama Cloud by default
+        (<code>LLM_MODEL</code> + <code>LLM_BASE_URL</code> inherit the playground cloud config, so one
+        <code>OLLAMA_API_KEY</code> serves both), or a local model by setting
+        <code>LLM_BASE_URL=http://localhost:11434</code>. Swapping models is a one-line env change with zero code
+        edits — and the key never appears in UI, logs, errors or exports, only in request headers.
+      </p>
+    </div>
+  </div>
+
+  <h2>Data, registry & audit</h2>
+  <ul>
+    <li><strong>Append-only limit versions.</strong> Editing thresholds on the Machine Registry inserts a <em>new</em> version row — the old one stays. Every persisted decision records which limits version produced it, so any past decision can be reproduced as-of its decision time.</li>
+    <li><strong>Import quarantine, not silent coercion.</strong> <code>import_core.classify_rows()</code> separates valid rows from quarantined ones with per-row reasons (unparseable timestamp, unknown machine, stale, missing channel) and in-file duplicates — the page confirms before anything is written.</li>
+    <li><strong>Audit trail everywhere.</strong> Machine edits, limit-version changes, imports and inspections all append audit rows carrying the acting role, entity and JSON details — the import history and review-closure logic both read from it.</li>
+    <li><strong>One SQLite file.</strong> <code>DATABASE_URL</code> (default <code>maintai.db</code>); tables live behind a repository layer the pages never bypass.</li>
+  </ul>
+
+  <h2>Demonstration thresholds (all env-tunable, all demo values)</h2>
+  <table>
+    <tr><th>Setting</th><th>Default</th><th>Meaning / caveat</th></tr>
+    <tr><td>Per-machine temperature warning / critical</td><td>75 / 90 °C</td><td>Registry-set per machine; demonstration limits only.</td></tr>
+    <tr><td>Per-machine vibration warning / critical</td><td>3.5 / 4.5 mm/s</td><td>Not a universal vibration standard.</td></tr>
+    <tr><td>Per-machine motor-load warning / critical</td><td>75 / 85%</td><td>Site/motor-specific limits must replace these.</td></tr>
+    <tr><td><code>TEV1_CONFIDENCE_REVIEW_THRESHOLD</code></td><td>0.70</td><td>Lower model confidence requires review; confidence ≠ correctness.</td></tr>
+    <tr><td><code>SENSOR_FRESHNESS_MINUTES</code></td><td>180</td><td>Older latest readings require review; match the sampling cadence.</td></tr>
+    <tr><td><code>TREND_WINDOW_READINGS</code></td><td>12</td><td>Max recent readings for trend calc — a count, not a duration.</td></tr>
+    <tr><td><code>TEMPERATURE_ROC_C_PER_H</code></td><td>10 °C/h</td><td>Rate-of-change alert; tune to the sensor.</td></tr>
+    <tr><td><code>VIBRATION_ROC_MM_S_PER_H</code></td><td>2 (mm/s)/h</td><td>Demonstration heuristic.</td></tr>
+    <tr><td><code>MOTOR_LOAD_ROC_PCT_PER_H</code></td><td>15 pp/h</td><td>Demonstration heuristic.</td></tr>
+    <tr><td><code>ENABLE_SYNTHETIC_DATA</code></td><td>true</td><td>Whether the seed command may create demo readings.</td></tr>
+  </table>
+
+  <h2>Roles (demo auth)</h2>
+  <table>
+    <tr><th>Role</th><th>Can do</th></tr>
+    <tr><td><span class="pill grey">Viewer</span></td><td>Read everything; cannot edit machines or thresholds; cannot submit inspection outcomes.</td></tr>
+    <tr><td><span class="pill blue">Engineer</span></td><td>Edit machines and thresholds (each edit appends an audited limit version); record inspection outcomes.</td></tr>
+    <tr><td><span class="pill green">Administrator</span></td><td>Same as Engineer, bypasses edit confirmation.</td></tr>
+  </table>
+  <p style="font-size:.9rem;color:var(--muted)">The role selector is a demo stand-in for authentication — it exists so the
+  permission behaviour is observable, not as a security boundary.</p>
+
+  <h2>Evaluation harness</h2>
+  <p>
+    <code>evaluation_service.py</code> generates ≥100 deterministic labelled cases (labels come from the
+    generator's parameters, <em>never</em> from model output) across the five machine types and five true
+    conditions: <code>normal → monitor</code>, <code>warning → inspect</code>, <code>critical → urgent</code>,
+    <code>missing_data</code> and <code>ambiguous → insufficient_data</code>. Ambiguous cases are deliberately
+    low-confidence or self-contradicting to exercise rung 5. Each case runs through the <strong>real</strong>
+    <code>validate → rules → policy</code> ladder with an injectable Tev1 callable, then scikit-learn scores it:
+  </p>
+  <div class="grid2">
+    <div class="card">
+      <h3>What gets scored</h3>
+      <ul>
+        <li>Accuracy across the four canonical actions</li>
+        <li>Human-review rate (how much workload the ladder generates)</li>
+        <li>Unavailable/invalid model rate</li>
+        <li>Per-class precision / recall</li>
+        <li>Confusion matrix: expected vs final action</li>
+        <li>Measured Tev1 latency</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>What it deliberately is not</h3>
+      <ul>
+        <li>Not production performance — cases and replies are generated</li>
+        <li>Not a benchmark of Tev1 specifically — the canned replies are part of the generator</li>
+        <li>The point is the ladder: does bad data route to review, do criticals escalate, does a failed model stay unsafe-to-silent</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Run it</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🖥️ The app (recommended)</h3>
+<pre><code>py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env   # set OLLAMA_API_KEY
+ollama pull tev1:4b
+.\.venv\Scripts\python.exe -m maintai.seed
+$env:PYTHONPATH = (Get-Location).Path
+.\.venv\Scripts\python.exe -m streamlit run maintai/app.py
+# open http://localhost:8501</code></pre>
+      <p style="font-size:.9rem;color:var(--muted)">For a local explanation LLM instead of cloud: set
+      <code>LLM_MODEL</code> to an installed model and <code>LLM_BASE_URL=http://localhost:11434</code> — no key needed.</p>
+    </div>
+    <div class="card">
+      <h3>⌨️ Tests & troubleshooting</h3>
+<pre><code># offline suite (HTTP mocked, no network)
+.\.venv\Scripts\python.exe -m pytest tests -v
+
+# optional live smoke (env-gated)
+$env:RUN_LIVE_TESTS="1"</code></pre>
+      <ul>
+        <li><strong>Ollama down:</strong> start it; the sidebar pill turns 🔴 and Settings' connection check names the fix.</li>
+        <li><strong>Model missing:</strong> <code>ollama pull tev1:4b</code>.</li>
+        <li><strong><code>ModuleNotFoundError</code>:</strong> run from the repo root with <code>PYTHONPATH</code> set.</li>
+        <li><strong>No machines:</strong> run the seed command.</li>
+        <li><strong>DB write error:</strong> close other processes using the SQLite file.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Design decisions & trade-offs</h2>
+  <ul>
+    <li><strong>A six-rung <em>ordered</em> ladder instead of weighted scores</strong> — maintenance safety decisions should be explainable in one sentence ("critical breach → urgent, period"). Weighted scoring would be cleverer and less defensible.</li>
+    <li><strong>Model output and policy outcome are separate columns, separate panels, separate concepts</strong> — the demo's core lesson. The LLM reads the outcome, never writes it; explanation failures can't corrupt decisions.</li>
+    <li><strong>Append-only limit versions</strong> — trivial cost, and every historical decision remains reproducible with the exact limits it was made under. A real CMMS would build on the same shape.</li>
+    <li><strong>Quarantine over rejection</strong> — bad rows ship back with reasons instead of blocking the 500 good ones, and never enter silently.</li>
+    <li><strong>Deterministic fallback explanations</strong> — the demo must work with the LLM down; a labelled fallback keeps the record complete and honest about its origin.</li>
+    <li><strong>Synthetic data labeled on every page</strong> — the app's credibility comes from never pretending: thresholds are demonstration values, evaluation is generated, and confidence is a review signal, not correctness.</li>
+    <li><strong>Models as config, not code</strong> — Tev1 and the explanation LLM are both env-selected; swapping either is a .env edit and a restart.</li>
+  </ul>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 3 — GLOSSARY                                                     -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-glossary">
+
+  <h2>Glossary</h2>
+
+  <h3>Sensors & Data</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Sensor reading</td><td>—</td><td>One observation: temperature, vibration, motor load, RPM, operating hours at a timestamp</td><td><code>maintai/models.py</code> → <code>SensorReading</code> (Pydantic-validated)</td></tr>
+    <tr><td>Freshness</td><td>—</td><td>How recent the latest reading is; stale data is reviewed, not trusted</td><td><code>SENSOR_FRESHNESS_MINUTES</code> (default 180), validator status <code>stale</code></td></tr>
+    <tr><td>Quarantine</td><td>—</td><td>Import rows failing validation are held out with a reason, never inserted</td><td><code>import_core.classify_rows()</code>, Data Import page</td></tr>
+    <tr><td>Rate of change (RoC)</td><td>—</td><td>(last − first) / hours across the trend window; fast drift alerts even below absolute limits</td><td><code>rules_engine.rate_of_change()</code>, per-channel env limits</td></tr>
+    <tr><td>Trend classification</td><td>—</td><td>increasing / decreasing / stable over the window (<code>None</code> if too few readings)</td><td><code>rules_engine.classify_trend()</code>, last <code>TREND_WINDOW_READINGS=12</code></td></tr>
+    <tr><td>Synthetic data</td><td>—</td><td>Generated readings with known shapes (degrading, normal, critical, missing, excursion)</td><td><code>maintai/seed.py</code>, <code>ENABLE_SYNTHETIC_DATA</code></td></tr>
+  </table>
+
+  <h3>Rules & Policy</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Rules engine</td><td>—</td><td>Deterministic threshold / RoC / trend checks; no LLM involved</td><td><code>maintai/rules_engine.py</code> → <code>RuleReport</code></td></tr>
+    <tr><td>Policy ladder</td><td>—</td><td>Ordered precedence: bad data → escalation flag → critical breach → model failure → low confidence → accept</td><td><code>maintenance_service.apply_policy()</code>, six named rungs</td></tr>
+    <tr><td>Policy outcome</td><td>—</td><td>The application's decision; the only thing recorded as authoritative</td><td><code>PolicyOutcome</code> — <code>data_review_required</code>, <code>urgent_human_review</code>, <code>decision_unavailable_review_required</code>, <code>human_review_required</code>, <code>policy_auto_decision</code></td></tr>
+    <tr><td>Final action</td><td>—</td><td>One of <code>monitor / inspect / urgent_maintenance / insufficient_data</code></td><td><code>ACTIONS</code> in <code>maintai/prompts.py</code>; eval label space</td></tr>
+    <tr><td>Human review</td><td>—</td><td>Flag requiring a person to inspect and record an outcome; forced by rungs 1–5</td><td><code>PolicyOutcome.human_review_required</code>, dashboard KPI</td></tr>
+    <tr><td>Mandatory escalation</td><td>—</td><td>Per-machine registry flag that forces urgent review unconditionally</td><td><code>RuleReport.mandatory_escalation</code>, Machine Registry</td></tr>
+    <tr><td>Limit version</td><td>—</td><td>Append-only snapshot of a machine's thresholds; decisions record which one they used</td><td><code>repo.insert_limit_version()</code>, <code>policy_version</code> on decisions</td></tr>
+  </table>
+
+  <h3>Models & Explanation</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>TEV1</td><td>—</td><td>Local decision model classifying maintenance action; called on a non-standard endpoint</td><td><code>services/tev1_service.py</code>, <code>POST {OLLAMA_HOST}/v1/systemone</code> (never /api/chat)</td></tr>
+    <tr><td>Confidence</td><td>—</td><td>Model-reported certainty; used <em>only</em> as a review signal, never as correctness</td><td><code>TEV1_CONFIDENCE_REVIEW_THRESHOLD</code> (0.70), policy rung 5</td></tr>
+    <tr><td>Contradiction</td><td>—</td><td><code>monitor</code> verdict while anomaly probability &gt; 0.5 — routed to review</td><td><code>apply_policy()</code> rung 5</td></tr>
+    <tr><td>Explanation</td><td>—</td><td>LLM-generated narrative of the established outcome: summary, evidence, recommended checks, limitations</td><td><code>explanation_service.py</code>, strict-JSON prompt</td></tr>
+    <tr><td>Grounding rules</td><td>—</td><td>Prompt forbids invented measurements, unsupported failure claims, outcome overrides, instruction injection via inspection notes</td><td><code>PROMPT</code> in <code>explanation_service.py</code></td></tr>
+    <tr><td>Deterministic fallback</td><td>—</td><td>Rule-written explanation used when the LLM fails; always labelled as such</td><td><code>explanation_service</code> fallback + <code>llm_explanation_unavailable</code> status</td></tr>
+  </table>
+
+  <h3>Persistence & Apps</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Decision record</td><td>—</td><td>One row storing input snapshot, alerts, Tev1 output, policy outcome, explanation, error status, policy version</td><td>SQLite via <code>maintai/database/repository.py</code></td></tr>
+    <tr><td>Audit row</td><td>—</td><td>Who did what to which entity, with JSON details — machine edits, imports, inspections</td><td><code>repo.record_audit()</code>, read by History/Import pages</td></tr>
+    <tr><td>Review closure</td><td>—</td><td>A recorded closed inspection tied to a decision id removes the machine from the live review count</td><td><code>record_inspection()</code>, dashboard <code>machines_requiring_review</code></td></tr>
+    <tr><td>Machine action flag</td><td>—</td><td>Per-machine colour from its latest decision: red pending review, yellow inspect/observe, green accepted monitor, gray unassessed</td><td><code>repo.machine_action_statuses()</code>, Executive Dashboard</td></tr>
+    <tr><td>Session override</td><td>—</td><td>Settings-page threshold/freshness overrides applied to the next decision runs; expire with the tab, persist via .env only</td><td><code>maintai/tuning.py</code></td></tr>
+    <tr><td>Demo roles</td><td>—</td><td>Viewer / Engineer / Administrator selector standing in for authentication; write is audited with the role</td><td>Registry + History pages, <code>ROLES</code></td></tr>
+    <tr><td>Streamlit multipage</td><td>—</td><td>One process, page files under <code>maintai/pages/</code> numbered by sidebar order</td><td><code>maintai/app.py</code> + <code>pages/</code> (8 pages)</td></tr>
+  </table>
+
+</section>
+
+</main>
+
+<footer>
+  MaintAI Decision Platform · Python · Streamlit · SQLite · Ollama (local tev1:4b + cloud/local LLM) · docs updated 2026-10-22
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    document.getElementById('tab-btn-' + name).classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+</script>
+
+</body>
+</html>

@@ -7,7 +7,7 @@ This portfolio demonstrates practical AI engineering across:
 1. **Agentic AI & Multi-Agent Systems** — dynamic workflow orchestration, tool protocols, hierarchical agents, stateful business agents
 2. **RAG & Knowledge Engineering** — hybrid retrieval, graph RAG, knowledge-base generation, RAG evaluation
 3. **AI Safety & Quality Engineering** — guardrails, injection defense, PII protection, LLM-as-a-judge
-4. **Applied AI** — document intelligence, voice pipelines
+4. **Applied AI** — document intelligence, voice pipelines, maintenance decision support
 5. **NLP & Machine Learning** — classical supervised NLP
 
 Technology coverage was verified against the projects' code and requirements files; items not verifiable in the repository are marked `To be verified`.
@@ -325,9 +325,25 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 ---
 
+## 16. MaintAI Decision Platform
+
+**Folder:** [`04-Applied-AI/DecisionModelDemo/`](./04-Applied-AI/DecisionModelDemo/) · **User guide:** [`MaintAI_Userguide.html`](./04-Applied-AI/DecisionModelDemo/MaintAI_Userguide.html)
+
+**Purpose:** A local maintenance decision-support demonstration where validated synthetic sensor readings and engineering rules feed TEV1 classification, deterministic policy determines review requirements, and an optional generative LLM explains the established outcome.
+
+**Focus:** Structured decision models + deterministic policy + grounded explanations
+
+**Technologies:** Python · Streamlit · SQLite · Ollama TEV1 (`/v1/systemone`) · Ollama / Ollama Cloud · Pydantic · Pandas · Plotly · scikit-learn · pytest
+
+**Demonstrates:** Eight UI pages, versioned machine limits, CSV validation/quarantine, separate model and policy outputs, persisted audit and inspection history, and synthetic labelled evaluation with a confusion matrix.
+
+**How it differs:** Decision models classify, policy decides, and generative AI explains without overriding the outcome. Synthetic data and demonstration thresholds are not production evidence; this is not a machinery controller.
+
+---
+
 # 5. NLP & Machine Learning
 
-## 16. NLP Machine Learning Sentiment Analysis Pipeline
+## 17. NLP Machine Learning Sentiment Analysis Pipeline
 
 **Folder:** [`05-NLP-Machine-Learning/Sentiment-Analysis/`](./05-NLP-Machine-Learning/Sentiment-Analysis/)
 
@@ -360,6 +376,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 | Safe Support Ticket | Security controls embedded in AI workflow |
 | DocFlow | Document AI + deterministic validation/policy |
 | Research Voice Agent | Voice/multimodal AI pipeline |
+| MaintAI | Sensor validation + decision model + deterministic policy + grounded explanations |
 | Sentiment Analysis | Classical NLP/ML |
 
 # Technology Coverage Table

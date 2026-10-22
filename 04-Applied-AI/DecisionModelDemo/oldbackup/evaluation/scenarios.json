@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "Customer Support",
+    "input": "Customer was charged twice for the same subscription.",
+    "expected": null,
+    "confidence_threshold": null
+  },
+  {
+    "mode": "QA / Testing",
+    "input": "Login fails when Japanese characters are entered in the password field.",
+    "expected": null,
+    "confidence_threshold": null
+  },
+  {
+    "mode": "General Decision",
+    "input": "This document section explains an important security requirement.",
+    "expected": null,
+    "confidence_threshold": null
+  },
+  {
+    "mode": "QA / Testing",
+    "input": "Checkout page takes over 30 seconds to load during peak hours and users abandon their carts.",
+    "expected": null,
+    "confidence_threshold": null
+  },
+  {
+    "mode": "Customer Support",
+    "input": "My card was declined while trying to renew, and I need this subscription working today.",
+    "expected": null,
+    "confidence_threshold": null
+  },
+  {
+    "mode": "Customer Support",
+    "input": "Customer was charged twice for the same subscription.",
+    "expected": "duplicate_charge",
+    "confidence_threshold": null
+  }
+]

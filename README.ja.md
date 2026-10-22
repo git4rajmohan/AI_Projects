@@ -4,18 +4,18 @@
 
 # AI / ML エンジニアリング・ポートフォリオ
 
-エージェント AI、マルチエージェント・オーケストレーション、RAG、ナレッジエンジニアリング、AI セーフティ、ドキュメントインテリジェンス、音声 AI、古典的な NLP/ML を扱う、実践的な AI/ML プロジェクト 16 件のコレクションです。
+エージェント AI、マルチエージェント・オーケストレーション、RAG、ナレッジエンジニアリング、AI セーフティ、ドキュメントインテリジェンス、保全判断支援、音声 AI、古典的な NLP/ML を扱う、実践的な AI/ML プロジェクト 17 件のコレクションです。
 
 ## ポートフォリオ・マップ
 
-5 カテゴリ · 16 プロジェクト
+5 カテゴリ · 17 プロジェクト
 
 | カテゴリ | プロジェクト数 | 主な技術 |
 |---|---:|---|
 | 🤖 [エージェント AI & マルチエージェントシステム](./01-Agentic-AI/) | 6 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL |
 | 📚 [RAG & ナレッジエンジニアリング](./02-RAG-Knowledge/) | 5 | LangGraph, LlamaIndex, ChromaDB, Qdrant, Neo4j |
 | 🛡️ [AI セーフティ & 品質エンジニアリング](./03-AI-Safety-Quality/) | 2 | NeMo Guardrails, LLM Judges, PII Detection |
-| 🏭 [応用 AI](./04-Applied-AI/) | 2 | OCR, Document AI, Voice AI, FastAPI |
+| 🏭 [応用 AI](./04-Applied-AI/) | 3 | OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite |
 | 🧠 [NLP & 機械学習](./05-NLP-Machine-Learning/) | 1 | scikit-learn, NLTK, spaCy |
 
 ## 主な構築領域
@@ -75,6 +75,7 @@
 |---|---|---|---|
 | [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/README.ja.md/) | ドックフロー・ドキュメントインテリジェンス | 請求書は AI が読み取り、判断は決定論的なポリシーが行う | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
 | [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/README.ja.md/) | リサーチ・ボイスエージェント | エージェントが計画し、ツールが実行 → 完成したポッドキャスト | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
+| [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/) | MaintAI 保全判断プラットフォーム | センサー検証、決定モデル、決定論的ポリシー、根拠付き説明 | Streamlit, SQLite, Ollama TEV1, Pydantic |
 
 ### 🧠 NLP & 機械学習
 
@@ -136,7 +137,7 @@ FastAPI · Streamlit · React · SQLite
 - [LLM Guardrails](./03-AI-Safety-Quality/LLM-Guardrails/) · [AI-Safe Support Ticket](./03-AI-Safety-Quality/Safe-Support-Ticket/)
 
 ### 応用 AI をお探しですか？
-- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/)
+- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/)
 
 ### 古典 NLP/ML をお探しですか？
 - [Sentiment Analysis](./05-NLP-Machine-Learning/Sentiment-Analysis/)
@@ -147,7 +148,7 @@ FastAPI · Streamlit · React · SQLite
 |---|---|
 | **README.ja.md**（このファイル） | リクルーター向けランディングページ — ポートフォリオ概要とナビゲーション（日本語版） |
 | [README.md](./README.md) | 英語版ランディングページ |
-| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | 詳細カタログ — 全 16 プロジェクトのアーキテクチャ、差別化ポイント、リンク |
+| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | 詳細カタログ — 全 17 プロジェクトのアーキテクチャ、差別化ポイント、リンク |
 | **各プロジェクトの README** | プロジェクトごとの実装詳細 |
 
 ## AI 支援開発
