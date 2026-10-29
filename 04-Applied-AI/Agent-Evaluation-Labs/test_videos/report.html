@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agent Evaluation — Test Report (Recorded)</title>
+<style>
+  :root{--ok:#16a34a;--warn:#d97706;--bg:#f8fafc;--card:#fff;--ink:#1e293b;--mut:#64748b;}
+  *{box-sizing:border-box}
+  body{font-family:Segoe UI,system-ui,sans-serif;background:var(--bg);color:var(--ink);margin:0;padding:32px;max-width:1100px;margin-inline:auto}
+  h1{margin:0 0 4px} .sub{color:var(--mut);margin-bottom:24px}
+  .grid{display:grid;gap:16px}
+  .card{background:var(--card);border:1px solid #e2e8f0;border-radius:12px;padding:20px}
+  .head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .pill{padding:3px 12px;border-radius:999px;font-weight:600;font-size:.85rem;color:#fff}
+  .ok{background:var(--ok)} .labtag{background:#6366f1}
+  table{width:100%;border-collapse:collapse;margin-top:10px}
+  td,th{text-align:left;padding:6px 10px;border-top:1px solid #eef2f7;vertical-align:top;font-size:.92rem}
+  th{color:var(--mut);font-weight:600;width:140px}
+  video{width:100%;border-radius:8px;border:1px solid #e2e8f0;margin-top:12px;background:#000}
+  .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .thumbs a{border:1px solid #e2e8f0;border-radius:8px;padding:6px 10px;text-decoration:none;font-size:.85rem;color:#2563eb;background:#fff}
+  .thumbs a:hover{background:#eff6ff}
+  code{background:#f1f5f9;padding:1px 6px;border-radius:4px;font-size:.88em}
+  .summary{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+  .stat{flex:1;min-width:140px;background:var(--card);border:1px solid #e2e8f0;border-radius:12px;padding:14px;text-align:center}
+  .stat b{display:block;font-size:1.4rem}
+</style>
+</head>
+<body>
+<h1>Agent Evaluation — Test Report</h1>
+<p class="sub">Automated Playwright/Chromium run against <code>app.py</code> (Streamlit) at http://localhost:8501 &nbsp;·&nbsp; 2026-10-29 &nbsp;·&nbsp; verdict 4/4 pass</p>
+
+<div class="summary">
+  <div class="stat"><b>4/4</b>Labs passed</div>
+  <div class="stat"><b>~21 min</b>Total runtime</div>
+  <div class="stat"><b>4</b>Videos (.webm)</div>
+  <div class="stat"><b>8</b>Screenshots</div>
+</div>
+
+<div class="grid">
+
+<section class="card">
+  <div class="head"><h2 style="margin:0">Lab 5 · Tracing demo</h2><span class="pill ok">PASS · 1.9 min</span></div>
+  <table>
+    <tr><th>What is tested</th><td>Agent runs 2 demo sales questions ("most popular SKU", "best stores in 2021") fully traced to Phoenix.</td></tr>
+    <tr><th>How tested</th><td>Select lab → click <b>Run evaluation</b> → wait for "Run finished" → assert <i>2/2 answers returned</i> metric and <i>Traces</i> section with span trees; then open Phoenix UI.</td></tr>
+    <tr><th>Result</th><td>✅ Both answers rendered; per-question span trees (<span style="white-space:nowrap">AgentRun → router_call → tools</span>) and span-kind counts visible; Phoenix shows the traces.</td></tr>
+    <tr><th>Scope note</th><td>Checks answers are <b>generated + traced</b>, not their correctness.</td></tr>
+    <tr><th>Evidence</th><td>
+      <div class="thumbs"><a href="lab5_result.png">🖼 app result</a><a href="lab5_phoenix.png">🖼 Phoenix</a></div>
+      <video controls preload="metadata" src="lab5.webm"></video>
+    </td></tr>
+  </table>
+</section>
+
+<section class="card">
+  <div class="head"><h2 style="margin:0">Lab 7 · Router &amp; skill evaluations</h2><span class="pill ok">PASS · 12.5 min</span></div>
+  <table>
+    <tr><th>What is tested</th><td>6 agent runs judged on 4 skills: <b>tool selection</b> (LLM judge), <b>SQL generation</b> (LLM judge), <b>answer clarity</b> (LLM judge), <b>chart code runnable</b> (code eval — <code>exec()</code>, no LLM). Scores are logged back to Phoenix as span annotations.</td></tr>
+    <tr><th>How tested</th><td>Same driver as Lab 5 with 50-min budget; after "Run finished" assert <i>Evaluation scores</i> table + <i>How this was tested</i> examples (graded span annotations read back from Phoenix via GraphQL).</td></tr>
+    <tr><th>Result</th><td>✅ Score table rendered with checks, pass/fail status and per-example graded rows (label, score, judge reasoning, SQL/tool-calls/code). Technical logs absent from parse (log marker skipped) — cosmetic only; scores verified.</td></tr>
+    <tr><th>Scope note</th><td>Targets 1.00 per check; covers matching stored spans, not just this run.</td></tr>
+    <tr><th>Evidence</th><td>
+      <div class="thumbs"><a href="lab7_result.png">🖼 app result</a><a href="lab7_phoenix.png">🖼 Phoenix</a></div>
+      <video controls preload="none" src="lab7.webm"></video>
+    </td></tr>
+  </table>
+</section>
+
+<section class="card">
+  <div class="head"><h2 style="margin:0">Lab 9 · Convergence evaluation</h2><span class="pill ok">PASS · 1.9 min</span></div>
+  <table>
+    <tr><th>What is tested</th><td>17 paraphrases of one question run as a Phoenix experiment; code evaluator scores <b>path efficiency</b>: shortest observed message count ÷ this run's count.</td></tr>
+    <tr><th>How tested</th><td>Same driver, 75-min budget (dataset reuses stored examples); after "Run finished" assert scores table + evaluator details for <i>Convergence Eval</i> (code-based).</td></tr>
+    <tr><th>Result</th><td>✅ Experiment executed, convergence scores + average rendered; per-example paths reviewed in Phoenix Experiments view.</td></tr>
+    <tr><th>Scope note</th><td>Efficiency metric only — a short path doesn't prove a correct answer.</td></tr>
+    <tr><th>Evidence</th><td>
+      <div class="thumbs"><a href="lab9_result.png">🖼 app result</a><a href="lab9_phoenix.png">🖼 Phoenix</a></div>
+      <video controls preload="none" src="lab9.webm"></video>
+    </td></tr>
+  </table>
+</section>
+
+<section class="card">
+  <div class="head"><h2 style="margin:0">Lab 11 · Overall evaluation</h2><span class="pill ok">PASS · 4.5 min</span></div>
+  <table>
+    <tr><th>What is tested</th><td>7 questions scored by <b>5 evaluators</b>: tool selection, clarity, entity correctness (LLM judges) + SQL result match (digit comparison) + chart code runnable (code eval). Then an A/B rerun with a modified SQL-generation prompt.</td></tr>
+    <tr><th>How tested</th><td>Same driver, 90-min budget; after "Run finished" assert scores table for <i>Overall Experiment</i> (+ v2 comparison), per-evaluator "how tested" details, and technical logs.</td></tr>
+    <tr><th>Result</th><td>✅ Both experiment runs completed and scored; evaluator table with status/next-action columns rendered; v2-vs-original results available in Phoenix Experiments view.</td></tr>
+    <tr><th>Scope note</th><td>Missing SQL/chart tool responses count as passing those checks — inspect tool selection too.</td></tr>
+    <tr><th>Evidence</th><td>
+      <div class="thumbs"><a href="lab11_result.png">🖼 app result</a><a href="lab11_phoenix.png">🖼 Phoenix</a></div>
+      <video controls preload="none" src="lab11.webm"></video>
+    </td></tr>
+  </table>
+</section>
+
+</div>
+
+<p class="sub" style="margin-top:24px">Method: <code>record_test.py</code> drove each lab end-to-end in headless Chromium (record_video_dir capture), keyed clicks to Streamlit widgets, polled for the "Run finished" status, asserted expected UI sections, then captured screenshots of the app and Phoenix at http://localhost:6006. Machine-readable verdicts: <code>results.json</code>.</p>
+</body>
+</html>

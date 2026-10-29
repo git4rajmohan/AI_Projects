@@ -4,18 +4,18 @@
 
 # AI / ML エンジニアリング・ポートフォリオ
 
-エージェント AI、マルチエージェント・オーケストレーション、RAG、ナレッジエンジニアリング、AI セーフティ、ドキュメントインテリジェンス、コンピュータービジョン、保全判断支援、音声 AI、古典的な NLP/ML を扱う、実践的な AI/ML プロジェクト 18 件のコレクションです。
+エージェント AI、マルチエージェント・オーケストレーション、RAG、ナレッジエンジニアリング、AI セーフティ、ドキュメントインテリジェンス、コンピュータービジョン、保全判断支援、音声 AI、古典的な NLP/ML を扱う、実践的な AI/ML プロジェクト 19 件のコレクションです。
 
 ## ポートフォリオ・マップ
 
-5 カテゴリ · 18 プロジェクト
+5 カテゴリ · 19 プロジェクト
 
 | カテゴリ | プロジェクト数 | 主な技術 |
 |---|---:|---|
 | 🤖 [エージェント AI & マルチエージェントシステム](./01-Agentic-AI/) | 6 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL |
 | 📚 [RAG & ナレッジエンジニアリング](./02-RAG-Knowledge/) | 5 | LangGraph, LlamaIndex, ChromaDB, Qdrant, Neo4j |
 | 🛡️ [AI セーフティ & 品質エンジニアリング](./03-AI-Safety-Quality/) | 2 | NeMo Guardrails, LLM Judges, PII Detection |
-| 🏭 [応用 AI](./04-Applied-AI/) | 4 | YOLO, OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite |
+| 🏭 [応用 AI](./04-Applied-AI/) | 5 | YOLO, OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite, Phoenix |
 | 🧠 [NLP & 機械学習](./05-NLP-Machine-Learning/) | 1 | scikit-learn, NLTK, spaCy |
 
 ## 主な構築領域
@@ -24,6 +24,7 @@
 - 🔧 LLM ツールと MCP オーケストレーション
 - 📚 本番指向の RAG とナレッジシステム
 - 📏 LLM/RAG の評価と品質エンジニアリング
+- 🔭 エージェント観測可能性：トレーシング、スパンジャッジ、A/B 実験
 - 🛡️ AI セーフティとプロンプトインジェクション対策
 - 📄 ドキュメントインテリジェンスと検証ワークフロー
 - 👁️ コンピュータービジョン：検出・トラッキング・カウント
@@ -78,6 +79,7 @@
 | [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/README.ja.md/) | リサーチ・ボイスエージェント | エージェントが計画し、ツールが実行 → 完成したポッドキャスト | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
 | [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/README.ja.md) | MaintAI 保全判断プラットフォーム | センサー検証、決定モデル、決定論的ポリシー、根拠付き説明 | Streamlit, SQLite, Ollama TEV1, Pydantic |
 | [VisionFlow Video Analytics](./04-Applied-AI/VisionFlow/README.ja.md) | VisionFlow 動画分析 | YOLO 検出 + トラッキング + 正直なカウント | Ultralytics YOLO11, ByteTrack, OpenCV, Streamlit |
+| [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/README.ja.md) | エージェント評価ラボ | トレース済みエージェント + LLM ジャッジ + A/B プロンプト実験 | Arize Phoenix, OpenInference, OpenAI SDK, DuckDB, Streamlit |
 
 ### 🧠 NLP & 機械学習
 
@@ -97,7 +99,7 @@ Google ADK · LangGraph · LangChain · Agno · MCP
 ChromaDB · Qdrant · Neo4j · LlamaIndex · Cognee · BM25 · RRF
 
 **評価**
-RAGAS · LLM-as-a-Judge · pytest · ゴールデンデータセット
+RAGAS · LLM-as-a-Judge · Arize Phoenix · OpenInference · pytest · ゴールデンデータセット
 
 **AI セーフティ**
 NeMo Guardrails · Colang · プロンプトインジェクション · PII 検出
@@ -139,7 +141,7 @@ FastAPI · Streamlit · React · SQLite
 - [LLM Guardrails](./03-AI-Safety-Quality/LLM-Guardrails/) · [AI-Safe Support Ticket](./03-AI-Safety-Quality/Safe-Support-Ticket/)
 
 ### 応用 AI をお探しですか？
-- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/README.ja.md) · [VisionFlow Video Analytics](./04-Applied-AI/VisionFlow/README.ja.md)
+- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/README.ja.md) · [VisionFlow Video Analytics](./04-Applied-AI/VisionFlow/README.ja.md) · [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/README.ja.md)
 
 ### 古典 NLP/ML をお探しですか？
 - [Sentiment Analysis](./05-NLP-Machine-Learning/Sentiment-Analysis/)
@@ -150,7 +152,7 @@ FastAPI · Streamlit · React · SQLite
 |---|---|
 | **README.ja.md**（このファイル） | リクルーター向けランディングページ — ポートフォリオ概要とナビゲーション（日本語版） |
 | [README.md](./README.md) | 英語版ランディングページ |
-| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | 詳細カタログ — 全 18 プロジェクトのアーキテクチャ、差別化ポイント、リンク |
+| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | 詳細カタログ — 全 19 プロジェクトのアーキテクチャ、差別化ポイント、リンク |
 | **各プロジェクトの README** | プロジェクトごとの実装詳細 |
 
 ## AI 支援開発

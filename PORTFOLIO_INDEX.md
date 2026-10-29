@@ -9,6 +9,9 @@ This portfolio demonstrates practical AI engineering across:
 3. **AI Safety & Quality Engineering** — guardrails, injection defense, PII protection, LLM-as-a-judge
 4. **Applied AI** — document intelligence, computer vision, voice pipelines, maintenance decision support
 5. **NLP & Machine Learning** — classical supervised NLP
+6. **Agent Observability & Evaluation** — LLM-agent tracing, span-based judges, convergence and A/B experiments
+
+---
 
 Technology coverage was verified against the projects' code and requirements files; items not verifiable in the repository are marked `To be verified`.
 
@@ -341,22 +344,6 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 ---
 
-## 16. MaintAI Decision Platform
-
-**Folder:** [`04-Applied-AI/DecisionModelDemo/`](./04-Applied-AI/DecisionModelDemo/) · **User guide:** [`MaintAI_Userguide.html`](./04-Applied-AI/DecisionModelDemo/MaintAI_Userguide.html)
-
-**Purpose:** A local maintenance decision-support demonstration where validated synthetic sensor readings and engineering rules feed TEV1 classification, deterministic policy determines review requirements, and an optional generative LLM explains the established outcome.
-
-**Focus:** Structured decision models + deterministic policy + grounded explanations
-
-**Technologies:** Python · Streamlit · SQLite · Ollama TEV1 (`/v1/systemone`) · Ollama / Ollama Cloud · Pydantic · Pandas · Plotly · scikit-learn · pytest
-
-**Demonstrates:** Eight UI pages, versioned machine limits, CSV validation/quarantine, separate model and policy outputs, persisted audit and inspection history, and synthetic labelled evaluation with a confusion matrix.
-
-**How it differs:** Decision models classify, policy decides, and generative AI explains without overriding the outcome. Synthetic data and demonstration thresholds are not production evidence; this is not a machinery controller.
-
----
-
 ## 17. VisionFlow Video Analytics
 
 **Folder:** [`04-Applied-AI/VisionFlow/`](./04-Applied-AI/VisionFlow/) · **User guide:** [`VisionFlow_Userguide.html`](./04-Applied-AI/VisionFlow/VisionFlow_Userguide.html)
@@ -389,6 +376,24 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 ---
 
+# 6. Agent Observability & Evaluation
+
+## 19. Agent Evaluation Labs — LLM Agent Observability & Evaluation
+
+**Folder:** [`04-Applied-AI/Agent-Evaluation-Labs/`](./04-Applied-AI/Agent-Evaluation-Labs/) · **User guide:** [`Userguide.html`](./04-Applied-AI/Agent-Evaluation-Labs/Userguide.html)
+
+**Purpose:** A sales-data analyst agent (router + 3 tools: SQL lookup over DuckDB, analysis, chart generation) fully traced to Arize Phoenix, wrapped in four evaluation labs on one Streamlit dashboard: tracing demo, per-skill LLM-judged evals, a 17-paraphrase convergence experiment, and a 5-evaluator overall suite with an A/B rerun against a modified SQL prompt.
+
+**Focus:** Evaluation-driven agent development — trace the run, judge recorded evidence, compare before/after
+
+**Technologies:** Arize Phoenix · OpenInference/OpenTelemetry · Streamlit · OpenAI SDK (Ollama Cloud) · DuckDB · Pydantic · Playwright · pytest-style AppTest checks
+
+**Demonstrates:** OpenTelemetry span trees (`AgentRun → router_call → tools → nested LLM spans`), in-place message-trajectory capture as the evaluation target, LLM-as-judge via raw HTTP + JSON mode wrapped in `suppress_tracing()` (judge calls never pollute the traces being judged), span annotations logged back to Phoenix, immutable datasets reused across experiment reruns, a `Q:/A:` + `__EVAL_UI__` subprocess protocol that keeps the UI generic, and recorded end-to-end verification (4/4 labs pass on video).
+
+**How it differs:** The evaluators are observers, not extra steps in the agent's execution — the same instrumentation that shows the agent's path in development powers its regression tests later. The portfolio's RAG Evaluation Harness measures RAG systems; this one measures tool-calling agents.
+
+---
+
 # Differentiation Matrix
 
 | Project | Primary Differentiator |
@@ -410,6 +415,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 | Research Voice Agent | Voice/multimodal AI pipeline |
 | MaintAI | Sensor validation + decision model + deterministic policy + grounded explanations |
 | VisionFlow | Detection + tracking + counting discipline with auditable sidecar replay |
+| Agent Evaluation Labs | Traced agent runs graded by LLM judges + code evals, with A/B prompt comparison |
 | Sentiment Analysis | Classical NLP/ML |
 
 # Technology Coverage Table
@@ -422,7 +428,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 | RAG | ChromaDB, Qdrant, LlamaIndex, Cognee |
 | Knowledge Graph | Neo4j |
 | Retrieval | BM25, Vector Search, Hybrid Retrieval, RRF |
-| Evaluation | RAGAS, pytest, LLM-as-a-Judge |
+| Evaluation | RAGAS, pytest, LLM-as-a-Judge, Arize Phoenix, OpenInference |
 | AI Safety | NeMo Guardrails, Colang, PII Detection, Injection Detection |
 | Document AI | PyMuPDF, Tesseract OCR, Pydantic |
 | Voice AI | faster-whisper, edge-tts |

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluating AI Agents — User Guide</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --muted: #5b6b7c;
+    --accent: #2563eb;
+    --accent-soft: #e8effd;
+    --green: #16a34a;
+    --green-soft: #e7f7ee;
+    --red: #dc2626;
+    --red-soft: #fdeaea;
+    --amber: #d97706;
+    --amber-soft: #fdf3e3;
+    --grey-soft: #eef1f6;
+    --border: #dbe2ec;
+    --radius: 14px;
+    --mono: "Cascadia Code", "Consolas", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(120deg, #312e81 0%, #6d28d9 60%, #8b5cf6 100%);
+    color: #fff;
+    padding: 34px 24px 0;
+  }
+  .head-inner { max-width: 1100px; margin: 0 auto; }
+  header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: .2px; }
+  header p.sub { color: #ddd6fe; margin-top: 6px; font-size: .98rem; }
+  .tabs { display: flex; gap: 8px; margin-top: 22px; max-width: 1100px; margin-left: auto; margin-right: auto; }
+  .tab-btn {
+    appearance: none; border: none; cursor: pointer;
+    padding: 12px 26px; font-size: 1rem; font-weight: 600;
+    border-radius: 12px 12px 0 0;
+    background: rgba(255,255,255,.15); color: #ede9fe;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,.28); }
+  .tab-btn.active { background: var(--bg); color: #6d28d9; }
+  main { max-width: 1100px; margin: 0 auto; padding: 34px 24px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  h2 { font-size: 1.35rem; margin: 38px 0 14px; padding-top: 8px; }
+  h2:first-child { margin-top: 0; }
+  h3 { font-size: 1.08rem; margin: 24px 0 10px; }
+  p { margin: 10px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px; margin: 16px 0;
+    box-shadow: 0 1px 3px rgba(20,40,80,.05);
+  }
+  .lead { font-size: 1.05rem; color: var(--muted); }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 6px 0; }
+  code {
+    font-family: var(--mono); font-size: .88em;
+    background: var(--grey-soft); border-radius: 5px; padding: 2px 6px;
+  }
+  pre {
+    font-family: var(--mono); font-size: .85rem;
+    background: #0f172a; color: #e2e8f0; border-radius: 10px;
+    padding: 14px 18px; overflow-x: auto; margin: 14px 0; line-height: 1.65;
+  }
+  pre code { background: none; padding: 0; color: inherit; font-size: .85rem; }
+  .pill {
+    display: inline-block; padding: 2px 12px; border-radius: 999px;
+    font-size: .82rem; font-weight: 600; white-space: nowrap;
+  }
+  .pill.green  { background: var(--green-soft);  color: var(--green); }
+  .pill.amber  { background: var(--amber-soft);  color: var(--amber); }
+  .pill.red    { background: var(--red-soft);    color: var(--red); }
+  .pill.blue   { background: var(--accent-soft); color: var(--accent); }
+  .pill.grey   { background: var(--grey-soft);   color: var(--muted); }
+  .pill.purple { background: #f3e8ff;            color: #7c3aed; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; background: var(--card);
+          border-radius: 10px; overflow: hidden; font-size: .93rem; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--accent-soft); color: #1e3a8a; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .note {
+    border-left: 4px solid var(--accent); background: var(--accent-soft);
+    padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: .95rem;
+  }
+  .note.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+  .note.ok   { border-left-color: var(--green); background: var(--green-soft); }
+  .note.danger { border-left-color: var(--red); background: var(--red-soft); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  .stat .kicker { text-transform: uppercase; letter-spacing: 1.5px; font-size: .72rem; color: var(--muted); }
+  .stat .val { font-size: 2rem; font-weight: 700; color: var(--green); margin: 2px 0; }
+  .stat .lbl { font-size: .85rem; color: var(--muted); }
+  .stat { text-align: center; }
+  .diagram { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+             padding: 18px; margin: 16px 0; overflow-x: auto; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .diagram figcaption { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 10px; }
+  .step { display: flex; gap: 14px; margin: 14px 0; align-items: flex-start; }
+  .step .num {
+    flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: #6d28d9; color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: .95rem;
+  }
+  .step h4 { font-size: 1rem; margin-bottom: 2px; }
+  .step p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .kbd { font-family: var(--mono); background: #fff; border: 1px solid var(--border);
+         border-bottom-width: 3px; border-radius: 6px; padding: 1px 7px; font-size: .82rem; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 26px; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <h1>📊 Evaluating AI Agents — Observability &amp; Evaluation Labs</h1>
+    <p class="sub">Arize Phoenix + an OpenAI-compatible LLM: a sales-data analyst agent whose every step is traced, whose every skill is graded by LLM judges and code checks, and whose prompt changes are compared A/B — all driven from one Streamlit dashboard.</p>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-btn-pitch" onclick="showTab('pitch')">🚀 Elevator Pitch</button>
+      <button class="tab-btn" id="tab-btn-nontechnical" onclick="showTab('nontechnical')">👤 Non-Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-technical" onclick="showTab('technical')">⚙️ Technical Guide</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================================================================== -->
+<!-- TAB 0 — ELEVATOR PITCH                                               -->
+<!-- ==================================================================== -->
+<section class="panel active" id="panel-pitch">
+
+  <h2>The 30-second pitch</h2>
+  <div class="card">
+    <p class="lead">
+      A raw LLM agent looks smart in a demo and fails silently in real use. Did it pick the right tool?
+      Is the SQL it wrote even relevant to the question? Is the answer clear — or merely plausible? Did
+      the change to a prompt quietly regress what used to work? Without instrumentation you are
+      guessing; with it, you are doing <strong>evaluation-driven development</strong>.
+    </p>
+    <p>
+      <strong>This app builds a data-analyst agent (router + 3 tools, fully traced to Phoenix)</strong>
+      and wraps it in four evaluation labs: a <em>tracing demo</em> to see every span, <em>router &amp;
+      skill evals</em> that judge real recorded tool calls, SQL, clarity and chart code, a
+      <em>convergence eval</em> that scores path efficiency across 17 paraphrased questions, and an
+      <em>overall eval</em> with 5 evaluators plus an A/B rerun against a modified SQL prompt. Each lab
+      runs from the Streamlit dashboard with one click; scores, judge reasoning and failure evidence
+      come back to the UI, with full traces in Phoenix.
+    </p>
+    <p><strong>The signal: evaluators observe the agent — they are not extra steps in its execution. Trace first, judge the recorded evidence, then iterate on the weakest component.</strong></p>
+  </div>
+
+  <h2>The one-liner variants</h2>
+  <div class="grid3">
+    <div class="card">
+      <h3>🔍 See everything</h3>
+      <p>Every LLM call, tool call and SQL execution becomes a Phoenix span under an
+      <code>AgentRun</code> root. The dashboard reconstructs span trees and inputs/outputs so you can
+      confirm the path before you score it.</p>
+    </div>
+    <div class="card">
+      <h3>⚖️ Judge the evidence</h3>
+      <p>LLM-as-judge grades recorded tool choices, SQL and answers in JSON mode; code evals execute
+      generated chart code directly — no LLM involved. Judge reasoning, label and score are logged back
+      to Phoenix as span annotations.</p>
+    </div>
+    <div class="card">
+      <h3>📈 Iterate with experiments</h3>
+      <p>Datasets of questions are uploaded once and reused; experiments score agent runs
+      reproducibly. Run the suite before and after a prompt change — regressions show up in the
+      before/after score table, not in a user complaint later.</p>
+    </div>
+  </div>
+
+  <h2>How it works in one picture</h2>
+  <figure class="diagram">
+    <svg viewBox="0 0 980 210" width="980" role="img" aria-label="Evaluation pipeline">
+      <defs>
+        <marker id="ar0" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+        <marker id="ar0g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#16a34a"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <rect x="15"  y="75" width="130" height="64" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="80"  y="102" fill="#334155">💬 Question</text>
+        <text x="80"  y="122" fill="#5b6b7c" font-weight="400" font-size="11">user / dataset</text>
+
+        <rect x="175" y="75" width="170" height="64" rx="12" fill="#e8effd" stroke="#2563eb"/>
+        <text x="260" y="102" fill="#1e3a8a">🤖 Agent</text>
+        <text x="260" y="122" fill="#5b6b7c" font-weight="400" font-size="11">router → 3 tools · traced</text>
+
+        <rect x="375" y="75" width="160" height="64" rx="12" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2"/>
+        <text x="455" y="102" fill="#5b21b6">🔭 Phoenix</text>
+        <text x="455" y="122" fill="#5b6b7c" font-weight="400" font-size="11">spans · datasets · experiments</text>
+
+        <rect x="565" y="75" width="170" height="64" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="650" y="102" fill="#92400e">⚖️ Evaluators</text>
+        <text x="650" y="122" fill="#5b6b7c" font-weight="400" font-size="11">LLM judges · code checks</text>
+
+        <rect x="765" y="75" width="120" height="64" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="825" y="102" fill="#334155">🖥️ Dashboard</text>
+        <text x="825" y="122" fill="#5b6b7c" font-weight="400" font-size="11">scores · answers · links</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="145" y1="107" x2="173" y2="107" marker-end="url(#ar0)"/>
+        <line x1="345" y1="107" x2="373" y2="107" marker-end="url(#ar0)"/>
+        <line x1="535" y1="107" x2="563" y2="107" marker-end="url(#ar0)"/>
+        <line x1="735" y1="107" x2="763" y2="107" marker-end="url(#ar0)"/>
+      </g>
+      <g>
+        <path d="M 260 139 C 400 195, 520 195, 640 143" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#ar0g)" stroke-dasharray="5 4"/>
+        <text x="450" y="192" font-size="11" fill="#16a34a" text-anchor="middle">the full message trajectory IS the evaluation target — it is collected in place, not re-derived</text>
+      </g>
+    </svg>
+    <figcaption>Figure 0 — Observability first: the agent's run is traced to Phoenix; labs then query those spans and trajectories and grade them. Nothing about evaluation changes how the agent runs.</figcaption>
+  </figure>
+
+  <h2>Numbers from the shipped build</h2>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">Evaluation labs</div><div class="val">4</div><div class="lbl">tracing · skills · convergence · overall (5 evaluators)</div></div>
+    <div class="card stat"><div class="kicker">Evaluators</div><div class="val">8</div><div class="lbl">4 LLM judges + 3 code evals + path-length (across labs)</div></div>
+    <div class="card stat"><div class="kicker">Verified by test</div><div class="val">4/4</div><div class="lbl">labs pass, each captured on video (test_videos/)</div></div>
+  </div>
+
+  <div class="note ok">
+    <strong>The signal:</strong> the same instrumentation that shows you the agent's path in development
+    also powers its regression tests later. The labs are the template: trace → judge recorded evidence →
+    compare before/after → fix the weakest evaluator, repeat.
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 1 — NON-TECHNICAL                                                -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-nontechnical">
+
+  <h2>What is this app?</h2>
+  <div class="card">
+    <p class="lead">
+      This is a <strong>teaching app for agent evaluation</strong>. It presents a sales-data analyst
+      agent — an LLM that decides which tool to call (look up data, analyze it, generate a chart), and
+      answers questions about a store-sales dataset — and lets you run <strong>four evaluation
+      labs</strong> from a single dashboard. Each lab teaches a different way to measure an agent:
+      its path, its individual skills, its answer, and its overall quality after a prompt change.
+    </p>
+    <p>
+      Think of it as hiring a smart analyst and <em>watching their work</em> instead of only reading the
+      final report. The tracing (Phoenix) is the observer; the evaluators are the quality inspectors;
+      the dashboard is where you press run and read the verdicts.
+    </p>
+  </div>
+
+  <h2>The four labs at a glance</h2>
+  <div class="card">
+    <table>
+      <tr><th>#</th><th>Lab</th><th>What it teaches</th><th>You get</th></tr>
+      <tr><td><span class="pill green">5</span></td><td><strong>Tracing demo</strong></td><td>See the agent's full path — every LLM and tool call as a span</td><td>2 answers + span trees in Phoenix</td></tr>
+      <tr><td><span class="pill amber">7</span></td><td><strong>Router &amp; skill evals</strong></td><td>Judge each skill separately: tool choice, SQL quality, clarity, runnable chart code</td><td>Score per check + graded examples with judge reasoning</td></tr>
+      <tr><td><span class="pill blue">9</span></td><td><strong>Convergence eval</strong></td><td>Do different phrasings of the same question take the same (short) path?</td><td>Convergence score over 17 question variations</td></tr>
+      <tr><td><span class="pill purple">11</span></td><td><strong>Overall eval</strong></td><td>Full suite of 5 evaluators, then an A/B rerun with a modified SQL prompt</td><td>Two compared experiment runs in Phoenix</td></tr>
+    </table>
+  </div>
+
+  <h2>The journey of a question</h2>
+  <p>Every question takes the same path through the agent. The labs differ only in <em>what they do with the recorded path afterwards</em>.</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 200" width="980" role="img" aria-label="Agent run and evaluation journey">
+      <defs>
+        <marker id="ar1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <g>
+          <rect x="15"  y="70" width="130" height="64" rx="12" fill="#eef1f6" stroke="#64748b"/>
+          <text x="80"  y="97" fill="#334155">1. Router LLM</text>
+          <text x="80"  y="117" fill="#5b6b7c" font-weight="400" font-size="11">picks a tool (or answers)</text>
+        </g>
+        <g>
+          <rect x="175" y="70" width="150" height="64" rx="12" fill="#e8effd" stroke="#2563eb"/>
+          <text x="250" y="97" fill="#1e3a8a">2. Look up data</text>
+          <text x="250" y="117" fill="#5b6b7c" font-weight="400" font-size="11">LLM writes SQL → DuckDB</text>
+        </g>
+        <g>
+          <rect x="355" y="70" width="150" height="64" rx="12" fill="#e8effd" stroke="#2563eb"/>
+          <text x="430" y="97" fill="#1e3a8a">3. Analyze data</text>
+          <text x="430" y="117" fill="#5b6b7c" font-weight="400" font-size="11">LLM interprets the numbers</text>
+        </g>
+        <g>
+          <rect x="535" y="70" width="150" height="64" rx="12" fill="#e8effd" stroke="#2563eb"/>
+          <text x="610" y="97" fill="#1e3a8a">4. Chart (optional)</text>
+          <text x="610" y="117" fill="#5b6b7c" font-weight="400" font-size="11">config → Python plotting code</text>
+        </g>
+        <g>
+          <rect x="715" y="70" width="120" height="64" rx="12" fill="#e7f7ee" stroke="#16a34a"/>
+          <text x="775" y="97" fill="#14532d">5. Final answer</text>
+          <text x="775" y="117" fill="#5b6b7c" font-weight="400" font-size="11">back to the user</text>
+        </g>
+        <g>
+          <rect x="865" y="70" width="100" height="64" rx="12" fill="#f3e8ff" stroke="#8b5cf6"/>
+          <text x="915" y="97" fill="#5b21b6" font-size="12">6. Judge</text>
+          <text x="915" y="117" fill="#5b6b7c" font-weight="400" font-size="11">labs score it</text>
+        </g>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="145" y1="102" x2="173" y2="102" marker-end="url(#ar1)"/>
+        <line x1="325" y1="102" x2="353" y2="102" marker-end="url(#ar1)"/>
+        <line x1="505" y1="102" x2="533" y2="102" marker-end="url(#ar1)"/>
+        <line x1="685" y1="102" x2="713" y2="102" marker-end="url(#ar1)"/>
+        <line x1="835" y1="102" x2="863" y2="102" marker-end="url(#ar1)"/>
+      </g>
+      <g>
+        <text x="455" y="175" font-size="11.5" fill="#8b5cf6">🔭 every arrow above is also a Phoenix span — steps 2–4 repeat only if the router decides it needs them</text>
+      </g>
+    </svg>
+    <figcaption>Figure 1 — The agent loop. Labs 7/9/11 grade the recorded path (steps 1–5); evaluators are observers, never extra steps.</figcaption>
+  </figure>
+
+  <div class="step"><div class="num">1</div><div><h4>Pick a lab and press run</h4><p>In the Streamlit dashboard, choose the lab from the dropdown and click <span class="kbd">Run evaluation</span>. A status box streams the run live; runs take minutes because each agent turn involves real LLM calls.</p></div></div>
+  <div class="step"><div class="num">2</div><div><h4>The agent works</h4><p>The router LLM picks tools, SQL is generated and executed locally on the sales data, analyses are written, chart code is produced. Nothing here is simulated.</p></div></div>
+  <div class="step"><div class="num">3</div><div><h4>Phoenix records it</h4><p>Every call lands in Phoenix (project <code>evaluating-agent</code>) as spans: <code>AgentRun → router_call → tool spans → nested LLM spans</code>.</p></div></div>
+  <div class="step"><div class="num">4</div><div><h4>Evaluators judge</h4><p>LLM judges read the recorded spans and reply with a JSON <code>label</code> + reasoning; code evals execute generated chart code directly. Scores are logged back to Phoenix as annotations.</p></div></div>
+  <div class="step"><div class="num">5</div><div><h4>You read the verdict</h4><p>The dashboard shows answers, a per-check score table with a target of 1.00, judge reasoning for graded examples, and a link to the full traces.</p></div></div>
+
+  <h2>Understanding the results table</h2>
+  <div class="card">
+    <table>
+      <tr><th>You see</th><th>Meaning</th></tr>
+      <tr><td>🟢 <code>Pass</code></td><td>Every check in the row scored 1 — target met; spot-check in Phoenix anyway</td></tr>
+      <tr><td>🟠 <code>Partial</code></td><td>Average score between 0 and 1 — some checks failed; follow the <em>Next action</em></td></tr>
+      <tr><td>🔴 <code>Fail</code></td><td>Average 0 — every check failed; inspect failed examples in Phoenix</td></tr>
+      <tr><td>⚪ <code>No score</code></td><td>Evaluator reported nothing usable — read the technical logs</td></tr>
+      <tr><td><code>Run completed</code> banner</td><td>Execution finished — <strong>not</strong> proof every evaluation passed</td></tr>
+    </table>
+    <div class="note warn"><strong>Honest limits (shown in the app too):</strong> Lab 7 scores cover all matching stored spans, not just the latest run; convergence measures <em>efficiency only</em> and a short path does not prove a correct answer; Lab 11 treats missing SQL/chart tool responses as passing those checks — inspect tool selection as well.</div>
+  </div>
+
+  <h2>How to use it</h2>
+  <div class="card">
+    <ol>
+      <li><strong>Configure <code>.env</code></strong> next to the code: <code>OLLAMA_API_KEY</code>, <code>OLLAMA_BASE_URL</code>, <code>OLLAMA_MODEL</code>, <code>PHOENIX_ENDPOINT</code>. No key, no agent — the app tells you exactly where to create one.</li>
+      <li><strong>Launch</strong> <code>python -m streamlit run app.py</code> → http://localhost:8501. Phoenix starts itself at http://localhost:6006 on first use.</li>
+      <li><strong>Pick a lab</strong> — the panel under the dropdown explains what it does, the expected output, and its limits before you spend any tokens.</li>
+      <li><strong>Read results</strong> — answers, score table, graded examples with judge reasoning; <em>Open Phoenix results</em> takes you to the raw traces and experiments.</li>
+    </ol>
+    <div class="note"><strong>Tip:</strong> run Lab 5 first. Seeing the span tree of a single question is the fastest way to understand what the other labs are judging.</div>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+  <div class="card">
+    <h3>Why does a run take minutes?</h3>
+    <p>Each agent turn means multiple real LLM calls (router, SQL, analysis, chart). Lab 7 runs 6 questions × 4 judges; Lab 9 runs 17 questions. The dashboard streams progress, and Phoenix receives traces as soon as spans finish.</p>
+    <h3>Is "Run completed" the same as "everything passed"?</h3>
+    <p>No — it only means the script exited cleanly. Always read the score table; the app says so explicitly next to the banner.</p>
+    <h3>What does a convergence score of 1.00 mean?</h3>
+    <p>This run's question took the shortest path observed across all 17 phrasings. It says nothing about whether the answer was right — that's what Lab 11's other evaluators are for.</p>
+    <h3>Where are lab datasets and annotations stored?</h3>
+    <p>Inside Phoenix. Datasets are created once and reused on every rerun (no duplicate stacking); judge scores are span annotations; experiments appear in Phoenix's Experiments view.</p>
+    <h3>Can the judges be wrong?</h3>
+    <p>Yes — LLM judges grade recorded evidence against prompt rails ("correct" vs "incorrect") and can mislabel, which is why every grade ships with its full reasoning for you to inspect. Code evals (runnable code, SQL result match) are deterministic.</p>
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 2 — TECHNICAL                                                    -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-technical">
+
+  <h2>System overview</h2>
+  <p><a href="../app.py" onclick="return false;"><strong>Streamlit</strong></a> (<code>app.py</code>) is only a <strong>launcher and renderer</strong>: it runs <code>python eval.py &lt;lab&gt;</code> as a subprocess, streams stdout, and parses two conventions out of the log. All agent behaviour lives in <code>utils.py</code>; all evaluation logic lives in <code>eval.py</code>. <strong>Phoenix</strong> (local server, auto-started) stores traces, datasets, annotations and experiments.</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 340" width="980" role="img" aria-label="System architecture">
+      <defs>
+        <marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#334155"/>
+        </marker>
+      </defs>
+      <g font-size="13">
+        <rect x="20" y="30" width="380" height="290" rx="14" fill="#f1f5f9" stroke="#64748b" stroke-dasharray="6 4"/>
+        <text x="210" y="56" text-anchor="middle" font-weight="700" fill="#334155" font-size="12">Your machine — all local</text>
+
+        <rect x="45" y="75" width="150" height="60" rx="10" fill="#e8effd" stroke="#2563eb"/>
+        <text x="120" y="98" text-anchor="middle" font-weight="600" fill="#1e3a8a">app.py (Streamlit)</text>
+        <text x="120" y="118" text-anchor="middle" fill="#5b6b7c" font-size="11">dropdown · run · render + Q:/A:, __EVAL_UI__</text>
+
+        <rect x="225" y="75" width="150" height="60" rx="10" fill="#fdf3e3" stroke="#d97706"/>
+        <text x="300" y="98" text-anchor="middle" font-weight="600" fill="#92400e">eval.py (labs)</text>
+        <text x="300" y="118" text-anchor="middle" fill="#5b6b7c" font-size="11">span queries · experiments · judges</text>
+
+        <rect x="45" y="160" width="330" height="60" rx="10" fill="#e8effd" stroke="#2563eb"/>
+        <text x="210" y="183" text-anchor="middle" font-weight="600" fill="#1e3a8a">utils.py — the agent</text>
+        <text x="210" y="203" text-anchor="middle" fill="#5b6b7c" font-size="11">run_agent router loop · 3 tools · process_messages()</text>
+
+        <rect x="45" y="245" width="330" height="55" rx="10" fill="#e7f7ee" stroke="#16a34a"/>
+        <text x="210" y="268" text-anchor="middle" font-weight="600" fill="#14532d" font-size="12">🔭 Phoenix server (localhost:6006)</text>
+        <text x="210" y="288" text-anchor="middle" fill="#5b6b7c" font-size="10.5">spans · span annotations · datasets · experiments</text>
+
+        <rect x="620" y="30" width="340" height="150" rx="14" fill="#fff7ed" stroke="#d97706" stroke-dasharray="6 4"/>
+        <text x="790" y="56" text-anchor="middle" font-weight="700" fill="#92400e" font-size="12">Ollama Cloud (OpenAI-compatible, BYOK .env)</text>
+
+        <rect x="645" y="70" width="290" height="45" rx="10" fill="#e8effd" stroke="#2563eb"/>
+        <text x="790" y="90" text-anchor="middle" font-weight="600" fill="#1e3a8a">Agent LLM — OLLAMA_MODEL (gpt-oss:120b)</text>
+        <text x="790" y="107" text-anchor="middle" fill="#5b6b7c" font-size="10.5">router · SQL gen · analysis · chart code</text>
+
+        <rect x="645" y="128" width="290" height="42" rx="10" fill="#fdf3e3" stroke="#d97706"/>
+        <text x="790" y="147" text-anchor="middle" font-weight="600" fill="#92400e">Judge LLM — same model, raw HTTP JSON mode</text>
+        <text x="790" y="163" text-anchor="middle" fill="#5b6b7c" font-size="10.5">run_judge(): un-instrumented, never traced</text>
+
+        <rect x="620" y="215" width="340" height="105" rx="14" fill="#f1f5f9" stroke="#64748b" stroke-dasharray="6 4"/>
+        <text x="790" y="241" text-anchor="middle" font-weight="600" fill="#334155">Data + tests</text>
+        <text x="790" y="263" text-anchor="middle" fill="#5b6b7c" font-size="11">data/*.parquet → DuckDB (lookup tool)</text>
+        <text x="790" y="283" text-anchor="middle" fill="#5b6b7c" font-size="11">test_app.py · record_test.py + test_videos/</text>
+      </g>
+      <g stroke="#334155" stroke-width="2" fill="none">
+        <line x1="195" y1="135" x2="195" y2="158" marker-end="url(#ar2)"/>
+        <line x1="300" y1="135" x2="300" y2="158" marker-end="url(#ar2)"/>
+        <line x1="375" y1="190" x2="618" y2="92" marker-end="url(#ar2)"/>
+        <line x1="618" y1="149" x2="378" y2="205" marker-end="url(#ar2)"/>
+        <line x1="375" y1="215" x2="618" y2="262" marker-end="url(#ar2)"/>
+      </g>
+      <g font-size="10.5" fill="#64748b">
+        <text x="180" y="152" text-anchor="end">spawn</text>
+        <text x="470" y="82">tool calls + judge prompts (plain /chat/completions)</text>
+        <text x="470" y="222">traces + annotations (OpenTelemetry, auto-instrumented)</text>
+        <text x="440" y="250">SQL over parquet</text>
+      </g>
+    </svg>
+    <figcaption>Figure 2 — Grey boxes are local. The agent's LLM calls are instrumented by OpenInference; judge calls deliberately escape instrumentation so they never pollute the traces being judged.</figcaption>
+  </figure>
+
+  <h2>File layout</h2>
+  <div class="card">
+<pre><code>Evaluating AI Agents/
+├── app.py               # Streamlit dashboard: runs eval.py, renders answers/scores/traces
+├── eval.py              # all labs: span-query evals (7), experiments (9), overall suite + A/B (11)
+├── utils.py             # THE agent: router loop, 3 tools, Phoenix setup, trajectory summarizer
+├── test_app.py          # Streamlit AppTest: subprocess handling, score table, selection guides
+├── record_test.py       # Playwright driver: runs each lab in Chromium with video capture
+├── data/…parquet        # Store sales dataset (price elasticity + promotions)
+├── test_videos/         # labNN.webm + screenshots + results.json + report.html
+├── Userguide.html       # this guide
+└── .env                 # OLLAMA_API_KEY / OLLAMA_BASE_URL / OLLAMA_MODEL / PHOENIX_ENDPOINT</code></pre>
+  </div>
+
+  <h2>The agent (utils.py)</h2>
+  <div class="card">
+    <ul>
+      <li><strong>Router loop</strong> — <code>run_agent()</code> loops: system prompt prepended once, <code>chat.completions.create(tools=…)</code>; if the model returns tool calls they are executed and appended, otherwise the final content is returned. Each loop iteration is a <code>router_call</code> chain span; the whole run sits under an <code>AgentRun</code> agent span (<code>start_main_span()</code>).</li>
+      <li><strong>Three tools</strong> — <code>lookup_sales_data</code> (LLM writes SQL → DuckDB over the parquet), <code>analyze_sales_data</code> (LLM interprets results), <code>generate_visualization</code> → <code>extract_chart_config</code> (JSON mode + Pydantic validation) → <code>create_chart</code> (LLM writes Python). All decorated <code>@tracer.tool()</code>/<code>@tracer.chain()</code>.</li>
+      <li><strong>The trajectory trick</strong> — run_agent returns only the final string but appends every message to <code>messages</code> in place. That list <em>is</em> the full path; <code>process_messages()</code> summarizes it into <code>{tool_calls, tool_responses, final_output, path_length}</code> matching tool responses by <code>tool_call_id</code>. Labs 9/11 evaluate this dict directly.</li>
+      <li><strong>Swappable SQL prompt</strong> — <code>update_sql_gen_prompt()</code> mutates the module global; Lab 11's A/B rerun is literally one function call between experiments.</li>
+    </ul>
+  </div>
+
+  <h2>Shared judge plumbing (eval.py)</h2>
+  <div class="card">
+    <p>One stack, reused by every lab — written once:</p>
+    <ul>
+      <li><code>run_judge()</code> — LLM-as-judge via <strong>raw HTTP + JSON mode</strong> (<code>response_format: json_object</code>, fallback to plain chat), robust label parsing with rail fallback, per-call default labels chosen by callers. Wrapped in <code>suppress_tracing()</code> so judge calls never appear as spans.</li>
+      <li><code>judge_dataframe()</code> — row-wise judging over span-query dataframes; maps label → 1/0 score on rail order.</li>
+      <li><code>log_span_evaluations()</code> — uploads label/score/explanation back to Phoenix as span annotations (async), then emits a UI line.</li>
+      <li><code>get_or_create_dataset()</code> — uploads a dataset once, reuses by prefix on reruns; no duplicate stacking.</li>
+      <li><code>print_ui_scores()</code> — emits <code>__EVAL_UI__ {json}</code> lines: the dashboard's only machine-readable score channel.</li>
+      <li><code>run_experiment / evaluate_experiment</code> — thin wrappers around <code>PhoenixClient.experiments</code> (timeout raised to 120 s; agent turns take 10–20 s each).</li>
+    </ul>
+  </div>
+
+  <h2>The four labs in full</h2>
+  <div class="card">
+    <table>
+      <tr><th>Lab</th><th>Mechanism</th><th>Evaluators</th><th>Unique behaviour</th></tr>
+      <tr><td><span class="pill green">3</span></td><td>interactive loop</td><td>—</td><td>chat REPL; chart code from answers is executed (Agg backend) and saved to <code>chart.png</code></td></tr>
+      <tr><td><span class="pill green">5</span></td><td>traced demo</td><td>—</td><td>2 questions under <code>start_main_span</code>; spans land in Phoenix; dashboard then rebuilds the span trees via SpanQuery DSL</td></tr>
+      <tr><td><span class="pill amber">7</span></td><td>span queries + judges</td><td>Tool Calling (LLM) · SQL Gen (LLM) · Clarity (LLM) · Runnable Code (code)</td><td>judges read <em>real recorded LLM output</em> (tool calls, SQL, answers) — not mock schemas; code eval <code>exec()</code>s the chart code; scores logged per span</td></tr>
+      <tr><td><span class="pill blue">9</span></td><td>Phoenix experiment</td><td>Convergence Eval (code)</td><td>17 paraphrases via <code>run_experiment</code>; task returns path length; score = <code>shortest observed ÷ this path</code>; dataset reused from Phoenix</td></tr>
+      <tr><td><span class="pill purple">11</span></td><td>experiments ×2</td><td>function_calling (LLM) · evaluate_sql_result (code, digit match) · evaluate_clarity (LLM) · evaluate_entity_correctness (LLM) · code_is_runnable (code, <code>exec</code>)</td><td>five evaluators over <code>process_messages</code> output; then <code>NEW_SQL_PROMPT</code> swap and full rerun → two named experiments ("Overall Experiment", "… v2") for before/after comparison</td></tr>
+    </table>
+    <p><strong>Failure semantics:</strong> judge errors fall back to caller-chosen defaults (e.g. clarity → <code>unclear</code>, tool calling → <code>incorrect</code>); a lab failing one evaluator logs the failure and continues. Lab 11's code evaluators return <code>True</code> when the tool in question was never called — read "missing response = pass" as a scope limit, not a success.</p>
+  </div>
+
+  <h2>The dashboard's parsing contract (app.py)</h2>
+  <div class="card">
+    <p>The subprocess protocol keeps the dashboard generic — eval.py changes freely as long as it keeps speaking these two formats:</p>
+<pre><code># 1. answers (Labs 3/5/7 questions echo through):
+Q: What was the most popular product SKU?
+A: **…answer markdown…**
+
+# 2. machine-readable evaluation scores (anything with scores):
+__EVAL_UI__{"title":"Overall Experiment","scores":[
+  {"evaluator":"function_calling_eval","passed":7,"total":7,"score":1.0}]}
+</code></pre>
+    <ul>
+      <li>Answers → <code>parse_output()</code> regex → rendered as bordered question/answer cards.</li>
+      <li><code>__EVAL_UI__</code> lines → JSON rows → per-check table with evaluator descriptions, locations in the agent, pass/fail status and next actions.</li>
+      <li>Phoenix is queried <em>back</em> for display: Lab 5 span trees via <code>SpanQuery</code>; Lab 7 graded examples via <strong>raw GraphQL</strong> (spans + their annotations with judge reasoning).</li>
+      <li><code>st.session_state.run</code> keyed on the selected lab, so switching labs shows "No current output" until you rerun.</li>
+    </ul>
+  </div>
+
+  <h2>Design decisions worth knowing</h2>
+  <div class="card">
+    <ul>
+      <li><strong>Raw HTTP judges instead of <code>phoenix.evals</code></strong> — that API was removed in Phoenix 20.x; raw HTTP also guarantees judge calls stay un-instrumented (no judge spans leaking into the very traces being judged). <code>suppress_tracing()</code> is belt-and-braces.</li>
+      <li><strong>Ollama Cloud realities</strong> — it rejects OpenAI structured-outputs and forced tool calls: chart config uses JSON mode + regex rescue + Pydantic fallback; the Lab 11 tool template uses <code>.replace()</code> not <code>str.format</code> (braces inside embedded JSON examples), plus an explicit "lookup_sales_data is always correct first" scope note so the judge doesn't over-flag routers.</li>
+      <li><strong>Windows robustness</strong> — stdout/stderr forced to UTF-8 (Unicode from LLM output), matplotlib <code>Agg</code> backend so generated <code>plt.show()</code> never blocks, ANSI escapes stripped from subprocess output.</li>
+      <li><strong>Datasets are immutable-once</strong> — questions and expected SQL results are baked into <code>OVERALL_QUESTIONS</code>; the expected <code>sql_result</code> strings define the digit-concatenation match for <code>evaluate_sql_result</code>.</li>
+      <li><strong>Tracing registration happens at import time</strong> — importing <code>utils</code> starts Phoenix if needed (90 s readiness wait) and instruments OpenAI calls; every consumer lab inherits tracing for free.</li>
+    </ul>
+  </div>
+
+  <h2>How the four labs were verified (recorded evidence)</h2>
+  <div class="card">
+    <p><code>record_test.py</code> drives each lab end-to-end in headless Chromium (Playwright, <code>record_video_dir</code> capture): selects the lab, clicks run, polls for <em>"Run finished"</em>, asserts the expected UI artefacts per lab, screenshots the result and the Phoenix UI, and writes machine-readable verdicts. Everything lands in <code>test_videos/</code>.</p>
+    <table>
+      <tr><th>Lab</th><th>Verdict</th><th>Runtime</th><th>Assertions that passed</th></tr>
+      <tr><td>5 Tracing</td><td>✅ pass</td><td>1.9 min</td><td>answers metric + <i>Traces</i> section with span trees</td></tr>
+      <tr><td>7 Router/Skills</td><td>✅ pass</td><td>12.5 min</td><td><i>Evaluation scores</i> + <i>How this was tested</i> graded examples</td></tr>
+      <tr><td>9 Convergence</td><td>✅ pass</td><td>1.9 min</td><td>score table + convergence details + technical logs</td></tr>
+      <tr><td>11 Overall</td><td>✅ pass</td><td>4.5 min</td><td>score table + evaluator details + technical logs</td></tr>
+    </table>
+    <p><strong>Evidence:</strong> <a href="test_videos/report.html">test_videos/report.html</a> — visual report with embedded per-lab videos and Phoenix screenshots; <a href="test_videos/results.json">results.json</a> — verdicts. Unit-level checks live in <code>test_app.py</code> (Streamlit AppTest over mocked subprocesses).</p>
+  </div>
+
+  <div class="note ok">
+    📄 <strong>Run it:</strong> <code>python -m streamlit run app.py</code> → http://localhost:8501 · Phoenix → http://localhost:6006 (project <code>evaluating-agent</code>) · 🧪 the single-file source of truth for all evaluation logic is <code>eval.py</code>.
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  Evaluating AI Agents · Phoenix + Ollama Cloud (BYOK) · docs updated 2026-10-29
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    document.getElementById('tab-btn-' + name).classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+</script>
+
+</body>
+</html>
