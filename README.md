@@ -6,14 +6,15 @@ A collection of 19 practical AI/ML projects demonstrating agentic AI, multi-agen
 
 ## Portfolio Map
 
-5 categories · 19 projects
+6 categories · 19 projects
 
 | Category | Projects | Key Technologies |
 |---|---:|---|
 | 🤖 [Agentic AI & Multi-Agent Systems](./01-Agentic-AI/) | 6 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL |
 | 📚 [RAG & Knowledge Engineering](./02-RAG-Knowledge/) | 5 | LangGraph, LlamaIndex, ChromaDB, Qdrant, Neo4j |
 | 🛡️ [AI Safety & Quality Engineering](./03-AI-Safety-Quality/) | 2 | NeMo Guardrails, LLM Judges, PII Detection |
-| 🏭 [Applied AI](./04-Applied-AI/) | 5 | YOLO, OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite, Phoenix |
+| 🏭 [Applied AI](./04-Applied-AI/) | 4 | YOLO, OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite |
+| 🔭 [Agent Observability & Evaluation](./04-Applied-AI/Agent-Evaluation-Labs/) | 1 | Arize Phoenix, OpenInference, LLM Judges, DuckDB |
 | 🧠 [NLP & Machine Learning](./05-NLP-Machine-Learning/) | 1 | scikit-learn, NLTK, spaCy |
 
 ## What I Build
@@ -37,7 +38,7 @@ A collection of 19 practical AI/ML projects demonstrating agentic AI, multi-agen
 | [Agentic AI MCP Tool Orchestration Platform](./01-Agentic-AI/MCP-Tool-Orchestration/) | MCP & tool orchestration |
 | [Production RAG Documentation Assistant](./02-RAG-Knowledge/Production-RAG/) | Retrieval engineering |
 | [LLM Guardrails & AI Safety Defense Lab](./03-AI-Safety-Quality/LLM-Guardrails/) | AI safety |
-| [RAG Evaluation & LLM Quality Engineering Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/) | AI quality/evaluation |
+| [Agent Evaluation Labs — Observability & Evaluation with Arize Phoenix](./04-Applied-AI/Agent-Evaluation-Labs/) | Agent evaluation & observability |
 
 ## Projects by Category
 
@@ -139,7 +140,10 @@ FastAPI · Streamlit · React · SQLite
 - [LLM Guardrails](./03-AI-Safety-Quality/LLM-Guardrails/) · [AI-Safe Support Ticket](./03-AI-Safety-Quality/Safe-Support-Ticket/)
 
 ### Looking for Applied AI?
-- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/) · [VisionFlow Video Analytics](./04-Applied-AI/VisionFlow/) · [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/)
+- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/) · [VisionFlow Video Analytics](./04-Applied-AI/VisionFlow/)
+
+### Looking for Agent Observability & Evaluation?
+- [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/) — traced agent runs graded by LLM judges and code evals, with A/B prompt experiments
 
 ### Looking for Classical NLP/ML?
 - [Sentiment Analysis](./05-NLP-Machine-Learning/Sentiment-Analysis/)
