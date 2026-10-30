@@ -14,8 +14,7 @@ ByteTrack / BoT-SORT によってフレームをまたいで物体を恒久的�
 40 台ではなく 1 台です。
 
 ## デモ動画
-
-[![yoloTrafficVechileCounterDemoVideo](https://img.youtube.com/vi/32d_BhMKsZw/0.jpg)]([https://youtu.be/32d_BhMKsZw)
+[![yoloTrafficVechileCounterDemoVideo](https://img.youtube.com/vi/32d_BhMKsZw/0.jpg)](https://youtu.be/32d_BhMKsZw)
 
 ## このプロジェクトの目的
 
