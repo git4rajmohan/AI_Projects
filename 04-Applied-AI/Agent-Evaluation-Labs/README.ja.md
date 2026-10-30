@@ -12,6 +12,10 @@ Agent Evaluation Labs は、販売データ分析エージェント（ルータ�
 評価者はオブザーバーです。エージェントの実行方法を変えることはありません。
 まずトレースし、記録されたスパンを採点し、変更前後を比較して、最も弱いコンポーネントを修正します。
 
+## デモ動画
+
+[![AIEvals Completedemovideo](https://img.youtube.com/vi/epIHy3CGpUY/0.jpg)](https://youtu.be/epIHy3CGpUY)
+
 ## このプロジェクトの目的
 
 生の LLM エージェントはデモでは賢く見えますが、実際の利用では静かに失敗します。
