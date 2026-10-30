@@ -8,6 +8,10 @@ Languages: **English** | [日本語](README.ja.md)
 
 VisionFlow runs an uploaded video through an Ultralytics YOLO11 detector, follows objects across frames with persistent track IDs (ByteTrack or BoT-SORT), and counts them two separate ways: **current** (visible in this frame) and **unique** (distinct track IDs seen over the run). Detections are never summed per frame — a car in 40 frames is one car, not 40.
 
+## Demo Video
+
+[![yoloTrafficVechileCounterDemoVideo](https://img.youtube.com/vi/32d_BhMKsZw/0.jpg)]([https://youtu.be/32d_BhMKsZw)
+
 ## Why this project exists
 
 Ask someone to "count the cars in an hour of traffic video" and they double-count the same car that appears in many frames. The naive script fix — adding up per-frame detections — is worse: the same car gets counted 40 times. What you actually need is a counter that knows which detections belong to the same physical object. VisionFlow is that counter: the detector finds things, the tracker gives them an identity, and the counter only believes the identity.
