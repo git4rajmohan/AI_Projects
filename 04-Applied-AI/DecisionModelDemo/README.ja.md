@@ -15,6 +15,10 @@ MaintAI は、構造化された判断と生成 AI による説明を分離し�
 本番用の安全システムではありません。同梱データはすべて合成データです。
 しきい値を実際の設備に使う場合は、設備固有の工学的検証が必要です。
 
+## デモ動画
+[![DecisionModeldemo](https://img.youtube.com/vi/tq8xiNg5_Zg/0.jpg)](https://youtu.be/tq8xiNg5_Zg)
+
+
 ## 実証する機能
 
 - 8 つの Streamlit ページ：設備群ダッシュボード、機械監視、判断ワークベンチ、
