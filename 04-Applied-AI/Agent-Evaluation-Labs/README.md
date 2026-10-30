@@ -8,6 +8,10 @@ Languages: **English** | [日本語](README.ja.md)
 
 Agent Evaluation Labs builds a sales-data analyst agent (router + 3 tools) whose every LLM call, tool call and SQL execution is traced to Arize Phoenix, then grades the recorded evidence with four evaluation labs — all driven from one Streamlit dashboard. The evaluators are observers: they never change how the agent runs. Trace first, judge the recorded spans, compare before/after, then fix the weakest component.
 
+## Demo Video
+
+[![AIEvals Completedemovideo](https://img.youtube.com/vi/epIHy3CGpUY/0.jpg)](https://youtu.be/epIHy3CGpUY)
+
 ## Why this project exists
 
 A raw LLM agent looks smart in a demo and fails silently in real use. Did it pick the right tool? Is the SQL it wrote even relevant to the question? Is the answer clear — or merely plausible? Did a prompt change quietly regress what used to work? Without instrumentation you are guessing; with it, you are doing **evaluation-driven development**. This project is the instrumentation half of that practice — the companion to the portfolio's RAG Evaluation Harness, which evaluates RAG systems rather than tool-calling agents.
