@@ -15,6 +15,10 @@ This is a local decision-support demonstration, not a machine controller,
 failure predictor, or production safety system. All bundled readings are
 synthetic. Thresholds require equipment-specific engineering validation.
 
+## Demo Video
+
+[![DecisionModeldemo](https://img.youtube.com/vi/tq8xiNg5_Zg/0.jpg)](https://youtu.be/tq8xiNg5_Zg)
+
 ## What it demonstrates
 
 - Eight Streamlit pages: fleet dashboard, machine monitoring, decision workbench,
