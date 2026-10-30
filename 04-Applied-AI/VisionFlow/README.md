@@ -9,8 +9,7 @@ Languages: **English** | [日本語](README.ja.md)
 VisionFlow runs an uploaded video through an Ultralytics YOLO11 detector, follows objects across frames with persistent track IDs (ByteTrack or BoT-SORT), and counts them two separate ways: **current** (visible in this frame) and **unique** (distinct track IDs seen over the run). Detections are never summed per frame — a car in 40 frames is one car, not 40.
 
 ## Demo Video
-
-[![yoloTrafficVechileCounterDemoVideo](https://img.youtube.com/vi/32d_BhMKsZw/0.jpg)]([https://youtu.be/32d_BhMKsZw)
+[![yoloTrafficVechileCounterDemoVideo](https://img.youtube.com/vi/32d_BhMKsZw/0.jpg)](https://youtu.be/32d_BhMKsZw)
 
 ## Why this project exists
 
