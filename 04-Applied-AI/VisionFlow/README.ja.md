@@ -13,6 +13,10 @@ ByteTrack / BoT-SORT によってフレームをまたいで物体を恒久的�
 フレームごとの検出を単純合計することはありません。40 フレームに映る 1 台の車は、
 40 台ではなく 1 台です。
 
+## デモ動画
+
+[![yoloTrafficVechileCounterDemoVideo](https://img.youtube.com/vi/32d_BhMKsZw.jpg)](https://youtu.be/32d_BhMKsZw)
+
 ## このプロジェクトの目的
 
 「1 時間の交通動画に映る車を数えて」と頼むと、人は同じ車を何度も数えてしまいます。
