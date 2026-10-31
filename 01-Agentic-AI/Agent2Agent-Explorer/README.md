@@ -10,6 +10,9 @@ A Python A2A client/explorer that discovers, validates, and delegates tasks to
 **independently hosted third-party A2A agents** — plus a local two-agent demo.
 Built on `a2a-sdk 1.3.0`; the local agents answer via **Ollama Cloud**.
 
+## Demo Video
+[![Agent2AgentExplorerDemo](https://img.youtube.com/vi/qcHyCxMbgLI/0.jpg)](https://youtu.be/qcHyCxMbgLI)
+
 ## Why this project exists
 
 Calling *someone else's* agent is nothing like calling your own: you don't know its
