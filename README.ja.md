@@ -4,15 +4,15 @@
 
 # AI / ML エンジニアリング・ポートフォリオ
 
-エージェント AI、マルチエージェント・オーケストレーション、RAG、ナレッジエンジニアリング、AI セーフティ、ドキュメントインテリジェンス、コンピュータービジョン、保全判断支援、音声 AI、古典的な NLP/ML を扱う、実践的な AI/ML プロジェクト 19 件のコレクションです。
+エージェント AI、マルチエージェント・オーケストレーション、エージェント間（A2A）プロトコル、RAG、ナレッジエンジニアリング、AI セーフティ、ドキュメントインテリジェンス、コンピュータービジョン、保全判断支援、音声 AI、古典的な NLP/ML を扱う、実践的な AI/ML プロジェクト 20 件のコレクションです。
 
 ## ポートフォリオ・マップ
 
-5 カテゴリ · 19 プロジェクト
+5 カテゴリ · 20 プロジェクト
 
 | カテゴリ | プロジェクト数 | 主な技術 |
 |---|---:|---|
-| 🤖 [エージェント AI & マルチエージェントシステム](./01-Agentic-AI/) | 6 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL |
+| 🤖 [エージェント AI & マルチエージェントシステム](./01-Agentic-AI/) | 7 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL, A2A SDK |
 | 📚 [RAG & ナレッジエンジニアリング](./02-RAG-Knowledge/) | 5 | LangGraph, LlamaIndex, ChromaDB, Qdrant, Neo4j |
 | 🛡️ [AI セーフティ & 品質エンジニアリング](./03-AI-Safety-Quality/) | 2 | NeMo Guardrails, LLM Judges, PII Detection |
 | 🏭 [応用 AI](./04-Applied-AI/) | 5 | YOLO, OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite, Phoenix |
@@ -21,6 +21,7 @@
 ## 主な構築領域
 
 - 🤖 エージェント AI とマルチエージェント・ワークフロー
+- 🤝 エージェント間（A2A）プロトコル：組織をまたぐエージェント発見と委譲
 - 🔧 LLM ツールと MCP オーケストレーション
 - 📚 本番指向の RAG とナレッジシステム
 - 📏 LLM/RAG の評価と品質エンジニアリング
@@ -53,6 +54,7 @@
 | [Order Returns & Fraud Agent](./01-Agentic-AI/OrderReturns-Fraud-Agent/README.ja.md/) | 注文返品・不正検出エージェント | ステートフルな業務ワークフロー + HITL | LangGraph, FastAPI, SQLite |
 | [Hospital Appointment Agent](./01-Agentic-AI/Hospital-Appointment-Agent/README.ja.md/) | 病院予約エージェント | LLM による抽出 + 決定論的なカレンダー処理 | LangChain LCEL, Twilio SMS |
 | [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/README.ja.md/) | マルチエージェント・マインドマップ | 3 エージェントによる反復レビュー/改善 | Streamlit, Ollama, markmap.js |
+| [Agent2Agent Explorer](./01-Agentic-AI/Agent2Agent-Explorer/README.ja.md) | エージェント間エクスプローラー | 組織をまたぐエージェント発見 + タスク委譲 (A2A) | a2a-sdk, Streamlit, FastAPI, SQLite, Ollama Cloud |
 
 ### 📚 RAG & ナレッジエンジニアリング
 
@@ -93,7 +95,7 @@
 Ollama · Ollama Cloud · Groq · LiteLLM
 
 **エージェント AI**
-Google ADK · LangGraph · LangChain · Agno · MCP
+Google ADK · LangGraph · LangChain · Agno · MCP · A2A SDK
 
 **RAG / ナレッジ**
 ChromaDB · Qdrant · Neo4j · LlamaIndex · Cognee · BM25 · RRF
@@ -132,7 +134,7 @@ FastAPI · Streamlit · React · SQLite
 ## プロジェクト選びのガイド
 
 ### エージェント AI をお探しですか？
-- [AgentFlow Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) · [MCP Tool Orchestration](./01-Agentic-AI/MCP-Tool-Orchestration/) · [E-Commerce Multi-Agent](./01-Agentic-AI/MultiAgent-Ecommerce/) · [Order Returns & Fraud](./01-Agentic-AI/OrderReturns-Fraud-Agent/) · [Hospital Appointment](./01-Agentic-AI/Hospital-Appointment-Agent/) · [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/)
+- [AgentFlow Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) · [MCP Tool Orchestration](./01-Agentic-AI/MCP-Tool-Orchestration/) · [E-Commerce Multi-Agent](./01-Agentic-AI/MultiAgent-Ecommerce/) · [Order Returns & Fraud](./01-Agentic-AI/OrderReturns-Fraud-Agent/) · [Hospital Appointment](./01-Agentic-AI/Hospital-Appointment-Agent/) · [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/) · [Agent2Agent Explorer](./01-Agentic-AI/Agent2Agent-Explorer/README.ja.md)
 
 ### RAG / ナレッジエンジニアリングをお探しですか？
 - [Production RAG](./02-RAG-Knowledge/Production-RAG/) · [Enterprise Knowledge Assistant](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/) · [RAG Evaluation Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/) · [LLM Wiki](./02-RAG-Knowledge/LLM-Wiki/) · [Knowledge Graph Builder](./02-RAG-Knowledge/Knowledge-Graph-Builder/)
@@ -152,7 +154,7 @@ FastAPI · Streamlit · React · SQLite
 |---|---|
 | **README.ja.md**（このファイル） | リクルーター向けランディングページ — ポートフォリオ概要とナビゲーション（日本語版） |
 | [README.md](./README.md) | 英語版ランディングページ |
-| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | 詳細カタログ — 全 19 プロジェクトのアーキテクチャ、差別化ポイント、リンク |
+| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | 詳細カタログ — 全 20 プロジェクトのアーキテクチャ、差別化ポイント、リンク |
 | **各プロジェクトの README** | プロジェクトごとの実装詳細 |
 
 ## AI 支援開発

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remote A2A Agent Explorer — User Guide</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --muted: #5b6b7c;
+    --accent: #2563eb;
+    --accent-soft: #e8effd;
+    --green: #16a34a;
+    --green-soft: #e7f7ee;
+    --red: #dc2626;
+    --red-soft: #fdeaea;
+    --amber: #d97706;
+    --amber-soft: #fdf3e3;
+    --grey-soft: #eef1f6;
+    --border: #dbe2ec;
+    --radius: 14px;
+    --mono: "Cascadia Code", "Consolas", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(120deg, #172554 0%, #2563eb 60%, #60a5fa 100%);
+    color: #fff;
+    padding: 34px 24px 0;
+  }
+  .head-inner { max-width: 1100px; margin: 0 auto; }
+  header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: .2px; }
+  header p.sub { color: #dbeafe; margin-top: 6px; font-size: .98rem; }
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .tab-btn {
+    appearance: none; border: none; cursor: pointer;
+    padding: 12px 26px; font-size: 1rem; font-weight: 600;
+    border-radius: 12px 12px 0 0;
+    background: rgba(255,255,255,.15); color: #e0eaff;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,.28); }
+  .tab-btn.active { background: var(--bg); color: var(--accent); }
+  main { max-width: 1100px; margin: 0 auto; padding: 34px 24px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  h2 { font-size: 1.35rem; margin: 38px 0 14px; padding-top: 8px; }
+  h2:first-child { margin-top: 0; }
+  h3 { font-size: 1.08rem; margin: 24px 0 10px; }
+  h4 { font-size: 1rem; }
+  p { margin: 10px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px; margin: 16px 0;
+    box-shadow: 0 1px 3px rgba(20,40,80,.05);
+  }
+  .lead { font-size: 1.05rem; color: var(--muted); }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 6px 0; }
+  code {
+    font-family: var(--mono); font-size: .88em;
+    background: transparent; border-radius: 5px; padding: 2px 6px;
+    color: #dbeafe;
+  }
+  #panel-pitch code { background: var(--grey-soft); color: var(--ink); }
+  header code { background: rgba(255,255,255,.12); }
+  pre {
+    font-family: var(--mono); font-size: .85rem;
+    background: #0f172a; color: #e2e8f0; border-radius: 10px;
+    padding: 14px 18px; overflow-x: auto; margin: 14px 0; line-height: 1.65;
+  }
+  pre code { background: none; padding: 0; color: inherit; font-size: .85rem; }
+  .pill {
+    display: inline-block; padding: 2px 12px; border-radius: 999px;
+    font-size: .82rem; font-weight: 600; white-space: nowrap;
+  }
+  .pill.green  { background: var(--green-soft);  color: var(--green); }
+  .pill.amber  { background: var(--amber-soft);  color: var(--amber); }
+  .pill.red    { background: var(--red-soft);    color: var(--red); }
+  .pill.blue   { background: var(--accent-soft); color: var(--accent); }
+  .pill.grey   { background: var(--grey-soft);   color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; background: var(--card);
+          border-radius: 10px; overflow: hidden; font-size: .93rem; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--accent-soft); color: #1e3a8a; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .note {
+    border-left: 4px solid var(--accent); background: var(--accent-soft);
+    padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: .95rem;
+  }
+  .note.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+  .note.ok   { border-left-color: var(--green); background: var(--green-soft); }
+  .note.danger { border-left-color: var(--red); background: var(--red-soft); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  .stat { text-align: center; }
+  .stat .kicker { text-transform: uppercase; letter-spacing: 1.5px; font-size: .72rem; color: var(--muted); }
+  .stat .val { font-size: 2rem; font-weight: 700; color: var(--accent); margin: 2px 0; }
+  .stat .lbl { font-size: .85rem; color: var(--muted); }
+  .diagram { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+             padding: 18px; margin: 16px 0; overflow-x: auto; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .diagram figcaption { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 10px; }
+  .step { display: flex; gap: 14px; margin: 14px 0; align-items: flex-start; }
+  .step .num {
+    flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: .95rem;
+  }
+  .step h4 { font-size: 1rem; margin-bottom: 2px; }
+  .step p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .kbd { font-family: var(--mono); background: #fff; border: 1px solid var(--border);
+         border-bottom-width: 3px; border-radius: 6px; padding: 1px 7px; font-size: .82rem; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 26px; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <h1>🛰️ Remote A2A Agent Explorer — Meet Other People's Agents</h1>
+    <p class="sub">Python · Streamlit · a2a-sdk 1.3.0 · Ollama Cloud: a local web app where you <em>discover</em> publicly
+    hosted A2A agents in a real registry, <em>inspect</em> their Agent Card, <em>validate</em> them in five staged
+    checks (card → protocol → endpoint → authentication → task), <em>save</em> them to SQLite, and <em>delegate
+    real tasks</em> that flow over HTTPS using the Agent-to-Agent protocol. Results come back attributed to the
+    remote agent that produced them, with a task ID, live status trail, structured JSON, and honest warnings for
+    auth-required and paid (x402) agents. Everything remote output says is treated as untrusted data — shown,
+    never executed. A local two-agent demo (<code>demo.py</code>) proves the plumbing before you ever touch a
+    stranger's server, and 64 offline tests guard it all — all installed inside one <code>.venv</code>, all
+    secrets in <code>.env</code>, and every saved agent remembered in <code>agents.db</code> between sessions.
+    Beyond the web UI, the same journey runs from the command line
+    (<code>remote_agents_cli.py discover/save/task</code>) including <em>parallel</em> delegation to two saved
+    agents at once with per-agent attribution, which the coordinator presents with each remote agent's name and
+    task ID.</p>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-btn-pitch" onclick="showTab('pitch')">🚀 Elevator Pitch</button>
+      <button class="tab-btn" id="tab-btn-nontechnical" onclick="showTab('nontechnical')">📖 Non-Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-technical" onclick="showTab('technical')">⚙️ Technical Guide</button>
+      <button class="tab-btn" id="tab-btn-glossary" onclick="showTab('glossary')">📚 Glossary</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ==================================================================== -->
+<!-- TAB 0 — ELEVATOR PITCH                                               -->
+<!-- ==================================================================== -->
+<section class="panel active" id="panel-pitch">
+
+  <h2>The 30-second pitch</h2>
+  <div class="card">
+    <p class="lead">
+      AI agents are appearing all over the internet, but calling <em>someone else's</em> agent is nothing like
+      calling your own: you don't know its address, what it can do, whether it speaks your protocol, whether it
+      wants a password — or whether the thing at that URL is even an agent at all and not just a webpage or a
+      REST API wearing a trench coat. Pointing your code at a pasted URL and hoping is how integrations break.
+    </p>
+    <p>
+      <strong>The Remote A2A Agent Explorer is that first meeting, handled properly.</strong> You search a real
+      public registry (a2aregistry.org) or paste any Agent Card URL; the app fetches the card safely (SSRF-guarded,
+      no redirects, size-capped), validates it against the official A2A schema, walks the five staged checks and
+      only then — with your explicit choice — sends a genuine A2A task over HTTPS and tracks its lifecycle
+      (<span class="pill grey">SUBMITTED</span> → <span class="pill grey">WORKING</span> → <span class="pill green">COMPLETED</span>).
+      Results are attributed to the remote agent with their task ID, structured JSON renders safely, agent-only
+      replies are labeled, and paid-tool offers (x402 micropayments) get a loud warning that <em>nothing was
+      charged or sent</em>. Every step of validation has its own pass/fail badge — a fetched card is never
+      mistaken for a working connection.
+    </p>
+    <p><strong>The line that matters: the directory finds candidates, the card advertises, the validator proves — and only the remote agent's own completed task counts as interoperability. A web page answering 200 OK proves nothing.</strong></p>
+  </div>
+
+  <h2>The one-line principle</h2>
+  <div class="grid3">
+    <div class="card">
+      <h3>🪪 Validate in stages, never in bulk</h3>
+      <p>Five independent badges: <strong>Card</strong> · <strong>Protocol</strong> · <strong>Endpoint</strong> ·
+      <strong>Authentication</strong> · <strong>Task execution</strong>. Each can fail alone with its own reason —
+      so "the card is fine but the endpoint is dead" reads exactly like that, and nothing is called connected
+      until a real task completes.</p>
+    </div>
+    <div class="card">
+      <h3>🛡️ Treat every URL as an attack</h3>
+      <p>Any URL you paste is checked before one byte leaves your machine: HTTPS enforced, loopback/private/
+      link-local/cloud-metadata IPs blocked by resolved address, redirects refused, response size capped.
+      <code>ALLOW_LOCAL_AGENTS=true</code> is the only door for localhost — used by local dev and tests, never
+      by default.</p>
+    </div>
+    <div class="card">
+      <h3>🧾 Remote output is untrusted data</h3>
+      <p>Whatever the remote agent returns is displayed <em>verbatim, attributed, and inert</em>: no code runs,
+      no instructions inside results are followed, artifact files are listed but never auto-downloaded, and an
+      agent asking for money gets shown the door with a warning — not a payment.</p>
+    </div>
+  </div>
+
+  <h2>How it works in one picture</h2>
+  <figure class="diagram">
+    <svg viewBox="0 0 980 250" width="980" role="img" aria-label="Remote A2A Agent Explorer discovery and delegation pipeline">
+      <defs>
+        <marker id="ar0" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <text x="80" y="36" fill="#5b6b7c" font-size="12">DISCOVER</text>
+        <rect x="15" y="46" width="140" height="56" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="85" y="70" fill="#334155">🔍 Registry search</text>
+        <text x="85" y="90" fill="#5b6b7c" font-weight="400" font-size="11">or paste card URL</text>
+
+        <rect x="175" y="46" width="150" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="70" fill="#1e3a8a">🪪 Card fetch</text>
+        <text x="250" y="90" fill="#5b6b7c" font-weight="400" font-size="11">SSRF-checked · HTTPS · size cap</text>
+
+        <rect x="345" y="46" width="150" height="56" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="420" y="70" fill="#92400e">✅ Card validation</text>
+        <text x="420" y="90" fill="#5b6b7c" font-weight="400" font-size="11">official schema · required fields</text>
+
+        <rect x="515" y="46" width="150" height="56" rx="12" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="590" y="70" fill="#92400e">🧪 Endpoint check</text>
+        <text x="590" y="90" fill="#5b6b7c" font-weight="400" font-size="11">transport · reachability · auth</text>
+
+        <rect x="685" y="46" width="130" height="56" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="750" y="70" fill="#14532d">💾 Save</text>
+        <text x="750" y="90" fill="#5b6b7c" font-weight="400" font-size="11">SQLite · no secrets</text>
+
+        <rect x="835" y="46" width="130" height="56" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="900" y="70" fill="#14532d">📤 Delegate</text>
+        <text x="900" y="90" fill="#5b6b7c" font-weight="400" font-size="11">A2A task over HTTPS</text>
+
+        <text x="965" y="136" text-anchor="end" fill="#5b6b7c" font-size="12">RESULT</text>
+        <rect x="15" y="146" width="180" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="105" y="170" fill="#1e3a8a">📡 Lifecycle</text>
+        <text x="105" y="190" fill="#5b6b7c" font-weight="400" font-size="11">SUBMITTED → WORKING → done</text>
+
+        <rect x="215" y="146" width="170" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="300" y="170" fill="#1e3a8a">🧾 Result</text>
+        <text x="300" y="190" fill="#5b6b7c" font-weight="400" font-size="11">text · JSON · artifacts</text>
+
+        <rect x="405" y="146" width="170" height="56" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="490" y="170" fill="#334155">🏷️ Attribution</text>
+        <text x="490" y="190" fill="#5b6b7c" font-weight="400" font-size="11">agent name + task ID</text>
+
+        <rect x="595" y="146" width="180" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="685" y="170" fill="#1e3a8a">🗂️ History</text>
+        <text x="685" y="190" fill="#5b6b7c" font-weight="400" font-size="11">every run recorded per agent</text>
+
+        <rect x="795" y="146" width="170" height="56" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="880" y="170" fill="#1e3a8a">🔁 Parallel + CLI</text>
+        <text x="880" y="190" fill="#5b6b7c" font-weight="400" font-size="11">coordinator.py remote/parallel</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none">
+        <line x1="155" y1="74" x2="173" y2="74" marker-end="url(#ar0)"/>
+        <line x1="325" y1="74" x2="343" y2="74" marker-end="url(#ar0)"/>
+        <line x1="495" y1="74" x2="513" y2="74" marker-end="url(#ar0)"/>
+        <line x1="665" y1="74" x2="683" y2="74" marker-end="url(#ar0)"/>
+        <line x1="815" y1="74" x2="833" y2="74" marker-end="url(#ar0)"/>
+        <path d="M900,102 V131 H105 V144" marker-end="url(#ar0)"/>
+        <line x1="197" y1="174" x2="213" y2="174" marker-end="url(#ar0)"/>
+        <line x1="387" y1="174" x2="403" y2="174" marker-end="url(#ar0)"/>
+        <line x1="577" y1="174" x2="593" y2="174" marker-end="url(#ar0)"/>
+        <line x1="777" y1="174" x2="793" y2="174" marker-end="url(#ar0)"/>
+      </g>
+      <g>
+        <rect x="230" y="228" width="520" height="26" rx="13" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+        <text x="490" y="246" text-anchor="middle" fill="#14532d" font-size="12" font-weight="bold">🔗 discovery, validation, delegation and display — five separate gates, one honest verdict</text>
+      </g>
+    </svg>
+    <figcaption>Figure 0 — One explorer pipeline. Registry or manual URL → safe fetch → schema validation → staged
+    endpoint checks → saved metadata → real A2A task → attributed result. Every arrow is guarded; nothing trusts the box before it.</figcaption>
+  </figure>
+
+  <h2>Numbers from the shipped build</h2>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">UI tabs</div><div class="val">3</div><div class="lbl">Discover · Send Task · Saved Agents</div></div>
+    <div class="card stat"><div class="kicker">Validation stages</div><div class="val">5</div><div class="lbl">card · protocol · endpoint · auth · task</div></div>
+    <div class="card stat"><div class="kicker">Tests</div><div class="val">64</div><div class="lbl">offline pytest suite — mocks + local test servers, no internet</div></div>
+  </div>
+  <div class="grid3">
+    <div class="card stat"><div class="kicker">Registry agents</div><div class="val">50+</div><div class="lbl">listed by the verified a2aregistry.org API</div></div>
+    <div class="card stat"><div class="kicker">Transports</div><div class="val">2</div><div class="lbl">JSON-RPC · HTTP+JSON (streaming when supported)</div></div>
+    <div class="card stat"><div class="kicker">Public interop</div><div class="val">6</div><div class="lbl">third-party agents completed real tasks live</div></div>
+  </div>
+
+  <div class="note ok">
+    <strong>The signal:</strong> nothing here hand-rolls the protocol. Fetching, parsing, validating, sending,
+    streaming, polling and cancelling all ride the official <code>a2a-sdk</code>; the app adds what the SDK doesn't
+    decide for you — SSRF safety, staged validation, secrets hygiene, persistence and an honest UI. Swap the SDK
+    version and the guardrails still stand.
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 1 — NON-TECHNICAL                                                -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-nontechnical">
+
+  <h2>What is this project?</h2>
+  <div class="card">
+    <p class="lead">
+      <strong>The Remote A2A Agent Explorer</strong> is a matchmaking desk for AI agents: you tell it who you
+      need (search words, a pasted URL), it introduces vetted candidates from a public registry, inspects their
+      credentials (the Agent Card), checks the phone line (the endpoint), and then — with your OK — places
+      real work orders (A2A tasks) and hands you back each report stamped with <em>who</em> produced it and its
+      task number. Your own local agents (powered by Ollama Cloud) stay yours; the remote ones belong to
+      completely different operators, and the app never forgets that.
+    </p>
+    <p>Using it is three moves:</p>
+    <ol>
+      <li><strong>Discover</strong> — search the registry (empty box = all 50+ agents) or paste an Agent Card
+      URL — even a registry <em>web-page</em> link works, it resolves to the real card automatically. You get a
+      five-badge validation report plus the full card details.</li>
+      <li><strong>Connect</strong> — save the agents you like (SQLite, metadata only), toggle trusted/untrusted,
+      refresh their cards any time, add a bearer token only if the agent asks for one.</li>
+      <li><strong>Delegate</strong> — pick an agent, type a task in plain words, press <strong>Send A2A Task</strong>
+      and watch the status trail (<code>SUBMITTED → WORKING → COMPLETED</code>) until the attributed result
+      lands. The coordinator's <code>remote</code>/<code>parallel</code> modes do the same from the command line.</li>
+    </ol>
+    <p>
+      Think of it as an embassy staffed by three specialists: a <em>receptionist</em> who only accepts URLs that
+      pass the metal detector (SSRF checks), a <em>notary</em> who reads each visitor's diplomatic card
+      (Agent Card) and refuses anything that's obviously a tourist in a suit (websites, REST APIs, MCP servers
+      pretending), and a <em>courier</em> who carries your task to the remote agent and returns with a signed
+      receipt — agent name, task ID, verbatim output. The courier never opens your wallet: a paid-tool offer
+      comes back labeled "nothing was charged or sent."
+    </p>
+    <div class="note warn">
+      <strong>The honest limits:</strong> remote agents are other people's servers — they go offline, change
+      terms, throttle, or quietly demand payment. The app surfaces all of that (badges, warnings, timeouts)
+      rather than pretending otherwise, and public internet reachability means the offline test suite stays
+      mock-based on purpose. Streaming and push notifications are used only when the remote agent advertises
+      them; everything else degrades to polling with a hard timeout.
+    </div>
+  </div>
+
+  <h2>What does working with it look like?</h2>
+  <p>
+    The app is a single Streamlit page at <code>http://localhost:8511</code> (or 8501). Three tabs carry the
+    three moments: <strong>🔍 Discover</strong> (search + URL entry + validation badges + save), <strong>📤
+    Send Task</strong> (agent picker, task box, token field, live status, result), <strong>💾 Saved Agents</strong>
+    (trust toggles, refresh, remove, history). Buttons go live only when their inputs are ready, and every
+    failure shows one readable sentence — the app stays usable after any error.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 320" width="980" role="img" aria-label="The three tabs and what each shows">
+      <g font-size="13" font-weight="600" text-anchor="middle">
+        <rect x="15" y="20" width="300" height="285" rx="14" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="165" y="46" fill="#1e3a8a" font-size="14">🔍 Discover tab</text>
+        <text x="165" y="74" fill="#334155" font-size="11.5" font-weight="400">Search public directory (empty = all)</text>
+        <text x="165" y="96" fill="#334155" font-size="11.5" font-weight="400">OR paste Agent Card URL</text>
+        <text x="165" y="118" fill="#334155" font-size="11.5" font-weight="400">→ candidate cards with skills</text>
+        <text x="165" y="140" fill="#334155" font-size="11.5" font-weight="400">→ five validation badges</text>
+        <text x="165" y="162" fill="#334155" font-size="11.5" font-weight="400">→ full card summary</text>
+        <text x="165" y="184" fill="#334155" font-size="11.5" font-weight="400">→ 💾 Save this agent</text>
+        <text x="165" y="214" fill="#5b6b7c" font-size="11" font-weight="400">registry page URLs auto-resolve</text>
+        <text x="165" y="236" fill="#5b6b7c" font-size="11" font-weight="400">result count / empty-state always shown</text>
+        <text x="165" y="264" fill="#5b6b7c" font-size="11" font-weight="400">badges: Card · Protocol · Endpoint</text>
+        <text x="165" y="286" fill="#5b6b7c" font-size="11" font-weight="400">Authentication · Task execution</text>
+
+        <rect x="355" y="20" width="290" height="285" rx="14" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="500" y="46" fill="#14532d" font-size="14">📤 Send Task tab</text>
+        <text x="500" y="74" fill="#334155" font-size="11.5" font-weight="400">dropdown of saved agents</text>
+        <text x="500" y="96" fill="#334155" font-size="11.5" font-weight="400">task text in plain words</text>
+        <text x="500" y="118" fill="#334155" font-size="11.5" font-weight="400">bearer token (password-masked,</text>
+        <text x="500" y="138" fill="#334155" font-size="11.5" font-weight="400">session-only, only if required)</text>
+        <text x="500" y="160" fill="#334155" font-size="11.5" font-weight="400">→ live status trail</text>
+        <text x="500" y="182" fill="#334155" font-size="11.5" font-weight="400">→ state chip + agent + task ID</text>
+        <text x="500" y="204" fill="#334155" font-size="11.5" font-weight="400">→ text · JSON · artifacts</text>
+        <text x="500" y="232" fill="#5b6b7c" font-size="11" font-weight="400">message-only replies labeled</text>
+        <text x="500" y="254" fill="#5b6b7c" font-size="11" font-weight="400">paid offers warned, never paid</text>
+        <text x="500" y="276" fill="#5b6b7c" font-size="11" font-weight="400">output always "untrusted, verbatim"</text>
+
+        <rect x="685" y="20" width="280" height="285" rx="14" fill="#fdf3e3" stroke="#d97706" stroke-width="2"/>
+        <text x="825" y="46" fill="#92400e" font-size="14">💾 Saved Agents tab</text>
+        <text x="825" y="74" fill="#334155" font-size="11.5" font-weight="400">all saved agents with endpoint</text>
+        <text x="825" y="96" fill="#334155" font-size="11.5" font-weight="400">card URL + last validated time</text>
+        <text x="825" y="118" fill="#334155" font-size="11.5" font-weight="400">Trusted toggle (one click)</text>
+        <text x="825" y="140" fill="#334155" font-size="11.5" font-weight="400">Refresh card (revalidate)</text>
+        <text x="825" y="162" fill="#334155" font-size="11.5" font-weight="400">🗑️ Remove (history gone too)</text>
+        <text x="825" y="190" fill="#334155" font-size="11.5" font-weight="400">Task history per agent:</text>
+        <text x="825" y="212" fill="#334155" font-size="11.5" font-weight="400">state · task ID · result summary</text>
+        <text x="825" y="240" fill="#5b6b7c" font-size="11" font-weight="400">SQLite = agents.db</text>
+        <text x="825" y="262" fill="#5b6b7c" font-size="11" font-weight="400">metadata only — no tokens ever</text>
+      </g>
+    </svg>
+    <figcaption>Figure 1 — The whole app in one screen: discover and validate, delegate and watch, keep and audit.</figcaption>
+  </figure>
+
+  <h2>The 6-step workflow</h2>
+
+  <div class="card">
+    <div class="step"><div class="num">1</div><div><h4>Set up — once</h4>
+      <p><code>.venv</code> → <code>pip install -r requirements.txt</code> → copy <code>.env.example</code> to <code>.env</code>.</p></div></div>
+    <p>
+      Python 3.11+. The only secret you need is <code>OLLAMA_API_KEY</code> from ollama.com/settings/keys — that's
+      what powers the <em>local</em> demo agents over Ollama Cloud. It is never sent to any remote agent. Nothing
+      else to install; the A2A SDK, Streamlit and friends come from <code>requirements.txt</code>.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">2</div><div><h4>Smoke the plumbing locally</h4>
+      <p><code>smoke_test.py</code> (LLM answers "pong") then <code>demo.py</code> (two local agents talk A2A).</p></div></div>
+    <p>
+      Before trusting strangers, watch your own two agents shake hands: <code>demo.py</code> starts the local
+      worker agent, the coordinator resolves its card, sends a task over A2A, and prints the answer. This is the
+      baseline that proves the SDK wiring — the remote explorer you're about to use is exactly this, plus guards.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">3</div><div><h4>Launch the explorer</h4>
+      <p><code>streamlit run webui.py</code> → open the URL in your browser.</p></div></div>
+    <p>
+      Running a <em>local</em> worker for comparison? Start it first and set
+      <code>ALLOW_LOCAL_AGENTS=true</code> in that terminal — without it, every non-public URL (localhost,
+      private IPs) is refused on purpose. For public third-party agents, no special setting is needed.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">4</div><div><h4>Discover — every candidate earns its badges</h4>
+      <p>Search word (or empty for the full registry) → <strong>Inspect Agent Card</strong>, or paste a URL →
+      <strong>Discover Agent</strong>.</p></div></div>
+    <p>
+      Each candidate shows provider, skills and card URL; inspecting runs the staged validation: ✅
+      <span class="pill green">VALID</span> card, ✅ <span class="pill green">SUPPORTED</span> protocol, ✅
+      <span class="pill green">REACHABLE</span> endpoint, ⚪ auth, ⚪ <span class="pill grey">NOT TESTED</span>
+      task. A card that's missing fields or a webpage that isn't a card at all gets one plain sentence, never a
+      half-broken import. Save the good ones with one click.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">5</div><div><h4>Send a task — the real interoperability test</h4>
+      <p>Pick a saved agent, phrase the task around one of its <em>advertised skills</em>, press
+      <strong>Send A2A Task</strong>.</p></div></div>
+    <p>
+      The status trail fills in as the remote agent reports
+      (<code>SUBMITTED → WORKING → COMPLETED</code>); the result card shows agent name, task ID, verbatim text,
+      structured JSON, and artifact metadata ("not downloaded"). Message-only replies explain themselves ("no
+      task ID"); paid-tool offers get the yellow "nothing was charged or sent" warning. Everything is recorded
+      in the agent's history automatically.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="step"><div class="num">6</div><div><h4>Manage & audit — Saved Agents</h4>
+      <p>Trust toggle · Refresh card · 🗑️ Remove · Task history per agent.</p></div></div>
+    <p>
+      <strong>Trusted</strong> is your mark, not the agent's. <strong>Refresh</strong> re-fetches and re-validates
+      the card (agents do change their terms). <strong>Remove</strong> deletes the agent and its history.
+      The history is your audit trail: what you sent, when, the task ID, the state, and a summary of what came
+      back — none of it contains secrets.
+    </p>
+  </div>
+
+  <h2>Try it in five commands</h2>
+  <div class="card">
+<pre><code># 1) install (Windows PowerShell, from the repo root)
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+# 2) configure: copy .env.example to .env, add your Ollama Cloud key
+Copy-Item .env.example .env
+notepad .env        # OLLAMA_API_KEY from https://ollama.com/settings/keys
+
+# 3) offline proof: LLM + local two-agent round-trip
+.\.venv\Scripts\python.exe smoke_test.py
+.\.venv\Scripts\python.exe demo.py
+
+# 4) run the explorer
+.\.venv\Scripts\python.exe -m streamlit run webui.py
+#    → open http://localhost:8511 (Discover → Save → Send Task)
+
+# 5) optional: same journey from the command line
+.\.venv\Scripts\python.exe remote_agents_cli.py search directory
+.\.venv\Scripts\python.exe remote_agents_cli.py task "https://swarmnest.ai/.well-known/agent-card.json" "MCP server for Postgres"</code></pre>
+    <p style="font-size:.9rem;color:var(--muted)">Public third-party agents need no key and no extra settings.
+    For the local worker agent only: <code>$env:ALLOW_LOCAL_AGENTS="true"</code> in that terminal first.</p>
+  </div>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 2 — TECHNICAL                                                    -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-technical">
+
+  <h2>Architecture</h2>
+  <p>
+    Every concept owns one file; the app is glue around the official <code>a2a-sdk 1.3.0</code>. The Streamlit
+    page (<code>webui.py</code>) and the CLI (<code>remote_agents_cli.py</code>, <code>coordinator.py</code>) call
+    the same functions — there is no second brain.
+  </p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 980 320" width="980" role="img" aria-label="Module map">
+      <defs>
+        <marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#5b6b7c"/>
+        </marker>
+      </defs>
+      <g font-size="12" font-weight="600" text-anchor="middle">
+        <rect x="15" y="20" width="220" height="140" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="125" y="42" fill="#1e3a8a">remote_agents/url_safety.py</text>
+        <text x="125" y="64" fill="#5b6b7c" font-weight="400" font-size="11">validate_url(): scheme · HTTPS ·</text>
+        <text x="125" y="84" fill="#5b6b7c" font-weight="400" font-size="11">DNS → ip.is_global · allowlist</text>
+        <text x="125" y="104" fill="#5b6b7c" font-weight="400" font-size="11">UnsafeUrlError with the reason</text>
+        <text x="125" y="124" fill="#5b6b7c" font-weight="400" font-size="11">runs BEFORE every request</text>
+
+        <rect x="255" y="20" width="220" height="140" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="365" y="42" fill="#334155">remote_agents/config.py</text>
+        <text x="365" y="64" fill="#5b6b7c" font-weight="400" font-size="11">the ONLY .env reader (A2A_*)</text>
+        <text x="365" y="84" fill="#5b6b7c" font-weight="400" font-size="11">frozen dataclass Settings</text>
+        <text x="365" y="104" fill="#5b6b7c" font-weight="400" font-size="11">timeouts · sizes · redirect policy</text>
+        <text x="365" y="124" fill="#5b6b7c" font-weight="400" font-size="11">ALLOW_LOCAL_AGENTS gate</text>
+
+        <rect x="495" y="20" width="220" height="140" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="605" y="42" fill="#1e3a8a">card_fetcher / card_validator</text>
+        <text x="605" y="64" fill="#5b6b7c" font-weight="400" font-size="11">fetch: HTTPS · 0 redirects ·</text>
+        <text x="605" y="84" fill="#5b6b7c" font-weight="400" font-size="11">streamed size cap · JSON parse</text>
+        <text x="605" y="104" fill="#5b6b7c" font-weight="400" font-size="11">validate: SDK parse_agent_card +</text>
+        <text x="605" y="124" fill="#5b6b7c" font-weight="400" font-size="11">required fields · NOT_A2A verdict</text>
+
+        <rect x="735" y="20" width="230" height="140" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="850" y="42" fill="#1e3a8a">endpoint_validator.py</text>
+        <text x="850" y="64" fill="#5b6b7c" font-weight="400" font-size="11">select_interface(): advertised</text>
+        <text x="850" y="84" fill="#5b6b7c" font-weight="400" font-size="11">transports only, no guessing</text>
+        <text x="850" y="104" fill="#5b6b7c" font-weight="400" font-size="11">check_endpoint(): EndpointReport</text>
+        <text x="850" y="124" fill="#5b6b7c" font-weight="400" font-size="11">5 stages, task_ready gate</text>
+
+        <rect x="15" y="180" width="220" height="120" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="125" y="202" fill="#14532d">remote_agents/remote_client.py</text>
+        <text x="125" y="224" fill="#5b6b7c" font-weight="400" font-size="11">send_task(): SDK clientFactory,</text>
+        <text x="125" y="244" fill="#5b6b7c" font-weight="400" font-size="11">stream + poll, timeout→TIMEOUT</text>
+        <text x="125" y="264" fill="#5b6b7c" font-weight="400" font-size="11">TaskResult: text/data/artifacts,</text>
+        <text x="125" y="284" fill="#5b6b7c" font-weight="400" font-size="11">message_only() · is_paid_offer()</text>
+
+        <rect x="255" y="180" width="220" height="120" rx="12" fill="#e7f7ee" stroke="#16a34a" stroke-width="2"/>
+        <text x="365" y="202" fill="#14532d">remote_agents/agent_store.py</text>
+        <text x="365" y="224" fill="#5b6b7c" font-weight="400" font-size="11">sqlite3: remote_agents +</text>
+        <text x="365" y="244" fill="#5b6b7c" font-weight="400" font-size="11">agent_task_history</text>
+        <text x="365" y="264" fill="#5b6b7c" font-weight="400" font-size="11">upsert by card URL · delete</text>
+        <text x="365" y="284" fill="#5b6b7c" font-weight="400" font-size="11">no credential columns, ever</text>
+
+        <rect x="495" y="180" width="220" height="120" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+        <text x="605" y="202" fill="#334155">directories/</text>
+        <text x="605" y="224" fill="#5b6b7c" font-weight="400" font-size="11">base.py — provider interface</text>
+        <text x="605" y="244" fill="#5b6b7c" font-weight="400" font-size="11">manual_url.py — paste-a-URL</text>
+        <text x="605" y="264" fill="#5b6b7c" font-weight="400" font-size="11">registry_provider.py — verified</text>
+        <text x="605" y="284" fill="#5b6b7c" font-weight="400" font-size="11">a2aregistry.org API + page resolve</text>
+
+        <rect x="735" y="180" width="230" height="120" rx="12" fill="#e8effd" stroke="#2563eb" stroke-width="2"/>
+        <text x="850" y="202" fill="#1e3a8a">UI + coordinator</text>
+        <text x="850" y="224" fill="#5b6b7c" font-weight="400" font-size="11">webui.py — Streamlit, 3 tabs</text>
+        <text x="850" y="244" fill="#5b6b7c" font-weight="400" font-size="11">coordinator.py — match_route,</text>
+        <text x="850" y="264" fill="#5b6b7c" font-weight="400" font-size="11">delegate_remote/parallel, present</text>
+        <text x="850" y="284" fill="#5b6b7c" font-weight="400" font-size="11">worker.py + demo.py — local A2A</text>
+      </g>
+      <g stroke="#5b6b7c" stroke-width="2" fill="none" marker-end="url(#ar2)">
+        <line x1="235" y1="90" x2="253" y2="90"/>
+        <line x1="475" y1="90" x2="493" y2="90"/>
+        <line x1="715" y1="90" x2="733" y2="90"/>
+        <path d="M605,160 V170 H125 V178"/>
+        <line x1="237" y1="240" x2="252" y2="240"/>
+        <line x1="475" y1="240" x2="493" y2="240"/>
+        <line x1="715" y1="240" x2="733" y2="240"/>
+      </g>
+    </svg>
+    <figcaption>Figure 2 — Module map. Safety first (validate_url before any request), SDK for all protocol work,
+    thin UI on top; pages call the same pipeline functions the CLI calls.</figcaption>
+  </figure>
+
+  <h2>Task lifecycle handling</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>How send_task() runs a task</h3>
+      <ul>
+        <li>SSRF-revalidates the advertised endpoint, then builds an SDK <code>ClientFactory</code> client.</li>
+        <li>Streaming when <em>both</em> sides advertise it; otherwise poll <code>get_task</code> every
+        <code>A2A_POLL_INTERVAL_SECONDS</code>.</li>
+        <li>Hard <code>asyncio.timeout</code> → state <code>TIMEOUT</code> at
+        <code>A2A_TASK_TIMEOUT_SECONDS</code>; no infinite polling.</li>
+        <li>Stream events absorbed per-payload: task, message, artifact_update, status_update.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The states you can see</h3>
+      <ul>
+        <li><span class="pill grey">SUBMITTED</span> → <span class="pill grey">WORKING</span> →
+        <span class="pill green">COMPLETED</span> / <span class="pill red">FAILED</span> / CANCELED / REJECTED.</li>
+        <li>Message-only exchanges (no Task object) surface as <em>"message-only reply (no task ID)"</em>,
+        state COMPLETED when content exists.</li>
+        <li>Every state change fires the <code>progress</code> callback → the UI's live status trail.</li>
+        <li><code>cancel_task()</code> exists for agents that support cancellation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Security model</h2>
+  <table>
+    <tr><th>Threat</th><th>Guard</th><th>Where</th></tr>
+    <tr><td>SSRF via pasted URLs (localhost, private ranges, cloud metadata)</td><td><code>validate_url()</code> before <em>every</em> outbound request: scheme allowlist, HTTPS enforced, DNS resolved, <code>ip.is_global</code> required; loopback only with <code>ALLOW_LOCAL_AGENTS=true</code></td><td><code>url_safety.py</code></td></tr>
+    <tr><td>Redirect-based escapes</td><td><code>follow_redirects=False</code> everywhere (<code>A2A_MAX_REDIRECTS=0</code>); a redirect response is refused outright</td><td><code>card_fetcher.py</code>, <code>remote_client.py</code></td></tr>
+    <tr><td>Card masquerading (webpage/REST/MCP)</td><td>SDK schema parse + required-field validation + "not a compatible A2A endpoint" verdict; card never proves a connection</td><td><code>card_validator.py</code></td></tr>
+    <tr><td>Credential leaks</td><td>Bearer tokens live only in a per-call httpx header (env var or UI password field); never in SQLite; log-record factory redacts <code>authorization</code>/bearer in <em>all</em> log output even at DEBUG</td><td><code>remote_client.py</code>, <code>log_redaction.py</code></td></tr>
+    <tr><td>Malicious remote output</td><td>Verbatim display with attribution; no execution, no instruction-following, artifact URLs never auto-fetched; paid offers flagged, never paid</td><td><code>TaskResult</code>, UI</td></tr>
+    <tr><td>LLM-chosen endpoints</td><td>Delegation routes only through <em>saved</em> agents' advertised skills (word-overlap match) and requires explicit user confirmation before sending</td><td><code>coordinator.py</code></td></tr>
+  </table>
+
+  <h2>Output artifacts</h2>
+  <p>One explorer run leaves exactly one file behind — <code>agents.db</code> — holding two tables:</p>
+  <table>
+    <tr><th>Table</th><th>Columns</th><th>Notes</th></tr>
+    <tr><td><code>remote_agents</code></td><td>id · name · description · agent_card_url (unique) · service_endpoint · protocol_version · provider_name · skills_json · auth_scheme · trusted · last_validated_at · created_at</td><td>Re-saving the same card URL refreshes the row (upsert), never duplicates</td></tr>
+    <tr><td><code>agent_task_history</code></td><td>id · remote_agent_id · task_id · context_id · task_text · task_state · result_summary (≤500 chars) · submitted_at · completed_at · error_message</td><td>Deleted with its agent via <code>delete_agent()</code></td></tr>
+  </table>
+  <div class="note danger">
+    <strong>Schema guarantee:</strong> no token/secret/password column exists in either table — enforced by a test.
+    Bearer tokens stay in the environment for the session (<code>A2A_BEARER_TOKEN</code>) or in the UI's
+    password field, which is never written anywhere.
+  </div>
+
+  <h2>Configuration (all via .env, read in exactly one file)</h2>
+  <table>
+    <tr><th>Variable</th><th>Default</th><th>Meaning</th></tr>
+    <tr><td><code>OLLAMA_API_KEY</code> / <code>OLLAMA_HOST</code> / <code>OLLAMA_MODEL</code></td><td>— / <code>https://ollama.com</code> / <code>gpt-oss:120b</code></td><td>Ollama Cloud for the local demo agents; never forwarded to remote agents</td></tr>
+    <tr><td><code>A2A_DEFAULT_TIMEOUT_SECONDS</code></td><td><code>30</code></td><td>HTTP connect/read timeout for every request</td></tr>
+    <tr><td><code>A2A_TASK_TIMEOUT_SECONDS</code></td><td><code>180</code></td><td>Whole-task ceiling; expiring yields state <code>TIMEOUT</code></td></tr>
+    <tr><td><code>A2A_POLL_INTERVAL_SECONDS</code></td><td><code>2</code></td><td>Poll cadence when the stream ends non-terminal</td></tr>
+    <tr><td><code>A2A_MAX_CARD_BYTES</code></td><td><code>1048576</code></td><td>Response size cap for card (and registry) fetches</td></tr>
+    <tr><td><code>A2A_MAX_REDIRECTS</code></td><td><code>0</code></td><td>Redirects are refused, full stop</td></tr>
+    <tr><td><code>A2A_REQUIRE_HTTPS</code></td><td><code>true</code></td><td>Plain HTTP URLs rejected unless local mode</td></tr>
+    <tr><td><code>ALLOW_LOCAL_AGENTS</code></td><td><code>false</code></td><td>The only door for loopback targets; dev/test only, metadata/private IPs stay blocked</td></tr>
+    <tr><td><code>A2A_ALLOWED_DOMAINS</code></td><td>empty (any public host)</td><td>Optional comma-separated allowlist of trusted hosts</td></tr>
+    <tr><td><code>A2A_BEARER_TOKEN</code></td><td>—</td><td>Session-only credential for agents that require auth; CLI reads it, UI has the password field</td></tr>
+  </table>
+
+  <h2>Run it</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🖥️ The app (recommended)</h3>
+<pre><code>python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env
+.\.venv\Scripts\python.exe -m streamlit run webui.py
+#    → http://localhost:8511</code></pre>
+      <p style="font-size:.9rem;color:var(--muted)">Discover → Inspect → Save → Send Task. Public agents work
+      with zero extra config; local worker needs <code>ALLOW_LOCAL_AGENTS=true</code> in its terminal.</p>
+    </div>
+    <div class="card">
+      <h3>⌨️ CLI & tests</h3>
+<pre><code>.\.venv\Scripts\python.exe -m pytest            # 64 offline tests
+.\.venv\Scripts\python.exe demo.py              # local two-agent run
+.\.venv\Scripts\python.exe remote_agents_cli.py discover <card-url>
+.\.venv\Scripts\python.exe remote_agents_cli.py save <card-url>
+.\.venv\Scripts\python.exe remote_agents_cli.py task <id|url> "<text>"
+.\.venv\Scripts\python.exe coordinator.py remote "<text>"
+.\.venv\Scripts\python.exe coordinator.py parallel 2 4 "<text>"</code></pre>
+      <ul>
+        <li><strong>"This endpoint is not a compatible A2A endpoint":</strong> the URL serves a webpage/API, not an Agent Card.</li>
+        <li><strong>"HTTPS is required":</strong> an http:// URL in public mode — intended; local mode for dev only.</li>
+        <li><strong>"resolves to non-public address":</strong> SSRF guard — the host is loopback/private/metadata.</li>
+        <li><strong>"agent rejected the request as unauthorized":</strong> missing/invalid bearer token; check the card's auth scheme.</li>
+        <li><strong>State TIMEOUT:</strong> the remote agent never finished inside <code>A2A_TASK_TIMEOUT_SECONDS</code>.</li>
+        <li><strong>Stale imports after edits:</strong> restart Streamlit — a running server keeps old modules cached.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Design decisions & trade-offs</h2>
+  <ul>
+    <li><strong>SDK first, always</strong> — cards parse through <code>a2a.parse_agent_card</code>, tasks through
+    <code>ClientFactory</code>; the app invents no protocol messages and no registry endpoints (the registry
+    adapter ships only after its API was verified live).</li>
+    <li><strong>Five gates, visibly separate</strong> — a valid card with a dead endpoint displays exactly that;
+    <code>task_ready</code> needs protocol <em>and</em> endpoint to pass, and "Task execution" only ever turns
+    green from a real completed task.</li>
+    <li><strong>Message-only replies are a first-class case</strong> — several real agents answer without creating
+    a Task; the client detects it and says so instead of printing a mysterious empty ID.</li>
+    <li><strong>One guard, one place</strong> — <code>validate_url()</code> wraps every outbound call (cards,
+    endpoint probes, registry lookups, delegation), so a new feature inherits SSRF safety by default.</li>
+    <li><strong>Verified registry adapter</strong> — a2aregistry.org has no server-side search, so filtering is
+    client-side over the documented <code>/api/agents</code> list; registry <em>page</em> URLs resolve through the
+    documented per-agent endpoint. No scraping, no guessed paths.</li>
+    <li><strong>Parallel delegation is explicit</strong> — <code>delegate_parallel</code> takes agent ids you
+    named; results combine per-agent with attribution via <code>present_many</code>. No automatic fan-out, ever.</li>
+    <li><strong>Paid offers end at the label</strong> — x402-style <code>intent: "paid_tool"</code> payloads are
+    detected by metadata, warned about loudly, and never executed; payment is a deliberate non-goal.</li>
+  </ul>
+
+</section>
+
+<!-- ==================================================================== -->
+<!-- TAB 3 — GLOSSARY                                                     -->
+<!-- ==================================================================== -->
+<section class="panel" id="panel-glossary">
+
+  <h2>Glossary</h2>
+
+  <h3>A2A Protocol</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>A2A</td><td>Agent-to-Agent protocol</td><td>An open protocol for agents to advertise themselves (Agent Card) and exchange work (tasks) across organizations</td><td><code>a2a-sdk 1.3.0</code>, everything talks it</td></tr>
+    <tr><td>Agent Card</td><td>—</td><td>JSON document describing an agent: name, version, skills, endpoint(s), transports, auth, capabilities</td><td>Fetched & validated in <code>card_fetcher.py</code> / <code>card_validator.py</code></td></tr>
+    <tr><td>Well-known path</td><td>—</td><td>Standard card location: <code>/.well-known/agent-card.json</code> (version-specific variants exist)</td><td>SDK constant <code>AGENT_CARD_WELL_KNOWN_PATH</code></td></tr>
+    <tr><td>Skill</td><td>—</td><td>A capability an agent advertises (id, name, description, tags). Not an HTTP route — you target it with task wording</td><td>Shown in Discover; used by <code>match_route()</code></td></tr>
+    <tr><td>Transports</td><td>—</td><td>Wire protocols under A2A: JSON-RPC and HTTP+JSON (this SDK build), gRPC (extra, not installed)</td><td><code>TransportProtocol</code>; <code>select_interface()</code></td></tr>
+    <tr><td>Task</td><td>—</td><td>A unit of work with a lifecycle: SUBMITTED → WORKING → COMPLETED / FAILED / CANCELED / REJECTED (+ INPUT_REQUIRED)</td><td><code>remote_client.send_task()</code>, the status trail</td></tr>
+    <tr><td>context ID</td><td>—</td><td>Groups related messages/tasks in one conversation thread</td><td>Captured in <code>TaskResult.context_id</code></td></tr>
+    <tr><td>Artifact</td><td>—</td><td>File-like output chunk a task emits (id, name, parts). Listed with metadata, never auto-downloaded</td><td><code>artifacts</code> in <code>TaskResult</code></td></tr>
+    <tr><td>Message-only reply</td><td>—</td><td>Agent answers with a bare Message, no Task object — hence no task ID</td><td><code>TaskResult.message_only()</code>, labeled in UI/CLI</td></tr>
+  </table>
+
+  <h3>Discovery & Security</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>Agent directory / registry</td><td>—</td><td>Public listing of agents. This app adapts a2aregistry.org after verifying its API (<code>GET /api/agents</code>)</td><td><code>directories/registry_provider.py</code></td></tr>
+    <tr><td><code>wellKnownURI</code></td><td>—</td><td>The card URL a registry listing points to</td><td>Registry field → <code>AgentCandidate.card_url</code></td></tr>
+    <tr><td>Manual URL provider</td><td>—</td><td>Always-available fallback: you paste the Agent Card URL directly (registry page URLs auto-resolve)</td><td><code>directories/manual_url.py</code>, <code>resolve_page_url()</code></td></tr>
+    <tr><td>SSRF</td><td>Server-Side Request Forgery</td><td>Tricking your app into fetching internal addresses via user-supplied URLs</td><td><code>url_safety.validate_url()</code> runs before every request</td></tr>
+    <tr><td>Non-public address</td><td>—</td><td>Loopback, private, link-local, multicast, reserved, cloud-metadata. Blocked via <code>ipaddress.is_global</code></td><td><code>validate_url()</code>; metadata 169.254.169.254 included</td></tr>
+    <tr><td><code>ALLOW_LOCAL_AGENTS</code></td><td>—</td><td>Explicit dev/test door permitting loopback only; production stays closed</td><td><code>config.py</code>; local worker + test servers</td></tr>
+    <tr><td>Bearter token</td><td>—</td><td>HTTP auth credential (<code>Authorization: Bearer …</code>) some agents require</td><td>Per-call header in <code>_make_client()</code>; <code>A2A_BEARER_TOKEN</code> / UI password field; redacted from logs</td></tr>
+    <tr><td>Security scheme</td><td>—</td><td>Auth declaration inside an Agent Card (e.g. HTTP bearer)</td><td>Displayed in badges + card summary; <code>EndpointReport.authentication</code></td></tr>
+    <tr><td>Allowlist</td><td>—</td><td>Optional restriction of outbound hosts to named domains (<code>A2A_ALLOWED_DOMAINS</code>)</td><td><code>validate_url()</code></td></tr>
+  </table>
+
+  <h3>App Concepts</h3>
+  <table>
+    <tr><th>Term</th><th>Expansion</th><th>What It Means</th><th>Where in This Project</th></tr>
+    <tr><td>EndpointReport</td><td>—</td><td>The five staged checks as data: card / protocol / endpoint / authentication / task_execution (+ <code>task_ready</code>)</td><td><code>endpoint_validator.py</code>; rendered as ✅/⚪/❌ badges</td></tr>
+    <tr><td>TaskResult</td><td>—</td><td>One delegation's outcome: state, task ID, context ID, texts, structured data, artifact metadata, agent name attribution</td><td><code>remote_client.py</code>; rendered in Send Task + CLI</td></tr>
+    <tr><td>Paid offer</td><td>x402 micropayment</td><td>Agent answering with a priced-tool recipe instead of doing free work; detected via <code>intent</code>, warned, never executed</td><td><code>TaskResult.is_paid_offer()</code>; yellow UI warning</td></tr>
+    <tr><td>Saved agent</td><td>—</td><td>Registry/discovered agent persisted in SQLite with trust flag, refresh capability and history</td><td><code>agent_store.py</code>; Saved Agents tab</td></tr>
+    <tr><td>Delegation</td><td>—</td><td>Coordinator sending your task to a chosen remote agent over A2A, with confirmation, then presenting the attributed result</td><td><code>coordinator.delegate_remote / delegate_parallel</code></td></tr>
+    <tr><td>Deterministic routing</td><td>—</td><td>Request→agent matching by word overlap over advertised skills; the LLM never invents or picks URLs</td><td><code>coordinator.match_route()</code></td></tr>
+    <tr><td>Attribution</td><td>—</td><td>Every result carries producing agent's name + task ID; never blended into a single anonymous answer</td><td><code>present()</code>, <code>present_many()</code>, UI result card</td></tr>
+    <tr><td>Untrusted output</td><td>—</td><td>Remote responses displayed verbatim with a warning; no execution, no config changes, no cross-agent instructions</td><td>Result panels; <code>present()</code> labels</td></tr>
+    <tr><td>Ollama Cloud</td><td>—</td><td>Hosted LLM API powering the <em>local</em> demo agents; key from ollama.com/settings/keys in <code>.env</code></td><td><code>smoke_test.py</code>, <code>worker.py</code></td></tr>
+    <tr><td>Local two-agent demo</td><td>—</td><td>Baseline: worker agent (A2A server) + coordinator (A2A client) on your machine — proof the plumbing works before third parties</td><td><code>worker.py</code>, <code>coordinator.py</code>, <code>demo.py</code></td></tr>
+  </table>
+
+</section>
+
+</main>
+
+<footer>
+  Remote A2A Agent Explorer · Python 3.11 · a2a-sdk 1.3.0 · Streamlit · Ollama Cloud · docs updated 2026-10-31
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    document.getElementById('tab-btn-' + name).classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+</script>
+
+</body>
+</html>

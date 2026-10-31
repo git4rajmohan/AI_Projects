@@ -2,15 +2,15 @@ Languages: **English** | [日本語](README.ja.md) | [Download Quick Summary](ht
 
 # AI / ML Engineering Portfolio  
 
-A collection of 19 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, RAG, knowledge engineering, AI safety, document intelligence, computer vision, maintenance decision support, voice AI, agent observability/evaluation and classical NLP/ML.
+A collection of 20 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, agent-to-agent (A2A) protocols, RAG, knowledge engineering, AI safety, document intelligence, computer vision, maintenance decision support, voice AI, agent observability/evaluation and classical NLP/ML.
 
 ## Portfolio Map
 
-6 categories · 19 projects
+6 categories · 20 projects
 
 | Category | Projects | Key Technologies |
 |---|---:|---|
-| 🤖 [Agentic AI & Multi-Agent Systems](./01-Agentic-AI/) | 6 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL |
+| 🤖 [Agentic AI & Multi-Agent Systems](./01-Agentic-AI/) | 7 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL, A2A SDK |
 | 📚 [RAG & Knowledge Engineering](./02-RAG-Knowledge/) | 5 | LangGraph, LlamaIndex, ChromaDB, Qdrant, Neo4j |
 | 🛡️ [AI Safety & Quality Engineering](./03-AI-Safety-Quality/) | 2 | NeMo Guardrails, LLM Judges, PII Detection |
 | 🏭 [Applied AI](./04-Applied-AI/) | 4 | YOLO, OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite |
@@ -20,6 +20,7 @@ A collection of 19 practical AI/ML projects demonstrating agentic AI, multi-agen
 ## What I Build
 
 - 🤖 Agentic AI and multi-agent workflows
+- 🤝 Agent-to-agent (A2A) protocol: cross-organization agent discovery and delegation
 - 🔧 LLM tool and MCP orchestration
 - 📚 Production-oriented RAG and knowledge systems
 - 📏 LLM/RAG evaluation and quality engineering
@@ -52,6 +53,7 @@ A collection of 19 practical AI/ML projects demonstrating agentic AI, multi-agen
 | [Order Returns & Fraud Agent](./01-Agentic-AI/OrderReturns-Fraud-Agent/) | Stateful business workflow + HITL | LangGraph, FastAPI, SQLite |
 | [Hospital Appointment Agent](./01-Agentic-AI/Hospital-Appointment-Agent/) | LLM extraction + deterministic calendar | LangChain LCEL, Twilio SMS |
 | [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/) | 3-agent iterative review/refinement | Streamlit, Ollama, markmap.js |
+| [Agent2Agent Explorer](./01-Agentic-AI/Agent2Agent-Explorer/) | Cross-organization agent discovery + task delegation (A2A) | a2a-sdk, Streamlit, FastAPI, SQLite, Ollama Cloud |
 
 ### 📚 RAG & Knowledge Engineering
 
@@ -92,7 +94,7 @@ A collection of 19 practical AI/ML projects demonstrating agentic AI, multi-agen
 Ollama · Ollama Cloud · Groq · LiteLLM
 
 **Agentic AI**
-Google ADK · LangGraph · LangChain · Agno · MCP
+Google ADK · LangGraph · LangChain · Agno · MCP · A2A SDK
 
 **RAG / Knowledge**
 ChromaDB · Qdrant · Neo4j · LlamaIndex · Cognee · BM25 · RRF
@@ -131,7 +133,7 @@ FastAPI · Streamlit · React · SQLite
 ## Project Selection Guide
 
 ### Looking for Agentic AI?
-- [AgentFlow Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) · [MCP Tool Orchestration](./01-Agentic-AI/MCP-Tool-Orchestration/) · [E-Commerce Multi-Agent](./01-Agentic-AI/MultiAgent-Ecommerce/) · [Order Returns & Fraud](./01-Agentic-AI/OrderReturns-Fraud-Agent/) · [Hospital Appointment](./01-Agentic-AI/Hospital-Appointment-Agent/) · [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/)
+- [AgentFlow Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) · [MCP Tool Orchestration](./01-Agentic-AI/MCP-Tool-Orchestration/) · [E-Commerce Multi-Agent](./01-Agentic-AI/MultiAgent-Ecommerce/) · [Order Returns & Fraud](./01-Agentic-AI/OrderReturns-Fraud-Agent/) · [Hospital Appointment](./01-Agentic-AI/Hospital-Appointment-Agent/) · [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/) · [Agent2Agent Explorer](./01-Agentic-AI/Agent2Agent-Explorer/)
 
 ### Looking for RAG / Knowledge Engineering?
 - [Production RAG](./02-RAG-Knowledge/Production-RAG/) · [Enterprise Knowledge Assistant](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/) · [RAG Evaluation Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/) · [LLM Wiki](./02-RAG-Knowledge/LLM-Wiki/) · [Knowledge Graph Builder](./02-RAG-Knowledge/Knowledge-Graph-Builder/)
@@ -153,7 +155,7 @@ FastAPI · Streamlit · React · SQLite
 | Document | Purpose |
 |---|---|
 | **README.md** (this file) | Recruiter landing page — portfolio overview and navigation |
-| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | Detailed catalog — all 19 projects with architecture, differentiation and links |
+| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | Detailed catalog — all 20 projects with architecture, differentiation and links |
 | **Project READMEs** | Implementation details per project |
 
 ## AI-Assisted Development

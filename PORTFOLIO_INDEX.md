@@ -4,7 +4,7 @@
 
 This portfolio demonstrates practical AI engineering across:
 
-1. **Agentic AI & Multi-Agent Systems** — dynamic workflow orchestration, tool protocols, hierarchical agents, stateful business agents
+1. **Agentic AI & Multi-Agent Systems** — dynamic workflow orchestration, tool protocols, hierarchical agents, stateful business agents, agent-to-agent (A2A) interop
 2. **RAG & Knowledge Engineering** — hybrid retrieval, graph RAG, knowledge-base generation, RAG evaluation
 3. **AI Safety & Quality Engineering** — guardrails, injection defense, PII protection, LLM-as-a-judge
 4. **Applied AI** — document intelligence, computer vision, voice pipelines, maintenance decision support
@@ -139,9 +139,32 @@ Natural Language Request → LLM Structured Extraction → Validated Data
 
 ---
 
+## 7. Agent2Agent Explorer — Remote A2A Agent Discovery, Validation & Delegation
+
+**Folder:** [`01-Agentic-AI/Agent2Agent-Explorer/`](./01-Agentic-AI/Agent2Agent-Explorer/) · **User guide:** [`A2A_Explorer_Userguide.html`](./01-Agentic-AI/Agent2Agent-Explorer/A2A_Explorer_Userguide.html)
+
+**Purpose:** An A2A client/explorer that discovers independently hosted third-party A2A agents via a public registry, inspects and validates their Agent Cards in five staged checks (card → protocol → endpoint → authentication → task), saves them to SQLite, and delegates real A2A tasks over HTTPS with a watched task lifecycle and per-agent attribution — plus a local two-agent demo proving the plumbing first.
+
+**Focus:** Agent-to-agent (A2A) protocol interoperability with defense-first remote integration
+
+**Technologies:** a2a-sdk 1.3.0 · Python 3.11 · Streamlit · FastAPI · httpx · SQLite · a2aregistry.org verified API · Ollama Cloud (local demo agents) · pytest (64 offline tests)
+
+**Demonstrates:**
+- staged validation with independent pass/fail badges — a fetched card is never mistaken for a working connection
+- SSRF-hardened outbound HTTP: HTTPS enforced, DNS-resolved private/loopback/metadata-IP blocking, zero redirects, size caps, optional domain allowlist
+- SDK-faithful protocol work (`parse_agent_card`, `ClientFactory`) — no hand-rolled messages or registry endpoints
+- task lifecycle tracking (SUBMITTED → WORKING → COMPLETED/FAILED/TIMEOUT) with streaming-when-available and polling fallback
+- deterministic skill routing + explicit user confirmation; parallel delegation to two named agents with per-agent attribution
+- untrusted-output discipline: verbatim display, artifacts never auto-downloaded, paid-tool (x402) offers warned and never paid
+- session-only bearer-token handling with global log redaction; SQLite stores metadata/history only, never credentials
+
+**How it differs:** While the other projects orchestrate agents you own, this one calls *other people's* agents across organizations — the directory finds candidates, the card advertises, the validator proves, and only a completed remote task counts as interoperability.
+
+---
+
 # 2. RAG & Knowledge Engineering
 
-## 7. Production RAG Documentation Assistant
+## 8. Production RAG Documentation Assistant
 
 **Folder:** [`02-RAG-Knowledge/Production-RAG/`](./02-RAG-Knowledge/Production-RAG/)
 
@@ -163,7 +186,7 @@ Natural Language Request → LLM Structured Extraction → Validated Data
 
 ---
 
-## 8. Enterprise Knowledge Assistant — Hybrid Graph RAG
+## 9. Enterprise Knowledge Assistant — Hybrid Graph RAG
 
 **Folder:** [`02-RAG-Knowledge/Enterprise-Knowledge-Assistant/`](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/)
 
@@ -183,7 +206,7 @@ Documents → Vector Retrieval + BM25 + Knowledge Graph → RRF Fusion
 
 ---
 
-## 9. RAG Evaluation & LLM Quality Engineering Harness
+## 10. RAG Evaluation & LLM Quality Engineering Harness
 
 **Folder:** [`02-RAG-Knowledge/RAG-Evaluation-Harness/`](./02-RAG-Knowledge/RAG-Evaluation-Harness/)
 
@@ -203,7 +226,7 @@ Documents → Vector Retrieval + BM25 + Knowledge Graph → RRF Fusion
 
 ---
 
-## 10. LLM Wiki — AI Knowledge Base Generator
+## 11. LLM Wiki — AI Knowledge Base Generator
 
 **Folder:** [`02-RAG-Knowledge/LLM-Wiki/`](./02-RAG-Knowledge/LLM-Wiki/)
 
@@ -225,7 +248,7 @@ Documents → LLM Knowledge Extraction → Source/Entity/Concept Pages
 
 ---
 
-## 11. AI Knowledge Graph Builder & Graph RAG Explorer
+## 12. AI Knowledge Graph Builder & Graph RAG Explorer
 
 **Folder:** [`02-RAG-Knowledge/Knowledge-Graph-Builder/`](./02-RAG-Knowledge/Knowledge-Graph-Builder/)
 
@@ -246,7 +269,7 @@ Documents → LLM Knowledge Extraction → Source/Entity/Concept Pages
 
 # 3. AI Safety & Quality Engineering
 
-## 12. LLM Guardrails & AI Safety Defense Lab
+## 13. LLM Guardrails & AI Safety Defense Lab
 
 **Folder:** [`03-AI-Safety-Quality/LLM-Guardrails/`](./03-AI-Safety-Quality/LLM-Guardrails/)
 
@@ -262,7 +285,7 @@ Documents → LLM Knowledge Extraction → Source/Entity/Concept Pages
 
 ---
 
-## 13. AI-Safe Support Ticket Classifier
+## 14. AI-Safe Support Ticket Classifier
 
 **Folder:** [`03-AI-Safety-Quality/Safe-Support-Ticket/`](./03-AI-Safety-Quality/Safe-Support-Ticket/)
 
@@ -283,7 +306,7 @@ Documents → LLM Knowledge Extraction → Source/Entity/Concept Pages
 
 # 4. Applied AI
 
-## 14. DocFlow — AI Document Intelligence & Invoice Approval Engine
+## 15. DocFlow — AI Document Intelligence & Invoice Approval Engine
 
 **Folder:** [`04-Applied-AI/DocFlow-Document-Intelligence/`](./04-Applied-AI/DocFlow-Document-Intelligence/) · **User guide:** [`userguide.html`](./04-Applied-AI/DocFlow-Document-Intelligence/userguide.html)
 
@@ -310,7 +333,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 ---
 
-## 15. Research Voice Agent — AI Research-to-Podcast Pipeline
+## 16. Research Voice Agent — AI Research-to-Podcast Pipeline
 
 **Folder:** [`04-Applied-AI/Research-Voice-Agent/`](./04-Applied-AI/Research-Voice-Agent/) · **User guide:** [`userguide.html`](./04-Applied-AI/Research-Voice-Agent/userguide.html)
 
@@ -328,7 +351,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 ---
 
-## 16. MaintAI Decision Platform
+## 17. MaintAI Decision Platform
 
 **Folder:** [`04-Applied-AI/DecisionModelDemo/`](./04-Applied-AI/DecisionModelDemo/) · **User guide:** [`MaintAI_Userguide.html`](./04-Applied-AI/DecisionModelDemo/MaintAI_Userguide.html)
 
@@ -344,7 +367,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 ---
 
-## 17. VisionFlow Video Analytics
+## 18. VisionFlow Video Analytics
 
 **Folder:** [`04-Applied-AI/VisionFlow/`](./04-Applied-AI/VisionFlow/) · **User guide:** [`VisionFlow_Userguide.html`](./04-Applied-AI/VisionFlow/VisionFlow_Userguide.html)
 
@@ -362,7 +385,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 # 5. NLP & Machine Learning
 
-## 18. NLP Machine Learning Sentiment Analysis Pipeline
+## 19. NLP Machine Learning Sentiment Analysis Pipeline
 
 **Folder:** [`05-NLP-Machine-Learning/Sentiment-Analysis/`](./05-NLP-Machine-Learning/Sentiment-Analysis/)
 
@@ -378,7 +401,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 
 # 6. Agent Observability & Evaluation
 
-## 19. Agent Evaluation Labs — LLM Agent Observability & Evaluation
+## 20. Agent Evaluation Labs — LLM Agent Observability & Evaluation
 
 **Folder:** [`04-Applied-AI/Agent-Evaluation-Labs/`](./04-Applied-AI/Agent-Evaluation-Labs/) · **User guide:** [`Userguide.html`](./04-Applied-AI/Agent-Evaluation-Labs/Userguide.html)
 
@@ -404,6 +427,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 | Order Returns & Fraud | Stateful business workflow + HITL |
 | Hospital Appointment | LLM extraction + deterministic calendar |
 | Multi-Agent Mindmap | 3-agent iterative review/refinement |
+| Agent2Agent Explorer | Cross-organization A2A discovery + staged validation + attributed task delegation |
 | Production RAG | Retrieval engineering + regression evaluation |
 | Enterprise Knowledge Assistant | Hybrid vector + BM25 + graph retrieval |
 | RAG Evaluation | RAG/LLM quality measurement |
@@ -425,6 +449,7 @@ Invoice PDF → PyMuPDF text (quality-graded) → Tesseract OCR fallback (image-
 | LLM | Ollama, Ollama Cloud, Groq, LiteLLM |
 | Agent Frameworks | Google ADK, LangGraph, LangChain, Agno |
 | Tool Protocol | MCP |
+| Agent Interop Protocol | A2A (a2a-sdk 1.3.0) |
 | RAG | ChromaDB, Qdrant, LlamaIndex, Cognee |
 | Knowledge Graph | Neo4j |
 | Retrieval | BM25, Vector Search, Hybrid Retrieval, RRF |
