@@ -1,6 +1,6 @@
-Languages: **English** | [日本語](README.ja.md) | [Download Quick Summary](https://git4rajmohan.github.io/AI_Projects/AI_Projects_16_Project_Portfolio_QuickExplanation.html)| [My LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
+Languages: **English** | [日本語](README.ja.md) | [Download Quick Summary](https://git4rajmohan.github.io/AI_Projects/AI_Projects_16_Project_Portfolio_QuickExplanation.html)
 
-# AI / ML Engineering Portfolio  
+# AI / ML Engineering Portfolio| [My LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)  
 
 A collection of 20 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, agent-to-agent (A2A) protocols, RAG, knowledge engineering, AI safety, document intelligence, computer vision, maintenance decision support, voice AI, agent observability/evaluation and classical NLP/ML.
 
