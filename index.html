@@ -79,8 +79,8 @@ footer { padding:0 20px 24px;text-align:center;color:var(--muted);font-size:11px
     <h2 id="welcome">Welcome to my site, please select your option</h2>
 
     <div class="actions">
-      <a class="button" id="link-portfolio" href="https://git4rajmohan.github.io/AI_Projects/">GitHub Portfolio</a>
-      <a class="button" id="link-linkedin" href="https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/">LinkedIn</a>
+      <a class="button" id="link-portfolio" href="https://git4rajmohan.github.io/AI_Projects/" target="_blank" rel="noopener">GitHub Portfolio</a>
+      <a class="button" id="link-linkedin" href="https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </div>
 
@@ -117,6 +117,9 @@ function render() {
 }
 $('btn-en').addEventListener('click', () => { lang = 'en'; render(); });
 $('btn-ja').addEventListener('click', () => { lang = 'ja'; render(); });
+$('link-portfolio').addEventListener('click', (e) => {
+  if (lang === 'en') e.preventDefault();
+});
 $('year').textContent = new Date().getFullYear();
 render();
 </script>
