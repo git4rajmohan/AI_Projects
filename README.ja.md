@@ -2,9 +2,9 @@
 
 ---
 
-> 🌐 **ウェルカムページ / Welcome:** [ウェルカムページ / welcome page](https://git4rajmohan.github.io/AI_Projects/)
+> 🌐 **ウェルカムページ / Welcome:** 言語をお選びください / select your language → [日本語](https://git4rajmohan.github.io/AI_Projects/welcome.html?lang=ja) · [English](https://git4rajmohan.github.io/AI_Projects/welcome.html?lang=en)
 >
-> **Welcome to my site, please select your option:** [English Portfolio](https://git4rajmohan.github.io/AI_Projects/) · [LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
+> **Welcome to my site, please select your option:** [English Portfolio](https://github.com/git4rajmohan/AI_Projects/blob/main/README.md) · [LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
 >
 > **私のサイトへようこそ。オプションをお選びください:** [GitHub ポートフォリオ](https://github.com/git4rajmohan/AI_Projects/blob/main/README.ja.md) · [LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
 
