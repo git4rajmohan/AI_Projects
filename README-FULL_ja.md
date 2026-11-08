@@ -21,7 +21,7 @@
 | 🛡️ [AI セーフティ & 品質エンジニアリング](./03-AI-Safety-Quality/) | 2 | NeMo Guardrails, LLM ジャッジ, PII 検出 |
 | 🏭 [応用 AI (Applied AI)](./04-Applied-AI/) | 4 | OCR, ドキュメント AI, 音声 AI, コンピュータビジョン, FastAPI |
 | 🧠 [NLP & 機械学習](./05-NLP-Machine-Learning/) | 1 | scikit-learn, NLTK, spaCy |
-| 📊 [Agent オブザーバビリティ & 評価](./04-Applied-AI/Agent-Evaluation-Labs/) | 1 | Arize Phoenix, OpenTelemetry, LLM-as-a-Judge |
+| 📊 [Agent オブザーバビリティ & 評価](./04-Applied-AI/Agent-Evaluation-Labs/README.ja.md) | 1 | Arize Phoenix, OpenTelemetry, LLM-as-a-Judge |
 
 ## 構築できること
 
@@ -38,12 +38,12 @@
 
 | プロジェクト | デモ内容 |
 |---|---|
-| [AgentFlow — 動的マルチエージェントワークフロー & スキルオーケストレーター](./01-Agentic-AI/AgentFlow-Orchestrator/) | 動的マルチエージェントオーケストレーション |
-| [エージェント AI MCP ツールオーケストレーションプラットフォーム](./01-Agentic-AI/MCP-Tool-Orchestration/) | MCP とツールオーケストレーション |
-| [エージェント AI マルチエージェント・マインドマップオーケストレーター](./01-Agentic-AI/MultiAgent-Mindmap/) | 反復型マルチエージェントレビューループ |
-| [本番 RAG ドキュメントアシスタント](./02-RAG-Knowledge/Production-RAG/) | 検索エンジニアリング |
-| [LLM ガードレール & AI セーフティ防御ラボ](./03-AI-Safety-Quality/LLM-Guardrails/) | AI セーフティ |
-| [RAG 評価 & LLM 品質エンジニアリングハーネス](./02-RAG-Knowledge/RAG-Evaluation-Harness/) | AI 品質・評価 |
+| [AgentFlow — 動的マルチエージェントワークフロー & スキルオーケストレーター](./01-Agentic-AI/AgentFlow-Orchestrator/README.ja.md) | 動的マルチエージェントオーケストレーション |
+| [エージェント AI MCP ツールオーケストレーションプラットフォーム](./01-Agentic-AI/MCP-Tool-Orchestration/README.ja.md) | MCP とツールオーケストレーション |
+| [エージェント AI マルチエージェント・マインドマップオーケストレーター](./01-Agentic-AI/MultiAgent-Mindmap/README.ja.md) | 反復型マルチエージェントレビューループ |
+| [本番 RAG ドキュメントアシスタント](./02-RAG-Knowledge/Production-RAG/README.ja.md) | 検索エンジニアリング |
+| [LLM ガードレール & AI セーフティ防御ラボ](./03-AI-Safety-Quality/LLM-Guardrails/README.ja.md) | AI セーフティ |
+| [RAG 評価 & LLM 品質エンジニアリングハーネス](./02-RAG-Knowledge/RAG-Evaluation-Harness/README.ja.md) | AI 品質・評価 |
 
 ## カテゴリ別プロジェクト
 
@@ -51,51 +51,51 @@
 
 | プロジェクト | AI 機能 | 技術 |
 |---|---|---|
-| [AgentFlow オーケストレーター](./01-Agentic-AI/AgentFlow-Orchestrator/) | 動的マルチエージェントワークフロー/DAG 生成 | Google ADK, FastAPI, React |
-| [MCP ツールオーケストレーション](./01-Agentic-AI/MCP-Tool-Orchestration/) | MCP ツールエコシステムとツール呼び出し | MCP, Agno, Streamlit |
-| [E コマース・マルチエージェント](./01-Agentic-AI/MultiAgent-Ecommerce/) | 階層型専門エージェント | Google ADK, LiteLLM |
-| [注文返品 & 不正防止エージェント](./01-Agentic-AI/OrderReturns-Fraud-Agent/) | ステートフル業務ワークフロー + HITL | LangGraph, FastAPI, SQLite |
-| [病院予約エージェント](./01-Agentic-AI/Hospital-Appointment-Agent/) | LLM 抽出 + 決定論的カレンダー | LangChain LCEL, Twilio SMS |
-| [マルチエージェント・マインドマップ](./01-Agentic-AI/MultiAgent-Mindmap/) | 3 エージェント反復レビュー/改善 | Streamlit, Ollama, markmap.js |
-| [Agent2Agent (A2A) エクスプローラー](./01-Agentic-AI/Agent2Agent-Explorer/) | リモート A2A エージェントの探索・検証・委譲 | a2a-sdk, Streamlit, FastAPI, SQLite |
+| [AgentFlow オーケストレーター](./01-Agentic-AI/AgentFlow-Orchestrator/README.ja.md) | 動的マルチエージェントワークフロー/DAG 生成 | Google ADK, FastAPI, React |
+| [MCP ツールオーケストレーション](./01-Agentic-AI/MCP-Tool-Orchestration/README.ja.md) | MCP ツールエコシステムとツール呼び出し | MCP, Agno, Streamlit |
+| [E コマース・マルチエージェント](./01-Agentic-AI/MultiAgent-Ecommerce/README.ja.md) | 階層型専門エージェント | Google ADK, LiteLLM |
+| [注文返品 & 不正防止エージェント](./01-Agentic-AI/OrderReturns-Fraud-Agent/README.ja.md) | ステートフル業務ワークフロー + HITL | LangGraph, FastAPI, SQLite |
+| [病院予約エージェント](./01-Agentic-AI/Hospital-Appointment-Agent/README.ja.md) | LLM 抽出 + 決定論的カレンダー | LangChain LCEL, Twilio SMS |
+| [マルチエージェント・マインドマップ](./01-Agentic-AI/MultiAgent-Mindmap/README.ja.md) | 3 エージェント反復レビュー/改善 | Streamlit, Ollama, markmap.js |
+| [Agent2Agent (A2A) エクスプローラー](./01-Agentic-AI/Agent2Agent-Explorer/README.ja.md) | リモート A2A エージェントの探索・検証・委譲 | a2a-sdk, Streamlit, FastAPI, SQLite |
 
 ### 📚 RAG & ナレッジエンジニアリング
 
 | プロジェクト | AI 機能 | 技術 |
 |---|---|---|
-| [本番 RAG アシスタント](./02-RAG-Knowledge/Production-RAG/) | 検索エンジニアリング + 回帰評価 | LangGraph, ChromaDB, BM25 |
-| [エンタープライズ・ナレッジアシスタント](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/) | ハイブリッド (ベクトル + BM25 + グラフ) 検索 | LlamaIndex, Qdrant, Cognee |
-| [RAG 評価ハーネス](./02-RAG-Knowledge/RAG-Evaluation-Harness/) | RAG/LLM 品質測定 | RAGAS, pytest, LLM ジャッジ |
-| [LLM Wiki](./02-RAG-Knowledge/LLM-Wiki/) | ドキュメントからナレッジベース生成 | FastAPI, React, D3 |
-| [ナレッジグラフビルダー](./02-RAG-Knowledge/Knowledge-Graph-Builder/) | グラフネイティブな構築と照会 | Google ADK, Neo4j, SSE |
+| [本番 RAG アシスタント](./02-RAG-Knowledge/Production-RAG/README.ja.md) | 検索エンジニアリング + 回帰評価 | LangGraph, ChromaDB, BM25 |
+| [エンタープライズ・ナレッジアシスタント](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/README.ja.md) | ハイブリッド (ベクトル + BM25 + グラフ) 検索 | LlamaIndex, Qdrant, Cognee |
+| [RAG 評価ハーネス](./02-RAG-Knowledge/RAG-Evaluation-Harness/README.ja.md) | RAG/LLM 品質測定 | RAGAS, pytest, LLM ジャッジ |
+| [LLM Wiki](./02-RAG-Knowledge/LLM-Wiki/README.ja.md) | ドキュメントからナレッジベース生成 | FastAPI, React, D3 |
+| [ナレッジグラフビルダー](./02-RAG-Knowledge/Knowledge-Graph-Builder/README.ja.md) | グラフネイティブな構築と照会 | Google ADK, Neo4j, SSE |
 
 ### 🛡️ AI セーフティ & 品質エンジニアリング
 
 | プロジェクト | AI 機能 | 技術 |
 |---|---|---|
-| [LLM ガードレール防御ラボ](./03-AI-Safety-Quality/LLM-Guardrails/) | 専用 AI セーフティ制御 | NeMo Guardrails, Colang, Groq |
-| [AI セーフ・サポートチケット分類器](./03-AI-Safety-Quality/Safe-Support-Ticket/) | AI ワークフロー内のセキュリティ制御 | LangGraph, PII マスキング, ジャッジ LLM |
+| [LLM ガードレール防御ラボ](./03-AI-Safety-Quality/LLM-Guardrails/README.ja.md) | 専用 AI セーフティ制御 | NeMo Guardrails, Colang, Groq |
+| [AI セーフ・サポートチケット分類器](./03-AI-Safety-Quality/Safe-Support-Ticket/README.ja.md) | AI ワークフロー内のセキュリティ制御 | LangGraph, PII マスキング, ジャッジ LLM |
 
 ### 🏭 応用 AI (Applied AI)
 
 | プロジェクト | AI 機能 | 技術 |
 |---|---|---|
-| [DocFlow ドキュメントインテリジェンス](./04-Applied-AI/DocFlow-Document-Intelligence/) | 請求書は AI が読み取り、決定論的ポリシーが判定 | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
-| [リサーチ音声エージェント](./04-Applied-AI/Research-Voice-Agent/) | エージェントが計画し、ツールが動いてポッドキャスト化 | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
-| [MaintAI 意思決定プラットフォーム](./04-Applied-AI/DecisionModelDemo/) | 決定モデルが分類し、ポリシーが判定し、LLM が説明 | Streamlit, SQLite, Ollama TEV1, scikit-learn |
-| [VisionFlow 動画分析](./04-Applied-AI/VisionFlow/) | YOLO11 検出 + 追跡 + カウント規律 | Ultralytics YOLO11, ByteTrack/BoT-SORT, OpenCV |
+| [DocFlow ドキュメントインテリジェンス](./04-Applied-AI/DocFlow-Document-Intelligence/README.ja.md) | 請求書は AI が読み取り、決定論的ポリシーが判定 | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
+| [リサーチ音声エージェント](./04-Applied-AI/Research-Voice-Agent/README.ja.md) | エージェントが計画し、ツールが動いてポッドキャスト化 | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
+| [MaintAI 意思決定プラットフォーム](./04-Applied-AI/DecisionModelDemo/README.ja.md) | 決定モデルが分類し、ポリシーが判定し、LLM が説明 | Streamlit, SQLite, Ollama TEV1, scikit-learn |
+| [VisionFlow 動画分析](./04-Applied-AI/VisionFlow/README.ja.md) | YOLO11 検出 + 追跡 + カウント規律 | Ultralytics YOLO11, ByteTrack/BoT-SORT, OpenCV |
 
 ### 🧠 NLP & 機械学習
 
 | プロジェクト | AI 機能 | 技術 |
 |---|---|---|
-| [感情分析パイプライン](./05-NLP-Machine-Learning/Sentiment-Analysis/) | 古典的 NLP/ML | scikit-learn, TF-IDF, NLTK, spaCy |
+| [感情分析パイプライン](./05-NLP-Machine-Learning/Sentiment-Analysis/README.ja.md) | 古典的 NLP/ML | scikit-learn, TF-IDF, NLTK, spaCy |
 
 ### 📊 Agent オブザーバビリティ & 評価
 
 | プロジェクト | AI 機能 | 技術 |
 |---|---|---|
-| [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/) | LLM エージェントのオブザーバビリティと評価 (トレーシング + LLM ジャッジ) | Arize Phoenix, OpenTelemetry, Streamlit, DuckDB |
+| [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/README.ja.md) | LLM エージェントのオブザーバビリティと評価 (トレーシング + LLM ジャッジ) | Arize Phoenix, OpenTelemetry, Streamlit, DuckDB |
 
 ## 技術カバレッジ
 
@@ -142,22 +142,22 @@ FastAPI · Streamlit · React · SQLite
 ## プロジェクト選びのガイド
 
 ### エージェント AI をお探しですか？
-- [AgentFlow オーケストレーター](./01-Agentic-AI/AgentFlow-Orchestrator/) · [MCP ツールオーケストレーション](./01-Agentic-AI/MCP-Tool-Orchestration/) · [E コマース・マルチエージェント](./01-Agentic-AI/MultiAgent-Ecommerce/) · [注文返品 & 不正防止](./01-Agentic-AI/OrderReturns-Fraud-Agent/) · [病院予約](./01-Agentic-AI/Hospital-Appointment-Agent/) · [マルチエージェント・マインドマップ](./01-Agentic-AI/MultiAgent-Mindmap/) · [A2A エクスプローラー](./01-Agentic-AI/Agent2Agent-Explorer/)
+- [AgentFlow オーケストレーター](./01-Agentic-AI/AgentFlow-Orchestrator/README.ja.md) · [MCP ツールオーケストレーション](./01-Agentic-AI/MCP-Tool-Orchestration/README.ja.md) · [E コマース・マルチエージェント](./01-Agentic-AI/MultiAgent-Ecommerce/README.ja.md) · [注文返品 & 不正防止](./01-Agentic-AI/OrderReturns-Fraud-Agent/README.ja.md) · [病院予約](./01-Agentic-AI/Hospital-Appointment-Agent/README.ja.md) · [マルチエージェント・マインドマップ](./01-Agentic-AI/MultiAgent-Mindmap/README.ja.md) · [A2A エクスプローラー](./01-Agentic-AI/Agent2Agent-Explorer/README.ja.md)
 
 ### RAG / ナレッジエンジニアリングをお探しですか？
-- [本番 RAG](./02-RAG-Knowledge/Production-RAG/) · [エンタープライズ・ナレッジアシスタント](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/) · [RAG 評価ハーネス](./02-RAG-Knowledge/RAG-Evaluation-Harness/) · [LLM Wiki](./02-RAG-Knowledge/LLM-Wiki/) · [ナレッジグラフビルダー](./02-RAG-Knowledge/Knowledge-Graph-Builder/)
+- [本番 RAG](./02-RAG-Knowledge/Production-RAG/README.ja.md) · [エンタープライズ・ナレッジアシスタント](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/README.ja.md) · [RAG 評価ハーネス](./02-RAG-Knowledge/RAG-Evaluation-Harness/README.ja.md) · [LLM Wiki](./02-RAG-Knowledge/LLM-Wiki/README.ja.md) · [ナレッジグラフビルダー](./02-RAG-Knowledge/Knowledge-Graph-Builder/README.ja.md)
 
 ### AI セーフティをお探しですか？
-- [LLM ガードレール](./03-AI-Safety-Quality/LLM-Guardrails/) · [AI セーフ・サポートチケット](./03-AI-Safety-Quality/Safe-Support-Ticket/)
+- [LLM ガードレール](./03-AI-Safety-Quality/LLM-Guardrails/README.ja.md) · [AI セーフ・サポートチケット](./03-AI-Safety-Quality/Safe-Support-Ticket/README.ja.md)
 
 ### 応用 AI をお探しですか？
-- [DocFlow ドキュメントインテリジェンス](./04-Applied-AI/DocFlow-Document-Intelligence/) · [リサーチ音声エージェント](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI](./04-Applied-AI/DecisionModelDemo/) · [VisionFlow](./04-Applied-AI/VisionFlow/)
+- [DocFlow ドキュメントインテリジェンス](./04-Applied-AI/DocFlow-Document-Intelligence/README.ja.md) · [リサーチ音声エージェント](./04-Applied-AI/Research-Voice-Agent/README.ja.md) · [MaintAI](./04-Applied-AI/DecisionModelDemo/README.ja.md) · [VisionFlow](./04-Applied-AI/VisionFlow/README.ja.md)
 
 ### 古典的 NLP/ML をお探しですか？
-- [感情分析](./05-NLP-Machine-Learning/Sentiment-Analysis/)
+- [感情分析](./05-NLP-Machine-Learning/Sentiment-Analysis/README.ja.md)
 
 ### Agent オブザーバビリティと評価をお探しですか？
-- [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/)
+- [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/README.ja.md)
 
 ## ナビゲーション
 
