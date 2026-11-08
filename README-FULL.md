@@ -1,13 +1,6 @@
-﻿﻿﻿Languages: **English** | [日本語](README.ja.md)
+﻿﻿﻿Languages: **English** | [日本語](https://github.com/git4rajmohan/AI_Projects/blob/main/README-FULL_ja.md)
 
 ---
-
-> 🌐 **Welcome / ようこそ:** select your language / 言語をお選びください → [English](https://git4rajmohan.github.io/AI_Projects/welcome.html?lang=en) · [日本語](https://git4rajmohan.github.io/AI_Projects/welcome.html?lang=ja)
->
-> **Welcome to my site, please select your option:** [English Portfolio](https://github.com/git4rajmohan/AI_Projects#readme) · [LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
->
-> **私のサイトへようこそ。オプションをお選びください:** [GitHub ポートフォリオ](https://github.com/git4rajmohan/AI_Projects/blob/main/README.ja.md) · [LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
-
 # AI / ML Engineering Portfolio
 
 A collection of 20 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, A2A interoperability, RAG, knowledge engineering, AI safety, document intelligence, vision, voice AI, agent observability and classical NLP/ML.
