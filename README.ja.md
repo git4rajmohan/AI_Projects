@@ -9,8 +9,8 @@
 ### 日本語
 
 - **[GitHub ポートフォリオ](https://git4rajmohan.github.io/AI_Projects/welcome.html?lang=ja)** - インタラクティブ・ウェルカム → ポートフォリオ
-- **[ポートフォリオ README](https://github.com/git4rajmohan/AI_Projects/blob/main/README.ja.md)** - AI/ML プロジェクト一覧
-- **[ポートフォリオ・インデックス](./PORTFOLIO_INDEX.md)** - 16 プロジェクトの詳細カタログ
+- **[ポートフォリオ README](./README-FULL_ja.md)** - AI/ML プロジェクト一覧（日本語・20 プロジェクト）
+- **[ポートフォリオ・インデックス](./PORTFOLIO_INDEX.md)** - プロジェクトの詳細カタログ
 - **[16 プロジェクト概要](./AI_Projects_16_Project_Portfolio_QuickExplanation.md)** - 簡潔な技術サマリー
 - **[LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)**
 
