@@ -1,33 +1,33 @@
-Languages: **English** | [日本語](README.ja.md) | [Download Quick Summary](https://git4rajmohan.github.io/AI_Projects/AI_Projects_16_Project_Portfolio_QuickExplanation.html)
+Languages: **English** | [日本語](README.ja.md)
 
-# AI / ML Engineering Portfolio| [My LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)  
+---
 
-A collection of 20 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, agent-to-agent (A2A) protocols, RAG, knowledge engineering, AI safety, document intelligence, computer vision, maintenance decision support, voice AI, agent observability/evaluation and classical NLP/ML.
+> 🌐 **Welcome / ようこそ:** [Live welcome page / ウェルカムページ](https://git4rajmohan.github.io/AI_Projects/)
+
+# AI / ML Engineering Portfolio
+
+A collection of 16 practical AI/ML projects demonstrating agentic AI, multi-agent orchestration, RAG, knowledge engineering, AI safety, document intelligence, voice AI and classical NLP/ML.
 
 ## Portfolio Map
 
-6 categories · 20 projects
+5 categories · 16 projects
 
 | Category | Projects | Key Technologies |
 |---|---:|---|
-| 🤖 [Agentic AI & Multi-Agent Systems](./01-Agentic-AI/) | 7 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL, A2A SDK |
+| 🤖 [Agentic AI & Multi-Agent Systems](./01-Agentic-AI/) | 6 | Google ADK, LangGraph, MCP, Agno, LangChain LCEL |
 | 📚 [RAG & Knowledge Engineering](./02-RAG-Knowledge/) | 5 | LangGraph, LlamaIndex, ChromaDB, Qdrant, Neo4j |
 | 🛡️ [AI Safety & Quality Engineering](./03-AI-Safety-Quality/) | 2 | NeMo Guardrails, LLM Judges, PII Detection |
-| 🏭 [Applied AI](./04-Applied-AI/) | 4 | YOLO, OCR, Document AI, Voice AI, FastAPI, TEV1, SQLite |
-| 🔭 [Agent Observability & Evaluation](./04-Applied-AI/Agent-Evaluation-Labs/) | 1 | Arize Phoenix, OpenInference, LLM Judges, DuckDB |
+| 🏭 [Applied AI](./04-Applied-AI/) | 2 | OCR, Document AI, Voice AI, FastAPI |
 | 🧠 [NLP & Machine Learning](./05-NLP-Machine-Learning/) | 1 | scikit-learn, NLTK, spaCy |
 
 ## What I Build
 
 - 🤖 Agentic AI and multi-agent workflows
-- 🤝 Agent-to-agent (A2A) protocol: cross-organization agent discovery and delegation
 - 🔧 LLM tool and MCP orchestration
 - 📚 Production-oriented RAG and knowledge systems
 - 📏 LLM/RAG evaluation and quality engineering
-- 🔭 Agent observability: tracing, span judges and A/B experiments
 - 🛡️ AI safety and prompt-injection defenses
 - 📄 Document intelligence and validation workflows
-- 👁️ Computer vision: detection, tracking and counting
 - 🎙️ Voice and multimodal AI pipelines
 - 🧠 Classical NLP and machine-learning systems
 
@@ -39,7 +39,7 @@ A collection of 20 practical AI/ML projects demonstrating agentic AI, multi-agen
 | [Agentic AI MCP Tool Orchestration Platform](./01-Agentic-AI/MCP-Tool-Orchestration/) | MCP & tool orchestration |
 | [Production RAG Documentation Assistant](./02-RAG-Knowledge/Production-RAG/) | Retrieval engineering |
 | [LLM Guardrails & AI Safety Defense Lab](./03-AI-Safety-Quality/LLM-Guardrails/) | AI safety |
-| [Agent Evaluation Labs — Observability & Evaluation with Arize Phoenix](./04-Applied-AI/Agent-Evaluation-Labs/) | Agent evaluation & observability |
+| [RAG Evaluation & LLM Quality Engineering Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/) | AI quality/evaluation |
 
 ## Projects by Category
 
@@ -53,7 +53,6 @@ A collection of 20 practical AI/ML projects demonstrating agentic AI, multi-agen
 | [Order Returns & Fraud Agent](./01-Agentic-AI/OrderReturns-Fraud-Agent/) | Stateful business workflow + HITL | LangGraph, FastAPI, SQLite |
 | [Hospital Appointment Agent](./01-Agentic-AI/Hospital-Appointment-Agent/) | LLM extraction + deterministic calendar | LangChain LCEL, Twilio SMS |
 | [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/) | 3-agent iterative review/refinement | Streamlit, Ollama, markmap.js |
-| [Agent2Agent Explorer](./01-Agentic-AI/Agent2Agent-Explorer/) | Cross-organization agent discovery + task delegation (A2A) | a2a-sdk, Streamlit, FastAPI, SQLite, Ollama Cloud |
 
 ### 📚 RAG & Knowledge Engineering
 
@@ -78,9 +77,6 @@ A collection of 20 practical AI/ML projects demonstrating agentic AI, multi-agen
 |---|---|---|
 | [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) | Invoice AI reads, deterministic policy decides | FastAPI, Streamlit, PyMuPDF, Tesseract OCR |
 | [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) | Agents plan, tools act → finished podcast | Google ADK, Ollama gpt-oss:120b, edge-tts, faster-whisper |
-| [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/) | Sensor evidence + decision model + deterministic policy + grounded explanations | Streamlit, SQLite, Ollama TEV1, Pydantic |
-| [VisionFlow Video Analytics](./04-Applied-AI/VisionFlow/) | YOLO detection + tracking + honest counting | Ultralytics YOLO11, ByteTrack, OpenCV, Streamlit |
-| [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/) | Traced agent + LLM judges + A/B prompt experiments | Arize Phoenix, OpenInference, OpenAI SDK, DuckDB, Streamlit |
 
 ### 🧠 NLP & Machine Learning
 
@@ -94,19 +90,19 @@ A collection of 20 practical AI/ML projects demonstrating agentic AI, multi-agen
 Ollama · Ollama Cloud · Groq · LiteLLM
 
 **Agentic AI**
-Google ADK · LangGraph · LangChain · Agno · MCP · A2A SDK
+Google ADK · LangGraph · LangChain · Agno · MCP
 
 **RAG / Knowledge**
 ChromaDB · Qdrant · Neo4j · LlamaIndex · Cognee · BM25 · RRF
 
 **Evaluation**
-RAGAS · LLM-as-a-Judge · Arize Phoenix · OpenInference · pytest · Golden Datasets
+RAGAS · LLM-as-a-Judge · pytest · Golden Datasets
 
 **AI Safety**
 NeMo Guardrails · Colang · Prompt Injection · PII Detection
 
 **Applied AI**
-OCR · Document Intelligence · Computer Vision · STT · TTS · Voice AI
+OCR · Document Intelligence · STT · TTS · Voice AI
 
 **Application**
 FastAPI · Streamlit · React · SQLite
@@ -133,7 +129,7 @@ FastAPI · Streamlit · React · SQLite
 ## Project Selection Guide
 
 ### Looking for Agentic AI?
-- [AgentFlow Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) · [MCP Tool Orchestration](./01-Agentic-AI/MCP-Tool-Orchestration/) · [E-Commerce Multi-Agent](./01-Agentic-AI/MultiAgent-Ecommerce/) · [Order Returns & Fraud](./01-Agentic-AI/OrderReturns-Fraud-Agent/) · [Hospital Appointment](./01-Agentic-AI/Hospital-Appointment-Agent/) · [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/) · [Agent2Agent Explorer](./01-Agentic-AI/Agent2Agent-Explorer/)
+- [AgentFlow Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) · [MCP Tool Orchestration](./01-Agentic-AI/MCP-Tool-Orchestration/) · [E-Commerce Multi-Agent](./01-Agentic-AI/MultiAgent-Ecommerce/) · [Order Returns & Fraud](./01-Agentic-AI/OrderReturns-Fraud-Agent/) · [Hospital Appointment](./01-Agentic-AI/Hospital-Appointment-Agent/) · [Multi-Agent Mindmap](./01-Agentic-AI/MultiAgent-Mindmap/)
 
 ### Looking for RAG / Knowledge Engineering?
 - [Production RAG](./02-RAG-Knowledge/Production-RAG/) · [Enterprise Knowledge Assistant](./02-RAG-Knowledge/Enterprise-Knowledge-Assistant/) · [RAG Evaluation Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/) · [LLM Wiki](./02-RAG-Knowledge/LLM-Wiki/) · [Knowledge Graph Builder](./02-RAG-Knowledge/Knowledge-Graph-Builder/)
@@ -142,10 +138,7 @@ FastAPI · Streamlit · React · SQLite
 - [LLM Guardrails](./03-AI-Safety-Quality/LLM-Guardrails/) · [AI-Safe Support Ticket](./03-AI-Safety-Quality/Safe-Support-Ticket/)
 
 ### Looking for Applied AI?
-- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/) · [MaintAI Decision Platform](./04-Applied-AI/DecisionModelDemo/) · [VisionFlow Video Analytics](./04-Applied-AI/VisionFlow/)
-
-### Looking for Agent Observability & Evaluation?
-- [Agent Evaluation Labs](./04-Applied-AI/Agent-Evaluation-Labs/) — traced agent runs graded by LLM judges and code evals, with A/B prompt experiments
+- [DocFlow Document Intelligence](./04-Applied-AI/DocFlow-Document-Intelligence/) · [Research Voice Agent](./04-Applied-AI/Research-Voice-Agent/)
 
 ### Looking for Classical NLP/ML?
 - [Sentiment Analysis](./05-NLP-Machine-Learning/Sentiment-Analysis/)
@@ -155,7 +148,7 @@ FastAPI · Streamlit · React · SQLite
 | Document | Purpose |
 |---|---|
 | **README.md** (this file) | Recruiter landing page — portfolio overview and navigation |
-| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | Detailed catalog — all 20 projects with architecture, differentiation and links |
+| [PORTFOLIO_INDEX.md](./PORTFOLIO_INDEX.md) | Detailed catalog — all 16 projects with architecture, differentiation and links |
 | **Project READMEs** | Implementation details per project |
 
 ## AI-Assisted Development
