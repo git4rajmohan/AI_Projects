@@ -1,11 +1,6 @@
 **言語 / Languages:** [日本語](./README-FULL_ja.md) · [English](./README-FULL.md)
 
 ---
-
-> 🌐 **ようこそ / Welcome:** 言語をお選びください / select your language → [日本語](https://git4rajmohan.github.io/AI_Projects/welcome.html?lang=ja) · [English](https://git4rajmohan.github.io/AI_Projects/welcome.html?lang=en)
->
-> **私のサイトへようこそ。オプションをお選びください:** [GitHub ポートフォリオ](./README-FULL_ja.md) · [LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
-
 # AI / ML エンジニアリング・ポートフォリオ
 
 エージェント AI、マルチエージェント・オーケストレーション、A2A 相互運用性、RAG、ナレッジエンジニアリング、AI セーフティ、ドキュメントインテリジェンス、コンピュータビジョン、音声 AI、Agent オブザーバビリティ、古典的な NLP/ML を扱う、実践的な AI/ML プロジェクト 20 件のコレクションです。
