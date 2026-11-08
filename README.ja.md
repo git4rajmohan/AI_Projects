@@ -3,6 +3,10 @@
 ---
 
 > 🌐 **ウェルカムページ / Welcome:** [ウェルカムページ / welcome page](https://git4rajmohan.github.io/AI_Projects/)
+>
+> **Welcome to my site, please select your option:** [English Portfolio](https://git4rajmohan.github.io/AI_Projects/) · [LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
+>
+> **私のサイトへようこそ。オプションをお選びください:** [GitHub ポートフォリオ](https://github.com/git4rajmohan/AI_Projects/blob/main/README.ja.md) · [LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
 
 # AI / ML エンジニアリング・ポートフォリオ
 
