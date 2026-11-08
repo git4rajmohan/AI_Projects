@@ -1,127 +1,13 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Seevaram Rajmohan's AI/ML portfolio. Choose your language, then open the GitHub portfolio or LinkedIn profile.">
-<title>Seevaram Rajmohan | AI/ML Portfolio</title>
-<style>
-:root {
-  --navy:#102a56; --blue:#2563eb; --ink:#17243a; --muted:#617087;
-  --line:#dce5f0; --paper:#fff; --pale:#eef4ff;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0; min-height:100vh; padding:26px 16px;
-  display:grid; place-items:center;
-  background:linear-gradient(135deg,#eaf1ff,#f7f9fc);
-  color:var(--ink);
-  font-family:system-ui,-apple-system,"Yu Gothic","Meiryo",sans-serif;
-  line-height:1.65;
-}
-.card {
-  width:min(100%,560px); overflow:hidden; background:var(--paper);
-  border:1px solid var(--line); border-radius:24px;
-  box-shadow:0 18px 60px rgba(24,52,91,.12);
-}
-.hero {
-  padding:36px 28px 30px; text-align:center; color:#fff;
-  background:linear-gradient(120deg,var(--navy),var(--blue));
-}
-.avatar {
-  width:82px;height:82px;margin:0 auto 15px;border-radius:50%;
-  display:grid;place-items:center;background:rgba(255,255,255,.13);
-  border:2px solid rgba(255,255,255,.65);font-size:27px;font-weight:800;
-}
-h1 { margin:0;font-size:26px;line-height:1.35; }
-.role { margin-top:10px;font-size:15px;color:#dce8ff; }
-.content { padding:28px; text-align:center; }
-h2 { margin:0 0 18px;font-size:17px;color:var(--ink); }
-.lang { display:flex;justify-content:center;gap:12px;margin:0 0 22px; }
-.lang button {
-  padding:10px 26px;border-radius:999px;border:1px solid var(--line);
-  background:#fff;color:var(--muted);font:inherit;font-weight:750;
-  cursor:pointer;transition:.15s ease;font-size:14px;
-}
-.lang button[aria-pressed="true"] { color:var(--blue);border-color:var(--blue);background:var(--pale); }
-.lang button:hover { border-color:#9bb6e8; }
-.actions { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
-.button {
-  display:inline-flex;justify-content:center;align-items:center;text-align:center;
-  padding:14px 14px;border-radius:12px;border:1px solid var(--blue);
-  background:var(--blue);color:white;text-decoration:none;font-weight:750;
-  font:inherit;font-size:14px;transition:.15s ease;
-}
-.button:hover { filter:brightness(.97); }
-footer { padding:0 20px 24px;text-align:center;color:var(--muted);font-size:11px; }
-@media(max-width:480px) {
-  .hero { padding:30px 18px 26px; }
-  .content { padding:22px 18px 26px; }
-  h1 { font-size:22px; }
-  .actions { grid-template-columns:1fr; }
-}
-</style>
+<title>Redirecting</title>
+<script>location.replace("./welcome.html");</script>
+<meta http-equiv="refresh" content="0; url=./welcome.html">
 </head>
 <body>
-<main class="card">
-  <header class="hero">
-    <div class="avatar">SR</div>
-    <h1>Seevaram Rajmohan</h1>
-    <div class="role">AI Evaluation Engineer / AI評価エンジニア｜QA Lead</div>
-  </header>
-
-  <div class="content">
-    <nav class="lang" aria-label="Language / 言語">
-      <button type="button" id="btn-en" aria-pressed="true" lang="en">English</button>
-      <button type="button" id="btn-ja" aria-pressed="false" lang="ja">日本語</button>
-    </nav>
-
-    <h2 id="welcome">Welcome to my site, please select your option</h2>
-
-    <div class="actions">
-      <a class="button" id="link-portfolio" href="https://git4rajmohan.github.io/AI_Projects/" target="_blank" rel="noopener">GitHub Portfolio</a>
-      <a class="button" id="link-linkedin" href="https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/" target="_blank" rel="noopener">LinkedIn</a>
-    </div>
-  </div>
-
-  <footer>© <span id="year"></span> Seevaram Rajmohan</footer>
-</main>
-
-<script>
-const T = {
-  en: {
-    welcome: 'Welcome to my site, please select your option',
-    portfolio: 'GitHub Portfolio',
-    linkedin: 'LinkedIn',
-    portfolioUrl: 'https://git4rajmohan.github.io/AI_Projects/',
-  },
-  ja: {
-    welcome: '私のサイトへようこそ。オプションをお選びください',
-    portfolio: 'GitHub ポートフォリオ',
-    linkedin: 'LinkedIn',
-    portfolioUrl: 'https://github.com/git4rajmohan/AI_Projects/blob/main/README.ja.md',
-  }
-};
-let lang = 'en';
-const $ = (id) => document.getElementById(id);
-function render() {
-  const t = T[lang];
-  $('welcome').textContent = t.welcome;
-  const p = $('link-portfolio');
-  p.textContent = t.portfolio;
-  p.href = t.portfolioUrl;
-  $('link-linkedin').textContent = t.linkedin;
-  $('btn-en').setAttribute('aria-pressed', String(lang === 'en'));
-  $('btn-ja').setAttribute('aria-pressed', String(lang === 'ja'));
-  document.documentElement.lang = lang;
-}
-$('btn-en').addEventListener('click', () => { lang = 'en'; render(); });
-$('btn-ja').addEventListener('click', () => { lang = 'ja'; render(); });
-$('link-portfolio').addEventListener('click', (e) => {
-  if (lang === 'en') e.preventDefault();
-});
-$('year').textContent = new Date().getFullYear();
-render();
-</script>
+<p>Redirecting to <a href="./welcome.html">the welcome page</a></p>
 </body>
 </html>
