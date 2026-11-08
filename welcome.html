@@ -1,66 +1,59 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Seevaram Rajmohan's AI/ML portfolio. Choose your language, then open the GitHub portfolio or LinkedIn profile.">
+<meta name="description" content="Seevaram Rajmohan - AI/ML Engineering Portfolio. English / Japanese welcome.">
 <title>Seevaram Rajmohan | AI/ML Portfolio</title>
 <style>
-:root {
-  --navy:#102a56; --blue:#2563eb; --ink:#17243a; --muted:#617087;
-  --line:#dce5f0; --paper:#fff; --pale:#eef4ff;
-}
+:root { --navy:#0e2148; --navy2:#153061; --blue:#2563eb; --ink:#172033; --muted:#5b687a; --line:#dce3ed; }
 * { box-sizing:border-box; }
 body {
-  margin:0; min-height:100vh; padding:26px 16px;
-  display:grid; place-items:center;
-  background:linear-gradient(135deg,#eaf1ff,#f7f9fc);
-  color:var(--ink);
-  font-family:system-ui,-apple-system,"Yu Gothic","Meiryo",sans-serif;
-  line-height:1.65;
+  margin:0; min-height:100vh; display:grid; place-items:center; padding:28px 16px;
+  background:linear-gradient(135deg,#eef3fb 0%,#f8fafd 100%);
+  color:var(--ink); font-family:"Segoe UI",system-ui,-apple-system,"Yu Gothic","Meiryo",sans-serif;
+  line-height:1.55;
 }
 .card {
-  width:min(100%,560px); overflow:hidden; background:var(--paper);
-  border:1px solid var(--line); border-radius:24px;
-  box-shadow:0 18px 60px rgba(24,52,91,.12);
+  width:min(100%,420px); overflow:hidden; background:#fff;
+  border-radius:18px; box-shadow:0 12px 44px rgba(20,35,70,.14);
 }
-.hero {
-  padding:36px 28px 30px; text-align:center; color:#fff;
-  background:linear-gradient(120deg,var(--navy),var(--blue));
-}
+.hero { background:linear-gradient(160deg,var(--navy),var(--navy2)); padding:34px 24px 28px; text-align:center; }
 .avatar {
-  width:82px;height:82px;margin:0 auto 15px;border-radius:50%;
-  display:grid;place-items:center;background:rgba(255,255,255,.13);
-  border:2px solid rgba(255,255,255,.65);font-size:27px;font-weight:800;
+  width:64px; height:64px; margin:0 auto 14px; border-radius:50%;
+  display:grid; place-items:center; background:var(--blue);
+  color:#fff; font-weight:750; font-size:22px; letter-spacing:.04em;
+  box-shadow:0 0 0 4px rgba(37,99,235,.22);
 }
-h1 { margin:0;font-size:26px;line-height:1.35; }
-.en-name { margin-top:3px;color:#dce8ff;font-size:16px; }
-.content { padding:28px; text-align:center; }
-h2 { margin:0 0 18px;font-size:17px;color:var(--ink); }
-.lang { display:flex;justify-content:center;gap:12px;margin:0 0 8px; }
+.hero h1 { margin:0; font-size:24px; color:#fff; letter-spacing:.01em; }
+.hero p { margin:6px 0 0; font-size:13px; color:#c7d6f2; }
+.body { padding:24px 24px 26px; }
+.welcome { text-align:center; margin:0 0 20px; }
+.welcome div[lang=en] { font-size:15px; font-weight:600; color:var(--ink); }
+.welcome div[lang=ja] { font-size:13px; color:var(--muted); margin-top:2px; }
+.lang { display:flex; gap:10px; }
 .lang button {
-  padding:10px 26px;border-radius:999px;border:1px solid var(--line);
-  background:#fff;color:var(--muted);font:inherit;font-weight:750;
-  cursor:pointer;transition:.15s ease;font-size:14px;
+  flex:1; padding:12px 0; font:inherit; font-size:14px; font-weight:650;
+  border-radius:10px; cursor:pointer; transition:.15s ease;
+  border:1px solid var(--line); background:#fff; color:var(--muted);
 }
-.lang button:hover { border-color:#9bb6e8;color:var(--blue); }
-.actions { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
-.button {
-  display:inline-flex;justify-content:center;align-items:center;text-align:center;
-  padding:14px 14px;border-radius:12px;border:1px solid var(--blue);
-  background:var(--blue);color:white;text-decoration:none;font-weight:750;
-  font:inherit;font-size:14px;transition:.15s ease;
+.lang button:first-child { border-color:var(--blue); background:var(--blue); color:#fff; }
+.lang button:last-child:hover, .lang button:first-child:hover { filter:brightness(.97); }
+.actions { display:grid; gap:10px; margin-top:18px; }
+.actions[hidden] { display:none; }
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  padding:13px 14px; border-radius:10px; text-decoration:none;
+  font-size:14.5px; font-weight:650; transition:.15s ease;
 }
-.button:hover { filter:brightness(.97); }
-footer { padding:0 20px 24px;text-align:center;color:var(--muted);font-size:11px; }
-.back { color:var(--muted);font-size:13px;text-decoration:none; }
-.back:hover { color:var(--blue); font-weight:700; }
-@media(max-width:480px) {
-  .hero { padding:30px 18px 26px; }
-  .content { padding:22px 18px 26px; }
-  h1 { font-size:22px; }
-  .actions { grid-template-columns:1fr; }
-}
+.btn svg { width:18px; height:18px; flex:none; }
+.btn-primary { background:var(--blue); color:#fff; border:1px solid var(--blue); }
+.btn-primary:hover { filter:brightness(.95); }
+.btn-secondary { background:#fff; color:var(--blue); border:1px solid var(--line); }
+.btn-secondary:hover { border-color:var(--blue); }
+.back { display:block; margin:16px auto 0; background:none; border:none; font:inherit; font-size:13px; color:var(--muted); cursor:pointer; padding:4px 10px; border-radius:8px; }
+.back:hover { color:var(--blue); background:#f0f5fd; }
+.foot { text-align:center; font-size:11px; color:var(--muted); padding:0 0 20px; }
 </style>
 </head>
 <body>
@@ -68,74 +61,64 @@ footer { padding:0 20px 24px;text-align:center;color:var(--muted);font-size:11px
   <header class="hero">
     <div class="avatar">SR</div>
     <h1>Seevaram Rajmohan</h1>
-    <div class="en-name">シーバラム・ラージモハン</div>
+    <p>AI / ML Engineer · AI評価エンジニア</p>
   </header>
 
-  <div class="content" id="screen1">
-    <h2>Welcome to my site, please select your option</h2>
-    <h2>私のサイトへようこそ。オプションをお選びください</h2>
-
-    <nav class="lang" aria-label="Language / 言語">
-      <button type="button" id="btn-en" lang="en">English</button>
-      <button type="button" id="btn-ja" lang="ja">日本語</button>
-    </nav>
-  </div>
-
-  <div class="content" id="screen2" hidden>
-    <h2 id="choose">Choose an option</h2>
-
-    <div class="actions">
-          <a class="button" id="link-portfolio" href="https://github.com/git4rajmohan/AI_Projects#readme">GitHub Portfolio</a>
-      <a class="button" id="link-linkedin" href="https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/">LinkedIn</a>
+  <div class="body">
+    <div class="welcome">
+      <div lang="en">Welcome to my site, please select your option</div>
+      <div lang="ja">私のサイトへようこそ。オプションをお選びください</div>
     </div>
 
-    <p><a href="#" id="btn-back" class="back">← Back</a></p>
+    <div class="lang" id="langrow">
+      <button type="button" id="btn-en" lang="en" aria-label="View in English">English</button>
+      <button type="button" id="btn-ja" lang="ja" aria-label="日本語で表示">日本語</button>
+    </div>
+
+    <div class="actions" id="actions" hidden>
+      <a class="btn btn-primary" id="link-portfolio" href="https://github.com/git4rajmohan/AI_Projects#readme">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span id="portfolio-label">GitHub Portfolio</span>
+      </a>
+      <a class="btn btn-secondary" id="link-linkedin" href="https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+
+    <button type="button" class="back" id="btn-back" hidden>← Back</button>
   </div>
 
-  <footer>© Seevaram Rajmohan</footer>
+  <div class="foot">© <span id="year"></span> Seevaram Rajmohan</div>
 </main>
 
 <script>
 const T = {
-  en: {
-    choose: 'Choose an option',
-    portfolio: 'GitHub Portfolio',
-    linkedin: 'LinkedIn',
-    portfolioUrl: 'https://github.com/git4rajmohan/AI_Projects#readme',
-  },
-  ja: {
-    choose: 'オプションをお選びください',
-    portfolio: 'GitHub ポートフォリオ',
-    linkedin: 'LinkedIn',
-    portfolioUrl: 'https://github.com/git4rajmohan/AI_Projects/blob/main/README.ja.md',
-  }
+  en: { portfolio: 'GitHub Portfolio', url: 'https://github.com/git4rajmohan/AI_Projects#readme' },
+  ja: { portfolio: 'GitHub ポートフォリオ', url: 'https://github.com/git4rajmohan/AI_Projects/blob/main/README.ja.md' },
 };
-let lang = 'en';
 const $ = (id) => document.getElementById(id);
-const LINKEDIN = 'https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/';
-function showScreen2(l) {
-  lang = l;
-  const t = T[lang];
-  $('choose').textContent = t.choose;
-  const p = $('link-portfolio');
-  p.textContent = t.portfolio;
-  p.href = t.portfolioUrl;
-  const li = $('link-linkedin');
-  li.textContent = t.linkedin;
-  li.href = LINKEDIN;
-  document.documentElement.lang = lang;
-  $('screen1').hidden = true;
-  $('screen2').hidden = false;
-}
+document.getElementById('year').textContent = new Date().getFullYear();
 const q = new URLSearchParams(location.search).get('lang');
-if (q === 'en' || q === 'ja') showScreen2(q);
-$('btn-en').addEventListener('click', () => showScreen2('en'));
-$('btn-ja').addEventListener('click', () => showScreen2('ja'));
-$('btn-back').addEventListener('click', (e) => {
-  e.preventDefault();
+if (q === 'en' || q === 'ja') choose(q);
+function choose(lang) {
+  $('link-portfolio').querySelector('span').textContent = T[lang].portfolio;
+  $('link-portfolio').href = T[lang].url;
+  document.documentElement.lang = lang;
+  $('langrow').hidden = true;
+  document.querySelector('.welcome').hidden = true;
+  $('actions').hidden = false;
+  $('btn-back').hidden = false;
+}
+$('btn-en').addEventListener('click', () => choose('en'));
+$('btn-ja').addEventListener('click', () => choose('ja'));
+$('btn-back').addEventListener('click', () => {
   history.replaceState(null, '', location.pathname);
-  $('screen2').hidden = true;
-  $('screen1').hidden = false;
+  $('langrow').hidden = false;
+  document.querySelector('.welcome').hidden = false;
+  $('actions').hidden = true;
+  $('btn-back').hidden = true;
+  document.documentElement.lang = 'en';
 });
 </script>
 </body>
