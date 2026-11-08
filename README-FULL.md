@@ -1,4 +1,4 @@
-﻿Languages: **English** | [日本語](README.ja.md)
+﻿﻿Languages: **English** | [日本語](README.ja.md)
 
 ---
 
@@ -41,6 +41,7 @@ A collection of 16 practical AI/ML projects demonstrating agentic AI, multi-agen
 |---|---|
 | [AgentFlow — Dynamic Multi-Agent Workflow & Skill Orchestrator](./01-Agentic-AI/AgentFlow-Orchestrator/) | Dynamic multi-agent orchestration |
 | [Agentic AI MCP Tool Orchestration Platform](./01-Agentic-AI/MCP-Tool-Orchestration/) | MCP & tool orchestration |
+| [Agentic AI Multi-Agent Mindmap Orchestrator](./01-Agentic-AI/MultiAgent-Mindmap/) | Iterative multi-agent review loop |
 | [Production RAG Documentation Assistant](./02-RAG-Knowledge/Production-RAG/) | Retrieval engineering |
 | [LLM Guardrails & AI Safety Defense Lab](./03-AI-Safety-Quality/LLM-Guardrails/) | AI safety |
 | [RAG Evaluation & LLM Quality Engineering Harness](./02-RAG-Knowledge/RAG-Evaluation-Harness/) | AI quality/evaluation |
