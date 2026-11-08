@@ -85,7 +85,7 @@ footer { padding:0 20px 24px;text-align:center;color:var(--muted);font-size:11px
     <h2 id="choose">Choose an option</h2>
 
     <div class="actions">
-      <a class="button" id="link-portfolio" href="https://github.com/git4rajmohan/AI_Projects">GitHub Portfolio</a>
+          <a class="button" id="link-portfolio" href="https://github.com/git4rajmohan/AI_Projects/blob/main/README.md">GitHub Portfolio</a>
       <a class="button" id="link-linkedin" href="https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/">LinkedIn</a>
     </div>
 
@@ -101,7 +101,7 @@ const T = {
     choose: 'Choose an option',
     portfolio: 'GitHub Portfolio',
     linkedin: 'LinkedIn',
-    portfolioUrl: 'https://github.com/git4rajmohan/AI_Projects',
+    portfolioUrl: 'https://github.com/git4rajmohan/AI_Projects/blob/main/README.md',
   },
   ja: {
     choose: 'オプションをお選びください',
@@ -127,10 +127,13 @@ function showScreen2(l) {
   $('screen1').hidden = true;
   $('screen2').hidden = false;
 }
+const q = new URLSearchParams(location.search).get('lang');
+if (q === 'en' || q === 'ja') showScreen2(q);
 $('btn-en').addEventListener('click', () => showScreen2('en'));
 $('btn-ja').addEventListener('click', () => showScreen2('ja'));
 $('btn-back').addEventListener('click', (e) => {
   e.preventDefault();
+  history.replaceState(null, '', location.pathname);
   $('screen2').hidden = true;
   $('screen1').hidden = false;
 });
