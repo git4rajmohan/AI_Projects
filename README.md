@@ -8,7 +8,7 @@
 
 ### Japanese
 
-- **[GitHub ポートフォリオ](https://github.com/git4rajmohan/AI_Projects/blob/main/README.ja.md)** - AI/ML プロジェクト一覧
+- **[GitHub ポートフォリオ](./README-FULL_ja.md))** - AI/ML プロジェクト一覧
 - **[LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)**
 
 ---
