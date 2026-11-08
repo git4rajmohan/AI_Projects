@@ -1,4 +1,4 @@
-Languages: **English** | [日本語](README.ja.md) | [Download Quick Summary](https://git4rajmohan.github.io/AI_Projects/AI_Projects_16_Project_Portfolio_QuickExplanation.html)
+Languages: **English** | [日本語](README.ja.md) | [Download Quick Summary](https://git4rajmohan.github.io/AI_Projects/AI_Projects_16_Project_Portfolio_QuickExplanation.html)| [My LinkedIn](https://www.linkedin.com/in/seevaram-rajmohan-04a4a04a/)
 
 # AI / ML Engineering Portfolio  
 
